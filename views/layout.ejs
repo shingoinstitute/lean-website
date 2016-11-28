@@ -1,22 +1,31 @@
 <!DOCTYPE html>
-<html ng-app="leansite">
+<html ng-app="leansite" ng-cloak>
 <head>
-   <title><?=typeof title == 'undefined' ? 'LEAN Site' : title?></title>
+   <title>LEAN site</title>
 
    <!-- Viewport mobile tag for sensible mobile support -->
    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
    <!-- styles -->
    <link rel="stylesheet" href="/styles/importer.css" media="screen" title="no title">
-   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+   <!-- <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"> -->
+   <link rel="stylesheet" href="/css/style.css">
    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
 
 
 </head>
 
-<body>
+<body layout="column" ng-app="myApp" ng-controller="MainController as mc"  class="md-no-animations" ng-cloak>
+   <base href="/">
 
-   <?- body ?>
+   <ng-include src="'/templates/navbar.html'"></ng-include>
+   <div layout="row" layout-fill>
+      <div flex="20" style="background-color: teal;"></div>
+      <div flex="60" ng-view class="md-padding" ></div>
+      <div flex style="background-color: teal;"></div>
+   </div>
+
 
    <!--SCRIPTS-->
    <script src="/js/dependencies/sails.io.js"></script>
@@ -28,10 +37,13 @@
    <script src="/bower_components/angular-animate/angular-animate.js"></script>
    <script src="/bower_components/angular-material/angular-material.js"></script>
    <script src="/bower_components/angular-messages/angular-messages.js"></script>
+   <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
    <script src="/bower_components/moment/moment.js"></script>
    <script src="/bower_components/angular-moment/angular-moment.js"></script>
    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
    <script src="/js/app.js"></script>
+   <script src="/js/controllers/MainController.js"></script>
+   <script src="/js/controllers/NavController.js"></script>
    <!--SCRIPTS END-->
 
 </body>

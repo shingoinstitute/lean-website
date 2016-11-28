@@ -23,7 +23,10 @@
 module.exports.routes = {
 
    '/': {
-      view: 'landingPage'
+      view: 'homepage',
    },
+
+   'get /users': 'UserController.users',
+   'get /users/createUser': 'UserController.createUser',
 
 };

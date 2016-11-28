@@ -1,0 +1,13 @@
+<md-content class="md-padding" ng-controller="DashboardController as vm">
+   <h3>Hello {{ user.name }}</h3>
+   <div class="">
+      <md-button class="md-raised" ng-click="vm.getData()">Get Data</md-button>
+   </div>
+   <div>
+      <p>{{message}}</p>
+      <div ng-show="responseDetails">
+         <span ng-bind-html="responseDetails"></span>
+         <pre ng-bind-html="data"></pre>
+      </div>
+   </div>
+</md-content>

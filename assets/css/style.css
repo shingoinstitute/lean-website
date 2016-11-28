@@ -1,0 +1,47 @@
+md-no-animations,
+md-dialog.md-transition-in,
+md-dialog.md-transition-out,
+{
+  transform : none !important;
+}
+
+md-content {
+   background-color: #FFF2E0;
+}
+
+md-toolbar {
+
+  img {
+    height:49px;
+    margin-top:5px;
+    margin-left:10px;
+  }
+}
+
+md-dialog {
+  min-width:400px;
+  form {
+     padding:15px;
+     margin-top:30px;
+  }
+}
+
+md-input-container {
+  .md-input-messages-animation {
+    max-width:300px;
+  }
+
+  &:not(.md-input-invalid) {
+    md-icon {
+      &.email {  color : green;  }
+      &.name, &.phone {  color : dodgerblue;  }
+    }
+  }
+
+  &.md-input-invalid {
+     md-icon {
+      &.name, &.email, &.phone {  color : red;  }
+    }
+  }
+
+}

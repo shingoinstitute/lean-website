@@ -1,0 +1,15 @@
+<div ng-controller="NavController as vm" ng-cloak>
+   <md-toolbar md-whiteframe="4" layout="row">
+      <md-button aria-label="Logo" ng-href="/">
+         <img src="/images/sampleLogo.png" alt="">
+      </md-button>
+
+      <div class="md-padding" layout="row" layout-align="end end">
+         <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+            <md-nav-item md-nav-href="/education" name="education">Education</md-nav-item>
+            <md-nav-item md-nav-href="/about" name="about">About Us</md-nav-item>
+            <md-nav-item md-nav-href="/dashboard" name="dashboard">Dashboard</md-nav-item>
+         </md-nav-bar>
+      </div>
+   </md-toolbar>
+</div>
