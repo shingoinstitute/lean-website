@@ -20,6 +20,9 @@
     "grunt-sails-linker": "~0.10.1",
     "grunt-sync": "0.5.2",
     "include-all": "^1.0.0",
+    "node-uuid": "^1.4.7",
+    "passport": "^0.3.2",
+    "passport-linkedin": "^1.0.0",
     "rc": "1.0.1",
     "sails": "~0.12.6",
     "sails-disk": "~0.10.9"

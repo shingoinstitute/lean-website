@@ -26,7 +26,8 @@ module.exports.routes = {
       view: 'homepage',
    },
 
-   'get /users': 'UserController.users',
-   'get /users/createUser': 'UserController.createUser',
+   '/auth/login': 'AuthController.login',
+   '/auth/linkedin': 'AuthController.linkedInAuth',
+   'post /auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
 
 };

@@ -39,7 +39,19 @@
 
    })
 
-   .controller('MainController', ['$scope', function($scope) {
+   .controller('MainController', ['$scope', '$http', function($scope, $http) {
+      var vm = this;
+
+      vm.login = function() {
+         $http({
+            method: 'GET',
+            url: '/auth/linkedin'
+         }).then(function(data, status, headers, config) {
+            vm.message = 'Something good happened...'
+         }, function(data, status, headers, config) {
+            vm.message = 'Something bad happened...'
+         });
+      }
 
       $scope.user = {
          name: 'Craig',
@@ -47,6 +59,8 @@
          occupation: 'Developer',
          dob: '09/23/1989'
       }
+
+
 
    }])
 
