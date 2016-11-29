@@ -28,6 +28,8 @@ module.exports.routes = {
 
    '/auth/login': 'AuthController.login',
    '/auth/linkedin': 'AuthController.linkedInAuth',
-   'post /auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
+   '/auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
+   '/auth/local': 'AuthController.localAuth',
+	'/auth/local/callback': 'AuthController.localAuthCallback',
 
 };

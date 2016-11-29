@@ -8,7 +8,9 @@ module.exports = {
    },
 
    login: function(req, res) {
-
+		return res.json({
+			success: false
+		})
    },
 
    logout: function(req, res) {
@@ -45,5 +47,25 @@ module.exports = {
          });
       });
    },
+
+   localAuth: function(req, res) {
+      return passport.localAuth(req, res);
+   },
+
+	localAuthCallback: function(req, res) {
+		return passport.localAuth(req, res, function(err, user) {
+			if (err) {
+				res.json({error: err, user: null})
+			} else {
+				req.logIn(user, function(err) {
+					return res.json({
+						user: user,
+						info: info,
+						error: err
+					});
+				});
+			}
+		})
+	}
 
 }

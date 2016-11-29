@@ -34,7 +34,9 @@ module.exports.policies = {
       login: true,
       logout: true,
       linkedInAuth: true,
-      linkedInAuthCallback: true
+      linkedInAuthCallback: true,
+		localAuth: true,
+		localAuthCallback: true,
    }
 
 

@@ -7,11 +7,10 @@
    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
    <!-- styles -->
-   <link rel="stylesheet" href="/styles/importer.css" media="screen" title="no title">
-   <!-- <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"> -->
-   <link rel="stylesheet" href="/css/style.css">
+   <link rel="stylesheet" href="/css/master.css">
    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+	<!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
 
 
 </head>
@@ -21,16 +20,13 @@
 
    <ng-include src="'/templates/navbar.html'"></ng-include>
    <div layout="row" layout-fill>
-      <div flex="20" style="background-color: teal;"></div>
-      <div flex="60" ng-view class="md-padding" ></div>
-      <div flex style="background-color: teal;"></div>
+      <div flex="60" flex-offset="20" ng-view class="md-padding" ></div>
    </div>
 
 
    <!--SCRIPTS-->
    <script src="/js/dependencies/sails.io.js"></script>
    <script src="/bower_components/jquery/dist/jquery.js"></script>
-   <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
    <script src="/bower_components/angular/angular.js"></script>
    <script src="/bower_components/angular-route/angular-route.js"></script>
    <script src="/bower_components/angular-aria/angular-aria.js"></script>

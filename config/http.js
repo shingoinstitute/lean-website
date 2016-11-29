@@ -42,6 +42,8 @@ module.exports.http = {
          'myRequestLogger',
          'bodyParser',
          'handleBodyParserError',
+			'passportInit',
+			'passportSession',
          'compress',
          'methodOverride',
          'poweredBy',

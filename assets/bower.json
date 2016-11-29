@@ -25,6 +25,7 @@
     "angular-bootstrap": "^2.2.0",
     "angular-mocks": "^1.5.8",
     "angular-messages": "^1.5.8",
-    "angular-moment": "^1.0.0"
+    "angular-moment": "^1.0.0",
+    "angular-sanitize": "^1.5.9"
   }
 }

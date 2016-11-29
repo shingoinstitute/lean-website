@@ -1,15 +1,30 @@
-<div ng-controller="NavController as vm" ng-cloak>
-   <md-toolbar md-whiteframe="4" layout="row">
-      <md-button aria-label="Logo" ng-href="/">
-         <img src="/images/sampleLogo.png" alt="">
-      </md-button>
 
-      <div class="md-padding" layout="row" layout-align="end end">
-         <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-            <md-nav-item md-nav-href="/education" name="education">Education</md-nav-item>
-            <md-nav-item md-nav-href="/about" name="about">About Us</md-nav-item>
-            <md-nav-item md-nav-href="/dashboard" name="dashboard">Dashboard</md-nav-item>
-         </md-nav-bar>
-      </div>
-   </md-toolbar>
-</div>
+<md-toolbar layout md-whiteframe="4" ng-controller="NavController as vm" ng-cloak>
+	<div flex="20" layout="row" layout-align="center center" class="md-padding">
+		<md-button aria-label="Logo" ng-href="/">
+			<img src="/images/sampleLogo.png" alt="">
+		</md-button>
+	</div>
+	<div flex="60" layout="row" layout-align="center end" class="md-padding">
+		<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+			<md-nav-item class="md-primary" md-nav-href="/" name="home">Home</md-nav-item>
+			<md-nav-item class="md-accent" md-nav-href="/education" name="education">Education</md-nav-item>
+			<md-nav-item class="md-warn" md-nav-href="/about" name="about">About Us</md-nav-item>
+			<md-nav-item md-nav-href="/dashboard" name="dashboard">Dashboard</md-nav-item>
+		</md-nav-bar>
+
+	</div>
+	<div flex="20" layout="row" layout-align="start end" class="md-padding">
+		<md-button ng-href="/login" class="md-padding md-raised md-accent">Login</md-button>
+		<md-menu>
+			<md-button aria-label="user menu dropdown" class="md-icon-button" ng-click="">
+				<md-icon md-menu-origin md-font-icon="account_circle"></md-icon>
+			</md-button>
+			<md-menu-content>
+				<md-menu-item>
+					<md-button ng-href="/login" class="md-padding md-raised md-accent">Login</md-button>
+				</md-menu-item>
+			</md-menu-content>
+		</md-menu>
+	</div>
+</md-toolbar>
