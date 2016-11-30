@@ -30,14 +30,17 @@ module.exports.policies = {
 
    'AuthController': {
       '*': false,
-      auth: true,
-      login: true,
+		login: true,
       logout: true,
       linkedInAuth: true,
       linkedInAuthCallback: true,
 		localAuth: true,
 		localAuthCallback: true,
-   }
+   },
+
+	'UserController': {
+		'*': ['sessionAuth']
+	},
 
 
    /***************************************************************************

@@ -43,5 +43,8 @@ md-input-container {
       &.name, &.email, &.phone {  color : red;  }
     }
   }
+}
 
+.text-warn {
+	color: red;
 }

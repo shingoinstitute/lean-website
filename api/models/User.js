@@ -6,6 +6,7 @@
 */
 
 var uuid = require('node-uuid');
+var bcrypt = require('bcrypt');
 
 module.exports = {
 
@@ -27,17 +28,27 @@ module.exports = {
       },
       firstname: 'string',
       password: 'string',
+		email: {
+			type: 'string',
+			email: true,
+			required: true,
+			unique: true
+		},
    },
 
-   beforeCreate: function(values, next) {
-      User.find({uuid: values.uuid}).exec(function(err, users) {
-         if (err) return cb(err);
-         if (users) {
-            values.uuid = uuid.v4();
-            return User.beforeCreate(values, next);
-         } else {
-            return next();
-         }
-      })
-   }
+   // beforeCreate: function(values, next) {
+   //    User.find({uuid: values.uuid}).exec(function(err, users) {
+   //       if (err) { return next(err); }
+   //       if (users) {
+   //          values.uuid = uuid.v4();
+   //          return User.beforeCreate(values, next);
+   //       } else {
+	// 			bcrypt.hash(values.password, 10, function(err, hash) {
+	// 				if (err) { return next(err) }
+	// 				values.password = hash;
+	// 				return next();
+	// 			});
+   //       }
+   //    });
+   // }
 };

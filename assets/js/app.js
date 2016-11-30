@@ -82,15 +82,10 @@
 			}).then(function(data, status, headers, config) {
 				$scope.data = JSON.stringify(data.data, null, 2);
 				$scope.message = 'Data: '
-				$scope.responseDetails = "<hr />status: <pre>" + status + "</pre>" +
-				"<hr />headers: " + headers +
-				"<hr />config: " + config;
+				$scope.responseDetails = "<hr />status: <pre>" + status + "</pre>"
 			}, function(data, status, headers, config) {
-				$scope.message = 'There was an error...'
-				$scope.responseDetails = "Data: " + data +
-				"<hr />status: " + status +
-				"<hr />headers: " + headers +
-				"<hr />config: " + config;
+				$scope.message = 'Data: '
+				$scope.responseDetails = "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
 			});
 		}
 	}])
@@ -105,31 +100,38 @@
 		// $rootScope.currentNavItem = 'about'
 	}])
 
-	.controller('LoginController', ['$scope', '$http', function($scope, $http) {
+	.controller('LoginController', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
 		var vm = this;
 
-		$scope.username = 'craig.blackburn@usu.edu';
-		$scope.password = 'password';
-
 		vm.localAuth = function() {
-
 			$scope.data = 'Logging in...'
-
 			var params = {
 				username: $scope.username,
 				password: $scope.password
 			}
-
-			$http.post('/auth/local', {
-				data: params,
-				withCredentials: true
-			})
+			$http.post('/auth/local', params)
 			.then(function(data, status, headers, config) {
+				if (data.status == 200 && data.data.success == true) {
+					$rootScope.user = data.data.user;
+				} else {
+					$scope.loginError = 'Invalid username or password.'
+				}
+				// $scope.data = JSON.stringify(data, null, 2);
+			}, function(data, status, headers, config) {
+				$scope.loginError = 'Internal error, login failed.'
+				// $scope.data = JSON.stringify(data, null, 2);
+			});
+		};
+
+		vm.logout = function() {
+			$http.get('/auth/logout')
+			.then(function(data, status, headers, config) {
+				$rootScope.user = null;
 				$scope.data = JSON.stringify(data, null, 2);
 			}, function(data, status, headers, config) {
 				$scope.data = JSON.stringify(data, null, 2);
 			});
-		}
+		};
 
 	}])
 

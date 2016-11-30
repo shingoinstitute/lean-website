@@ -8,9 +8,10 @@
  *
  */
 module.exports = function(req, res, next) {
-
-   console.log("It werked!");
-
-   return next();
+	if (req.user) {
+		return next();
+	} else {
+		return res.status(403).json({error: 'You are not authorized to perform this action.'});
+	}
 
 };
