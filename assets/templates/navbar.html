@@ -12,10 +12,10 @@
 			<md-nav-item class="md-warn" md-nav-href="/about" name="about">About Us</md-nav-item>
 			<md-nav-item md-nav-href="/dashboard" name="dashboard">Dashboard</md-nav-item>
 		</md-nav-bar>
-
 	</div>
 	<div flex="20" layout="row" layout-align="start end" class="md-padding">
-		<md-button ng-href="/login" class="md-padding md-raised md-accent">Login</md-button>
+		<md-button ng-href="/login" class="md-padding md-raised md-accent" ng-hide="mc.user">Login</md-button>
+		<md-button ng-href="/logout" class="md-padding md-raised md-accent" ng-show="mc.user">Logout</md-button>
 		<md-menu>
 			<md-button aria-label="user menu dropdown" class="md-icon-button" ng-click="">
 				<md-icon md-menu-origin md-font-icon="account_circle"></md-icon>

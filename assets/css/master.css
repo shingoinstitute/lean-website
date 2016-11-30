@@ -48,3 +48,11 @@ md-input-container {
 .text-warn {
 	color: red;
 }
+
+.text-info {
+	color: blue;
+}
+
+.text-success {
+	color: green;
+}

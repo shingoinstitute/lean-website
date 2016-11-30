@@ -57,8 +57,61 @@
 
 	})
 
-	.controller('MainController', ['$scope', '$http', function($scope, $http) {
+	.factory('loginService', ['$http', function($http) {
+
+		var service = {};
+
+		/**
+		*	Login a user
+		*
+		* @param username - the user's email address
+		* @param password - the user's password
+		*/
+		service.localAuth = function(username, password, done) {
+			$http.post('/auth/local', {
+				username: username,
+				password: password
+			})
+			.then(function(data) {
+				if (data.status == 200 && data.data.success == true) {
+					return done(null, data.data.user, JSON.stringify(data, null, 2));
+				} else {
+					return done(new Error('Invalid username or password.'), null, JSON.stringify(data, null, 2));
+				}
+			})
+			.catch(function(err) {
+				return done(err);
+			});
+		}
+
+		service.logout = function(next) {
+			$http.get('/auth/logout')
+			.then(function(data) {
+				return next(null, data);
+			})
+			.catch(function(err) {
+				return next(err);
+			});
+		}
+
+		return service;
+	}])
+
+	.controller('MainController', ['$scope', '$http', 'loginService', function($scope, $http, loginService) {
 		var vm = this;
+
+		$scope.username = '';
+		$scope.password = '';
+
+		vm.authenticateLocal = function(username, password) {
+			vm.message = 'username: ' + username;
+			loginService.localAuth(username, password, function(err, user, data) {
+				if (data) { vm.data = data; }
+				if (err) { vm.loginError = err; vm.error = err; }
+				if (user) { vm.user = user; }
+			});
+		}
+
 	}])
 
 	.controller('NavController', ['$scope', '$location', '$sce', function($scope, $sce) {
@@ -102,36 +155,6 @@
 
 	.controller('LoginController', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
 		var vm = this;
-
-		vm.localAuth = function() {
-			$scope.data = 'Logging in...'
-			var params = {
-				username: $scope.username,
-				password: $scope.password
-			}
-			$http.post('/auth/local', params)
-			.then(function(data, status, headers, config) {
-				if (data.status == 200 && data.data.success == true) {
-					$rootScope.user = data.data.user;
-				} else {
-					$scope.loginError = 'Invalid username or password.'
-				}
-				// $scope.data = JSON.stringify(data, null, 2);
-			}, function(data, status, headers, config) {
-				$scope.loginError = 'Internal error, login failed.'
-				// $scope.data = JSON.stringify(data, null, 2);
-			});
-		};
-
-		vm.logout = function() {
-			$http.get('/auth/logout')
-			.then(function(data, status, headers, config) {
-				$rootScope.user = null;
-				$scope.data = JSON.stringify(data, null, 2);
-			}, function(data, status, headers, config) {
-				$scope.data = JSON.stringify(data, null, 2);
-			});
-		};
 
 	}])
 

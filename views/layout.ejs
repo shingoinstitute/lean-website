@@ -19,7 +19,15 @@
    <base href="/">
 
    <ng-include src="'/templates/navbar.html'"></ng-include>
-   <div layout="row" layout-fill>
+	<div layout="column" layout-padding layout-align="center center" class="md-padding">
+		<div flex ng-show="mc.error">
+			<p class="text-warn" ng-bind="mc.error"></p>
+		</div>
+		<div flex ng-show="mc.message">
+			<p class="text-info" ng-bind="mc.message"></p>
+		</div>
+	</div>
+   <div layout="row">
       <div flex="60" flex-offset="20" ng-view class="md-padding" ></div>
    </div>
 

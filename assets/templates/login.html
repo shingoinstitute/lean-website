@@ -1,5 +1,5 @@
 <md-content ng-controller="LoginController as vm">
-	<div layout ng-hide="user">
+	<div layout ng-hide="mc.user">
 		<div flex="50" layout="column" layout-padding layout-align="center center">
 			<div class="md-padding" flex layout layout-align="center center">
 				<md-button class="md-raised md-accent" ng-click="mc.login()">Login through LinkedIn</md-button>
@@ -10,7 +10,7 @@
 				<md-card-title>
 					<md-card-title-text layout-align="center center">
 						<span class="md-headline">Login with username and password</span>
-						<span class="md-subhead text-warn" ng-bind="loginError"></span>
+						<span class="md-subhead text-warn" ng-bind="mc.loginError"></span>
 					</md-card-title-text>
 				</md-card-title>
 				<md-card-content>
@@ -26,18 +26,18 @@
 					</div>
 				</md-card-content>
 				<md-card-actions layout layout-align="center start" class="md-padding">
-					<md-button class="md-raised md-accent" ng-click="vm.localAuth()">Login</md-button>
+					<md-button class="md-raised md-accent" ng-click="mc.authenticateLocal(username, password)">Login</md-button>
 				</md-card-actions>
 			</md-card>
-			<div layout="column">
-				<p>Data: <pre>{{data}}</pre></p>
+			<div layout="column" ng-show="mc.data">
+				<p>Data: <pre>{{mc.data}}</pre></p>
 			</div>
 		</div>
 	</div>
-	<div layout ng-show="user">
-		<md-content layout ng-controller="LoginController as vm">
+	<div layout ng-show="mc.user">
+		<md-content layout="column" layout-padding>
 			<h3>You are already logged in.</h3>
-			<md-button class="md-raised" ng-click="vm.logout()">Logout</md-button>
+			<md-button class="md-raised" ng-click="mc.logout()">Logout</md-button>
 		</md-content>
 	</div>
 </md-content>
