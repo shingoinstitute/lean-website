@@ -22,6 +22,7 @@ module.exports = {
 							user: null
 						})
 					} else {
+						sails.log.info('Session: ', req.session);
 						sails.log.info('user logged in as ' + req.user.firstname + ' ' + req.user.lastname + '.')
 						return res.json({
 							success: true,

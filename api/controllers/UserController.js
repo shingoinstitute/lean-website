@@ -20,6 +20,11 @@ module.exports = {
 		}
 	},
 
+	session: function(req, res) {
+		if (req.session) return res.json({session: req.session});
+		return res.json({session: null})
+	},
+
    users: function(req, res) {
       User.find().exec(function(err, users) {
          if (err) {

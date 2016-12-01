@@ -94,11 +94,35 @@
 			});
 		}
 
+		service.session = function(next) {
+			return $http.get('/me/session').then(function(data) {
+				return next(data.data.session);
+			})
+			.catch(function(err) {
+				return next();
+			})
+		}
+
 		return service;
 	}])
 
 	.controller('MainController', ['$scope', '$http', 'loginService', function($scope, $http, loginService) {
 		var vm = this;
+
+		loginService.session(function(session) {
+			if (!session) return;
+			if (!session.passport) return;
+			if (!session.passport.user) return;
+			$http.get('/me')
+			.then(function(data) {
+				if (data.status == 200 && data.data.success == true) {
+					vm.user = data.data.user;
+				}
+			})
+			.catch(function(err) {
+				vm.loginError = err;
+			});
+		});
 
 		$scope.username = '';
 		$scope.password = '';
@@ -109,6 +133,14 @@
 				if (data) { vm.data = data; }
 				if (err) { vm.loginError = err; vm.error = err; }
 				if (user) { vm.user = user; }
+			});
+		}
+
+		vm.logout = function() {
+			loginService.logout(function(err, data) {
+				if (err) { vm.error = err; }
+				if (data) { vm.data = JSON.stringify(data, null, 2); }
+				vm.user = null;
 			});
 		}
 

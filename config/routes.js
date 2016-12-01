@@ -32,6 +32,7 @@ module.exports.routes = {
 	'/auth/local/callback': 'AuthController.localAuthCallback',
 	'/auth/login': 'AuthController.login',
 	'/auth/logout': 'AuthController.logout',
-	'/me': 'UserController.me'
+	'/me': 'UserController.me',
+	'/me/session': 'UserController.session',
 
 };

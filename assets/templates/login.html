@@ -29,15 +29,16 @@
 					<md-button class="md-raised md-accent" ng-click="mc.authenticateLocal(username, password)">Login</md-button>
 				</md-card-actions>
 			</md-card>
-			<div layout="column" ng-show="mc.data">
+			<!-- <div layout="column" ng-show="mc.data">
 				<p>Data: <pre>{{mc.data}}</pre></p>
-			</div>
+			</div> -->
 		</div>
 	</div>
-	<div layout ng-show="mc.user">
-		<md-content layout="column" layout-padding>
-			<h3>You are already logged in.</h3>
-			<md-button class="md-raised" ng-click="mc.logout()">Logout</md-button>
+	<div layout="column" layout-padding layout-align="center center" ng-show="mc.user">
+		<h3>Login Successful</h3>
+		<md-content layout>
+			<md-button class="md-raised md-accent" ng-href="/dashboard">Dashboard</md-button>
+			<md-button class="md-raised md-accent" ng-click="mc.logout()">Logout</md-button>
 		</md-content>
 	</div>
 </md-content>
