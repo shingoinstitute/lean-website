@@ -29,7 +29,6 @@ module.exports.routes = {
    '/auth/linkedin': 'AuthController.linkedInAuth',
    '/auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
    '/auth/local': 'AuthController.localAuth',
-	'/auth/local/callback': 'AuthController.localAuthCallback',
 	'/auth/login': 'AuthController.login',
 	'/auth/logout': 'AuthController.logout',
 	'/me': 'UserController.me',

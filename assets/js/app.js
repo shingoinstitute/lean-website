@@ -4,7 +4,7 @@
 
 (function() {
 	'use strict';
-	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngSanitize'])
+	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngSanitize'])
 	.config(function($locationProvider, $routeProvider, $mdThemingProvider) {
 
 		$routeProvider
@@ -57,7 +57,14 @@
 
 	})
 
-	.factory('loginService', ['$http', function($http) {
+	.run(function($http, $cookies) {
+		var token = $cookies.get('token') || null;
+		if (token) {
+			$http.defaults.headers.common.Authorization = 'JWT ' + token;
+		}
+	})
+
+	.factory('loginService', ['$http', '$cookies', function($http, $cookies) {
 
 		var service = {};
 
@@ -67,80 +74,63 @@
 		* @param username - the user's email address
 		* @param password - the user's password
 		*/
-		service.localAuth = function(username, password, done) {
+		service.localAuth = function(username, password, next) {
 			$http.post('/auth/local', {
 				username: username,
 				password: password
 			})
 			.then(function(data) {
-				if (data.status == 200 && data.data.success == true) {
-					return done(null, data.data.user, JSON.stringify(data, null, 2));
-				} else {
-					return done(new Error('Invalid username or password.'), null, JSON.stringify(data, null, 2));
+
+				if (data.data.token) {
+					$cookies.put('token', data.data.token);
 				}
-			})
-			.catch(function(err) {
-				return done(err);
+
+				if (data.data.user) {
+					$cookies.putObject('user', data.data.user);
+				}
+
+				return next();
 			});
 		}
 
 		service.logout = function(next) {
 			$http.get('/auth/logout')
 			.then(function(data) {
-				return next(null, data);
+				$cookies.remove('token');
+				$cookies.remove('user');
+				return next();
 			})
 			.catch(function(err) {
 				return next(err);
 			});
 		}
 
-		service.session = function(next) {
-			return $http.get('/me/session').then(function(data) {
-				return next(data.data.session);
-			})
-			.catch(function(err) {
-				return next();
-			})
-		}
-
 		return service;
 	}])
 
-	.controller('MainController', ['$scope', '$http', 'loginService', function($scope, $http, loginService) {
+	.controller('MainController', ['$scope', '$http', '$cookies', 'loginService', function($scope, $http, $cookies, loginService) {
 		var vm = this;
-
-		loginService.session(function(session) {
-			if (!session) return;
-			if (!session.passport) return;
-			if (!session.passport.user) return;
-			$http.get('/me')
-			.then(function(data) {
-				if (data.status == 200 && data.data.success == true) {
-					vm.user = data.data.user;
-				}
-			})
-			.catch(function(err) {
-				vm.loginError = err;
-			});
-		});
 
 		$scope.username = '';
 		$scope.password = '';
 
+		vm.token = $cookies.get('token') || null;
+		vm.user = $cookies.getObject('user') || null;
+
 		vm.authenticateLocal = function(username, password) {
-			vm.message = 'username: ' + username;
-			loginService.localAuth(username, password, function(err, user, data) {
-				if (data) { vm.data = data; }
-				if (err) { vm.loginError = err; vm.error = err; }
-				if (user) { vm.user = user; }
+			loginService.localAuth(username, password, function() {
+				vm.token = $cookies.get('token') || null;
+				vm.user = $cookies.get('user') || null;
 			});
 		}
 
 		vm.logout = function() {
-			loginService.logout(function(err, data) {
-				if (err) { vm.error = err; }
-				if (data) { vm.data = JSON.stringify(data, null, 2); }
-				vm.user = null;
+			loginService.logout(function(err) {
+				if (err) vm.error = err.message;
+
+				vm.token = $cookies.get('token') || null;
+				vm.user = $cookies.get('user') || null;
+				vm.message = null;
 			});
 		}
 
@@ -163,13 +153,15 @@
 			$scope.message = 'Retrieving Data...'
 			$http({
 				method: 'GET',
-				url: '/users/createUser'
-			}).then(function(data, status, headers, config) {
-				$scope.data = JSON.stringify(data.data, null, 2);
-				$scope.message = 'Data: '
-				$scope.responseDetails = "<hr />status: <pre>" + status + "</pre>"
+				url: '/me',
+				headers: {
+
+				}
+			}).then(function(data) {
+				$scope.data = JSON.stringify(data, null, 2);
+				$scope.message = JSON.stringify(data, null, 2);
 			}, function(data, status, headers, config) {
-				$scope.message = 'Data: '
+				$scope.message = JSON.stringify(data.data, null, 2);
 				$scope.responseDetails = "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
 			});
 		}

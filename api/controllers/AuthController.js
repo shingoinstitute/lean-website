@@ -4,48 +4,39 @@
 *
 */
 
+var passport = require('passport');
+
 module.exports = {
 
-	localAuth: function(req, res) {
-		PassportService.localAuth(req, res, function(err, user, info) {
-			if (info) { sails.log.info(info); }
-			if (err) {
-				sails.log.error('/auth/local @callback: ', err);
-				res.json({error: err, user: null})
-			} else {
-				req.logIn(user, function(err) {
-					if (err) {
-						sails.log.error('/auth/local @login: ', err);
-						return res.json({
-							success: false,
-							error: err,
-							user: null
-						})
-					} else {
-						sails.log.info('Session: ', req.session);
-						sails.log.info('user logged in as ' + req.user.firstname + ' ' + req.user.lastname + '.')
-						return res.json({
-							success: true,
-							user: req.user
-						});
-					}
-				});
-			}
-		});
+	signUp: function(req, res) {
+		return res.json({});
 	},
 
-	localAuthCallback: function(req, res) {
-		if (req.user) {
-			return res.json({
-				success: true,
-				user: req.user
-			});
-		} else {
-			return res.json({
-				success: false,
-				error: 'user not logged in or login attempt was unsuccessful.'
-			});
-		}
+	localAuth: function(req, res) {
+		passport.authenticate('local', function (err, user, info) {
+				if (info) {
+					sails.log.info(JSON.stringify(info, null, 2));
+				}
+
+				if (err) {
+					sails.log.error('/auth/local @callback: ' + err.name + ': ' + err.message);
+					return res.json({error: err, user: null});
+				}
+
+				if (!user) {
+					sails.log.warn('/auth/local @callback:  User is undefined!');
+					return res.json({
+						user: null,
+						info: info,
+						error: err
+					});
+				}
+				
+				return res.json({
+					token: AuthService.createToken(user),
+					user: user.toJSON()
+				});
+		})(req, res);
 	},
 
    linkedInAuth: function(req, res) {

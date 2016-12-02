@@ -2,6 +2,8 @@
    <h3 ng-show="mc.user">Hello {{ mc.user.name }}</h3>
 	<div class="md-padding" ng-hide="mc.user" layout="column" layout-align="center center">
 		<h3 flex>You are not logged in.</h3>
-		<md-button flex class="md-raised md-accent" ng-href="/login">Login here</md-button>
+		<div flex>
+			<md-button class="md-raised md-accent" ng-href="/login">Login here</md-button>
+		</div>
 	</div>
 </md-content>

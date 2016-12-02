@@ -35,7 +35,6 @@ module.exports.policies = {
       linkedInAuth: true,
       linkedInAuthCallback: true,
 		localAuth: true,
-		localAuthCallback: true,
    },
 
 	'UserController': {

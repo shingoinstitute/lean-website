@@ -6,11 +6,25 @@ module.exports = {
 
 	me: function(req, res) {
 		if (req.user) {
-			return res.json({
-				success: true,
-				user: req.user
+
+			UserPermissions.grantAllPriviledges(req, function(err, user) {
+				User.findOne({uuid: req.user.uuid}).exec(function(err, user) {
+					if (err) {
+						return res.json({error: err});
+					}
+
+					if (!user) {
+						return res.json(new Error('user not found!').message);
+					}
+
+					return res.json({
+						success: true,
+						user: req.user
+					});
+				});
 			});
 		} else {
+			// sails.log.debug('@/me-4');
 			sails.log.warn('warn: user attempted to access /me without being logged in.')
 			res.cookie('tl-message', 'You are not logged in.')
 			return res.json({
