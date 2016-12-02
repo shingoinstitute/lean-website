@@ -20,7 +20,7 @@ module.exports = {
 
 		user: {
 			model: 'user',
-			unique: true
+			required: true
 		},
 
 		editAll: {
@@ -116,17 +116,20 @@ module.exports = {
 
 	},
 
-	grantAllPriviledges: function(options, done) {
-		UserPermissions.findOne({uuid: options.user.uuid}).exec(function(err, permissions) {
-
+	/**
+	*  @desc grantAllPriviledges - grants all priviledges to a user
+	*
+	*  @param {User} user - the user object being granted permissions
+	*  @param {function} done - callback function that accepts two arguments, done(error, user)
+	*/
+	grantAllPriviledges: function(user, done) {
+		UserPermissions.findOne({id: user.permissions}).exec(function(err, permissions) {
 			if (err) {
-				sails.log.info('@UserPermissions.grantAllPriviledges-1');
 				return done(err, false);
 			}
 
 			if (!permissions) {
-				sails.log.info('@UserPermissions.grantAllPriviledges-2');
-				return done('Failed to grant user priviledges, user not found!', false);
+				return done(new Error('Failed to grant user priviledges, permissions object not found!'), false);
 			}
 
 			permissions.editAll = true;
@@ -143,122 +146,119 @@ module.exports = {
 			permissions.review = true;
 			permissions.submit = true;
 
-			User.findOne({uuid: permissions.uuid}).exec(function(err, user) {
+			user.permissions = permissions.id;
+			user.save(function(err) {
 				if (err) return done(err, false);
-				sails.log.info(JSON.stringify(permissions, null, 2));
-				user.permissions = permissions;
-				user.save(function(err) {
-					if (err) return done(err, false);
-					return done(null, user);
-				});
+				return done(null, user);
 			});
 		});
 	},
 
-	revokeAllPriviledges: function(options, done) {
-
-		var user = options.user;
-
-		function afterLookup(err, _user) {
-			if (err) return done(err, false);
-
-			if (!_user) {
-				var error = new Error();
-				error.message = 'Failed to revoke user priviledges, user not found!';
-				error.name = 'E_USER_NOT_FOUND';
-				error.fileName = 'UserPermissions.js';
-				return done(error, false);
+	/**
+	*  @desc grantAllPriviledges - grants all priviledges to a user
+	*
+	*  @param {User} user - the user object being granted permissions
+	*  @param {function} done - callback function that accepts two arguments, done(error, user)
+	*/
+	revokeAllPriviledges: function(user, done) {
+		UserPermissions.findOne({id: user.permissions}).exec(function(err, permissions) {
+			if (err) {
+				return done(err, false);
 			}
 
+			if (!permissions) {
+				return done(new Error('Failed to revoke user priviledges, permissions object is undefined'), false);
+			}
 
+			permissions.editAll = false;
+			permissions.editComments = false;
+			permissions.changePasswords = false;
+			permissions.viewAll = false;
+			permissions.viewComments = false;
+			permissions.createAll = false;
+			permissions.createComments = false;
+			permissions.deleteAll = false;
+			permissions.deleteComments = false;
+			permissions.approve = false;
+			permissions.approveComments = false;
+			permissions.review = false;
+			permissions.submit = false;
 
-			this.editAll = false;
-			user.editComments = false;
-			user.changePasswords = false;
-			user.viewAll = false;
-			user.viewComments = false;
-			user.createAll = false;
-			user.createComments = false;
-			user.deleteAll = false;
-			user.deleteComments = false;
-			user.approve = false;
-			user.approveComments = false;
-			user.review = false;
-			user.submit = false;
-
-			return done(null, _user);
-		}
-
-		(function _lookupUserIfNecessary(afterLookup) {
-			if (typeof user === 'object') return afterLookup(null, user);
-			Person.findOne(person).exec(afterLookup);
+			permissions.save(function(err) {
+				if (err) return done(err, false);
+				return done(null, permissions);
+			});
 		});
-
-
 	},
 
-	beforeCreate: function(values, next) {
-		var role = values.role;
-		if (role == 'systemAdmin') {
-			values.editAll = true;
-			values.editComments = true;
-			values.changePasswords = true;
-			values.viewAll = true;
-			values.viewComments = true;
-			values.createAll = true;
-			values.createComments = true;
-			values.deleteAll = true;
-			values.deleteComments = true;
-			values.approve = true;
-			values.approveComments = true;
-			values.review = true;
-			values.submit = true;
-		}
+	beforeUpdate: function(values, next) {
+		User.findOne({uuid: values.user}).exec(function(err, user) {
+			if (err) { return next(err); }
+			if (!user) { return next(new Error('Cannot update permissions, user not found')); }
 
-		if (role == 'admin') {
-			values.editAll = true;
-			values.editComments = true;
-			values.viewAll = true;
-			values.viewComments = true;
-			values.createAll = true;
-			values.createComments = true;
-			values.deleteAll = true;
-			values.deleteComments = true;
-			values.approve = true;
-			values.approveComments = true;
-			values.review = true;
-			values.submit = true;
-		}
+			switch (user.role) {
+				case 'systemAdmin':
+					values.editAll = true;
+					values.editComments = true;
+					values.changePasswords = true;
+					values.viewAll = true;
+					values.viewComments = true;
+					values.createAll = true;
+					values.createComments = true;
+					values.deleteAll = true;
+					values.deleteComments = true;
+					values.approve = true;
+					values.approveComments = true;
+					values.review = true;
+					values.submit = true;
+					break;
+				case 'admin':
+					values.editAll = true;
+					values.editComments = true;
+					values.viewAll = true;
+					values.viewComments = true;
+					values.createAll = true;
+					values.createComments = true;
+					values.deleteAll = true;
+					values.deleteComments = true;
+					values.approve = true;
+					values.approveComments = true;
+					values.review = true;
+					values.submit = true;
+					break;
+				case 'editor':
+					values.editAll = true;
+					values.viewAll = true;
+					values.viewComments = true;
+					values.createAll = true;
+					values.createComments = true;
+					values.deleteAll = true;
+					values.approve = true;
+					values.review = true;
+					values.submit = true;
+					break;
+				case 'author':
+					values.editAll = true;
+					values.viewAll = true;
+					values.viewComments = true;
+					values.createAll = true;
+					values.createComments = true;
+					values.submit = true;
+					break;
+				case 'moderator':
+					values.editComments = true;
+					values.viewComments = true;
+					values.createComments = true;
+					values.deleteComments = true;
+					values.approveComments = true;
+					break;
+				default:
+					var error = new Error('Invalid role option for update. Available role types are ' + AppServices.toString(sails.config.models.roles));
+					return next(error);
+					break;
+			}
 
-		if (role == 'editor') {
-			values.editAll = true;
-			values.viewAll = true;
-			values.viewComments = true;
-			values.createAll = true;
-			values.createComments = true;
-			values.deleteAll = true;
-			values.approve = true;
-			values.review = true;
-			values.submit = true;
-		}
-
-		if (role == 'author') {
-			values.editAll = true;
-			values.viewAll = true;
-			values.viewComments = true;
-			values.createAll = true;
-			values.createComments = true;
-			values.submit = true;
-		}
-
-		if (role == 'moderator') {
-			values.editComments = true;
-			values.viewComments = true;
-			values.createComments = true;
-			values.deleteComments = true;
-			values.approveComments = true;
-		}
-
-		return next();
+			return next();
+		});
 	}
 };

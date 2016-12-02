@@ -7,6 +7,8 @@
 
 var uuid = require('node-uuid');
 var bcrypt = require('bcrypt');
+var _ = require('lodash');
+var Promise = require('bluebird');
 
 module.exports = {
 
@@ -45,14 +47,7 @@ module.exports = {
 
 		role: {
 			type: 'string',
-			enum: [
-				'systemAdmin',
-				'admin',
-				'editor',
-				'author',
-				'moderator',
-				'user'
-			],
+			enum: sails.config.models.roles,
 			defaultsTo: function() {
 				return 'user';
 			}
@@ -68,35 +63,69 @@ module.exports = {
 			delete obj.createdAt;
 			delete obj.updatedAt;
 			obj.name = obj.firstname + ' ' + obj.lastname;
+			return obj;
+		},
 
-			// UserPermissions.findOne({id: obj.permissions}).exec(function(err, permissions) {
-				// obj.permissions = permissions;
-				return obj;
-			// });
+		getPermissions: function(next) {
+			var obj = this.toObject();
+			UserPermissions.findOne({id: obj.permissions}).exec(function(err, permissions) {
+				if (err) return next(err, false);
+				if (!permissions) return next(new Error('Permissions not found for user ' + obj.email), false);
+				return next(null, permissions);
+			});
 		}
+
    },
 
+	updateRole: function(user, next) {
+		User.update({uuid: user.uuid}, {role: user.role}).exec(function(err, users) {
+			if (err) return next(err, false);
+			if (!users[0]) return next(new Error('Failed to update role, user not found'), false);
+			var updatedUser = users[0];
+			UserPermissions.update({id: updatedUser.permissions}, {user: updatedUser.uuid}).exec(function(err, permissions) {
+				if (err) return next(err, false);
+				if (!permissions[0]) return next(new Error('User permissions update failed during role update, permissions id was undefined'), false);
+				return next(null, updatedUser);
+			});
+		});
+	},
+
    beforeCreate: function(values, next) {
-      User.find({uuid: values.uuid}).exec(function(err, users) {
-         if (err) { return next(err); }
-         if (users) {
-            values.uuid = uuid.v4();
-            return User.beforeCreate(values, next);
-         } else {
-				UserPermissions.create({user: values.uuid}).exec(function(err, permissions) {
-					if (err) return next(err);
-					values.permissions = permissions;
-					sails.log.info('permissions', permissions);
-					AuthService.hashPassword(values);
-					return next();
-				});
-         }
-      });
+		AuthService.hashPassword(values);
+		(function checkUuidForCollisions(values) {
+			User.findOne({uuid: values.uuid}).exec(function(err, user) {
+	         if (err) { return next(err); }
+	         if (!user) {
+					UserPermissions.create({user: values.uuid}).exec(function(err, permissions) {
+						if (err) return next(err);
+						values.permissions = permissions.id;
+						return next();
+					});
+	         } else {
+					values.uuid = uuid.v4();
+	            checkUuidForCollisions(values);
+	         }
+	      });
+		})(values);
    },
 
 	beforeUpdate: function(values, next) {
-		if (values.uuid) delete values.uuid;
-		AuthService.hashPassword(values);
+		if (values.password) {
+			AuthService.hashPassword(values);
+		}
 		return next();
+	},
+
+	signUp: function(newUser) {
+		return new Promise(function(resolve, reject) {
+			User.create(newUser).exec(function(err, user) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(user);
+				}
+			});
+		});
 	}
+
 };

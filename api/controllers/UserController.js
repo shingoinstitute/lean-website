@@ -7,26 +7,54 @@ module.exports = {
 	me: function(req, res) {
 		if (req.user) {
 
-			UserPermissions.grantAllPriviledges(req, function(err, user) {
-				User.findOne({uuid: req.user.uuid}).exec(function(err, user) {
-					if (err) {
-						return res.json({error: err});
-					}
-
-					if (!user) {
-						return res.json(new Error('user not found!').message);
-					}
-
+			User.findOne({permissions: req.user.permissions}).exec(function(err, user) {
+				if (err) {
 					return res.json({
-						success: true,
-						user: req.user
+						success: false,
+						error: err.message
 					});
+				}
+				if (!user) {
+					return res.json({
+						success: false,
+						error: 'Update failed, user not found.'
+					});
+				}
+				return res.json({
+					success: true,
+					user: user.toJSON()
 				});
 			});
+
+			// UserPermissions.grantAllPriviledges(req, function(err, user) {
+			// 	User.findOne({uuid: req.user.uuid}).exec(function(err, user) {
+			// 		if (err) {
+			// 			return res.json({error: err});
+			// 		}
+			//
+			// 		if (!user) {
+			// 			return res.json(new Error('user not found!').message);
+			// 		}
+			//
+			// 		user.toJSON(function(err, user) {
+			// 			if (err) {
+			// 				return res.json({
+			// 					success: false,
+			// 					user: null,
+			// 					error: err
+			// 				});
+			// 			}
+			//
+			// 			return res.json({
+			// 				success: true,
+			// 				user: user,
+			// 			});
+			// 		});
+			// 	});
+			// });
 		} else {
-			// sails.log.debug('@/me-4');
-			sails.log.warn('warn: user attempted to access /me without being logged in.')
-			res.cookie('tl-message', 'You are not logged in.')
+			sails.log.info('user attempted to access /me route without a JWT.');
+			res.cookie('tl-message', 'You are not logged in.');
 			return res.json({
 				success: false,
 				error: 'user is not logged in'

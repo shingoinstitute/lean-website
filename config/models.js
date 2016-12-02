@@ -9,8 +9,13 @@
  * http://sailsjs.org/#!/documentation/concepts/ORM
  */
 
+ const ROLES = ['systemAdmin', 'admin', 'editor', 'author', 'moderator', 'user'];
+
+
 module.exports.models = {
 
+	roles: ROLES,
+	
   /***************************************************************************
   *                                                                          *
   * Your app's default connection. i.e. the name of one of your app's        *

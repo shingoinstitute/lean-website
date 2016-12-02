@@ -29,7 +29,7 @@ function onLocalAuth(username, password, next) {
 		if (err) { return next(err); }
 
 		if (!user) return next(null, false, {
-			error: email + ' not found.'
+			error: 'An account with ' + username + ' does not exist.',
 		});
 
 		if (!AuthService.comparePassword(password, user.password)) {

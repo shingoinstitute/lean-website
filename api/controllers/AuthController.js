@@ -9,7 +9,25 @@ var passport = require('passport');
 module.exports = {
 
 	signUp: function(req, res) {
-		return res.json({});
+		var newUser = {};
+		newUser.email = req.param('username');
+		newUser.password = req.param('password');
+		newUser.firstname = req.param('firstname');
+		newUser.lastname = req.param('lastname');
+
+		User.signUp(newUser)
+		.then(function(user) {
+			return res.json({
+				success: true,
+				user: user.toJSON()
+			});
+		})
+		.catch(function(err) {
+			return res.json({
+				success: false,
+				error: err
+			});
+		});
 	},
 
 	localAuth: function(req, res) {
@@ -31,7 +49,7 @@ module.exports = {
 						error: err
 					});
 				}
-				
+
 				return res.json({
 					token: AuthService.createToken(user),
 					user: user.toJSON()

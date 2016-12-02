@@ -26,11 +26,15 @@ module.exports.routes = {
       view: 'homepage',
    },
 
+	// auth routes
    '/auth/linkedin': 'AuthController.linkedInAuth',
    '/auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
    '/auth/local': 'AuthController.localAuth',
 	'/auth/login': 'AuthController.login',
 	'/auth/logout': 'AuthController.logout',
+	'/auth/signup': 'AuthController.signUp',
+
+	// user routes
 	'/me': 'UserController.me',
 	'/me/session': 'UserController.session',
 
