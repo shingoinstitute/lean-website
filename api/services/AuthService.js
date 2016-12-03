@@ -12,8 +12,7 @@ module.exports = {
 
 	hashPassword: function(user) {
 		if (user.password) {
-			var salt = bcrypt.genSaltSync(saltRounds);
-			user.password = bcrypt.hashSync(user.password, salt);
+			user.password = bcrypt.hashSync(user.password, saltRounds);
 		}
 	},
 

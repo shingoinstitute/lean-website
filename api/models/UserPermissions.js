@@ -123,13 +123,15 @@ module.exports = {
 	*  @param {function} done - callback function that accepts two arguments, done(error, user)
 	*/
 	grantAllPriviledges: function(user, done) {
+		sails.log.info('permissions id: ' + user.permissions);
 		UserPermissions.findOne({id: user.permissions}).exec(function(err, permissions) {
 			if (err) {
 				return done(err, false);
 			}
 
 			if (!permissions) {
-				return done(new Error('Failed to grant user priviledges, permissions object not found!'), false);
+				var error = new Error('Failed to grant user priviledges, permissions object not found!');
+				return done(error, false);
 			}
 
 			permissions.editAll = true;
@@ -146,10 +148,9 @@ module.exports = {
 			permissions.review = true;
 			permissions.submit = true;
 
-			user.permissions = permissions.id;
-			user.save(function(err) {
+			permissions.save(function(err) {
 				if (err) return done(err, false);
-				return done(null, user);
+				return done(null, permissions);
 			});
 		});
 	},
@@ -192,9 +193,25 @@ module.exports = {
 	},
 
 	beforeUpdate: function(values, next) {
+
 		User.findOne({uuid: values.user}).exec(function(err, user) {
 			if (err) { return next(err); }
 			if (!user) { return next(new Error('Cannot update permissions, user not found')); }
+
+			// "Reset" permissions to false
+			values.editAll = false;
+			values.editComments = false;
+			values.changePasswords = false;
+			values.viewAll = false;
+			values.viewComments = false;
+			values.createAll = false;
+			values.createComments = false;
+			values.deleteAll = false;
+			values.deleteComments = false;
+			values.approve = false;
+			values.approveComments = false;
+			values.review = false;
+			values.submit = false;
 
 			switch (user.role) {
 				case 'systemAdmin':
@@ -252,10 +269,13 @@ module.exports = {
 					values.deleteComments = true;
 					values.approveComments = true;
 					break;
+				case 'user':
+					values.viewComments = true;
+					values.createComments = true;
 				default:
 					var error = new Error('Invalid role option for update. Available role types are ' + AppServices.toString(sails.config.models.roles));
 					return next(error);
-					break;
+				break;
 			}
 
 			return next();

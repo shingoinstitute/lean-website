@@ -10,25 +10,24 @@
    <link rel="stylesheet" href="/css/master.css">
    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-	<!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
-
+	<link rel="stylesheet" href="/bower_components/mdi/css/materialdesignicons.min.css" media="all" type="text/css">
+	<base href="/">
 
 </head>
 
-<body layout="column" ng-app="myApp" ng-controller="MainController as mc"  class="md-no-animations" ng-cloak>
-   <base href="/">
+<body layout="column" ng-controller="MainController as mc" class="md-no-animations" ng-cloak>
 
    <ng-include src="'/templates/navbar.html'"></ng-include>
-	<div layout="column" layout-padding layout-align="center center" class="md-padding">
-		<div flex ng-show="mc.error">
-			<p class="text-warn" ng-bind="mc.error"></p>
+	<message-container layout="column" layout-align="center center" ng-if="mc.error || mc.message">
+		<div class="md-padding" ng-if="mc.error">
+			<p>Error: <span class="text-warn" ng-bind="mc.error"></span></p>
 		</div>
-		<div flex ng-show="mc.message">
-			<pre class="text-info" ng-bind="mc.message"></pre>
+		<div class="" ng-if="mc.message">
+			<pre class="text-info md-padding" ng-bind="mc.message"></pre>
 		</div>
-	</div>
-   <div layout="row">
-      <div flex="60" flex-offset="20" ng-view class="md-padding" ></div>
+	</message-container>
+   <div layout layout-fill layout-padding class="main-content">
+      <main flex="60" flex-offset="20" ng-view></main>
    </div>
 
 

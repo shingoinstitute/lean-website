@@ -1,0 +1,7 @@
+<md-content ng-if="mc.user">
+	<p>{{ mc.user.name }}'s settings</p>
+</md-content>
+
+<md-content ng-if="!mc.user">
+	<p>You are not logged in.</p>
+</md-content>

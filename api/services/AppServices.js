@@ -9,7 +9,7 @@ module.exports = {
 			var string = "";
 			for (var i = 0; i < obj.length; i++) {
 				string += obj[i];
-				if (i < obj.length - 2) { string += ", "; }
+				if (i < obj.length - 1) { string += ", "; }
 			}
 			return string;
 		} else if (typeof obj === 'object') {

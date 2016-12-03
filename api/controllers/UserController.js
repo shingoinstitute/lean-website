@@ -6,52 +6,27 @@ module.exports = {
 
 	me: function(req, res) {
 		if (req.user) {
+			User.findOne({uuid: req.user.uuid}).exec(function(err, user) {
+				if (err) return res.json({error:err});
+				if (!user) return res.json({error: 'user not found.'});
+				user.role = 'systemAdmin';
+				User.updateRole(user, function(err, user) {
+					if (err) {
+						// sails.log.info('1');
+						return res.json({error: err.toString()});
+					}
 
-			User.findOne({permissions: req.user.permissions}).exec(function(err, user) {
-				if (err) {
+					if (!user) {
+						// sails.log.info('2');
+						return res.json({error: new Error('permissions not updated.')});
+					}
+
 					return res.json({
-						success: false,
-						error: err.message
+						success: true,
+						user: user,
 					});
-				}
-				if (!user) {
-					return res.json({
-						success: false,
-						error: 'Update failed, user not found.'
-					});
-				}
-				return res.json({
-					success: true,
-					user: user.toJSON()
 				});
 			});
-
-			// UserPermissions.grantAllPriviledges(req, function(err, user) {
-			// 	User.findOne({uuid: req.user.uuid}).exec(function(err, user) {
-			// 		if (err) {
-			// 			return res.json({error: err});
-			// 		}
-			//
-			// 		if (!user) {
-			// 			return res.json(new Error('user not found!').message);
-			// 		}
-			//
-			// 		user.toJSON(function(err, user) {
-			// 			if (err) {
-			// 				return res.json({
-			// 					success: false,
-			// 					user: null,
-			// 					error: err
-			// 				});
-			// 			}
-			//
-			// 			return res.json({
-			// 				success: true,
-			// 				user: user,
-			// 			});
-			// 		});
-			// 	});
-			// });
 		} else {
 			sails.log.info('user attempted to access /me route without a JWT.');
 			res.cookie('tl-message', 'You are not logged in.');

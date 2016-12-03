@@ -1,3 +1,5 @@
+
+
 md-no-animations,
 md-dialog.md-transition-in,
 md-dialog.md-transition-out,
@@ -5,8 +7,22 @@ md-dialog.md-transition-out,
   transform : none !important;
 }
 
+.main-content {
+	background-color: #B0BEC5;
+}
+
 md-content {
-   background-color: #f0f0f0;
+   background-color: #ffffff;
+}
+
+message-container {
+	padding: 1% 1% 1% 1%;
+	color: white;
+	background-color: grey;
+}
+
+message-container.text-warn {
+	color: red;
 }
 
 md-toolbar {

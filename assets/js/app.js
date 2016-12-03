@@ -5,7 +5,7 @@
 (function() {
 	'use strict';
 	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngSanitize'])
-	.config(function($locationProvider, $routeProvider, $mdThemingProvider) {
+	.config(function($locationProvider, $routeProvider, $mdThemingProvider, $mdIconProvider) {
 
 		$routeProvider
 		.when('/', {
@@ -27,6 +27,9 @@
 		.when('/login', {
 			templateUrl: 'templates/login.html',
 			controller: 'LoginController'
+		})
+		.when('teachingResources', {
+			templateUrl: 'templates/teachingResources.html'
 		})
 		.otherwise({
 			redirectTo: '/',
@@ -119,8 +122,14 @@
 
 		vm.authenticateLocal = function(username, password) {
 			loginService.localAuth(username, password, function() {
-				vm.token = $cookies.get('token') || null;
-				vm.user = $cookies.get('user') || null;
+				try {
+					vm.token = $cookies.get('token');
+					vm.user = $cookies.getObject('user');
+				} catch (e) {
+					vm.token = null;
+					vm.user = null;
+					vm.error = 'Internal error occured, login failed.'
+				}
 			});
 		}
 
@@ -129,16 +138,23 @@
 				if (err) vm.error = err.message;
 
 				vm.token = $cookies.get('token') || null;
-				vm.user = $cookies.get('user') || null;
+				vm.user = $cookies.getObject('user') || null;
 				vm.message = null;
+
 			});
 		}
 
 	}])
 
-	.controller('NavController', ['$scope', '$location', '$sce', function($scope, $sce) {
+	.controller('NavController', ['$scope', '$location', '$sce', function($scope, $mdDialog) {
 		var vm = this;
-		vm.logoSrc = "images/sampleLogo.png";
+		var originatorEv;
+
+		vm.openMenu = function($mdOpenMenu, ev) {
+			originatorEv = ev;
+			$mdOpenMenu(ev);
+		}
+
 	}])
 
 	.controller('HomeController', ['$scope', function($scope, $rootScope) {
@@ -148,23 +164,9 @@
 
 	.controller('DashboardController', ['$scope', '$rootScope', '$http', '$sce', function($scope, $rootScope, $http) {
 		var vm = this;
-		$scope.message = 'Data: '
-		vm.getData = function() {
-			$scope.message = 'Retrieving Data...'
-			$http({
-				method: 'GET',
-				url: '/me',
-				headers: {
 
-				}
-			}).then(function(data) {
-				$scope.data = JSON.stringify(data, null, 2);
-				$scope.message = JSON.stringify(data, null, 2);
-			}, function(data, status, headers, config) {
-				$scope.message = JSON.stringify(data.data, null, 2);
-				$scope.responseDetails = "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
-			});
-		}
+		vm.includeSrc = 'templates/user/me.html';
+
 	}])
 
 	.controller('EducationController', ['$scope', function($scope, $rootScope) {
