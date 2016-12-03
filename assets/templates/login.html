@@ -1,11 +1,50 @@
+
+<div layout layout-align="center start" ng-if="!mc.user" ng-controller="LoginController as vm">
+	<md-card flex-sm="90" flex-xs="100" flex="60" flex-gt-lg="50">
+		<md-card-title>
+			<md-card-title-text layout-align="center center">
+				<span class="md-headline md-accent">Sign in</span>
+				<span class="md-subhead text-warn" ng-bind="mc.loginError"></span>
+			</md-card-title-text>
+		</md-card-title>
+		<md-card-content>
+			<div layout="column">
+				<md-input-container flex>
+					<label>Username</label>
+					<input required ng-model="username" type="email">
+				</md-input-container>
+				<md-input-container flex>
+					<label>Password</label>
+					<input required ng-model="password" type="password">
+				</md-input-container>
+			</div>
+		</md-card-content>
+		<md-card-actions layout="column">
+			<md-checkbox aria-label="remember me checkbox" ng-model="vm.rememberMe">
+				remember me
+			</md-checkbox>
+			<div layout>
+				<div style="margin-right: 1%;">
+					<md-button class="md-raised md-accent" ng-click="mc.authenticateLocal(username, password)">Sign in</md-button>
+				</div>
+				<div>
+					<md-button class="md-raised md-accent" ng-click="mc.login()">Login through LinkedIn</md-button>
+				</div>
+			</div>
+		</md-card-actions>
+	</md-card>
+</div>
 <md-content ng-controller="LoginController as vm">
-	<div layout ng-hide="mc.user">
+
+
+
+	<!-- <div layout ng-hide="mc.user">
 		<div flex="50" layout="column" layout-padding layout-align="center center">
 			<div class="md-padding" flex layout layout-align="center center">
 				<md-button class="md-raised md-accent" ng-click="mc.login()">Login through LinkedIn</md-button>
 			</div>
 		</div>
-		<div flex="50" md-theme="form-dark" >
+		<div flex="50" md-theme="form-dark">
 			<md-card>
 				<md-card-title>
 					<md-card-title-text layout-align="center center">
@@ -30,8 +69,8 @@
 				</md-card-actions>
 			</md-card>
 		</div>
-	</div>
-	<div layout="column" layout-padding layout-align="center center" ng-show="mc.user">
+	</div> -->
+	<div layout="column" layout-padding layout-align="center center" ng-if="mc.user">
 		<h3>Login Was Successful</h3>
 		<md-content layout>
 			<md-button class="md-raised md-accent" ng-href="/dashboard">Dashboard</md-button>
