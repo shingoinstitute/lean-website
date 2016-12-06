@@ -57,9 +57,16 @@ module.exports = {
 			model: 'userPermissions'
 		},
 
+		notificationPreferences: {
+			type: 'string',
+			enum: ['on', 'off'],
+			defaultsTo: 'on'
+		},
+
 		toJSON: function() {
 			var obj = this.toObject();
 			delete obj.password;
+			delete obj.notificationPreferences;
 			delete obj.createdAt;
 			delete obj.updatedAt;
 			obj.name = obj.firstname + ' ' + obj.lastname;

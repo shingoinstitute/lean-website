@@ -8,13 +8,17 @@
 	.config(function($locationProvider, $routeProvider, $mdThemingProvider, $mdIconProvider) {
 
 		$routeProvider
-		.when('/', {
+		.when('/home', {
 			templateUrl: 'templates/homepage.html',
 			controller: 'HomeController'
 		})
 		.when('/dashboard', {
-			templateUrl: 'templates/dashboard.html',
+			templateUrl: 'templates/user/dashboard.html',
 			controller: 'DashboardController'
+		})
+		.when('/dashboard/settings', {
+			templateUrl: 'templates/user/settings.html',
+			controller: 'SettingsController'
 		})
 		.when('/education', {
 			templateUrl: 'templates/education.html',
@@ -28,35 +32,34 @@
 			templateUrl: 'templates/login.html',
 			controller: 'LoginController'
 		})
-		.when('teachingResources', {
+		.when('/createAccount', {
+			templateUrl: 'templates/user/createAccount.html'
+		})
+		.when('/teachingResources', {
 			templateUrl: 'templates/teachingResources.html'
 		})
 		.otherwise({
-			redirectTo: '/',
+			redirectTo: '/home',
 		});
 
 		$locationProvider.html5Mode(true);
 
-		var blueGreyMap = $mdThemingProvider.extendPalette('blue-grey', {
-			'500': '#ffffff',
-			'contrastDefaultColor': 'dark'
+		var blueGreyMap = $mdThemingProvider.extendPalette('indigo', {
+			// '500': '#ffffff',
+			'contrastDefaultColor': 'light'
 		});
-
-		$mdThemingProvider.definePalette('custom-blue-grey', blueGreyMap);
+		$mdThemingProvider.definePalette('custom-indigo', blueGreyMap);
 
 		$mdThemingProvider.theme('default')
-			.primaryPalette('custom-blue-grey', {
-				'default': '500'
-			})
-			.accentPalette('teal', {
-				'default': '600'
-			});
+			.primaryPalette('indigo')
+			.accentPalette('red');
 
-		$mdThemingProvider.theme('form-dark')
-			.primaryPalette('blue', {
-				'default': '800'
-			})
-			.dark();
+		$mdThemingProvider.theme('dark')
+			.primaryPalette('custom-indigo').dark();
+
+		var defaultMap = $mdThemingProvider.extendPalette('indigo')
+		$mdThemingProvider.definePalette('form', defaultMap);
+		$mdThemingProvider.theme('form').dark();
 
 	})
 
@@ -89,7 +92,13 @@
 				}
 
 				if (data.data.user) {
-					$cookies.putObject('user', data.data.user);
+					var user = data.data.user;
+					if (user.role == 'systemAdmin' || user.role == 'admin') {
+						user.isAdmin = true;
+					} else {
+						user.isAdmin = false;
+					}
+					$cookies.putObject('user', user);
 				}
 
 				return next();
@@ -111,8 +120,18 @@
 		return service;
 	}])
 
-	.controller('MainController', ['$scope', '$http', '$cookies', 'loginService', function($scope, $http, $cookies, loginService) {
+	.controller('MainController', ['$scope', '$http', '$cookies', 'loginService', '$location', function($scope, $http, $cookies, loginService, $location) {
 		var vm = this;
+
+		$scope.$on('messageListener', function(event, args) {
+			if (typeof args == 'string') {
+				vm.message = args;
+			} else if (args.error) {
+				vm.error = args.error;
+			} else if (args.message) {
+				vm.message = args.message;
+			}
+		});
 
 		$scope.username = '';
 		$scope.password = '';
@@ -125,30 +144,49 @@
 				try {
 					vm.token = $cookies.get('token');
 					vm.user = $cookies.getObject('user');
+					$location.path('/dashboard');
 				} catch (e) {
 					vm.token = null;
 					vm.user = null;
-					vm.error = 'Internal error occured, login failed.'
+					vm.error = 'Internal error occured, login failed.';
 				}
 			});
+		}
+
+		vm.authenticateLinkedIn = function() {
+
 		}
 
 		vm.logout = function() {
 			loginService.logout(function(err) {
 				if (err) vm.error = err.message;
-
-				vm.token = $cookies.get('token') || null;
-				vm.user = $cookies.getObject('user') || null;
+				$cookies.remove('token');
+				$cookies.remove('user');
+				vm.token = null;
+				vm.user = null;
 				vm.message = null;
-
+				$location.path('/home');
 			});
 		}
 
 	}])
 
-	.controller('NavController', ['$scope', '$location', '$sce', function($scope, $mdDialog) {
+	.controller('NavController', ['$scope', '$rootScope', '$cookies', '$location', function($scope, $rootScope, $cookies, $location) {
 		var vm = this;
 		var originatorEv;
+
+		function showDashboardTemplate(templateName) {
+			$rootScope.$broadcast(templateName);
+			var dashboardListener = $rootScope.$on('$dashboardControllerViewDidLoad', function() {
+				$rootScope.$broadcast(templateName);
+				dashboardListener();
+			});
+			$location.path('/dashboard');
+		}
+
+		vm.showUserDashboard = function() {
+			showDashboardTemplate('showDashboard');
+		}
 
 		vm.openMenu = function($mdOpenMenu, ev) {
 			originatorEv = ev;
@@ -162,10 +200,44 @@
 		// $rootScope.currentNavItem = 'home'
 	}])
 
-	.controller('DashboardController', ['$scope', '$rootScope', '$http', '$sce', function($scope, $rootScope, $http) {
+	.controller('DashboardController', ['$scope', '$rootScope', '$cookies', '$http', '$location', function($scope, $rootScope, $cookies, $http, $location) {
 		var vm = this;
 
-		vm.includeSrc = 'templates/user/me.html';
+		vm.includeSrc = 'templates/user/me.html'
+
+		$scope.$on('$viewContentLoaded', function() {
+			$rootScope.$broadcast('$dashboardControllerViewDidLoad');
+		});
+
+		try {
+			vm.user = $cookies.getObject('user');
+		} catch(e) {
+			$rootScope.$broadcast('messageListener', {error: e});
+		}
+
+		$scope.$on('showDashboard', function(event) {
+			if (vm.user) vm.includeSrc = 'templates/user/me.html';
+		});
+
+	}])
+
+	.controller('SettingsController', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+		var vm = this;
+
+		$http.get('/me')
+		.then(function(data) {
+			if (data.data.user.permissions) {
+				$scope.userPermissions = data.data.user.permissions;
+			}
+			if (data.data.error) {
+				$rootScope.$broadcast('messageListener', {error: data.data.error});
+			}
+		})
+		.catch(function(err) {
+			$rootScope.$broadcast('messageListener', {
+				error: err
+			});
+		});
 
 	}])
 

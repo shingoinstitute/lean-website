@@ -2,28 +2,26 @@
 * @description :: UserController.js
 */
 
+var _ = require('lodash');
+
 module.exports = {
 
 	me: function(req, res) {
 		if (req.user) {
 			User.findOne({uuid: req.user.uuid}).exec(function(err, user) {
-				if (err) return res.json({error:err});
-				if (!user) return res.json({error: 'user not found.'});
-				user.role = 'systemAdmin';
-				User.updateRole(user, function(err, user) {
-					if (err) {
-						// sails.log.info('1');
-						return res.json({error: err.toString()});
-					}
-
-					if (!user) {
-						// sails.log.info('2');
-						return res.json({error: new Error('permissions not updated.')});
-					}
-
+				UserPermissions.findOne({user: user.uuid}).exec(function(err, permissions) {
+					if (err) return res.status(500).json({error: err});
+					if (!permissions) return res.json({error: 'user permissions not found'});
+					var grantedPermissions = [];
+					_.forEach(permissions, function(value, key) {
+						if (value === true) {
+							grantedPermissions.push(key);
+						}
+					});
+					user.permissions = grantedPermissions;
 					return res.json({
 						success: true,
-						user: user,
+						user: user
 					});
 				});
 			});
@@ -37,9 +35,8 @@ module.exports = {
 		}
 	},
 
-	session: function(req, res) {
-		if (req.session) return res.json({session: req.session});
-		return res.json({session: null})
+	permissions: function(req, res) {
+
 	},
 
    users: function(req, res) {

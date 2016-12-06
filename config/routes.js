@@ -36,6 +36,5 @@ module.exports.routes = {
 
 	// user routes
 	'/me': 'UserController.me',
-	'/me/session': 'UserController.session',
 
 };

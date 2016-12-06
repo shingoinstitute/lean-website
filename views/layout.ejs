@@ -11,25 +11,23 @@
    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
 	<link rel="stylesheet" href="/bower_components/mdi/css/materialdesignicons.min.css" media="all" type="text/css">
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"> -->
 	<base href="/">
 
 </head>
 
-<body layout="column" ng-controller="MainController as mc" class="md-no-animations" ng-cloak>
+<body layout="column" layout-fill ng-controller="MainController as mc" ng-cloak>
 
-   <ng-include src="'/templates/navbar.html'"></ng-include>
-	<message-container layout="column" layout-align="center center" ng-if="mc.error || mc.message">
-		<div class="md-padding" ng-if="mc.error">
-			<p>Error: <span class="text-warn" ng-bind="mc.error"></span></p>
+   <ng-include src="'/templates/header.html'"></ng-include>
+	<message-container layout="column" layout-fill layout-align="center center" ng-if="mc.error || mc.message">
+		<div layout-padding ng-if="mc.error">
+			<p>Error: <span class="red-text text-darken-1" ng-bind="mc.error"></span></p>
 		</div>
-		<div class="" ng-if="mc.message">
+		<div layout-padding ng-if="mc.message">
 			<pre class="text-info md-padding" ng-bind="mc.message"></pre>
 		</div>
 	</message-container>
-   <div layout layout-fill layout-padding class="main-content">
-		<div flex-lg="20" flex-md="10" flex-sm="10" flex="20" hide-xs></div>
-      <main flex-lg="60" flex-md="80" flex-sm="80" flex-xs="100" flex-gt-lg="60" ng-view></main>
-   </div>
+	<main-content ng-view></main-content>
 
 
    <!--SCRIPTS-->

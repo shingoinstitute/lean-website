@@ -40,7 +40,6 @@ module.exports.policies = {
 
 	'UserController': {
 		'*': ['sessionAuth'],
-		session: true,
 	},
 
 

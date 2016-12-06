@@ -1,28 +1,90 @@
-
-
+body,* {
+	margin: 0;
+	font-family: inherit;
+}
+html, body {
+	background-color: lightgrey;
+}
+.login-form {
+	margin: 0 auto;
+	max-width: 560px;
+	min-width: 400px;
+}
 md-no-animations,
 md-dialog.md-transition-in,
-md-dialog.md-transition-out,
-{
+md-dialog.md-transition-out {
   transform : none !important;
 }
+header {
+	border-bottom: solid rgb(174, 174, 174);
+	border-width: 1px;
+	margin-bottom: -5px;
+	background-color: white;
+}
+nav, md-nav-bar {
+	margin: 0 0 -1px 0;
+}
+.logo {
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	align-items: column;
+	padding: 5px 5px 8px 5px;
+	margin: 0;
+}
+.logo:focus {
+	outline: none;
+}
+.logo img {
+	height: 50px;
+	width: 100px;
+	display: block;
+}
+@media only screen and (max-width: 500px) {
 
-.main-content {
-	background-color: #B0BEC5;
+}
+a.logo, a.logo:visited {
+	text-decoration: none;
+	color: inherit;
+}
+.logo > h1 {
+	padding-top: 16px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 26px;
+}
+main-content {
+	margin-top: 16px !important;
+}
+.container {
+  margin: 0 auto;
+  min-height: 100%;
+  max-width: 1280px;
+  width: 90%;
+  background-color: white;
+}
+@media only screen and (min-width: 601px) {
+  .container {
+    width: 85%;
+  }
 }
 
-md-content {
-   background-color: #ffffff;
+@media only screen and (min-width: 993px) {
+  .container {
+    width: 70%;
+  }
+}
+
+.inline {
+	display: inline-block;
 }
 
 message-container {
-	padding: 1% 1% 1% 1%;
+	padding: 1%;
 	color: white;
 	background-color: grey;
-}
-
-message-container.text-warn {
-	color: red;
 }
 
 md-toolbar {
