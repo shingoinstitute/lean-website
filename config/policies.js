@@ -42,6 +42,11 @@ module.exports.policies = {
 		'*': ['sessionAuth'],
 	},
 
+	'DevController': {
+		'*': false,
+		linkedinAuth: true,
+		linkedinAuthCallback: true,
+	}
 
    /***************************************************************************
    *                                                                          *

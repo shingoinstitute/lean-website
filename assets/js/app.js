@@ -32,11 +32,19 @@
 			templateUrl: 'templates/login.html',
 			controller: 'LoginController'
 		})
+		.when('/auth/linkedin/callback*', {
+			template: "<html ng-app=\"leansite\"><body><p ng-init=\"linkedinCallback()\">redirecting...</p></body></html>",
+			controller: 'LoginController'
+		})
 		.when('/createAccount', {
 			templateUrl: 'templates/user/createAccount.html'
 		})
 		.when('/teachingResources', {
 			templateUrl: 'templates/teachingResources.html'
+		})
+		.when('/admin', {
+			templateUrl: 'templates/user/admin.html',
+			controller: 'AdminController'
 		})
 		.otherwise({
 			redirectTo: '/home',
@@ -45,7 +53,6 @@
 		$locationProvider.html5Mode(true);
 
 		var blueGreyMap = $mdThemingProvider.extendPalette('indigo', {
-			// '500': '#ffffff',
 			'contrastDefaultColor': 'light'
 		});
 		$mdThemingProvider.definePalette('custom-indigo', blueGreyMap);
@@ -70,7 +77,13 @@
 		}
 	})
 
-	.factory('loginService', ['$http', '$cookies', function($http, $cookies) {
+	.filter('trustHtml', ['$sce', function($sce) {
+		return function(html) {
+			return $sce.trustAsHtml(html);
+		}
+	}])
+
+	.factory('loginService', ['$http', '$cookies', '$window', '$location', function($http, $cookies, $window, $location) {
 
 		var service = {};
 
@@ -93,15 +106,30 @@
 
 				if (data.data.user) {
 					var user = data.data.user;
-					if (user.role == 'systemAdmin' || user.role == 'admin') {
-						user.isAdmin = true;
-					} else {
-						user.isAdmin = false;
-					}
 					$cookies.putObject('user', user);
 				}
 
 				return next();
+			})
+			.catch(function(err) {
+				return next(err, false);
+			});
+		}
+
+		service.linkedinAuth = function() {
+			$window.location.href = "/auth/linkedin";
+		}
+
+		service.linkedinAuthCallback = function(next) {
+			console.log('app.js service.linkedinAuthCallback called...');
+			$http.get('/me')
+			.then(function(data) {
+				$location.path('/dashboard');
+				return next(null, data);
+			})
+			.catch(function(err) {
+				$location.path('/login');
+				return next(err, false);
 			});
 		}
 
@@ -120,54 +148,70 @@
 		return service;
 	}])
 
-	.controller('MainController', ['$scope', '$http', '$cookies', 'loginService', '$location', function($scope, $http, $cookies, loginService, $location) {
+	.factory('user', ['$http', '$cookies', '$window', '$location', function($http, $cookies, $window, $location) {
+		var service = {};
+
+		service.getMe = function(next) {
+			$http.get('/me')
+			.then(function(data) {
+				// console.log(data);
+				if (data.data && data.data.user) {
+					return next(null, data.data.user)
+				} else {
+					return next('user not found, please try logging in.');
+				}
+			})
+			.catch(function(err) {
+				return next(err, false);
+			});
+		}
+
+		return service;
+	}])
+
+	.controller('MainController', ['$scope', '$http', '$cookies', '$location', 'user', function($scope, $http, $cookies, $location, user) {
 		var vm = this;
 
-		$scope.$on('messageListener', function(event, args) {
+		(function onPageLoad() {
+			try {
+				vm.user = $cookies.getObject('user');
+			} catch(e) {
+				console.log(e);
+			}
+			user.getMe(function(err, user) {
+				if (err) $scope.$broadcast('errorMessage', err);
+				if (!user) $location.path('/login');
+				if (user) {
+					$cookies.putObject('user', user)
+					vm.user = $cookies.getObject('user');
+				}
+			});
+		})();
+
+		$scope.$on('$infoMessage', function(event, args) {
 			if (typeof args == 'string') {
 				vm.message = args;
-			} else if (args.error) {
-				vm.error = args.error;
 			} else if (args.message) {
 				vm.message = args.message;
 			}
 		});
 
-		$scope.username = '';
-		$scope.password = '';
+		$scope.$on('$errorMessage', function(event, args) {
+			if (typeof args == 'string') {
+				vm.error = args;
+			} else if (args.error) {
+				vm.error = args.error;
+			}
+		});
 
-		vm.token = $cookies.get('token') || null;
-		vm.user = $cookies.getObject('user') || null;
-
-		vm.authenticateLocal = function(username, password) {
-			loginService.localAuth(username, password, function() {
-				try {
-					vm.token = $cookies.get('token');
-					vm.user = $cookies.getObject('user');
-					$location.path('/dashboard');
-				} catch (e) {
-					vm.token = null;
-					vm.user = null;
-					vm.error = 'Internal error occured, login failed.';
-				}
-			});
-		}
-
-		vm.authenticateLinkedIn = function() {
-
-		}
-
-		vm.logout = function() {
-			loginService.logout(function(err) {
-				if (err) vm.error = err.message;
-				$cookies.remove('token');
-				$cookies.remove('user');
-				vm.token = null;
-				vm.user = null;
-				vm.message = null;
-				$location.path('/home');
-			});
-		}
+		$scope.$on('$userLoggedIn', function(event) {
+			try {
+				vm.user = $cookies.getObject('user');
+				vm.token = $cookies.get('token');
+			} catch (e) {
+				vm.error = e.message;
+			}
+		});
 
 	}])
 
@@ -200,7 +244,7 @@
 		// $rootScope.currentNavItem = 'home'
 	}])
 
-	.controller('DashboardController', ['$scope', '$rootScope', '$cookies', '$http', '$location', function($scope, $rootScope, $cookies, $http, $location) {
+	.controller('DashboardController', ['$scope', '$rootScope', '$cookies', '$http', '$location', 'user', function($scope, $rootScope, $cookies, $http, $location, user) {
 		var vm = this;
 
 		vm.includeSrc = 'templates/user/me.html'
@@ -209,34 +253,18 @@
 			$rootScope.$broadcast('$dashboardControllerViewDidLoad');
 		});
 
-		try {
-			vm.user = $cookies.getObject('user');
-		} catch(e) {
-			$rootScope.$broadcast('messageListener', {error: e});
-		}
-
 		$scope.$on('showDashboard', function(event) {
 			if (vm.user) vm.includeSrc = 'templates/user/me.html';
 		});
 
 	}])
 
-	.controller('SettingsController', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+	.controller('SettingsController', ['$scope', '$rootScope', '$http', 'user', function($scope, $rootScope, $http, user) {
 		var vm = this;
 
-		$http.get('/me')
-		.then(function(data) {
-			if (data.data.user.permissions) {
-				$scope.userPermissions = data.data.user.permissions;
-			}
-			if (data.data.error) {
-				$rootScope.$broadcast('messageListener', {error: data.data.error});
-			}
-		})
-		.catch(function(err) {
-			$rootScope.$broadcast('messageListener', {
-				error: err
-			});
+		user.getMe(function(err, user) {
+			if (err) { $rootScope.$broadcast('$errorMessage', err); }
+			if (user) $scope.userPermissions = user.permissions;
 		});
 
 	}])
@@ -251,8 +279,61 @@
 		// $rootScope.currentNavItem = 'about'
 	}])
 
-	.controller('LoginController', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+	.controller('LoginController', ['$scope', '$http', '$rootScope', '$sce', 'loginService', function($scope, $http, $rootScope, $sce, loginService) {
 		var vm = this;
+
+		$scope.username = '';
+		$scope.password = '';
+
+		vm.linkedinCallback = function() {
+			loginService.linkedinAuthCallback(function(err, data) {
+				if (err.data.error) vm.loginError = err.data.error;
+				else if (err) console.log(err);
+				else if (data.error) vm.loginError = data.error;
+				else if (data.data && data.data.user) console.log(data.data.user);
+			});
+		}
+
+		vm.authenticateLocal = function(username, password) {
+			loginService.localAuth(username, password, function(err) {
+				if (err) {
+					vm.loginError = err.message;
+				} else {
+					try {
+						vm.token = $cookies.get('token');
+						vm.user = $cookies.getObject('user');
+						$location.path('/dashboard');
+					} catch (e) {
+						vm.token = null;
+						vm.user = null;
+						vm.loginError = 'Login failed, please check your username and password.';
+					}
+				}
+			});
+		}
+
+		vm.authenticateLinkedIn = function() {
+			loginService.linkedinAuth();
+		}
+
+		vm.logout = function() {
+			loginService.logout(function(err) {
+				if (err) vm.error = err.message;
+				$cookies.remove('token');
+				$cookies.remove('user');
+				vm.token = null;
+				vm.user = null;
+				vm.loginError = null;
+				$location.path('/home');
+			});
+		}
+
+	}])
+
+	.controller('AdminController', ['$scope', 'user', function($scope, user) {
+		var vm = this;
+
+
 
 	}])
 

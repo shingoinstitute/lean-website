@@ -32,16 +32,21 @@ module.exports = {
 
       firstname: 'string',
 
+		linkedinId: 'string',
+
+		pictureUrl: {
+			type: 'string',
+			url: true
+		},
+
       password: {
 			type: 'string',
-			required: true,
 			minLength: 8
 		},
 
 		email: {
 			type: 'string',
 			email: true,
-			required: true,
 			unique: true
 		},
 
@@ -63,12 +68,19 @@ module.exports = {
 			defaultsTo: 'on'
 		},
 
+		isAdmin: function() {
+			var obj = this.toObject();
+
+		},
+
 		toJSON: function() {
 			var obj = this.toObject();
 			delete obj.password;
 			delete obj.notificationPreferences;
 			delete obj.createdAt;
 			delete obj.updatedAt;
+			delete obj.linkedinId;
+			obj.isAdmin = (obj.role == 'admin' || obj.role == 'systemAdmin');
 			obj.name = obj.firstname + ' ' + obj.lastname;
 			return obj;
 		},
@@ -99,7 +111,7 @@ module.exports = {
 
    beforeCreate: function(values, next) {
 		AuthService.hashPassword(values);
-		(function checkUuidForCollisions(values) {
+		(function checkForUuidCollisions(values) {
 			User.findOne({uuid: values.uuid}).exec(function(err, user) {
 	         if (err) { return next(err); }
 	         if (!user) {
@@ -110,7 +122,7 @@ module.exports = {
 					});
 	         } else {
 					values.uuid = uuid.v4();
-	            checkUuidForCollisions(values);
+	            checkForUuidCollisions(values);
 	         }
 	      });
 		})(values);

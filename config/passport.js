@@ -1,5 +1,6 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 var JwtStrategy = require('passport-jwt').Strategy;
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 
@@ -16,10 +17,23 @@ var localStrategyConfig = {
 
 var jwtStrategyConfig = {
   secretOrKey: SECRET,
-  // issuer: ISSUER,
   audience: AUDIENCE,
-  jwtFromRequest: ExtractJwt.fromAuthHeader()
+  jwtFromRequest: function cookieExtractor(req) {
+	  var token = null;
+	  if (req && req.cookies) {
+		  token = req.cookies.token;
+	  }
+	  return token;
+  },
 };
+
+var linkedinStrategyConfig = {
+	clientID: '866yzhcdwes5ot',
+	clientSecret: 'cygx8JJu246Fjyba',
+	callbackURL: 'http://localhost:1337/auth/linkedin/callback',
+	scope: ['r_emailaddress', 'r_basicprofile'],
+	state: true
+}
 
 /**
 *  @description :: Authentication handler for local strategy
@@ -63,8 +77,37 @@ function onJwtAuth(payload, done) {
 	});
 }
 
+function onLinkedinAuth(accessToken, refreshToken, profile, done) {
+	var json = profile._json;
+	var query = {};
+	query.linkedinId = json.id;
+	query.email = json.emailAddress;
+	query.firstname = json.firstName;
+	query.lastname = json.lastName;
+	query.pictureUrl = json.pictureUrl;
+
+	User.findOne({email: query.email}).exec(function(err, user) {
+		if (err) {
+			return done(err, false)
+		} else if (!user) {
+			User.create(query).exec(function(err, user) {
+				if (err) return done(err, false);
+				return done(null, user);
+			});
+		} else if (!user.linkedinId) {
+			User.update({email: user.email}, query).exec(function(err, updated) {
+				if (err) return done(err, false);
+				return done(null, updated[0]);
+			});
+		} else {
+			return done(null, user);
+		}
+	});
+}
+
 passport.use(new LocalStrategy(localStrategyConfig, onLocalAuth));
 passport.use(new JwtStrategy(jwtStrategyConfig, onJwtAuth));
+passport.use(new LinkedInStrategy(linkedinStrategyConfig, onLinkedinAuth));
 
 
 module.exports.passport = {

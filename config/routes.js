@@ -37,4 +37,23 @@ module.exports.routes = {
 	// user routes
 	'/me': 'UserController.me',
 
+	//dev routes
+	'GET /dev/auth/linkedin': {
+		layout: 'devLayout',
+		controller: 'DevController',
+		action: 'linkedinAuth'
+	},
+
+	'GET /dev/login': {
+		layout: 'devLayout',
+		controller: 'DevController',
+		action: 'linkedinAuth'
+	},
+
+	'/dev/auth/linkedin/callback': {
+		layout: 'devLayout',
+		controller: 'DevController',
+		action: 'linkedinAuthCallback'
+	}
+
 };

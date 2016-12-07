@@ -26,7 +26,7 @@ module.exports = {
 				});
 			});
 		} else {
-			sails.log.info('user attempted to access /me route without a JWT.');
+			sails.log.info('user attempted to access /me route without JWT.');
 			res.cookie('tl-message', 'You are not logged in.');
 			return res.json({
 				success: false,

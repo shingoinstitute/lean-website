@@ -58,39 +58,38 @@ module.exports = {
 	},
 
    linkedInAuth: function(req, res) {
-      PassportService.linkedInAuth(req, res);
+      passport.authenticate('linkedin')(req, res);
    },
 
    linkedInAuthCallback: function(req, res) {
-      PassportService.linkedInCallback(req, res, function(err) {
-         if (err) {
-            sails.log.error('/auth/linkedin @callback: ', err);
-            res.json({
-               success: false,
-               error: err
-            });
-         }
+      passport.authenticate('linkedin', {
+			failureRedirect: '/login',
+			session: false
+		})(req, res, function(err, foo, bar) {
+			if (err) {
+				sails.log.error(err);
+				return res.json({
+					success: false,
+					user: null,
+					error: err
+				});
+			}
 
-         req.logIn(req.user, function(err) {
-            if (err) {
-					sails.log.error('/auth/linkedin @login: ', err);
-               return res.json({
-                  success: false,
-                  error: err
-               });
-            } else {
-					sails.log.info('/auth/linkedin login successful');
-               return res.json({
-                  success: true,
-                  user: req.user
-               });
-            }
-         });
-      });
+			if (req.user) {
+				var token = AuthService.createToken(req.user);
+				res.cookie('token', token);
+				res.set('Authorization', 'JWT ' + token);
+			} else {
+				sails.log.info('No user in req.');
+			}
+
+			return res.redirect('/dashboard');
+		});
    },
 
 	login: function(req, res) {
 		var data = {};
+		data.error = 'If you see this message, something probably went wrong logging in.'
 		if (req.user) data.user = req.user;
 		return res.json(data);
 	},
