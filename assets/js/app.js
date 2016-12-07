@@ -215,7 +215,7 @@
 
 	}])
 
-	.controller('NavController', ['$scope', '$rootScope', '$cookies', '$location', function($scope, $rootScope, $cookies, $location) {
+	.controller('NavController', ['$scope', '$rootScope', '$cookies', '$location', 'loginService', function($scope, $rootScope, $cookies, $location, loginService) {
 		var vm = this;
 		var originatorEv;
 
@@ -235,6 +235,19 @@
 		vm.openMenu = function($mdOpenMenu, ev) {
 			originatorEv = ev;
 			$mdOpenMenu(ev);
+		}
+
+		vm.logout = function() {
+			console.log('afhjkadsfjkls');
+			loginService.logout(function(err) {
+				if (err) vm.error = err.message;
+				$cookies.remove('token');
+				$cookies.remove('user');
+				vm.token = null;
+				vm.user = null;
+				vm.loginError = null;
+				$location.path('/home');
+			});
 		}
 
 	}])
@@ -316,17 +329,7 @@
 			loginService.linkedinAuth();
 		}
 
-		vm.logout = function() {
-			loginService.logout(function(err) {
-				if (err) vm.error = err.message;
-				$cookies.remove('token');
-				$cookies.remove('user');
-				vm.token = null;
-				vm.user = null;
-				vm.loginError = null;
-				$location.path('/home');
-			});
-		}
+
 
 	}])
 
