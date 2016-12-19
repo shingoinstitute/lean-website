@@ -7,6 +7,9 @@
 					<span class="md-subhead text-warn" ng-bind="vm.loginError"></span>
 				</md-card-title-text>
 			</md-card-title>
+			<md-card-content layout="row" layout-sm="column" layout-align="space-around" ng-if="vm.didClickLogin">
+				<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+			</md-card-content>
 			<md-card-content>
 				<div layout="column">
 					<md-input-container>

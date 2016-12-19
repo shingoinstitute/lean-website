@@ -130,6 +130,7 @@ module.exports = {
 
 	beforeUpdate: function(values, next) {
 		if (values.password) {
+			sails.log.info('Re-hashing user password...');
 			AuthService.hashPassword(values);
 		}
 		return next();
