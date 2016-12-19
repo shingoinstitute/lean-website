@@ -10,31 +10,24 @@
 		$routeProvider
 		.when('/home', {
 			templateUrl: 'templates/homepage.html',
-			controller: 'HomeController'
 		})
 		.when('/dashboard', {
 			templateUrl: 'templates/user/dashboard.html',
-			controller: 'DashboardController'
 		})
 		.when('/dashboard/settings', {
 			templateUrl: 'templates/user/settings.html',
-			controller: 'SettingsController'
 		})
 		.when('/education', {
 			templateUrl: 'templates/education.html',
-			controller: 'EducationController'
 		})
 		.when('/about', {
 			templateUrl: 'templates/about.html',
-			controller: 'AboutController'
 		})
 		.when('/login', {
 			templateUrl: 'templates/login.html',
-			controller: 'LoginController'
 		})
 		.when('/auth/linkedin/callback*', {
-			template: "<html ng-app=\"leansite\"><body><p ng-init=\"linkedinCallback()\">redirecting...</p></body></html>",
-			controller: 'LoginController'
+			template: "<p ng-init=\"linkedinCallback()\">redirecting...</p>",
 		})
 		.when('/createAccount', {
 			templateUrl: 'templates/user/createAccount.html'
@@ -44,7 +37,6 @@
 		})
 		.when('/admin', {
 			templateUrl: 'templates/user/admin.html',
-			controller: 'AdminController'
 		})
 		.otherwise({
 			redirectTo: '/home',
@@ -83,7 +75,7 @@
 		}
 	}])
 
-	.factory('loginService', ['$http', '$cookies', '$window', '$location', function($http, $cookies, $window, $location) {
+	.factory('authService', ['$http', '$cookies', '$window', '$location', function($http, $cookies, $window, $location) {
 
 		var service = {};
 
@@ -151,7 +143,7 @@
 	.factory('user', ['$http', '$cookies', '$window', '$location', function($http, $cookies, $window, $location) {
 		var service = {};
 
-		service.getMe = function(next) {
+		service.findMe = function(next) {
 			$http.get('/me')
 			.then(function(data) {
 				// console.log(data);
@@ -178,7 +170,7 @@
 			} catch(e) {
 				console.log(e);
 			}
-			user.getMe(function(err, user) {
+			user.findMe(function(err, user) {
 				if (err) $scope.$broadcast('errorMessage', err);
 				if (!user) $location.path('/login');
 				if (user) {
@@ -213,9 +205,14 @@
 			}
 		});
 
+		$scope.$on('$userLoggedOut', function(event) {
+			vm.user = null;
+			vm.token = null;
+		});
+
 	}])
 
-	.controller('NavController', ['$scope', '$rootScope', '$cookies', '$location', 'loginService', function($scope, $rootScope, $cookies, $location, loginService) {
+	.controller('NavController', ['$scope', '$rootScope', '$cookies', '$location', 'authService', function($scope, $rootScope, $cookies, $location, authService) {
 		var vm = this;
 		var originatorEv;
 
@@ -238,8 +235,7 @@
 		}
 
 		vm.logout = function() {
-			console.log('afhjkadsfjkls');
-			loginService.logout(function(err) {
+			authService.logout(function(err) {
 				if (err) vm.error = err.message;
 				$cookies.remove('token');
 				$cookies.remove('user');
@@ -247,6 +243,7 @@
 				vm.user = null;
 				vm.loginError = null;
 				$location.path('/home');
+				$rootScope.$broadcast('$userLoggedOut');
 			});
 		}
 
@@ -275,7 +272,7 @@
 	.controller('SettingsController', ['$scope', '$rootScope', '$http', 'user', function($scope, $rootScope, $http, user) {
 		var vm = this;
 
-		user.getMe(function(err, user) {
+		user.findMe(function(err, user) {
 			if (err) { $rootScope.$broadcast('$errorMessage', err); }
 			if (user) $scope.userPermissions = user.permissions;
 		});
@@ -292,14 +289,14 @@
 		// $rootScope.currentNavItem = 'about'
 	}])
 
-	.controller('LoginController', ['$scope', '$http', '$rootScope', '$sce', 'loginService', function($scope, $http, $rootScope, $sce, loginService) {
+	.controller('LoginController', ['$scope', '$http', '$rootScope', '$sce', 'authService', function($scope, $http, $rootScope, $sce, authService) {
 		var vm = this;
 
 		$scope.username = '';
 		$scope.password = '';
 
 		vm.linkedinCallback = function() {
-			loginService.linkedinAuthCallback(function(err, data) {
+			authService.linkedinAuthCallback(function(err, data) {
 				if (err.data.error) vm.loginError = err.data.error;
 				else if (err) console.log(err);
 				else if (data.error) vm.loginError = data.error;
@@ -308,7 +305,7 @@
 		}
 
 		vm.authenticateLocal = function(username, password) {
-			loginService.localAuth(username, password, function(err) {
+			authService.localAuth(username, password, function(err) {
 				if (err) {
 					vm.loginError = err.message;
 				} else {
@@ -326,10 +323,8 @@
 		}
 
 		vm.authenticateLinkedIn = function() {
-			loginService.linkedinAuth();
+			authService.linkedinAuth();
 		}
-
-
 
 	}])
 
