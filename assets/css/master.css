@@ -3,8 +3,11 @@ body,* {
 	font-family: inherit;
 }
 html, body {
-	background-color: #6666ff;
+	background-color: #F0F0F0;
 }
+/*header {
+	background: #607D8B !important;
+}*/
 .login-form {
 	margin: 0 auto;
 	max-width: 560px;

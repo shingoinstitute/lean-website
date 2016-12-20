@@ -50,22 +50,14 @@ const BROADCAST_USER_LOGIN = '$userLoggedIn';
 
 		$locationProvider.html5Mode(true);
 
-		var blueGreyMap = $mdThemingProvider.extendPalette('indigo', {
-			'contrastDefaultColor': 'light'
-		});
-		$mdThemingProvider.definePalette('custom-indigo', blueGreyMap);
-
 		$mdThemingProvider.theme('default')
-			.primaryPalette('indigo')
-			.accentPalette('orange');
-
-		$mdThemingProvider.theme('dark')
-			.primaryPalette('custom-indigo').dark();
-
-		var defaultMap = $mdThemingProvider.extendPalette('indigo')
-		$mdThemingProvider.definePalette('form', defaultMap);
-		$mdThemingProvider.theme('form').dark();
-
+			.primaryPalette('blue-grey')
+			.accentPalette('red')
+			
+		$mdThemingProvider.theme('darkTheme')
+			.primaryPalette('orange')
+			.accentPalette('blue')
+			.dark();
 	})
 
 	.factory('_ipsumService', ['$http', function($http) {
