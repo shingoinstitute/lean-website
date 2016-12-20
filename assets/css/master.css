@@ -3,7 +3,7 @@ body,* {
 	font-family: inherit;
 }
 html, body {
-	background-color: lightgrey;
+	background-color: #6666ff;
 }
 .login-form {
 	margin: 0 auto;
