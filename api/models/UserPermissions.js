@@ -25,93 +25,67 @@ module.exports = {
 
 		editAll: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return false;
-			}
+			defaultsTo: false
 		},
 
 		editComments: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return false;
-			}
+			defaultsTo: false
 		},
 
 		changePasswords: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return false;
-			}
+			defaultsTo: false
 		},
 
 		viewAll: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return true;
-			}
+			defaultsTo: true
 		},
 
 		viewComments: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return true;
-			}
+			defaultsTo: true
 		},
 
 		createAll: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return false;
-			}
+			defaultsTo: false
 		},
 
 		createComments: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return true;
-			}
+			defaultsTo: true
 		},
 
 		deleteAll: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return false;
-			}
+			defaultsTo: false
 		},
 
 		deleteComments: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return false;
-			}
+			defaultsTo: false
 		},
 
 		approve: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return false;
-			}
+			defaultsTo: false
 		},
 
 		approveComments: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return false;
-			}
+			defaultsTo: false
 		},
 
 		review: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return false;
-			}
+			defaultsTo: false
 		},
 
 		submit: {
 			type: 'boolean',
-			defaultsTo: function() {
-				return false;
-			}
+			defaultsTo: false
 		},
 
 	},

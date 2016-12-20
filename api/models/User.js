@@ -53,9 +53,7 @@ module.exports = {
 		role: {
 			type: 'string',
 			enum: sails.config.models.roles,
-			defaultsTo: function() {
-				return 'user';
-			}
+			defaultsTo: 'user'
 		},
 
 		permissions: {
@@ -68,9 +66,23 @@ module.exports = {
 			defaultsTo: 'on'
 		},
 
-		isAdmin: function() {
-			var obj = this.toObject();
+		reputation: {
+			type: 'integer',
+			defaultsTo: 0
+		},
 
+		addReputation: function(points) {
+			var obj = this;
+			obj.reputation += points;
+			obj.save(function(err) {
+				if (err) sails.log.error(err);
+			});
+		},
+
+		minusReputation: function(points) {
+			var obj = this;
+			if (points > 0) points = points * -1;
+			obj.addReputation(points);
 		},
 
 		toJSON: function() {
@@ -89,7 +101,7 @@ module.exports = {
 			var obj = this.toObject();
 			UserPermissions.findOne({id: obj.permissions}).exec(function(err, permissions) {
 				if (err) return next(err, false);
-				if (!permissions) return next(new Error('Permissions not found for user ' + obj.email), false);
+				if (!permissions) return next(null, 'none');
 				return next(null, permissions);
 			});
 		}
@@ -99,11 +111,11 @@ module.exports = {
 	updateRole: function(user, next) {
 		User.update({uuid: user.uuid}, {role: user.role}).exec(function(err, users) {
 			if (err) return next(err, false);
-			if (!users[0]) return next(new Error('Failed to update role, user not found'), false);
+			if (!users[0]) return next(new Error('Error: failed to update role, user not found'), false);
 			var updatedUser = users[0];
 			UserPermissions.update({id: updatedUser.permissions}, {user: updatedUser.uuid}).exec(function(err, permissions) {
 				if (err) return next(err, false);
-				if (!permissions[0]) return next(new Error('User permissions update failed during role update, permissions id was undefined'), false);
+				if (!permissions[0]) return next(new Error('Error: failed to update user, permissions id was undefined'), false);
 				return next(null, updatedUser);
 			});
 		});
@@ -130,7 +142,6 @@ module.exports = {
 
 	beforeUpdate: function(values, next) {
 		if (values.password) {
-			sails.log.info('Re-hashing user password...');
 			AuthService.hashPassword(values);
 		}
 		return next();

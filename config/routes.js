@@ -22,10 +22,6 @@
 
 module.exports.routes = {
 
-   '/': {
-      view: 'homepage',
-   },
-
 	// auth routes
    '/auth/linkedin': 'AuthController.linkedInAuth',
    '/auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
