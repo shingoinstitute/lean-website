@@ -77,7 +77,7 @@ module.exports = {
 
 			if (req.user) {
 				var token = AuthService.createToken(req.user);
-				res.cookie('token', token);
+				res.cookie('JWT', token);
 				res.set('Authorization', 'JWT ' + token);
 			} else {
 				sails.log.info('No user in req.');

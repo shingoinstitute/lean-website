@@ -2,7 +2,11 @@
 	'use strict';
 
 	angular.module('leansite')
-	.factory('_authService', ['$http', '$cookies', '$window', '$location', '$rootScope', function($http, $cookies, $window, $location, $rootScope) {
+	.factory('_authService', _authService);
+
+	_authService.$inject = ['$http', '$cookies', '$window', '$location', '$rootScope', 'BROADCAST', 'JWT_TOKEN']
+
+	function _authService($http, $cookies, $window, $location, $rootScope, BROADCAST, JWT_TOKEN) {
 		var service = {};
 
 		/**
@@ -16,17 +20,22 @@
 				password: password
 			})
 			.then(function(data) {
-				if (!data.data && !data.data.user) { $rootScope.$broadcast(BROADCAST_ERROR, 'Login error, @local auth: user is undefined.'); }
+				console.log('', data.data);
+				if (!data.data && !data.data.user) { $rootScope.$broadcast(BROADCAST.error, 'Login error, @local auth: user is undefined.'); }
 
-				if (data.data && data.data.token) { $cookies.put('token', data.data.token); }
+				if (data.data && data.data.token) {
+					var token = data.data.token;
+					$cookies.put(JWT_TOKEN, token);
+				}
 
 				if (data.data && data.data.user) {
-					$rootScope.$broadcast(BROADCAST_USER_LOGIN);
+					return next(null, data.data.user);
 				}
-				return next();
+				return next(null, false);
 			})
 			.catch(function(err) {
-				if (!data.data && !data.data.user) { $rootScope.$broadcast(BROADCAST_ERROR, err.message); }
+				console.log('', err);
+				return next(err);
 			});
 		}
 
@@ -41,14 +50,14 @@
 		*/
 		service.logout = function() {
 			$http.get('/auth/logout')
-			.finally(function() {
-				$rootScope.$broadcast(BROADCAST_USER_LOGOUT);
-				$cookies.remove('token');
+			.then(function(data) {
+				$cookies.remove(JWT_TOKEN);
+				$rootScope.$broadcast(BROADCAST.userLogout);
 				$location.path('/home');
 			});
 		}
 
 		return service;
-	}])
+	}
 
 })();

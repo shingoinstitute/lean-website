@@ -1,5 +1,5 @@
 <md-content ng-controller="AuthController as vm">
-	<div class="container md-padding" ng-if="!mc.user">
+	<div class="container md-padding">
 		<md-card class="login-form">
 			<md-card-title>
 				<md-card-title-text>
@@ -31,14 +31,5 @@
 				<md-button class="md-raised md-primary" ng-href="/createAccount">Create Account</md-button>
 			</md-card-content>
 		</md-card>
-	</div>
-	<div class="container" ng-if="mc.user">
-		<div layout="column" layout-padding layout-align="center center">
-			<h3>You are already logged in.</h3>
-			<md-content layout>
-				<md-button class="md-raised md-primary" ng-href="/dashboard">Dashboard</md-button>
-				<md-button class="md-raised md-primary" ng-click="vm.logout()">Logout</md-button>
-			</md-content>
-		</div>
 	</div>
 </md-content>

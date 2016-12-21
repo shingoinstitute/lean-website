@@ -4,55 +4,75 @@
 	angular.module('leansite')
 	.controller('MainController', MainController);
 
-	MainController.$inject = ['$scope', '$http', '$cookies', '$location', '_userService', '_ipsumService'];
+	MainController.$inject = ['$scope', '$http', '$cookies', '$location', '_userService', '_baconService', 'BROADCAST', 'JWT_TOKEN'];
 
-	function MainController($scope, $http, $cookies, $location, _userService, _ipsumService) {
+	function MainController(   $scope,   $http,   $cookies,   $location,   _userService,   _baconService,   BROADCAST,   JWT_TOKEN) {
 		var vm = this;
 
+		vm.message = '';
+		vm.error = '';
+
 		vm.getUser = function() {
-			_userService.findMe(function(err, user) {
-				if (err) { $scope.$broadcast(BROADCAST_ERROR, err); }
-				if (!user) { $location.path('/login'); }
-				if (user) { vm.user = user; }
-			});
+			if (typeof $cookies.get(JWT_TOKEN) != 'undefined') {
+				_userService.findMe(function(err, user) {
+					if (err) { $scope.$broadcast(BROADCAST.error, err); }
+					if (!user) { $location.path('/login'); }
+					if (user) { vm.user = user; }
+				});
+			} else {
+				vm.user = null;
+				$location.path('/login');
+			}
 		};
 
-		vm.generateContent = function(sentences, paragraphs) {
-			_ipsumService.getBacon(sentences, paragraphs, function(err, data) {
-				if (err) console.error(err);
-				if (data) return data;
+		vm.generateBacon = function(sentences, paragraphs, next) {
+			return _baconService.getBacon(sentences, paragraphs, function(err, data) {
+				if (err) {
+					console.error(err);
+					return next([]);
+				}
+				return next(data);
 			});
 		}
 
-		$scope.$on(BROADCAST_INFO, function(event, args) {
+		$scope.$on(BROADCAST.info, function(event, args) {
 			if (typeof args == 'string') {
 				vm.message = args;
-			} else if (args.message) {
+			} else if (args && args.message) {
 				vm.message = args.message;
 			}
 		});
 
-		$scope.$on(BROADCAST_ERROR, function(event, args) {
+		$scope.$on(BROADCAST.error, function(event, args) {
 			if (typeof args == 'string') {
 				vm.error = args;
-			} else if (args.error) {
+			} else if (args && args.error) {
 				vm.error = args.error;
 			}
 		});
 
-		$scope.$on(BROADCAST_USER_LOGIN, function(event, user) {
-			if (!user) {
-				vm.getUser();
-			} else {
-				vm.user = user;
-			}
+		$scope.$on(BROADCAST.userLogin, function(event, user) {
+			if (user) vm.user = user;
+			if (!user) vm.getUser();
+			$location.path('/dashboard');
 		})
 
-		$scope.$on(BROADCAST_USER_LOGOUT, function(event) {
+		$scope.$on(BROADCAST.userLogout, function(event) {
 			vm.user = null;
 		});
 
+		$scope.$on(BROADCAST.userSaved, function(event, user) {
+			if (user)
+				vm.user = user;
+			else
+				vm.getUser();
+		});
+
 		vm.getUser();
+		// console.log(JWT_TOKEN + ': ' + $cookies.get(JWT_TOKEN));
+		vm.generateBacon(null, null, function(data) {
+			vm.fillerContent = data;
+		});
 	}
 
 })();

@@ -1,10 +1,12 @@
 (function() {
+	'use strict';
+
 	angular.module('leansite')
 	.controller('AuthController', AuthController);
 
-	AuthController.$inject = ['$scope', '$http', '$rootScope', '$location', '_authService', '_userService'];
+	AuthController.$inject = ['$scope', '$http', '$rootScope', '$location', '_authService', '_userService', 'BROADCAST'];
 
-	function AuthController($scope, $http, $rootScope, $location, _authService, _userService) {
+	function AuthController($scope, $http, $rootScope, $location, _authService, _userService, BROADCAST) {
 		var vm = this;
 
 		$scope.username = '';
@@ -14,19 +16,17 @@
 
 		vm.authenticateLocal = function(username, password) {
 			vm.didClickLogin = true;
-			_authService.authenticateLocal(username, password, function(err) {
+			_authService.authenticateLocal(username, password, function(err, user) {
 				if (err) {
-					$rootScope.$broadcast(BROADCAST_ERROR, err.message);
+					$rootScope.$broadcast(BROADCAST.error, err.message);
 					vm.loginError('Login error, please check your username and password.')
-				} else {
-					_userService.findMe(function(err, user) {
-						if (user) { $rootScope.$broadcast(BROADCAST_USER_LOGIN, user); }
-						$location.path('/dashboard');
-					});
+				}
+				if (user) {
+					$rootScope.$broadcast(BROADCAST.userLogin, user);
 				}
 			});
 		}
-		
+
 		vm.logout = function() {
 			_authService.logout();
 		}

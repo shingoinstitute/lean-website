@@ -1,28 +1,20 @@
 <main-content ng-controller="SettingsController as vm">
 	<div class="container md-padding">
 		<h2>Settings</h2>
-		<div flex layout="column">
+		<div layout="column">
 			<md-input-container class="md-block">
 				<label>First name</label>
-				<input ng-model="mc.user.firstname">
+				<input ng-model="vm.edits.firstname"  ng-change="vm.didMakeEdit()">
 			</md-input-container>
 			<md-input-container class="md-block">
 				<label>Last name</label>
-				<input ng-model="mc.user.lastname">
+				<input ng-model="vm.edits.lastname" ng-change="vm.didMakeEdit()">
 			</md-input-container>
 			<md-input-container class="md-block">
 				<label>Email</label>
-				<input ng-model="mc.user.email">
+				<input ng-model="vm.edits.email" ng-change="vm.didMakeEdit()">
 			</md-input-container>
-		</div>
-		<div ng-show="mc.user.role" class="md-padding">
-			<h4 class="inline" ng-show="mc.user.role">Role:</h4> <span ng-bind="mc.user.role"></span>
-		</div>
-		<div ng-show="userPermissions" class="md-padding">
-			<h4>Permissions</h4>
-			<md-list>
-				<md-list-item ng-repeat="permission in userPermissions track by $index">{{permission}}</md-list-item>
-			</md-list>
+			<md-button class="md-button md-raised md-accent" ng-click="vm.saveUser()" ng-disabled="!vm.enableSaveButton">Save</md-button>
 		</div>
 	</div>
 </main-content>
