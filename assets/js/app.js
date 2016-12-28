@@ -58,7 +58,8 @@
 			info: '$infoMessage',
 			error: '$errorMessage',
 			userLogout: '$userLoggedOut',
-			userLogin: '$userLoggedIn'
+			userLogin: '$userLoggedIn',
+			setTitle: '$setTitle'
 		})
 		.constant('JWT_TOKEN', 'JWT');
 
