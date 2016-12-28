@@ -3,11 +3,11 @@ body,* {
 	font-family: inherit;
 }
 html, body {
-	background-color: #F0F0F0;
+	background-color: #fafafa;
 }
-/*header {
-	background: #607D8B !important;
-}*/
+body {
+	height: initial;
+}
 .login-form {
 	margin: 0 auto;
 	max-width: 560px;
@@ -18,32 +18,22 @@ md-dialog.md-transition-in,
 md-dialog.md-transition-out {
   transform : none !important;
 }
-header {
-	border-bottom: solid rgb(174, 174, 174);
-	border-width: 1px;
-	margin-bottom: -5px;
-	background-color: white;
-}
 nav, md-nav-bar {
 	margin: 0 0 -1px 0;
 }
+header {
+	height: 65px;
+	background-color: white;
+	border-bottom: solid rgb(174, 174, 174);
+	border-width: 1px;
+}
 .logo {
 	text-align: center;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	align-items: column;
-	padding: 5px 5px 8px 5px;
-	margin: 0;
-}
-.logo:focus {
-	outline: none;
+	text-decoration: none;
+	color: #4a4a4a;
 }
 .logo img {
 	height: 50px;
-	width: 100px;
-	display: block;
 }
 @media only screen and (max-width: 500px) {
 
@@ -58,15 +48,21 @@ a.logo, a.logo:visited {
 	font-weight: bold;
 	font-size: 26px;
 }
-main-content {
-	margin-top: 16px !important;
+header + .page-container {
+	margin-top: 16px;
+}
+.page-container {
+	background: white;
+	width: 80%;
+	margin: 0 auto;
+}
+.page-container.md-padding {
+	height: inherit;
 }
 .container {
-  margin: 0 auto;
-  min-height: 100%;
-  max-width: 1280px;
-  width: 90%;
-  background-color: white;
+	height: 100%;
+	width: 100%;
+	margin: 16px 10% 16px 10%;
 }
 @media only screen and (min-width: 601px) {
   .container {
@@ -90,40 +86,18 @@ message-container {
 	background-color: grey;
 }
 
-md-toolbar {
-
-  img {
+md-toolbar img {
     height:49px;
     margin-top:5px;
     margin-left:10px;
-  }
 }
 
 md-dialog {
-  min-width:400px;
-  form {
-     padding:15px;
-     margin-top:30px;
-  }
+	min-width: 400px;
 }
-
-md-input-container {
-  .md-input-messages-animation {
-    max-width:300px;
-  }
-
-  &:not(.md-input-invalid) {
-    md-icon {
-      &.email {  color : green;  }
-      &.name, &.phone {  color : dodgerblue;  }
-    }
-  }
-
-  &.md-input-invalid {
-     md-icon {
-      &.name, &.email, &.phone {  color : red;  }
-    }
-  }
+md-dialog > form {
+	padding:15px;
+	margin-top:30px;
 }
 
 .text-warn {

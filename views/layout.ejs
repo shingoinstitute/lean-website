@@ -7,19 +7,80 @@
    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
    <!-- styles -->
-   <link rel="stylesheet" href="/css/master.css">
+   
    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic"> -->
 	<link rel="stylesheet" href="/bower_components/mdi/css/materialdesignicons.min.css" media="all" type="text/css">
 	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"> -->
+	<link rel="stylesheet" href="/css/master.css">
 	<base href="/">
 
 </head>
 
-<body layout="column" layout-fill ng-controller="MainController as mc" ng-cloak>
+<body layout="column" ng-controller="MainController as mc" ng-cloak>
 
-   <ng-include src="'/templates/header.html'"></ng-include>
-	<message-container layout="column" layout-fill layout-align="center center" ng-if="mc.error || mc.message">
+   <header ng-controller="NavController as vm" layout layout-align="center end">
+   <a flex href="/" class="logo">
+      <img src="/images/29-samplelogo.png">
+      
+   </a>
+	<nav flex>
+		<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links" class="nav-item">
+			<md-nav-item md-nav-href="/" name="home">Home</md-nav-item>
+			<md-nav-item md-nav-href="/education" name="education">Education</md-nav-item>
+			<md-nav-item md-nav-href="/teachingResources" name="teachingResources">Teaching Resources</md-nav-item>
+			<md-nav-item md-nav-href="/about" name="about">About Us</md-nav-item>
+		</md-nav-bar>
+	</nav>
+	<md-toolbar flex>
+		<div class="md-toolbar-tools" ng-if="!mc.user">
+		<span flex></span>
+			<md-button class="md-button" ng-href="/login">Sign in</md-button>
+		</div>
+		<div class="md-toolbar-tools" ng-if="mc.user">
+			<span ng-show="mc.user"><p ng-bind="mc.user.name" class="white-text"></p></span>
+			<span flex></span>
+			<md-menu md-offset="-70 65">
+				<md-button class="md-icon-button" aria-label="Menu" ng-click="vm.openMenu($mdOpenMenu, $event)">
+					<md-icon md-menu-origin class="green-text text-lighten-1"><i class="mdi mdi-dots-vertical mdi-24px"></i></md-icon>
+				</md-button>
+				<md-menu-content width="3">
+					<md-menu-item ng-if="mc.user">
+						<md-button ng-click="vm.showDashboard()">
+							<md-icon md-menu-align-target><i class="mdi mdi-view-dashboard mdi-24px"></i></md-icon>
+							Dashboard
+						</md-button>
+					</md-menu-item>
+					<md-menu-item ng-if="mc.user.isAdmin">
+						<md-button ng-href="/admin">
+							<md-icon md-menu-align-target><i class="mdi mdi-developer-board mdi-24px"></i></md-icon>
+							Admin
+						</md-button>
+					</md-menu-item>
+					<md-menu-item ng-if="mc.user">
+						<md-button ng-href="/dashboard/settings">
+							<md-icon md-menu-align-target><i class="mdi mdi-settings mdi-24px"></i></md-icon>
+							Settings
+						</md-button>
+					</md-menu-item>
+					<md-menu-item ng-if="mc.user">
+						<md-button ng-click="vm.logout()">
+							<md-icon md-menu-align-target><i class="mdi mdi-logout mdi-24px"></i></md-icon>
+							Logout
+						</md-button>
+					</md-menu-item>
+					<md-menu-item ng-if="!mc.user">
+						<md-button ng-href="/login">
+							<md-icon md-menu-align-target><i class="mdi mdi-login-variant mdi-24px"></i></md-icon>
+							Login
+						</md-button>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
+		</div>
+	</md-toolbar>
+   </header>
+	<message-container layout="column" layout-align="center center" ng-if="mc.error || mc.message">
 		<div layout-padding ng-if="mc.error">
 			<p>Error: <span class="red-text text-darken-1" ng-bind="mc.error"></span></p>
 		</div>
@@ -27,7 +88,7 @@
 			<pre class="text-info md-padding" ng-bind="mc.message"></pre>
 		</div>
 	</message-container>
-	<main-content layout-fill ng-view></main-content>
+	<div class="page-container md-padding" ng-view></div>
 
 
    <!--SCRIPTS-->

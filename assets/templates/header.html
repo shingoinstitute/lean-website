@@ -1,16 +1,17 @@
-
-<header layout layout-align="center end" ng-controller="NavController as vm">
-	<a flex href="/" class="logo">
-		<img src="/images/29-samplelogo.png" alt="">
-		<h1 class="md-heading">TeachingLean</h1>
-	</a>
+<!--<header>-->
+	<div class="logo">
+		<a flex href="/" class="logo">
+			<img src="/images/29-samplelogo.png" alt="">
+			<h1 class="md-heading">TeachingLean</h1>
+		</a>
+	</div>
 	<nav flex>
-			<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links" class="nav-item">
-				<md-nav-item md-nav-href="/" name="home">Home</md-nav-item>
-				<md-nav-item md-nav-href="/education" name="education">Education</md-nav-item>
-				<md-nav-item md-nav-href="/teachingResources" name="teachingResources">Teaching Resources</md-nav-item>
-				<md-nav-item md-nav-href="/about" name="about">About Us</md-nav-item>
-			</md-nav-bar>
+		<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links" class="nav-item">
+			<md-nav-item md-nav-href="/" name="home">Home</md-nav-item>
+			<md-nav-item md-nav-href="/education" name="education">Education</md-nav-item>
+			<md-nav-item md-nav-href="/teachingResources" name="teachingResources">Teaching Resources</md-nav-item>
+			<md-nav-item md-nav-href="/about" name="about">About Us</md-nav-item>
+		</md-nav-bar>
 	</nav>
 	<md-toolbar flex>
 		<div class="md-toolbar-tools" ng-if="!mc.user">
@@ -58,4 +59,4 @@
 			</md-menu>
 		</div>
 	</md-toolbar>
-</header>
+<!--</header>-->
