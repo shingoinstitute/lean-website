@@ -35,15 +35,15 @@
 			});
 		}
 
-		$scope.$watch(function() {
-			return typeof vm.user != "undefined";
-		}, function(userExists) {
-			if (!userExists) {
-				vm.user = null;
-				$cookies.remove(JWT_TOKEN);
-				console.warn('Detected loggout out user!');
-			}
-		})
+		// $scope.$watch(function() {
+		// 	return typeof vm.user != "undefined";
+		// }, function(userExists) {
+		// 	if (!userExists) {
+		// 		vm.user = null;
+		// 		$cookies.remove(JWT_TOKEN);
+		// 		console.warn('Detected loggout out user!');
+		// 	}
+		// });
 
 		// Watch for screen size to change for side navigation drawer positioning
 		$scope.$watch(function () {
@@ -85,13 +85,12 @@
 				vm.getUser();
 		});
 
-		
-
 		vm.getUser();
 		// console.log(JWT_TOKEN + ': ' + $cookies.get(JWT_TOKEN));
 		vm.generateBacon(null, null, function (data) {
 			vm.fillerContent = data;
 		});
+
 	}
 
 })();

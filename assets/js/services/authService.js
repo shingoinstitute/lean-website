@@ -20,9 +20,9 @@
 				password: password
 			})
 			.then(function(data) {
-				console.log('', data.data);
 				if (!data.data && !data.data.user) { $rootScope.$broadcast(BROADCAST.error, 'Login error, @local auth: user is undefined.'); }
-
+				console.log('DATA: ', data.data);
+				
 				if (data.data && data.data.token) {
 					var token = data.data.token;
 					$cookies.put(JWT_TOKEN, token);

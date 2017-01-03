@@ -38,19 +38,24 @@ module.exports = {
 
 				if (err) {
 					sails.log.error('/auth/local @callback: ' + err.name + ': ' + err.message);
-					return res.json({error: err, user: null});
+					return res.json({
+						success: false,
+						user: false,
+						error: err, 
+					});
 				}
 
 				if (!user) {
 					sails.log.warn('/auth/local @callback:  User is undefined!');
 					return res.json({
-						user: null,
-						info: info,
-						error: err
+						success: false,
+						user: false,
+						error: info.error || new Error('user not found.')
 					});
 				}
 
 				return res.json({
+					success: true,
 					token: AuthService.createToken(user),
 					user: user.toJSON()
 				});

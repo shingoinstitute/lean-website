@@ -98,22 +98,6 @@
 							</md-button>
 
 						</md-menu-item>
-
-
-						<!--<md-menu-item ng-if="mc.user">
-							<md-button ng-click="vm.showDashboard()">
-								<md-icon md-menu-align-target><i class="mdi mdi-view-dashboard mdi-24px"></i></md-icon>
-								Dashboard
-							</md-button>
-						</md-menu-item>
-						<md-menu-item>
-						</md-menu-item>
-						<md-menu-item ng-if="mc.user">
-							<md-button ng-href="/dashboard/settings">
-								<md-icon md-menu-align-target><i class="mdi mdi-settings mdi-24px"></i></md-icon>
-								Settings
-							</md-button>
-						</md-menu-item>-->
 					</md-menu-content>
 				</md-menu>
 			</md-toolbar>
@@ -126,7 +110,10 @@
 					<pre class="text-info md-padding" ng-bind="mc.message"></pre>
 				</div>
 			</message-container>
+
+			<!--ng-view container-->
 			<div class="page-container md-padding" ng-view></div>
+
 		</div>
 
 

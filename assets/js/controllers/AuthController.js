@@ -19,8 +19,14 @@
 			_authService.authenticateLocal(username, password, function(err, user) {
 				if (err) {
 					$rootScope.$broadcast(BROADCAST.error, err.message);
+
+					console.log('Error: ', err);
+					
+
 					vm.loginError('Login error, please check your username and password.')
 				}
+				console.log('FOOBAR: ', user);
+				
 				if (user) {
 					$rootScope.$broadcast(BROADCAST.userLogin, user);
 				}
