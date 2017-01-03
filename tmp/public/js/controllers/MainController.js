@@ -13,7 +13,16 @@
 		vm.error = '';
 
 		vm.getUser = function () {
-			
+			if (typeof $cookies.get(JWT_TOKEN) != 'undefined') {
+				_userService.findMe(function (err, user) {
+					if (err) { $scope.$broadcast(BROADCAST.error, err); }
+					if (!user) { $location.path('/login'); }
+					if (user) { vm.user = user; }
+				});
+			} else {
+				vm.user = null;
+				$location.path('/login');
+			}
 		};
 
 		vm.generateBacon = function (sentences, paragraphs, next) {
