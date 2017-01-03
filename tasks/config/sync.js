@@ -3,7 +3,7 @@
  *
  * ---------------------------------------------------------------
  *
- * Synchronize files from the `assets` folder to `.tmp/public`,
+ * Synchronize files from the `assets` folder to `tmp/public`,
  * smashing anything that's already there.
  *
  * This task synchronizes one directory with another (like rsync).
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
       files: [{
         cwd: './assets',
         src: ['**/*.!(coffee|less)'],
-        dest: '.tmp/public'
+        dest: 'tmp/public'
       }]
     }
   });
