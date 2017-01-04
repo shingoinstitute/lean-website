@@ -25,7 +25,7 @@
 				console.log('FOOBAR: ', user);
 				
 				if (user) {
-					$rootScope.$broadcast(BROADCAST.userLogin, user);
+					$location.path('/dashboard');
 				}
 			});
 		}

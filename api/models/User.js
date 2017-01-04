@@ -141,9 +141,8 @@ module.exports = {
    },
 
 	beforeUpdate: function(values, next) {
-		if (values.password) {
-			AuthService.hashPassword(values);
-		}
+		if (values.uuid) delete values.uuid;
+		if (values.password) AuthService.hashPassword(values);
 		return next();
 	},
 

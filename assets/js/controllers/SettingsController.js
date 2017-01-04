@@ -29,9 +29,9 @@
 			});
 		};
 
-		vm.saveUser = function() {
+		vm.updateUser = function() {
 			vm.edits.uuid = vm.user.uuid;
-			_userService.saveUser(vm.edits, function(err, user) {
+			_userService.updateUser(vm.edits, function(err, user) {
 				if (err) { $rootScope.$broadcast(BROADCAST.error, err.message); }
 				vm.findUser();
 			});

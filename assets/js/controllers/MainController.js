@@ -12,10 +12,14 @@
 		vm.message = '';
 		vm.error = '';
 
+		// Gets current user using a JWT
 		vm.getUser = function () {
-			
+			_userService.getUser(function(err, user) {
+				if (user) vm.user = user;
+			});
 		};
 
+		// 'Lorem Ipsum' placeholder text generator.
 		vm.generateBacon = function (sentences, paragraphs, next) {
 			return _baconService.getBacon(sentences, paragraphs, function (err, data) {
 				if (err) {
@@ -25,16 +29,6 @@
 				return next(data);
 			});
 		}
-
-		// $scope.$watch(function() {
-		// 	return typeof vm.user != "undefined";
-		// }, function(userExists) {
-		// 	if (!userExists) {
-		// 		vm.user = null;
-		// 		$cookies.remove(JWT_TOKEN);
-		// 		console.warn('Detected loggout out user!');
-		// 	}
-		// });
 
 		// Watch for screen size to change for side navigation drawer positioning
 		$scope.$watch(function () {
@@ -63,7 +57,7 @@
 			if (user) vm.user = user;
 			if (!user) vm.getUser();
 			$location.path('/dashboard');
-		})
+		});
 
 		$scope.$on(BROADCAST.userLogout, function (event) {
 			vm.user = null;
@@ -77,7 +71,6 @@
 		});
 
 		vm.getUser();
-		// console.log(JWT_TOKEN + ': ' + $cookies.get(JWT_TOKEN));
 		vm.generateBacon(null, null, function (data) {
 			vm.fillerContent = data;
 		});
