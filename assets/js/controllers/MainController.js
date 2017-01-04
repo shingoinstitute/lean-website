@@ -53,12 +53,6 @@
 			}
 		});
 
-		$scope.$on(BROADCAST.userLogin, function (event, user) {
-			if (user) vm.user = user;
-			if (!user) vm.getUser();
-			$location.path('/dashboard');
-		});
-
 		$scope.$on(BROADCAST.userLogout, function (event) {
 			vm.user = null;
 		});
