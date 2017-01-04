@@ -98,11 +98,6 @@ md-list-item > div.md-primary > md-icon:not(.md-avatar-icon), md-list-item > div
 
 .float-middle-right {
 	position: absolute;
-    right: 100px;
-    top: 100px;
-	min-width: 350px;
-}
-
-.small-container {
-	margin: 0;
+    right: 10px;
+    top: 20px;
 }

@@ -1,0 +1,20 @@
+<main-content ng-controller="SettingsController as vm">
+	<div class="container md-padding">
+		<h2>Settings</h2>
+		<div layout="column">
+			<md-input-container class="md-block">
+				<label>First name</label>
+				<input ng-model="vm.edits.firstname"  ng-change="vm.didMakeEdit()">
+			</md-input-container>
+			<md-input-container class="md-block">
+				<label>Last name</label>
+				<input ng-model="vm.edits.lastname" ng-change="vm.didMakeEdit()">
+			</md-input-container>
+			<md-input-container class="md-block">
+				<label>Email</label>
+				<input ng-model="vm.edits.email" ng-change="vm.didMakeEdit()">
+			</md-input-container>
+			<md-button class="md-button md-raised md-accent" ng-click="vm.updateUser()" ng-disabled="!vm.enableSaveButton">Save</md-button>
+		</div>
+	</div>
+</main-content>

@@ -1,4 +1,4 @@
-<main-content ng-controller="DashboardController as vm" layout-fill>
+<md-content ng-controller="DashboardController as vm" layout-fill>
   <div layout="column" class="container">
     <ng-include src="vm.templatePath" layout-padding></ng-include>
   </div>
@@ -12,7 +12,7 @@
       </div>
     </div>
   </div>
-  <div ng-show="mc.user" layout-fill class="content">
+  <div ng-show="mc.user" layout-fill>
     <md-tabs md-border-bottom md-autoselect>
       <md-tab label="Recent Activity">
         <div layout-padding>
@@ -35,6 +35,6 @@
         </div>
       </md-tab>
     </md-tabs>
+	<profile user="mc.user"></profile>
   </div>
-  <profile user="mc.user"></profile>
-</main-content>
+</md-content>

@@ -15,8 +15,8 @@
 // CSS files to inject in order
 
 var cssFilesToInject = [
-   '/bower_components/bootstrap/dist/css/*.css',
-   '/bower_components/angular-material/angular-material.css',
+   'bower_components/bootstrap/dist/css/*.css',
+   'bower_components/angular-material/angular-material.css',
    'styles/**/*.css'
 ];
 
@@ -40,7 +40,7 @@ var jsFilesToInject = [
    'bower_components/underscore/underscore-min.js',
    'bower_components/angular-underscore-module/angular-underscore-module.js',
    'bower_components/angular-sanitize/angular-sanitize.js',
-	'bower_components/angular-cookies/angular-cookies.min.js',
+	 'bower_components/angular-cookies/angular-cookies.min.js',
    'bower_components/trix/dist/trix.js',
    'bower_components/angular-trix/dist/angular-trix.js',
    'bower_components/moment/moment.js',
