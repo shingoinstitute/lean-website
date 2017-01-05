@@ -12,8 +12,8 @@
       </div>
     </div>
   </div>
-  <div ng-show="mc.user" layout-fill class="content">
-    <md-tabs md-border-bottom md-autoselect>
+  <div layout-gt-sm="row" layout="column" ng-show="mc.user" layout-fill class="content">
+    <md-tabs md-border-bottom md-autoselect flex="70">
       <md-tab label="Recent Activity">
         <div layout-padding>
 		  <span>Recent Activity goes here...</span>
@@ -21,7 +21,9 @@
       </md-tab>
 	  <md-tab label="Questions">
         <div layout-padding>
-		  <span>Questions goes here...</span>
+		  <md-list-item ng-repeat="entry in vm.questions">
+			<entry-summary entry="entry" ng-click="vm.go('/entries/' + entry.id)" flex></entry-summary>
+		  </md-list-item>
         </div>
       </md-tab>
 	  <md-tab label="Answers">
@@ -35,6 +37,7 @@
         </div>
       </md-tab>
     </md-tabs>
+	<profile user="mc.user"></profile>
   </div>
-  <profile user="mc.user"></profile>
+
 </main-content>

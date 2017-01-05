@@ -85,6 +85,7 @@ function onLinkedinAuth(accessToken, refreshToken, profile, done) {
 	query.firstname = json.firstName;
 	query.lastname = json.lastName;
 	query.pictureUrl = json.pictureUrl;
+	query.bio = json.summary;
 
 	User.findOne({email: query.email}).exec(function(err, user) {
 		if (err) {

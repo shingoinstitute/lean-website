@@ -39,6 +39,12 @@
 				.when('/admin', {
 					templateUrl: 'templates/user/admin.html',
 				})
+				.when('/entries', {
+					templateUrl: 'templates/entries/home.html'
+				})
+				.when('/entries/:id', {
+					templateUrl: 'templates/entries/detail.html'
+				})
 				.otherwise({
 					redirectTo: '/home',
 				});

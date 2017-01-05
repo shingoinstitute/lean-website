@@ -1,0 +1,15 @@
+<md-dialog>
+  <form name="addEntryForm" ng-cloak>
+      <h2>Post {{parent ? 'Answer' : 'Question'}}</h2>
+    <md-input-container md-no-float>
+      <input name="title" type="text" placeholder="Title" required ng-model="entry.title" />
+      <div ng-messages="addEntryForm.title">
+        <div ng-message="required">
+          Your Question needs a title!
+        </div>
+      </div>
+    </md-input-container>
+    <textarea rows="10" col="75" ng-model="entry.content"></textarea>
+    <md-button class="md-raised md-primary" ng-click="post()" ng-disabled="addEntryForm.$invalid">Post</md-button>
+  </form>
+</md-dialog>

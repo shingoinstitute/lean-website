@@ -46,7 +46,11 @@ module.exports.policies = {
 		'*': false,
 		linkedinAuth: true,
 		linkedinAuthCallback: true,
-	}
+	},
+
+    'EntryController': {
+        '*': true
+    }
 
    /***************************************************************************
    *                                                                          *
