@@ -1,24 +1,23 @@
 (function(){
     'use strict';
-
+    
     angular.module('leansite')
-    .controller('EntryHomeController', ['$scope', '$mdDialog', '$location', '_entryService', EntryHomeController]);
+    .controller('QuestionController', ['$scope', '$mdDialog', '_entryService', QuestionController]);
 
-    function EntryHomeController($scope, $mdDialog, $location, _entryService){
-        var vm = this;
-        vm.recent = [];
-        vm.loadRecent = function(){
-            _entryService.getRecent(10)
+    function QuestionController($scope, $mdDialog, _entryService){
+        $scope.isEditing = false;
+        
+        $scope.save = function(){
+            _entryService.save($scope.entry)
             .then(function(response){
-                vm.recent = response.data;
+                $scope.entry = response.data;
             })
             .catch(function(err){
                 console.log(err);
             });
         }
 
-        vm.postQuestion = function(_owner){
-            console.log("owner: ", _owner);
+        $scope.answer = function(){
             $mdDialog.show({
                 controller: 'AddEntryController',
                 templateUrl: 'templates/entries/add.html',
@@ -26,18 +25,13 @@
                 clickOutsideToClose: true,
                 fullscreen: true,
                 locals: {
-                    owner: _owner,
-                    parentId: null
+                    owner: $scope.owner,
+                    parentId: $scope.entry.id
                 }
             })
             .then(function(){})
             .catch(function(){});
+            console.log("Answering question");
         }
-
-        vm.go = function(path){
-            $location.path(path);
-        }
-
-        vm.loadRecent();
     }
 })();

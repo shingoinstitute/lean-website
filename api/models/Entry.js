@@ -43,6 +43,11 @@ module.exports = {
 		  via: 'parent'
 	  },
 
+	  comments: {
+		  collection: 'comment',
+		  via: 'parent'
+	  },
+
 	  owner: {
 		  model: 'user'
 	  },

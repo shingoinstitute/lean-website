@@ -16,28 +16,37 @@
     <md-tabs md-border-bottom md-autoselect flex="70">
       <md-tab label="Recent Activity">
         <div layout-padding>
-		  <span>Recent Activity goes here...</span>
+          <span>Recent Activity goes here...</span>
         </div>
       </md-tab>
-	  <md-tab label="Questions">
+      <md-tab label="Questions">
         <div layout-padding>
-		  <md-list-item ng-repeat="entry in vm.questions">
-			<entry-summary entry="entry" ng-click="vm.go('/entries/' + entry.id)" flex></entry-summary>
-		  </md-list-item>
+          <md-list>
+            <md-list-item ng-repeat="entry in vm.questions">
+              <entry-summary entry="entry" flex></entry-summary>
+            </md-list-item>
+          </md-list>
         </div>
       </md-tab>
-	  <md-tab label="Answers">
+      <md-tab label="Answers">
         <div layout-padding>
-		  <span>Answers goes here...</span>
+          <md-list>
+            <md-list-item ng-repeat="entry in vm.answers">
+              <entry-summary entry="entry" flex></entry-summary>
+            </md-list-item>
+          </md-list>
         </div>
       </md-tab>
-	  <md-tab label="Comments">
+      <md-tab label="Comments">
         <div layout-padding>
-		  <span>Comments goes here...</span>
+          <md-list>
+            <md-list-item ng-repeat="comment in vm.comments">
+              <comment comm="comment" flex></comment>
+            </md-list-item>
+          </md-list>
         </div>
       </md-tab>
     </md-tabs>
-	<profile user="mc.user"></profile>
+    <profile user="mc.user"></profile>
   </div>
-
 </main-content>

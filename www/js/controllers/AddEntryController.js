@@ -18,7 +18,7 @@
             .then(function(response){
                 console.log(response);
                 $mdDialog.hide();
-                if(!parentId) $location.path('/entries/' + response.data.id);
+                if(!parent) $location.path('/entries/' + response.data.id);
             })
             .catch(function(err){
                 console.log(err);

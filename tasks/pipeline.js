@@ -17,7 +17,8 @@
 var cssFilesToInject = [
    'bower_components/bootstrap/dist/css/*.css',
    'bower_components/angular-material/angular-material.css',
-   'styles/**/*.css'
+   'bower_components/summernote/dist/summernote.css',
+   'css/master.css'
 ];
 
 var jsFilesToInject = [
@@ -29,6 +30,7 @@ var jsFilesToInject = [
 
    'bower_components/bootstrap/dist/js/bootstrap.js',
    'bower_components/lodash/lodash.js',
+   'bower_components/summernote/dist/summernote.js',
 
    // Load angular modules
    'bower_components/angular/angular.js',
@@ -46,6 +48,7 @@ var jsFilesToInject = [
    'bower_components/moment/moment.js',
    'bower_components/angular-moment/angular-moment.js',
    'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+   'bower_components/angular-summernote/dist/angular-summernote.js',
 
    // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/**/*.js',

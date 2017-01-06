@@ -13,35 +13,88 @@
       return $http({
         method: 'get',
         dataType: 'json',
-        url: '/entry?where={owner: ' + uuid + '}&populate=owner'
+        url: '/entry?where={"owner": "' + uuid + '","parent":null}&populate=owner'
       });
     }
 
-    service.readQuestion = function(id){
-        return $http({
-            method: 'get',
-            dataType: 'json',
-            url: '/entry/' + id + '?populate=answers,owner,comments'
-        });
+    service.getUserAnswers = function (uuid) {
+      return $http({
+        method: 'get',
+        dataType: 'json',
+        url: '/entry?where={"owner":"' + uuid + '","parent": {"!":null}}&populate=owner'
+      });
+    }
+
+    service.getUserComments = function(uuid){
+      return $http({
+        method: 'get',
+        dataType: 'json',
+        url: '/comment?where={"owner":"' + uuid + '"}&populate=owner,parent'
+      });
     }
 
     service.getRecent = function (limit) {
       var now = moment();
       var recent = now.subtract(10, 'days');
+      var url = '/entry?where={"createdAt": {">":"' + recent.toJSON() + '"},"parent":null}&populate=owner' + (limit ? '&limit=' + limit : '');
+      console.log('url: ', url);
       return $http({
         method: 'get',
         dataType: 'json',
-        url: '/entry?where={createdAt: {gt: ' + recent.toJSON() + ' }}&populate=owner' + (limit ? '&limit='+limit : '')
+        url: url
       });
     }
 
-    service.createEntry = function(entry){
-        return $http({
-            method: 'post',
-            dataType: 'json',
-            url: '/entry',
-            data: entry
-        });
+    service.readEntry = function (id) {
+      return $http({
+        method: 'get',
+        dataType: 'json',
+        url: '/entry/' + id + '?populate=answers,owner,comments,parent'
+      });
+    }
+
+    service.readComment = function(id){
+      return $http({
+        method: 'get',
+        dataType: 'json',
+        url: '/comment/' + id + '?populate=owner,parent'
+      });
+    }
+
+    service.createEntry = function (entry) {
+      return $http({
+        method: 'post',
+        dataType: 'json',
+        url: '/entry',
+        data: entry
+      });
+    }
+
+    service.createComment = function (comment) {
+      return $http({
+        method: 'post',
+        dataType: 'json',
+        url: '/comment',
+        data: comment
+      });
+    }
+
+    service.save = function (entry) {
+      return $http({
+        method: 'put',
+        dataType: 'json',
+        url: '/entry/' + entry.id,
+        data: entry
+      });
+    }
+
+    service.saveComment = function (comment) {
+      return $http({
+        method: 'put',
+        dataType: 'json',
+        url: '/comment/' + comment.id,
+        data: comment
+      });
     }
 
     return service;

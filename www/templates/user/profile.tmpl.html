@@ -1,21 +1,52 @@
 <md-card class="md-whiteframe-9dp float-middle-right">
-  <md-card-title>
-    <md-card-avatar>
-      <img class="md-user-avatar" ng-src="{{user.pictureUrl}}">
-    </md-card-avatar>
-    <span flex="5"><!-- Spacer --></span>
-    <md-card-title-text>
-      <span class="md-headline">{{user.name}}</span>
-      <span class="md-subhead">Reputation: {{user.reputation}}</span>
-    </md-card-title-text>
-  </md-card-title>
-  <md-card-actions layout="" layout-align="start|center|end|space-around|space-between start|center|end|stretch">
-    <md-card-icon-actions>
-        <md-button ng-show="!vm.isEditing" ng-click="vm.isEditing = true">Edit</md-button>
-        <md-button ng-show="vm.isEditing" ng-click="vm.isEditing = false">Save</md-button>
-    </md-card-icon-actions>
-  </md-card-actions>
-  <md-card-content>
-      {{user.bio}}
-  </md-card-content>
+  <form name="profileForm">
+    <md-card-title>
+      <md-card-avatar>
+        <img class="md-user-avatar" ng-src="{{user.pictureUrl}}">
+      </md-card-avatar>
+      <span flex="5"><!-- Spacer --></span>
+      <md-card-title-text>
+        <span ng-show="vm.isEditing"><i>Editing</i></span>
+        <!-- Profile Name -->
+        <span ng-show="!vm.isEditing" class="md-headline">{{user.firstname}} {{user.lastname}}</span>
+        <div layout="row">
+          <md-input-container md-no-float ng-show="vm.isEditing" class="small-container">
+            <input type="text" ng-model="user.firstname" required aria-label="First Name" />
+          </md-input-container>
+          <md-input-container md-no-float ng-show="vm.isEditing" class="small-container">
+            <input type="text" ng-model="user.lastname" required aria-label="Last Name" />
+          </md-input-container>
+        </div>
+        <!-- Profile Email -->
+        <span ng-show="!vm.isEditing" class="md-subhead">{{user.email}}</span>
+        <md-input-container md-no-float ng-show="vm.isEditing" class="small-container">
+          <input type="email" ng-model="user.email" required aria-label="Email" />
+        </md-input-container>
+        <span class="md-subhead">Reputation: {{user.reputation}}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <h3>Biography</h3>
+      <md-content ng-show="!vm.isEditing" class="profile-content">
+        {{user.bio}}
+      </md-content>
+      <md-input-container ng-show="vm.isEditing" md-no-float>
+         <textarea rows="4" cols="50" md-no-resize ng-model="user.bio"></textarea>
+      </md-input-container>
+    </md-card-content>
+    <md-card-actions layout-align="center center" layout-padding>
+      <md-card-icon-actions>
+        <md-button class="md-raised md-primary" ng-show="!vm.isEditing" ng-click="vm.isEditing = true">Edit</md-button>
+        <md-button class="md-raised md-primary" ng-show="vm.isEditing" ng-click="vm.save()">Save</md-button>
+        <md-button class="md-raised md-accent" ng-show="vm.isEditing" ng-click="vm.isEditing = false">Cancel</md-button>
+      </md-card-icon-actions>
+    </md-card-actions>
+    <md-input-container ng-show="vm.errors.length" md-no-float>
+      <div ng-show="vm.errors" ng-messages="profileForm">
+        <div ng-message-exp="true" ng-repeat="error in vm.errors">
+          {{error}}
+        </div>
+      </div>
+    </md-input-container>
+  </form>
 </md-card>

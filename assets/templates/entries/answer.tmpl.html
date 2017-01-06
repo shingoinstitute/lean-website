@@ -1,15 +1,20 @@
-<md-card class="question">
-  <form name="questionDetailForm" ng-cloak>
+<md-card class="answer">
+  <form name="answerDetailForm" ng-cloak>
     <md-card-content>
       <div ng-show="!isEditing">
-        <h2>{{entry.title}}</h2>
+        <div layout="row">
+          <div ng-show="entry.markedCorrect" class="correct">
+            &check;
+          </div>
+          <h2>{{entry.title}}</h2>
+        </div>
         <hr>
         <div flex ng-bind-html="entry.content" class="q-content"></div>
       </div>
       <div ng-show="isEditing">
         <md-input-container md-no-float>
           <input class="md-title" name="title" type="text" ng-model="entry.title" required aria-label="Title" flex>
-          <div ng-messages="questionDetailForm.title">
+          <div ng-messages="answerDetailForm.title">
             <div ng-message="required">
               A title is required
             </div>
@@ -32,10 +37,10 @@
         <span flex><!-- filler --></span>
         <md-card-actions>
           <md-button ng-show="!isEditing" class="md-raised md-primary" ng-click="isEditing = true">Edit</md-button>
-          <md-button ng-show="isEditing" ng-disabled="questionDetailForm.$invalid || questionDetailForm.$pristine" ng-click="save()" class="md-raised md-primary">Save</md-button>
+          <md-button ng-show="isEditing" ng-disabled="answerDetailForm.$invalid || answerDetailForm.$pristine" ng-click="save()" class="md-raised md-primary">Save</md-button>
           <md-button ng-show="isEditing" ng-click="isEditing = false" class="md-raised md-accent">Cancel</md-button>
           <md-button ng-show="!isEditing" class="md-raised md-primary" ng-click="comment()">Comment</md-button>
-          <md-button ng-show="!isEditing" class="md-raised md-primary" ng-click="answer()">Answer</md-button>
+          <md-button ng-show="!isEditing && !entry.markedCorrect && !answered()" class="md-fab md-accent" ng-click="accepted()">&check;</md-button>
         </md-card-actions>
       </div>
     </div>

@@ -97,7 +97,19 @@ md-list-item > div.md-primary > md-icon:not(.md-avatar-icon), md-list-item > div
 }
 
 .float-middle-right {
-	position: absolute;
-    right: 10px;
-    top: 20px;
+	/*position: absolute;
+    right: 100px;
+    top: 100px;*/
+	min-width: 350px;
+	max-width: 450px;
+}
+
+.profile-content {
+	max-height: 200px;
+	color: "#3e3e33";
+	background: white;
+}
+
+.small-container {
+	margin: 0;
 }

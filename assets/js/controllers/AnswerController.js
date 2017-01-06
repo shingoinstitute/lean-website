@@ -2,14 +2,26 @@
   'use strict';
 
   angular.module('leansite')
-    .controller('QuestionController', ['$scope', '$rootScope', '$mdDialog', '_entryService', 'BROADCAST', QuestionController]);
+    .controller('AnswerController', ['$scope', '$rootScope', '$mdDialog', '_entryService', 'BROADCAST', AnswerController]);
 
-  function QuestionController($scope, $rootScope, $mdDialog, _entryService, BROADCAST) {
+  function AnswerController($scope, $rootScope, $mdDialog, _entryService, BROADCAST) {
     if ($scope.entry) $scope.entry.votes = 0;
 
     if ($scope.entry) {
-      console.log("question: ", $scope.entry);
-      console.log("question: " + $scope.entry.id + " votes " + $scope.entry.votes);
+      console.log("answer: ", $scope.entry);
+      console.log("answer: " + $scope.entry.id + " votes " + $scope.entry.votes);
+    }
+
+    if(!$scope.entry || !$scope.entry.owner.id || !$scope.entry.comments){
+        console.log("Loading answer");
+        _entryService.readEntry($scope.entry.id)
+        .then(function(response){
+            $scope.entry = response.data;
+            $scope.entry.votes = 0;
+        })
+        .catch(function(err){
+            console.log(err);
+        });
     }
 
     $scope.isEditing = false;
@@ -36,22 +48,21 @@
         });
     }
 
-    $scope.answer = function () {
-      $mdDialog.show({
-          controller: 'AddEntryController',
-          templateUrl: 'templates/entries/add.html',
-          parent: angular.element(document.body),
-          clickOutsideToClose: true,
-          fullscreen: true,
-          locals: {
-            owner: $scope.owner,
-            parentId: $scope.entry.id
-          }
+    $scope.answered = function(){
+        return $scope.entry.parent.markedCorrect;
+    }
+
+    $scope.accepted = function(){
+        $scope.entry.markedCorrect = true;
+        $scope.save();
+        $scope.entry.parent.markedCorrect = true;
+        _entryService.save($scope.entry.parent)
+        .then(function(response){
+            $scope.entry.parent = response.data;
         })
-        .then(function () {
-            $rootScope.$broadcast(BROADCAST.entryChange);
+        .catch(function(err){
+            console.log(err);
         })
-        .catch(function () {});
     }
 
     $scope.upVote = function () {
@@ -70,7 +81,7 @@
         clickOutsideToClose: true,
         fullscreen: true,
         locals: {
-          owner: $scope.owner,
+          owner: $scope.entry.owner.uuid,
           parentId: $scope.entry.id
         }
       })

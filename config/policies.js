@@ -50,6 +50,10 @@ module.exports.policies = {
 
     'EntryController': {
         '*': true
+    },
+
+    'CommentController': {
+        '*': true
     }
 
    /***************************************************************************

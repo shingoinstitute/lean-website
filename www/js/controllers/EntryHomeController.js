@@ -26,8 +26,7 @@
                 clickOutsideToClose: true,
                 fullscreen: true,
                 locals: {
-                    owner: _owner,
-                    parentId: null
+                    owner: _owner
                 }
             })
             .then(function(){})
