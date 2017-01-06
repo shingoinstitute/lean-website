@@ -1,7 +1,4 @@
-<main-content ng-controller="DashboardController as vm" layout-fill>
-  <div layout="column" class="container">
-    <ng-include src="vm.templatePath" layout-padding></ng-include>
-  </div>
+<main-content layout-fill>
   <div ng-hide="mc.user" class="container">
     <div flex class="md-padding">
       <div class="md-padding" layout="column" layout-align="center center">
@@ -12,41 +9,48 @@
       </div>
     </div>
   </div>
-  <div layout-gt-sm="row" layout="column" ng-show="mc.user" layout-fill class="content">
-    <md-tabs md-border-bottom md-autoselect flex="70">
-      <md-tab label="Recent Activity">
-        <div layout-padding>
-          <span>Recent Activity goes here...</span>
-        </div>
-      </md-tab>
-      <md-tab label="Questions">
-        <div layout-padding>
-          <md-list>
-            <md-list-item ng-repeat="entry in vm.questions">
-              <entry-summary entry="entry" flex></entry-summary>
-            </md-list-item>
-          </md-list>
-        </div>
-      </md-tab>
-      <md-tab label="Answers">
-        <div layout-padding>
-          <md-list>
-            <md-list-item ng-repeat="entry in vm.answers">
-              <entry-summary entry="entry" flex></entry-summary>
-            </md-list-item>
-          </md-list>
-        </div>
-      </md-tab>
-      <md-tab label="Comments">
-        <div layout-padding>
-          <md-list>
-            <md-list-item ng-repeat="comment in vm.comments">
-              <comment comm="comment" flex></comment>
-            </md-list-item>
-          </md-list>
-        </div>
-      </md-tab>
-    </md-tabs>
-    <profile user="mc.user"></profile>
-  </div>
+  <md-tabs md-dynamic-height md-stretch-tabs ng-show="mc.user" layout-fill class="content top-level-tabs">
+    <md-tab label="Dashboard">
+      <div layout-gt-sm="row" ng-controller="DashboardController as vm" layout="column" layout-fill class="content">
+        <md-tabs md-dynamic-height md-stretch-tabs md-border-bottom md-autoselect flex="70">
+          <md-tab label="Recent Activity">
+            <div layout-padding>
+              <span>Recent Activity goes here...</span>
+            </div>
+          </md-tab>
+          <md-tab label="Questions">
+            <div layout-padding>
+              <md-list>
+                <md-list-item ng-repeat="entry in vm.questions">
+                  <entry-summary entry="entry" flex></entry-summary>
+                </md-list-item>
+              </md-list>
+            </div>
+          </md-tab>
+          <md-tab label="Answers">
+            <div layout-padding>
+              <md-list>
+                <md-list-item ng-repeat="entry in vm.answers">
+                  <entry-summary entry="entry" flex></entry-summary>
+                </md-list-item>
+              </md-list>
+            </div>
+          </md-tab>
+          <md-tab label="Comments">
+            <div layout-padding>
+              <md-list>
+                <md-list-item ng-repeat="comment in vm.comments" class="md-3-line">
+                  <comment comm="comment" flex class="single-comment"></comment>
+                </md-list-item>
+              </md-list>
+            </div>
+          </md-tab>
+        </md-tabs>
+        <profile user="mc.user"></profile>
+      </div>
+    </md-tab>
+    <md-tab ng-show="mc.user.isAdmin" label="Admin">
+      <p>Admin View goes here</p>
+    </md-tab>
+  </md-tabs>
 </main-content>

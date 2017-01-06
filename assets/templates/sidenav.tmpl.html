@@ -1,0 +1,31 @@
+<md-sidenav class="md-sidenav-left" md-component-id="side-nav" md-is-locked-open="mc.sideNavEnabled" md-whiteframe="4">
+  <a href="/" class="logo">
+    <img src="/images/29-samplelogo.png">
+  </a>
+  <md-list ng-controller="NavController as vm">
+    <!--<md-subheader class="md-no-sticky">Navigation</md-subheader>-->
+    <md-list-item ng-href="/" name="home">Home</md-list-item>
+    <md-list-item ng-href="/education" name="education">Education</md-list-item>
+    <md-list-item ng-href="/teachingResources" name="teachingResources">Teaching Resources</md-list-item>
+    <md-list-item ng-href="/entries" name="entries">Q &amp; A Forum</md-list-item>
+    <md-list-item ng-href="/about" name="about">About Us</md-list-item>
+    <!--User Navigation-->
+    <md-subheader></md-subheader>
+    <md-list-item ng-href="/dashboard">
+      <md-icon md-menu-align-target><i class="mdi mdi-view-dashboard mdi-24px"></i></md-icon>
+      <span>Dashboard</span>
+    </md-list-item>
+    <md-list-item ng-href="/admin" ng-if="mc.user.isAdmin">
+      <md-icon md-menu-align-target><i class="mdi mdi-developer-board mdi-24px"></i></md-icon>
+      Admin
+    </md-list-item>
+    <md-list-item ng-href="/login" ng-if="mc.user">
+      <md-icon md-menu-align-target><i class="mdi mdi-login-variant mdi-24px"></i></md-icon>
+      Login
+    </md-list-item>
+    <md-list-item ng-click="vm.logout()" ng-if="!mc.user">
+      <md-icon md-menu-align-target><i class="mdi mdi-logout mdi-24px"></i></md-icon>
+      Logout
+    </md-list-item>
+  </md-list>
+</md-sidenav>

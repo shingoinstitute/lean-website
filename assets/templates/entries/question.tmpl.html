@@ -4,7 +4,7 @@
       <div ng-show="!isEditing">
         <h2>{{entry.title}}</h2>
         <hr>
-        <div flex ng-bind-html="entry.content" class="q-content"></div>
+        <div flex ng-bind-html="entry.content" class="q-content trix-content"></div>
       </div>
       <div ng-show="isEditing">
         <md-input-container md-no-float>
@@ -15,7 +15,7 @@
             </div>
           </div>
         </md-input-container>
-        <summernote ng-model="entry.content" height="300"></summernote>
+        <summernote   ng-model="entry.content" height="300"></summernote>
       </div>
     </md-card-content>
     <span flex><!-- filler --></span>

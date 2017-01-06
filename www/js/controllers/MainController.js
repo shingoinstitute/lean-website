@@ -4,9 +4,9 @@
 	angular.module('leansite')
 		.controller('MainController', MainController);
 
-	MainController.$inject = ['$scope', '$http', '$cookies', '$location', '$mdMedia', '_userService', '_baconService', 'BROADCAST', 'JWT_TOKEN'];
+	MainController.$inject = ['$scope', '$rootScope', '$http', '$cookies', '$location', '$mdMedia', '_userService', '_baconService', 'BROADCAST', 'JWT_TOKEN'];
 
-	function MainController($scope, $http, $cookies, $location, $mdMedia, _userService, _baconService, BROADCAST, JWT_TOKEN) {
+	function MainController($scope, $rootScope, $http, $cookies, $location, $mdMedia, _userService, _baconService, BROADCAST, JWT_TOKEN) {
 		var vm = this;
 
 		vm.message = '';
@@ -15,7 +15,10 @@
 		// Gets current user using a JWT
 		vm.getUser = function () {
 			_userService.getUser(function(err, user) {
-				if (user) vm.user = user;
+				if (user){
+				  vm.user = user;
+				  $rootScope.userId = user.uuid;
+				}
 			});
 		};
 

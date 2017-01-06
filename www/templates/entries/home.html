@@ -1,10 +1,10 @@
-<md-content ng-controller="EntryHomeController as vm">
-  <div layout="column" layout-padding>
+<md-content ng-controller="EntryHomeController as vm" layout-fill layout-padding>
+  <div layout="column">
     <div layout="row">
       <md-input-container md-no-float flex="70">
         <input type="text" placeholder="Search..." ng-model="vm.search">
       </md-input-container>
-      <div flex="30" layout-align="center center">
+      <div flex="20" layout-align="center center">
         <md-button class="md-raised md-primary" ng-click="vm.postQuestion(mc.user.uuid)">
           Post Question
         </md-button>
@@ -13,15 +13,7 @@
   </div>
   <h2>Recent Questions</h2>
   <hr>
-  <div class="row">
-    <div flex="70" layout-padding>
-      <md-list-item ng-repeat="question in vm.recent">
-        <entry-summary entry="question" flex ng-click="vm.go('/entries/' + question.id)"></entry-summary>
-      </md-list-item>
-    </div>
-    <div flex="30">
-      Tags
-      <hr>
-    </div>
-  </div>
+  <md-list-item ng-repeat="question in vm.recent | orderBy: 'createdAt' : reverse">
+    <entry-summary entry="question" flex></entry-summary>
+  </md-list-item>
 </md-content>

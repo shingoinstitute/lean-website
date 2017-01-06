@@ -27,6 +27,13 @@
     "angular-moment": "^1.0.0",
     "angular-sanitize": "^1.5.9",
     "angular-cookies": "^1.5.9",
-    "mdi": "^1.7.22"
+    "mdi": "^1.7.22",
+    "angular-summernote": "^0.8.1",
+    "summernote": "^0.8.2",
+    "trix": "^0.10.0",
+    "angular-trix": "^1.0.2"
+  },
+  "resolutions": {
+    "angular": "1.6.1"
   }
 }

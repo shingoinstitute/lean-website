@@ -1,4 +1,4 @@
-<md-card class="md-whiteframe-9dp float-middle-right">
+<md-card class="md-whiteframe-9dp profile-frame">
   <form name="profileForm">
     <md-card-title>
       <md-card-avatar>
@@ -28,10 +28,10 @@
     <md-card-content>
       <h3>Biography</h3>
       <md-content ng-show="!vm.isEditing" class="profile-content">
-        {{user.bio}}
+        <div class="trix-content" ng-bind-html="user.bio"></div>
       </md-content>
       <md-input-container ng-show="vm.isEditing" md-no-float>
-         <textarea rows="4" cols="50" md-no-resize ng-model="user.bio"></textarea>
+         <summernote   md-no-resize ng-model="user.bio"></summernote>
       </md-input-container>
     </md-card-content>
     <md-card-actions layout-align="center center" layout-padding>

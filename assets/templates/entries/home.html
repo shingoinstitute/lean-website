@@ -13,7 +13,7 @@
   </div>
   <h2>Recent Questions</h2>
   <hr>
-    <md-list-item ng-repeat="question in vm.recent">
+  <md-list-item ng-repeat="question in vm.recent | orderBy: 'createdAt' : true">
     <entry-summary entry="question" flex></entry-summary>
-    </md-list-item>
+  </md-list-item>
 </md-content>

@@ -5,7 +5,7 @@
 (function () {
 	'use strict';
 
-	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngSanitize'])
+	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngSanitize', 'angularMoment', 'summernote'])
 		.config(function ($locationProvider, $routeProvider, $mdThemingProvider, $mdIconProvider, $httpProvider) {
 
 			$routeProvider
@@ -65,7 +65,10 @@
 			error: '$errorMessage',
 			userLogout: '$userLoggedOut',
 			userLogin: '$userLoggedIn',
-			setTitle: '$setTitle'
+			setTitle: '$setTitle',
+			qSave: '$questionSave',
+			qAnswered: '$questionAnswered',
+			entryChange: '$entryChange'
 		})
 		.constant('JWT_TOKEN', 'JWT');
 

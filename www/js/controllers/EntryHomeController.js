@@ -2,9 +2,10 @@
     'use strict';
 
     angular.module('leansite')
-    .controller('EntryHomeController', ['$scope', '$mdDialog', '$location', '_entryService', EntryHomeController]);
+    .controller('EntryHomeController', ['$scope', '$mdDialog', '$location', '$anchorScroll', '_entryService', EntryHomeController]);
 
-    function EntryHomeController($scope, $mdDialog, $location, _entryService){
+    function EntryHomeController($scope, $mdDialog, $location, $anchorScroll, _entryService){
+        $anchorScroll();
         var vm = this;
         vm.recent = [];
         vm.loadRecent = function(){
@@ -26,7 +27,8 @@
                 clickOutsideToClose: true,
                 fullscreen: true,
                 locals: {
-                    owner: _owner
+                    owner: _owner,
+                    parentId: null
                 }
             })
             .then(function(){})

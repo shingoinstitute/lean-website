@@ -22,17 +22,14 @@
 			_authService.logout();
 		}
 
-		$scope.$on('$locationChangeSuccess', function (event, newUrl, oldUrl) {
-			var url = newUrl.split("/");
+		function setTitle(url){
 			url = url[url.length - 1];
+			
 			switch (url) {
 				case 'home':
 					vm.title = "Home";
 					break;
 				case 'dashboard':
-					vm.title = "Dashboard";
-					break;
-				case 'dashboard/settings':
 					vm.title = "Settings";
 					break;
 				case 'education':
@@ -53,14 +50,22 @@
 				case 'admin':
 					vm.title = "Admin Panel";
 					break;
+				case 'entries':
+					vm.title = "Q & A Forum";
+					break;
 				default:
 					vm.title = "Teaching Lean";
 					break;
 			}
+		}
+
+		$scope.$on('$locationChangeSuccess', function (event, newUrl, oldUrl) {
+			var url = newUrl.split("/");
+			setTitle(url);
 		});
 
+
+		setTitle($location.url().split("/"));
+		$scope.vm = vm;
 	}
-
-
-
 })();
