@@ -228,3 +228,7 @@ md-list-item .md-list-item-inner>md-icon.md-secondary:not(.md-avatar-icon) {
   line-height: initial;
   text-transform: none;
 }
+
+.top-level-tabs {
+  overflow-y: auto;
+}

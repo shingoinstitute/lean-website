@@ -37,16 +37,9 @@
     <md-card-actions layout-align="center center" layout-padding>
       <md-card-icon-actions>
         <md-button class="md-raised md-primary" ng-show="!vm.isEditing" ng-click="vm.isEditing = true">Edit</md-button>
-        <md-button class="md-raised md-primary" ng-show="vm.isEditing" ng-click="vm.save()">Save</md-button>
+        <md-button ng-disabled="profileForm.$invalid || profileForm.$pristine" class="md-raised md-primary" ng-show="vm.isEditing" ng-click="vm.save()">Save</md-button>
         <md-button class="md-raised md-accent" ng-show="vm.isEditing" ng-click="vm.isEditing = false">Cancel</md-button>
       </md-card-icon-actions>
     </md-card-actions>
-    <md-input-container ng-show="vm.errors.length" md-no-float>
-      <div ng-show="vm.errors" ng-messages="profileForm">
-        <div ng-message-exp="true" ng-repeat="error in vm.errors">
-          {{error}}
-        </div>
-      </div>
-    </md-input-container>
   </form>
 </md-card>

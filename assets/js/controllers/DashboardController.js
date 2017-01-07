@@ -9,7 +9,6 @@
   function DashboardController($scope, $rootScope, $cookies, $http, $location, _userService, _entryService, BROADCAST) {
     var vm = this;
     var userId = $rootScope.userId;
-    vm.templatePath = 'templates/user/me.html';
     vm.questions = [];
     vm.answers = [];
     vm.comments = [];
@@ -32,20 +31,11 @@
           vm.comments = response.data;
         })
         .catch(function (err) {
-          if (err.status) {
-            var message = "Error loading user data...";
-            switch (err.status) {
-              case 404:
-                message = "Couldn't communicate with the server. Are you online?"
-                break;
-              default:
-                break;
-            }
-            $rootScope.$broadcast(BROADCAST.error, message);
-          } else {
+          if (BROADCAST.loggingLevel = "DEBUG") {
             $rootScope.$broadcast(BROADCAST.error, JSON.stringify(err));
+          } else {
+            $rootScope.$broadcast(BROADCAST.error, "There was an error loading your profile data. Please try again...");
           }
-          console.log(err);
         });
     }
 

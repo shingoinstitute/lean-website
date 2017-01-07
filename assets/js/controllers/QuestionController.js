@@ -7,19 +7,14 @@
   function QuestionController($scope, $rootScope, $mdDialog, _entryService, BROADCAST) {
     if ($scope.entry) $scope.entry.votes = 0;
 
-    if ($scope.entry) {
-      console.log("question: ", $scope.entry);
-      console.log("question: " + $scope.entry.id + " votes " + $scope.entry.votes);
-    }
-
     $scope.isEditing = false;
 
-    $scope.$watch('isEditing', function(newValue, oldVaue){
-        if(newValue){
-            $scope._tmpEntry = angular.copy($scope.entry);
-        } else if($scope._tmpEntry && !$scope.entry.$dirty){
-            $scope.entry = $scope._tmpEntry;
-        }
+    $scope.$watch('isEditing', function (newValue, oldVaue) {
+      if (newValue) {
+        $scope._tmpEntry = angular.copy($scope.entry);
+      } else if ($scope._tmpEntry && !$scope.entry.$dirty) {
+        $scope.entry = $scope._tmpEntry;
+      }
     })
 
     $scope.save = function () {
@@ -32,7 +27,11 @@
           $rootScope.$broadcast(BROADCAST.entryChange);
         })
         .catch(function (err) {
-          console.log(err);
+          if (BROADCAST.loggingLevel = "DEBUG") {
+            $rootScope.$broadcast(BROADCAST.error, JSON.stringify(err));
+          } else {
+            $rootScope.$broadcast(BROADCAST.error, "There was an error saving your question. Please try again...");
+          }
         });
     }
 
@@ -49,9 +48,11 @@
           }
         })
         .then(function () {
-            $rootScope.$broadcast(BROADCAST.entryChange);
+          $rootScope.$broadcast(BROADCAST.entryChange);
         })
-        .catch(function () {});
+        .catch(function () {
+          // DIALOG CANCELLED BY USER
+        });
     }
 
     $scope.upVote = function () {
@@ -62,22 +63,24 @@
       $scope.entry.votes -= 1;
     }
 
-    $scope.comment = function() {
+    $scope.comment = function () {
       $mdDialog.show({
-        controller: 'AddCommentController',
-        templateUrl: 'templates/entries/addComment.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true,
-        fullscreen: true,
-        locals: {
-          owner: $scope.owner,
-          parentId: $scope.entry.id
-        }
-      })
-      .then(function(){
-        $rootScope.$broadcast(BROADCAST.entryChange);
-      })
-      .catch(function(){});
+          controller: 'AddCommentController',
+          templateUrl: 'templates/entries/addComment.html',
+          parent: angular.element(document.body),
+          clickOutsideToClose: true,
+          fullscreen: true,
+          locals: {
+            owner: $scope.owner,
+            parentId: $scope.entry.id
+          }
+        })
+        .then(function () {
+          $rootScope.$broadcast(BROADCAST.entryChange);
+        })
+        .catch(function () {
+          // DIALOG CANCELLED BY USER
+        });
     }
   }
 })();
