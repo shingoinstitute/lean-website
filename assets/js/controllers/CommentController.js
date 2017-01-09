@@ -13,7 +13,7 @@
           $scope.comm = response.data;
         })
         .catch(function (err) {
-          if (BROADCAST.loggingLevel = "DEBUG") {
+          if (BROADCAST.loggingLevel == "DEBUG") {
             $rootScope.$broadcast(BROADCAST.error, JSON.stringify(err));
           } else {
             $rootScope.$broadcast(BROADCAST.error, "There was an error loading the comment details...");
@@ -36,7 +36,7 @@
           $scope.isEditing = false;
         })
         .catch(function (err) {
-          if (BROADCAST.loggingLevel = "DEBUG") {
+          if (BROADCAST.loggingLevel == "DEBUG") {
             $rootScope.$broadcast(BROADCAST.error, JSON.stringify(err));
           } else {
             $rootScope.$broadcast(BROADCAST.error, "There was an error saving your comment. Please try again...");

@@ -14,7 +14,7 @@
           $scope.entry.votes = 0;
         })
         .catch(function (err) {
-          if (BROADCAST.loggingLevel = "DEBUG") {
+          if (BROADCAST.loggingLevel == "DEBUG") {
             $rootScope.$broadcast(BROADCAST.error, JSON.stringify(err));
           } else {
             $rootScope.$broadcast(BROADCAST.error, "There was an error loading the answer details...");
@@ -42,7 +42,7 @@
           $rootScope.$broadcast(BROADCAST.entryChange);
         })
         .catch(function (err) {
-          if (BROADCAST.loggingLevel = "DEBUG") {
+          if (BROADCAST.loggingLevel == "DEBUG") {
             $rootScope.$broadcast(BROADCAST.error, JSON.stringify(err));
           } else {
             $rootScope.$broadcast(BROADCAST.error, "There was an error saving your answer. Please try again...");
@@ -63,7 +63,7 @@
           $scope.entry.parent = response.data;
         })
         .catch(function (err) {
-          if (BROADCAST.loggingLevel = "DEBUG") {
+          if (BROADCAST.loggingLevel == "DEBUG") {
             $rootScope.$broadcast(BROADCAST.error, JSON.stringify(err));
           } else {
             $rootScope.$broadcast(BROADCAST.error, "There was an error accepting this answer. Please try again...");
