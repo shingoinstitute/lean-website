@@ -1,8 +1,8 @@
 (function () {
-	'use strict';
+  'use strict';
 
-	angular.module('leansite')
-		.controller('MainController', MainController);
+  angular.module('leansite')
+    .controller('MainController', MainController);
 
 	MainController.$inject = ['$scope', '$rootScope', '$http', '$cookies', '$location', '$mdMedia', '_userService', '_baconService', 'BROADCAST', 'JWT_TOKEN'];
 
@@ -120,6 +120,6 @@
 			vm.fillerContent = data;
 		});
 
-	}
+  }
 
 })();

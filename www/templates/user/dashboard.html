@@ -1,0 +1,49 @@
+<main-content ng-controller="DashboardController as vm" layout-fill>
+  <div ng-hide="mc.user" class="container">
+    <div flex class="md-padding">
+      <div class="md-padding" layout="column" layout-align="center center">
+        <h3 flex>You are not logged in.</h3>
+        <div flex>
+          <md-button class="md-raised md-accent" ng-href="/login">Login here</md-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div layout-gt-sm="row" layout="column" ng-show="mc.user" layout-fill class="content">
+    <md-tabs md-border-bottom md-autoselect flex="70" style="max-height: 100%;">
+      <md-tab label="Recent Activity">
+        <div layout-padding>
+          <span>Recent Activity goes here...</span>
+        </div>
+      </md-tab>
+      <md-tab label="Questions">
+        <div layout-padding>
+          <md-list>
+            <md-list-item ng-repeat="entry in vm.questions">
+              <entry-summary entry="entry" flex></entry-summary>
+            </md-list-item>
+          </md-list>
+        </div>
+      </md-tab>
+      <md-tab label="Answers">
+        <div layout-padding>
+          <md-list>
+            <md-list-item ng-repeat="entry in vm.answers">
+              <entry-summary entry="entry" flex></entry-summary>
+            </md-list-item>
+          </md-list>
+        </div>
+      </md-tab>
+      <md-tab label="Comments">
+        <div layout-padding>
+          <md-list>
+            <md-list-item ng-repeat="comment in vm.comments" class="md-3-line">
+              <comment comm="comment" flex class="single-comment"></comment>
+            </md-list-item>
+          </md-list>
+        </div>
+      </md-tab>
+    </md-tabs>
+    <profile user="mc.user"></profile>
+  </div>
+</main-content>

@@ -5,7 +5,7 @@
 (function () {
 	'use strict';
 
-	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngSanitize'])
+	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngSanitize', 'angularMoment', 'summernote'])
 		.config(function ($locationProvider, $routeProvider, $mdThemingProvider, $mdIconProvider, $httpProvider) {
 
 			$routeProvider
@@ -39,6 +39,12 @@
 				.when('/admin', {
 					templateUrl: 'templates/user/admin.html',
 				})
+				.when('/entries', {
+					templateUrl: 'templates/entries/home.html'
+				})
+				.when('/entries/:id', {
+					templateUrl: 'templates/entries/detail.html'
+				})
 				.otherwise({
 					redirectTo: '/home',
 				});
@@ -55,11 +61,15 @@
 				.dark();
 		})
 		.constant('BROADCAST', {
+			loggingLevel: 'DEBUG', // 'DEBUG' or 'PRODUCTION'
 			info: '$infoMessage',
 			error: '$errorMessage',
 			userLogout: '$userLoggedOut',
 			userLogin: '$userLoggedIn',
 			setTitle: '$setTitle',
+			qSave: '$questionSave',
+			qAnswered: '$questionAnswered',
+			entryChange: '$entryChange',
 			userUpdated: '$userUpdated'
 		})
 		.constant('JWT_TOKEN', 'JWT');

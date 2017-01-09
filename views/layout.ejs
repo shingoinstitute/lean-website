@@ -1,147 +1,85 @@
 <!DOCTYPE html>
 <html ng-app="leansite" ng-cloak>
 
-	<head>
-		<title>LEAN site</title>
+<head>
+  <title>LEAN site</title>
+  <!-- Viewport mobile tag for sensible mobile support -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!--STYLES-->
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css">
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+  <link rel="stylesheet" href="/bower_components/summernote/dist/summernote.css">
+  <link rel="stylesheet" href="/css/master.css">
+  <!--STYLES END-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <base href="/">
+</head>
 
-		<!-- Viewport mobile tag for sensible mobile support -->
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-		<!-- styles -->
-		<link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
-		<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic"> -->
-		<link rel="stylesheet" href="/bower_components/mdi/css/materialdesignicons.min.css" media="all" type="text/css">
-		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"> -->
-		<link rel="stylesheet" href="/css/master.css">
-		<base href="/">
-
-	</head>
-
-	<body layout ng-controller="MainController as mc" ng-cloak>
-
-		<md-sidenav class="md-sidenav-left" md-component-id="side-nav" md-is-locked-open="mc.sideNavEnabled" md-whiteframe="4">
-			<a href="/" class="logo">
-				<img src="/images/29-samplelogo.png">
-			</a>
-			<md-list ng-controller="NavController as vm">
-				<!--<md-subheader class="md-no-sticky">Navigation</md-subheader>-->
-				<md-list-item ng-href="/" name="home">Home</md-list-item>
-				<md-list-item ng-href="/education" name="education">Education</md-list-item>
-				<md-list-item ng-href="/teachingResources" name="teachingResources">Teaching Resources</md-list-item>
-				<md-list-item ng-href="/about" name="about">About Us</md-list-item>
-
-				<!--User Navigation-->
-				<md-subheader></md-subheader>
-				<md-list-item ng-click="vm.showDashboard()">
-					<md-icon md-menu-align-target><i class="mdi mdi-view-dashboard mdi-24px"></i></md-icon>
-					<span>Dashboard</span>
-				</md-list-item>
-				<md-list-item ng-href="/dashboard/settings" ng-if="mc.user">
-					<md-icon md-menu-align-target><i class="mdi mdi-settings mdi-24px"></i></md-icon>
-					Settings
-				</md-list-item>
-				<md-list-item ng-href="/admin" ng-if="mc.user.isAdmin">
-					<md-icon md-menu-align-target><i class="mdi mdi-developer-board mdi-24px"></i></md-icon>
-					Admin
-				</md-list-item>
-				<md-list-item ng-href="/login" ng-if="!mc.user">
-					<md-icon md-menu-align-target><i class="mdi mdi-login-variant mdi-24px"></i></md-icon>
-					Login
-				</md-list-item>
-				<md-list-item ng-click="vm.logout()" ng-if="mc.user">
-					<md-icon md-menu-align-target><i class="mdi mdi-logout mdi-24px"></i></md-icon>
-					Logout
-				</md-list-item>
-			</md-list>
-		</md-sidenav>
-		<div layout="column" flex>
-			<md-toolbar class="md-padding" layout ng-controller="NavController as vm">
-				<h3>{{vm.title}}</h3>
-				<div flex></div>
-				<md-menu md-offset="-70 65">
-					<md-button class="md-icon-button" aria-label="Menu" ng-click="vm.openMenu($mdOpenMenu, $event)">
-						<md-icon md-menu-origin class="green-text text-lighten-1"><i class="mdi mdi-dots-vertical mdi-24px"></i></md-icon>
-					</md-button>
-					<md-menu-content width="3">
-						<md-menu-item>
-							<md-button ng-click="vm.showDashboard()">
-								<md-icon md-menu-align-target><i class="mdi mdi-view-dashboard mdi-24px"></i></md-icon>
-								Dashboard
-							</md-button>
-						</md-menu-item>
-						<md-menu-item ng-href="/dashboard/settings" ng-if="mc.user">
-							<md-button>
-								<md-icon md-menu-align-target><i class="mdi mdi-settings mdi-24px"></i></md-icon>
-								Settings
-							</md-button>
-
-						</md-menu-item>
-						<md-menu-item ng-href="/admin" ng-if="mc.user.isAdmin">
-							<md-button>
-								<md-icon md-menu-align-target><i class="mdi mdi-developer-board mdi-24px"></i></md-icon>
-								Admin
-							</md-button>
-
-						</md-menu-item>
-						<md-menu-item ng-href="/login" ng-if="!mc.user">
-							<md-button>
-								<md-icon md-menu-align-target><i class="mdi mdi-login-variant mdi-24px"></i></md-icon>
-								Login
-							</md-button>
-
-						</md-menu-item>
-						<md-menu-item ng-click="vm.logout()" ng-if="mc.user">
-							<md-button>
-								<md-icon md-menu-align-target><i class="mdi mdi-logout mdi-24px"></i></md-icon>
-								Logout
-							</md-button>
-
-						</md-menu-item>
-					</md-menu-content>
-				</md-menu>
-			</md-toolbar>
-
-			<message-container layout="column" layout-align="center center" ng-if="mc.error || mc.message">
-				<div layout-padding ng-if="mc.error">
-					<p>Error: <span class="red-text text-darken-1" ng-bind="mc.error"></span></p>
-				</div>
-				<div layout-padding ng-if="mc.message">
-					<pre class="text-info md-padding" ng-bind="mc.message"></pre>
-				</div>
-			</message-container>
-
-			<!--ng-view container-->
-			<div class="page-container md-padding" ng-view></div>
-
-		</div>
-
-
-
-		<!--SCRIPTS-->
-		<script src="/js/dependencies/sails.io.js"></script>
-		<script src="/bower_components/jquery/dist/jquery.js"></script>
-		<script src="/bower_components/angular/angular.js"></script>
-		<script src="/bower_components/angular-route/angular-route.js"></script>
-		<script src="/bower_components/angular-aria/angular-aria.js"></script>
-		<script src="/bower_components/angular-animate/angular-animate.js"></script>
-		<script src="/bower_components/angular-material/angular-material.js"></script>
-		<script src="/bower_components/angular-messages/angular-messages.js"></script>
-		<script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
-		<script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
-		<script src="/bower_components/moment/moment.js"></script>
-		<script src="/bower_components/angular-moment/angular-moment.js"></script>
-		<script src="/js/app.js"></script>
-		<script src="/js/controllers/AuthController.js"></script>
-		<script src="/js/controllers/DashboardController.js"></script>
-		<script src="/js/controllers/MainController.js"></script>
-		<script src="/js/controllers/NavController.js"></script>
-		<script src="/js/controllers/SettingsController.js"></script>
-		<script src="/js/services/authService.js"></script>
-		<script src="/js/services/baconService.js"></script>
-		<script src="/js/services/redirectService.js"></script>
-		<script src="/js/services/userService.js"></script>
-		<!--SCRIPTS END-->
-
-	</body>
+<body layout ng-controller="MainController as mc" ng-cloak>
+  <side-nav></side-nav>
+  <div layout="column" flex>
+    <tool-bar></tool-bar>
+    <message-container layout="row" layout-align="center center" ng-if="mc.error || mc.message">
+      <div layout="column">
+        <div layout-padding ng-if="mc.error">
+          <p>Error: <span class="red-text text-darken-1" ng-bind="mc.error"></span></p>
+        </div>
+        <div layout-padding ng-if="mc.message">
+          <pre class="text-info md-padding" ng-bind="mc.message"></pre>
+        </div>
+      </div>
+      <md-button class="md-fab md-mini md-primary" md-no-ink ng-click="mc.error = false; mc.message = false">&times;</md-button>
+    </message-container>
+    <!--ng-view container-->
+    <div class="md-padding" ng-view flex></div>
+  </div>
+  <!--SCRIPTS-->
+  <script src="/js/dependencies/sails.io.js"></script>
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="/bower_components/summernote/dist/summernote.js"></script>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/angular-route/angular-route.js"></script>
+  <script src="/bower_components/angular-aria/angular-aria.js"></script>
+  <script src="/bower_components/angular-animate/angular-animate.js"></script>
+  <script src="/bower_components/angular-material/angular-material.js"></script>
+  <script src="/bower_components/angular-messages/angular-messages.js"></script>
+  <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
+  <script src="/bower_components/trix/dist/trix.js"></script>
+  <script src="/bower_components/angular-trix/dist/angular-trix.js"></script>
+  <script src="/bower_components/moment/moment.js"></script>
+  <script src="/bower_components/angular-moment/angular-moment.js"></script>
+  <script src="/bower_components/angular-summernote/dist/angular-summernote.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/controllers/AddCommentController.js"></script>
+  <script src="/js/controllers/AddEntryController.js"></script>
+  <script src="/js/controllers/AnswerController.js"></script>
+  <script src="/js/controllers/AuthController.js"></script>
+  <script src="/js/controllers/CommentController.js"></script>
+  <script src="/js/controllers/DashboardController.js"></script>
+  <script src="/js/controllers/EntryDetailController.js"></script>
+  <script src="/js/controllers/EntryHomeController.js"></script>
+  <script src="/js/controllers/MainController.js"></script>
+  <script src="/js/controllers/NavController.js"></script>
+  <script src="/js/controllers/ProfileController.js"></script>
+  <script src="/js/controllers/QuestionController.js"></script>
+  <script src="/js/controllers/SettingsController.js"></script>
+  <script src="/js/directives/AnswerDirective.js"></script>
+  <script src="/js/directives/CommentDirective.js"></script>
+  <script src="/js/directives/EntrySummaryDirective.js"></script>
+  <script src="/js/directives/ProfileDirective.js"></script>
+  <script src="/js/directives/QuestionDirective.js"></script>
+  <script src="/js/directives/SidenavDirective.js"></script>
+  <script src="/js/directives/ToolbarDirective.js"></script>
+  <script src="/js/services/authService.js"></script>
+  <script src="/js/services/baconService.js"></script>
+  <script src="/js/services/entryService.js"></script>
+  <script src="/js/services/userService.js"></script>
+  <!--SCRIPTS END-->
+</body>
 
 </html>
