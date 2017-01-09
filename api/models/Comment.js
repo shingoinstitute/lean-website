@@ -19,7 +19,7 @@ module.exports = {
 		  maxLength: 1200
 	  },
 
-	  parentId: {
+	  parent: {
 		  model: 'entry'
 	  },
 

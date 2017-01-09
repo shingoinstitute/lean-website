@@ -31,18 +31,21 @@
 			});
 		}
 
-		service.updateUser = function (user, next) {
+		/**
+		 * @description Call to REST API to update user
+		 * @param user - the new fields to update
+		 * @return updatedUser - the updatedUser from the server
+		 * @throws "No user returned" when the server doesn't return a user
+		 */
+		service.updateUser = function (user) {
+			delete user.permissions
 			var params = JSON.stringify(user);
-			$http.put('/user/' + user.uuid, params)
+			return $http.put('/user/' + user.uuid, params)
 				.then(function (data) {
-					if (data.data && data.data.user) {
-						return next(null, data.data.user);
+					if (data.data) {
+						return data.data;
 					}
-					return next(null, false);
-				})
-				.catch(function (err) {
-					console.error('Error: ', err);
-					return next(err, false);
+					throw "No user returned!";
 				});
 		}
 

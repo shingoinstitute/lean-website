@@ -18,7 +18,7 @@
 		vm.enableSaveButton = false;
 
 		vm.findUser = function() {
-			_userService.findMe(function(err, user) {
+			_userService.getUser(function(err, user) {
 				if (err) { $rootScope.$broadcast('$errorMessage', err); }
 				if (user) {
 					vm.user = user;

@@ -34,8 +34,18 @@ module.exports = {
 		  defaultsTo: false
 	  },
 
-	  parentId: {
+	  parent: {
 		  model: 'entry'
+	  },
+
+	  answers: {
+		  collection: 'entry',
+		  via: 'parent'
+	  },
+
+	  comments: {
+		  collection: 'comment',
+		  via: 'parent'
 	  },
 
 	  owner: {

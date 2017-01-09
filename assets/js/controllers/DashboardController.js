@@ -1,14 +1,46 @@
 (function () {
-	'use strict';
+  'use strict';
 
-	angular.module('leansite')
-		.controller('DashboardController', DashboardController);
+  angular.module('leansite')
+    .controller('DashboardController', DashboardController);
 
-	DashboardController.$inject = ['$scope', '$rootScope', '$cookies', '$http', '$location', '_userService', 'JWT_TOKEN'];
+  DashboardController.$inject = ['$scope', '$rootScope', '$cookies', '$http', '$location', '_userService', '_entryService', 'BROADCAST'];
 
-	function DashboardController($scope, $rootScope, $cookies, $http, $location, _userService, JWT_TOKEN) {
-		var vm = this;
-		vm.templatePath = 'templates/user/me.html';
+  function DashboardController($scope, $rootScope, $cookies, $http, $location, _userService, _entryService, BROADCAST) {
+    var vm = this;
+    var userId = '';
+    vm.questions = [];
+    vm.answers = [];
+    vm.comments = [];
+
+    vm.go = function (path) {
+      $location.path(path);
+    }
+
+    vm.loadData = function () {
+      _entryService.getUserQuestions(userId)
+        .then(function (response) {
+          vm.questions = response.data;
+          return _entryService.getUserAnswers(userId)
+        })
+        .then(function (response) {
+          vm.answers = response.data;
+          return _entryService.getUserComments(userId)
+        })
+        .then(function (response) {
+          vm.comments = response.data;
+          console.log("loaded data", vm.questions);
+        })
+        .catch(function (err) {
+          if (BROADCAST.loggingLevel = "DEBUG") {
+            $rootScope.$broadcast(BROADCAST.error, JSON.stringify(err));
+          } else {
+            $rootScope.$broadcast(BROADCAST.error, "There was an error loading your profile data. Please try again...");
+          }
+        });
+    }
+
+    vm.loadData();
 
 		/**
 		 * @description {function} onPageLoad :: sends broadcast to MainController, which in return sends broadcast back to DashboardController via '$DashboardControllerListener'
@@ -23,7 +55,8 @@
 		 * @description {function} :: listener for broadcast from MainController. If user (in function(event, user)) is null, a user is not logged in.
 		 */
 		$scope.$on('$DashboardControllerListener', function(event, user) {
-			
+			userId = user.uuid;
+      vm.loadData();
 		});
 
 		vm.onPageLoad('$MainControllerListener', 'DashboardController');
