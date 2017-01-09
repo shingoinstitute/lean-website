@@ -61,6 +61,7 @@
 				.dark();
 		})
 		.constant('BROADCAST', {
+			loggingLevel: 'DEBUG', // 'DEBUG' or 'PRODUCTION'
 			info: '$infoMessage',
 			error: '$errorMessage',
 			userLogout: '$userLoggedOut',
