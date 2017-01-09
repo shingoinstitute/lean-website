@@ -61,11 +61,7 @@
 				.dark();
 		})
 		.constant('BROADCAST', {
-<<<<<<< HEAD
-			loggingLevel: 'DEBUG',  // 'DEBUG', 'PRODUCTION'
-=======
 			loggingLevel: 'DEBUG', // 'DEBUG' or 'PRODUCTION'
->>>>>>> development
 			info: '$infoMessage',
 			error: '$errorMessage',
 			userLogout: '$userLoggedOut',
