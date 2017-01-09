@@ -8,18 +8,26 @@ var passport = require('passport');
 
 module.exports = {
 
-	signUp: function(req, res) {
+	createAccount: function(req, res) {
 		var newUser = {};
-		newUser.email = req.param('username');
+		newUser.email = req.param('email');
 		newUser.password = req.param('password');
 		newUser.firstname = req.param('firstname');
 		newUser.lastname = req.param('lastname');
+
+		if (!newUser.email || !newUser.password || !newUser.firstname || !newUser.lastname) {
+			return res.json({
+				success: false,
+				error: 'Could not create new account, missing required paramaters.'
+			});
+		}
 
 		User.signUp(newUser)
 		.then(function(user) {
 			return res.json({
 				success: true,
-				user: user.toJSON()
+				user: user.toJSON(),
+				token: AuthService.createToken(user)
 			});
 		})
 		.catch(function(err) {
@@ -56,8 +64,8 @@ module.exports = {
 
 				return res.json({
 					success: true,
-					token: AuthService.createToken(user),
-					user: user.toJSON()
+					user: user.toJSON(),
+					token: AuthService.createToken(user)
 				});
 		})(req, res);
 	},
@@ -85,7 +93,7 @@ module.exports = {
 				res.cookie('JWT', token);
 				res.set('Authorization', 'JWT ' + token);
 			} else {
-				sails.log.info('No user in req.');
+				sails.log.info('user object not found in req object.');
 			}
 
 			return res.redirect('/dashboard');

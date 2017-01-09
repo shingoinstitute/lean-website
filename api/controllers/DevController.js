@@ -6,44 +6,28 @@
  */
 
 var passport = require('passport');
+var _ = require('lodash');
 
 module.exports = {
-	linkedinAuth: function(req, res) {
-		return res.view('dev/login', {
-			layout: 'devLayout'
-		});
-	},
+	deleteAll: function (req, res) {
+		var deleteCount = 0;
+		User.find().populate('permissions').exec(function (err, users) {
 
-	linkedinAuthCallback: function(req, res) {
-		passport.authenticate('linkedin', {
-			failureRedirect: '/login',
-			session: false
-		})(req, res, function(err, foo, bar) {
-			if (err) {
-				sails.log.error(err);
-				return res.json({
-					success: false,
-					user: null,
-					error: err
-				});
-			}
-
-			if (req.user) {
-				var token = AuthService.createToken(req.user);
-				res.cookie('JWT', token);
-				res.set('Authorization', 'JWT ' + token);
-				sails.log.info('Auth header: ' + res.headers.authorization);
-				sails.log.info('Token: ' + token);
-			} else {
-				sails.log.info('No user in req.');
-			}
-
-			return res.view('dev/user', {
-				layout: 'devLayout',
-				error: err,
-				user: foo,
-				foo: bar
+			if (err) return res.json({
+				success: false,
+				error: JSON.stringify(err)
 			});
+
+			users.forEach(function(record) {
+				User.destroy({uuid: record.uuid}).exec(function(err) {
+					if (err) sails.log.error('', err);
+				});
+			});
+			
+			return res.json({
+				info: 'deleted ' + users.length + ' records.'
+			});
+
 		});
-	},
+	}
 };

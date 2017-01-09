@@ -117,3 +117,5 @@ nbproject
 .node_history
 .vscode
 typings
+tsconfig.json
+typings.d.ts

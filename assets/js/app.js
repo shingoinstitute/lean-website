@@ -69,7 +69,8 @@
 			setTitle: '$setTitle',
 			qSave: '$questionSave',
 			qAnswered: '$questionAnswered',
-			entryChange: '$entryChange'
+			entryChange: '$entryChange',
+			userUpdated: '$userUpdated'
 		})
 		.constant('JWT_TOKEN', 'JWT');
 
