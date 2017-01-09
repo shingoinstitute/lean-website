@@ -19,11 +19,11 @@
       <md-icon md-menu-align-target><i class="mdi mdi-developer-board mdi-24px"></i></md-icon>
       Admin
     </md-list-item>
-    <md-list-item ng-href="/login" ng-if="mc.user">
+    <md-list-item ng-href="/login" ng-if="!mc.user">
       <md-icon md-menu-align-target><i class="mdi mdi-login-variant mdi-24px"></i></md-icon>
       Login
     </md-list-item>
-    <md-list-item ng-click="vm.logout()" ng-if="!mc.user">
+    <md-list-item ng-click="vm.logout()" ng-if="mc.user">
       <md-icon md-menu-align-target><i class="mdi mdi-logout mdi-24px"></i></md-icon>
       Logout
     </md-list-item>

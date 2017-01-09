@@ -8,7 +8,7 @@
 
   function DashboardController($scope, $rootScope, $cookies, $http, $location, _userService, _entryService, BROADCAST) {
     var vm = this;
-    var userId = $rootScope.userId;
+    var userId = '';
     vm.questions = [];
     vm.answers = [];
     vm.comments = [];
@@ -29,6 +29,7 @@
         })
         .then(function (response) {
           vm.comments = response.data;
+          console.log("loaded data", vm.questions);
         })
         .catch(function (err) {
           if (BROADCAST.loggingLevel == "DEBUG") {
@@ -40,6 +41,26 @@
     }
 
     vm.loadData();
-  }
+
+		/**
+		 * @description {function} onPageLoad :: sends broadcast to MainController, which in return sends broadcast back to DashboardController via '$DashboardControllerListener'
+		 * @param {string} listenerName :: name of the listener
+		 * @param {string} controllerName :: name of the controller making the broadcast
+		 */
+		vm.onPageLoad = function(listenerName, controllerName) {
+			$rootScope.$broadcast(listenerName, controllerName);
+		}
+
+		/**
+		 * @description {function} :: listener for broadcast from MainController. If user (in function(event, user)) is null, a user is not logged in.
+		 */
+		$scope.$on('$DashboardControllerListener', function(event, user) {
+			userId = user.uuid;
+      vm.loadData();
+		});
+
+		vm.onPageLoad('$MainControllerListener', 'DashboardController');
+
+	}
 
 })();

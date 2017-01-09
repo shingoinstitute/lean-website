@@ -61,7 +61,11 @@
 				.dark();
 		})
 		.constant('BROADCAST', {
+<<<<<<< HEAD
 			loggingLevel: 'DEBUG',  // 'DEBUG', 'PRODUCTION'
+=======
+			loggingLevel: 'DEBUG', // 'DEBUG' or 'PRODUCTION'
+>>>>>>> development
 			info: '$infoMessage',
 			error: '$errorMessage',
 			userLogout: '$userLoggedOut',
@@ -69,7 +73,8 @@
 			setTitle: '$setTitle',
 			qSave: '$questionSave',
 			qAnswered: '$questionAnswered',
-			entryChange: '$entryChange'
+			entryChange: '$entryChange',
+			userUpdated: '$userUpdated'
 		})
 		.constant('JWT_TOKEN', 'JWT');
 

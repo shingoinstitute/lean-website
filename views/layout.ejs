@@ -5,7 +5,6 @@
   <title>LEAN site</title>
   <!-- Viewport mobile tag for sensible mobile support -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link href="//bootswatch.com/yeti/bootstrap.css" rel="stylesheet">
   <!--STYLES-->
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css">
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
@@ -19,7 +18,7 @@
   <base href="/">
 </head>
 
-<body layout ng-controller="MainController as mc" ng-cloak>
+<body id="main" layout ng-controller="MainController as mc" ng-cloak>
   <side-nav></side-nav>
   <div layout="column" flex>
     <tool-bar></tool-bar>
@@ -79,6 +78,7 @@
   <script src="/js/services/authService.js"></script>
   <script src="/js/services/baconService.js"></script>
   <script src="/js/services/entryService.js"></script>
+  <script src="/js/services/redirectService.js"></script>
   <script src="/js/services/userService.js"></script>
   <!--SCRIPTS END-->
 </body>

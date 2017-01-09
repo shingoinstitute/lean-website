@@ -1,8 +1,8 @@
-(function() {
+(function () {
 	'use strict';
 
 	angular.module('leansite')
-	.factory('_authService', _authService);
+		.factory('_authService', _authService);
 
 	_authService.$inject = ['$http', '$cookies', '$window', '$location', '$rootScope', 'BROADCAST', 'JWT_TOKEN']
 
@@ -11,50 +11,115 @@
 
 		/**
 		* @description :: Login using local authentication strategy
-		* @param username - the user's email address
-		* @param password - the user's password
+		* @param {string} username - the user's email address
+		* @param {string} password - the user's password
 		*/
-		service.authenticateLocal = function(username, password, next) {
+		service.authenticateLocal = function (username, password, next) {
 			$http.post('/auth/local', {
 				username: username,
 				password: password
 			})
-			.then(function(data) {
-				if (!data.data && !data.data.user) { $rootScope.$broadcast(BROADCAST.error, 'Login error, @local auth: user is undefined.'); }
-				console.log('DATA: ', data.data);
-				
-				if (data.data && data.data.token) {
-					var token = data.data.token;
-					$cookies.put(JWT_TOKEN, token);
-				}
+				.then(function (data) {
+					if (data.data && data.data.error) {
+						var error = data.data.error;
+						if (typeof error == 'Error') {
+							return next(error, false);
+						}
+						return next(new Error(error), false);
+					}
 
-				if (data.data && data.data.user) {
-					return next(null, data.data.user);
-				}
-				return next(null, false);
-			})
-			.catch(function(err) {
-				console.log('', err);
-				return next(err);
-			});
+					var user;
+					if (data.data) { user = data.data.user; }
+
+					if (!user) {
+						return next(new Error('Error: user not found.'), false);
+					}
+
+					var token;
+					if (data.data && data.data.token) { token = data.data.token; }
+
+					if (!token) {
+						return next(new Error('Error: JWT token not found.'), false);
+					}
+
+					$cookies.put(JWT_TOKEN, token);
+					return next(null, user);
+				})
+				.catch(function (err) {
+					var e = new Error();
+					console.error('Error: authService:' + (e.lineNumber - 1), err);
+					return next(err);
+				});
 		}
 
 		/**
 		* @description :: Login using LinkedIn OAuth 2.0 authentication strategy
-		* @see {file} - config/passport.js
+		* @see {file} - {root}/config/passport.js
 		*/
-		service.authenticateLinkedin = function() { $window.location.href = "/auth/linkedin"; }
+		service.authenticateLinkedin = function () { $window.location.href = "/auth/linkedin"; }
+
+		/**
+		 * @description {function} createAccount :: POSTs to server to create a new user who can be authenticated via a local strategy
+		 * @param {Object} user :: user object containing required parameters
+		 */
+		// * @return {Promise} :: returns a bluebird promise
+		service.createAccount = function (user, next) {
+			// return new Promise(function (resolve, reject) {
+				if (!user.password || !user.firstname || !user.lastname || !user.email) {
+					// return reject(new Error('Error: Missing required fields.'))
+					return next(new Error('Error: Missing required fields.'), false);
+				}
+
+				$http.post('/auth/createAccount', {
+					firstname: user.firstname,
+					lastname: user.lastname,
+					email: user.email,
+					password: user.password
+				})
+				.then(function (data) {
+					if (data.data && data.data.error)
+						return next(data.data.error, false);
+						// return reject(data.data.error)
+
+					var user;
+					if (data.data)
+						user = data.data.user;
+
+					var token;
+					if (data.data)
+						token = data.data.token;
+
+					if (!token)
+						return next(new Error('failed to generate JSON Web Token!'));
+					$cookies.put(JWT_TOKEN, token);
+
+					if (!user)
+						return next(new Error('an unknown error occured'), false);
+						// return reject(new Error('an unknown error occured'));
+
+						
+						// broadcasting to MainController will cause MainController to call its getUser() function
+						$rootScope.$broadcast('$MainControllerListener');
+						return next(null, user);
+					// return resolve(user);
+				})
+				.catch(function (err) {
+					return next(err, false);
+					// return reject(err);
+				});
+			// });
+		}
 
 		/**
 		* @description :: Logout user; removes JWT token from cookies; redirects client to home page
 		*/
-		service.logout = function() {
+		service.logout = function () {
 			$http.get('/auth/logout')
-			.then(function(data) {
-				$cookies.remove(JWT_TOKEN);
-				$rootScope.$broadcast(BROADCAST.userLogout);
-				$location.path('/home');
-			});
+				.then(function (data) {
+					$cookies.remove(JWT_TOKEN);
+					$rootScope.$broadcast(BROADCAST.userLogout);
+					$location.path('/home');
+				});
 		}
 
 		return service;
