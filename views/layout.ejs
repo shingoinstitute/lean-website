@@ -32,7 +32,7 @@
 
 				<!--User Navigation-->
 				<md-subheader></md-subheader>
-				<md-list-item ng-href="/dashboard">
+				<md-list-item ng-click="vm.showDashboard()">
 					<md-icon md-menu-align-target><i class="mdi mdi-view-dashboard mdi-24px"></i></md-icon>
 					<span>Dashboard</span>
 				</md-list-item>
@@ -63,8 +63,8 @@
 						<md-icon md-menu-origin class="green-text text-lighten-1"><i class="mdi mdi-dots-vertical mdi-24px"></i></md-icon>
 					</md-button>
 					<md-menu-content width="3">
-						<md-menu-item ng-click="vm.showDashboard()">
-							<md-button>
+						<md-menu-item>
+							<md-button ng-click="vm.showDashboard()">
 								<md-icon md-menu-align-target><i class="mdi mdi-view-dashboard mdi-24px"></i></md-icon>
 								Dashboard
 							</md-button>
