@@ -25,7 +25,7 @@
       });
     }
 
-    service.getUserComments = function(uuid){
+    service.getUserComments = function (uuid) {
       return $http({
         method: 'get',
         dataType: 'json',
@@ -53,7 +53,7 @@
       });
     }
 
-    service.readComment = function(id){
+    service.readComment = function (id) {
       return $http({
         method: 'get',
         dataType: 'json',
@@ -95,6 +95,29 @@
         url: '/comment/' + comment.id,
         data: comment
       });
+    }
+
+    service.query = function (queryString) {
+      var query = {
+        'or': [{
+            'title': {
+              'like': "%25" + queryString + "%25"
+            },
+          },
+          {
+            'content': {
+              'like': "%25" + queryString + "%25"
+            }
+          }
+        ]
+      };
+      var url = '/entry?where=' + JSON.stringify(query) + '&populate=owner';
+      console.log("query: ", url);
+      return $http({
+        method: 'get',
+        dataType: 'json',
+        url: url
+      })
     }
 
     return service;

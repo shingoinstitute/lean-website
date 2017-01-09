@@ -10,12 +10,24 @@
         </md-button>
       </div>
     </div>
-    <h2>Recent Questions</h2>
-    <hr>
-    <div flex>
-      <md-list-item ng-repeat="question in vm.recent | orderBy: 'createdAt' : true" flex>
-        <entry-summary entry="question" flex></entry-summary>
-      </md-list-item>
+    <div ng-show="!vm.isSearching">
+      <h2>Recent Questions</h2>
+      <hr>
+      <div flex>
+        <md-list-item ng-repeat="question in vm.recent | orderBy: 'createdAt' : true" flex>
+          <entry-summary entry="question" flex></entry-summary>
+        </md-list-item>
+      </div>
+    </div>
+    <div ng-show="vm.isSearching">
+      <h2>Search Results</h2>
+      <hr>
+      <div flex>
+        <md-list-item ng-show="vm.results.length" ng-repeat="question in vm.results | orderBy: 'createdAt' : true" flex>
+          <entry-summary entry="question" flex></entry-summary>
+        </md-list-item>
+        <h4 ng-show="!vm.results.length">No results...</h4>
+      </div>
     </div>
   </div>
   <div flex="30">
