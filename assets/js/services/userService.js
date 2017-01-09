@@ -9,18 +9,26 @@
 	function _userService($http, $cookies, $window, $location, JWT_TOKEN) {
 		var service = {};
 
+		/**
+		 * @desc {function} getUser :: API call to find user, requires a JWT
+		 */
 		service.getUser = function (next) {
+
+			if (!$cookies.get(JWT_TOKEN)) {
+				return next(new Error('Error: user does not have a JSON Web Token'), false);
+			}
+
 			$http.get('/me')
-				.then(function (data) {
-					var user;
-					if (data.data) user = data.data.user;
-					if (!user) { return next(new Error('Error: user not found, @ userService.findMe.')); }
-					return next(null, user);
-				})
-				.catch(function (err) {
-					console.error('Error: ', err);
-					return next(err, false);
-				});
+			.then(function (data) {
+				var user;
+				if (data.data) user = data.data.user;
+				if (!user) { return next(new Error('Error: user not found, @ userService.findMe.')); }
+				return next(null, user);
+			})
+			.catch(function (err) {
+				console.error('Error: ', err);
+				return next(err, false);
+			});
 		}
 
 		service.updateUser = function (user, next) {

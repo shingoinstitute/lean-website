@@ -59,7 +59,8 @@
 			error: '$errorMessage',
 			userLogout: '$userLoggedOut',
 			userLogin: '$userLoggedIn',
-			setTitle: '$setTitle'
+			setTitle: '$setTitle',
+			userUpdated: '$userUpdated'
 		})
 		.constant('JWT_TOKEN', 'JWT');
 

@@ -1,5 +1,34 @@
-<main-content ng-controller="AuthController as vm">
+<md-content ng-controller="AuthController as vm">
 	<div class="container md-padding">
-		<h3>Create Account</h3>
+		
+		<p class="text-warn" ng-if="vm.error" ng-model="vm.error"></p>
+
+		<md-input-container class="md-block">
+			<label>First name</label>
+			<input ng-model="vm.user.firstname" ng-required="true">
+		</md-input-container>
+		
+		<md-input-container class="md-block">
+			<label>Last name</label>
+			<input ng-model="vm.user.lastname" ng-required="true">
+		</md-input-container>
+
+		<md-input-container class="md-block">
+			<label>Email address</label>
+			<input type="email" ng-model="vm.user.email" ng-required="true">
+		</md-input-container>
+
+		<p class="text-warn" ng-if="vm.user.confirmPassword && vm.user.password != vm.user.confirmPassword">passwords don't match!</p>
+
+		<md-input-container class="md-block">
+			<label>Password</label>
+			<input  type="password" ng-model="vm.user.password" ng-required="true">
+		</md-input-container>
+
+		<md-input-container class="md-block">
+			<label>Confirm password</label>
+			<input type="password" ng-model="vm.user.confirmPassword" ng-required="true">
+		</md-input-container>
+		<md-button class="md-button md-raised md-primary" ng-disabled="!vm.createButonEnabled" ng-click="vm.createAccount(vm.user)">Create Account</md-button>
 	</div>
-</main-content>
+</md-content>

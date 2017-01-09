@@ -35,7 +35,7 @@ module.exports.policies = {
       linkedInAuth: true,
       linkedInAuthCallback: true,
 		localAuth: true,
-		signUp: true
+		createAccount: true
    },
 
 	'UserController': {
@@ -44,8 +44,7 @@ module.exports.policies = {
 
 	'DevController': {
 		'*': false,
-		linkedinAuth: true,
-		linkedinAuthCallback: true,
+		deleteAll: true
 	}
 
    /***************************************************************************

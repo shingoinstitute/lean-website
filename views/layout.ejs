@@ -44,11 +44,11 @@
 					<md-icon md-menu-align-target><i class="mdi mdi-developer-board mdi-24px"></i></md-icon>
 					Admin
 				</md-list-item>
-				<md-list-item ng-href="/login" ng-if="mc.user">
+				<md-list-item ng-href="/login" ng-if="!mc.user">
 					<md-icon md-menu-align-target><i class="mdi mdi-login-variant mdi-24px"></i></md-icon>
 					Login
 				</md-list-item>
-				<md-list-item ng-click="vm.logout()" ng-if="!mc.user">
+				<md-list-item ng-click="vm.logout()" ng-if="mc.user">
 					<md-icon md-menu-align-target><i class="mdi mdi-logout mdi-24px"></i></md-icon>
 					Logout
 				</md-list-item>
@@ -83,14 +83,14 @@
 							</md-button>
 
 						</md-menu-item>
-						<md-menu-item ng-href="/login" ng-if="mc.user">
+						<md-menu-item ng-href="/login" ng-if="!mc.user">
 							<md-button>
 								<md-icon md-menu-align-target><i class="mdi mdi-login-variant mdi-24px"></i></md-icon>
 								Login
 							</md-button>
 
 						</md-menu-item>
-						<md-menu-item ng-click="vm.logout()" ng-if="!mc.user">
+						<md-menu-item ng-click="vm.logout()" ng-if="mc.user">
 							<md-button>
 								<md-icon md-menu-align-target><i class="mdi mdi-logout mdi-24px"></i></md-icon>
 								Logout
@@ -138,6 +138,7 @@
 		<script src="/js/controllers/SettingsController.js"></script>
 		<script src="/js/services/authService.js"></script>
 		<script src="/js/services/baconService.js"></script>
+		<script src="/js/services/redirectService.js"></script>
 		<script src="/js/services/userService.js"></script>
 		<!--SCRIPTS END-->
 

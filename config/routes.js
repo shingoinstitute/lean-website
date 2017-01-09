@@ -28,28 +28,12 @@ module.exports.routes = {
    '/auth/local': 'AuthController.localAuth',
 	'/auth/login': 'AuthController.login',
 	'/auth/logout': 'AuthController.logout',
-	'/auth/signup': 'AuthController.signUp',
+	'POST /auth/createAccount': 'AuthController.createAccount',
 
 	// user routes
 	'/me': 'UserController.me',
 
 	//dev routes
-	'GET /dev/auth/linkedin': {
-		layout: 'devLayout',
-		controller: 'DevController',
-		action: 'linkedinAuth'
-	},
-
-	'GET /dev/login': {
-		layout: 'devLayout',
-		controller: 'DevController',
-		action: 'linkedinAuth'
-	},
-
-	'/dev/auth/linkedin/callback': {
-		layout: 'devLayout',
-		controller: 'DevController',
-		action: 'linkedinAuthCallback'
-	}
+	'/dev/delete': 'DevController.deleteAll',
 
 };
