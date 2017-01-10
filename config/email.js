@@ -12,5 +12,4 @@ module.exports.email = {
 	},
 	templateDir: 'views/emailTemplates',
 	from: 'shingo.it@usu.edu',
-	subject: 'verify email address'
 }

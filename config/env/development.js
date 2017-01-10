@@ -19,6 +19,19 @@ module.exports = {
 
   models: {
     connection: 'localDiskDb'
+  },
+  cryptoJs: {
+    secret: 'keyboardcats123'
+  },
+  email: {
+    user: 'cr.blackburn89@gmail.com',
+    service: 'gmail',
+    mailOptions = {
+			from: 'shingo.it@usu.edu',
+			to: email,
+			subject: 'test email',
+			html: '<p>This is a test email</p>'
+		}
   }
 
 };
