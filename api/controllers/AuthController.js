@@ -5,6 +5,7 @@
 */
 
 var passport = require('passport');
+var nodemailer = require('nodemailer');
 
 module.exports = {
 
@@ -18,7 +19,7 @@ module.exports = {
 		if (!newUser.email || !newUser.password || !newUser.firstname || !newUser.lastname) {
 			return res.json({
 				success: false,
-				error: 'Could not create new account, missing required paramaters.'
+				error: 'Could not create new account, missing required parameters.'
 			});
 		}
 
@@ -26,6 +27,23 @@ module.exports = {
 			if (err) return res.json({
 				success: false,
 				error: err
+			});
+
+			var transporter = nodemailer.createTransport('smtps://shingo.it@usu.edu:--ShingoIT1776--@smtp.usu.edu');
+
+			var mailOptions = {
+				from: 'shingo.it@usu.edu',
+				to: 'cr.blackburn89@gmail.com',
+				subject: 'email test',
+				text: 'Hello world! Go to http://localhost:1337/dashboard, just for the heck of it!',
+				html: 'Hello world! <a href="http://localhost:1337/dashboard">Click here to verify your email address</a>'
+			}
+
+			transporter.sendMail(mailOptions, function(err, info) {
+				if (err) {
+					return sails.log.error(err);
+				}
+				sails.log.info('Message sent: ' + info.response);
 			});
 
 			return res.json({

@@ -47,7 +47,13 @@ module.exports = {
 			minLength: 8
 		},
 
-		email: {
+		primaryEmail: {
+			type: 'string',
+			email: true,
+			unique: true
+		},
+
+		secondaryEmail: {
 			type: 'string',
 			email: true,
 			unique: true

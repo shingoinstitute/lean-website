@@ -49,7 +49,8 @@ module.exports = {
 	  },
 
 	  tags: {
-		  model: 'entryTag'
+		  collection: 'entryTag',
+		  via: 'questions'
 	  },
 
 	  users_did_upvote: {

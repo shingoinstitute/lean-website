@@ -35,10 +35,6 @@ module.exports = {
 		}
 	},
 
-	permissions: function(req, res) {
-
-	},
-
    users: function(req, res) {
       User.find().exec(function(err, users) {
          if (err) {
@@ -56,7 +52,8 @@ module.exports = {
    },
 
    createUser: function(req, res) {
-      User.findOne({email: req.param('username')}).exec(function(err, user) {
+      var username = req.param('email') || req.param('username');
+      User.findOne({primaryEmail: username}).exec(function(err, user) {
          if (err) return res.json({success: false, error: err});
          if (!user) {
             User.create(user).exec(function(err, user) {
@@ -69,7 +66,7 @@ module.exports = {
          } else {
             return res.json({
 					success: false,
-               error: 'username/email is already in use.'
+               error: 'That email address is already in use.'
             });
          }
       });

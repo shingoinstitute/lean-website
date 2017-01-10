@@ -35,5 +35,6 @@ module.exports.routes = {
 
 	//dev routes
 	'/dev/delete': 'DevController.deleteAll',
+	'/dev/sendmail': 'DevController.sendMail',
 
 };

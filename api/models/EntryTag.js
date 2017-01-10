@@ -17,6 +17,11 @@ module.exports = {
 
     name: 'string',
 
+    questions: {
+      collection: 'Entry',
+      via: 'tags'
+    },
+
     createdBy: {
       model: 'user'
     }

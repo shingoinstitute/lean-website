@@ -7,6 +7,7 @@
 
 var passport = require('passport');
 var _ = require('lodash');
+var nodemailer = require('nodemailer');
 
 module.exports = {
 	deleteAll: function (req, res) {
@@ -29,5 +30,26 @@ module.exports = {
 			});
 
 		});
+	},
+
+	sendMail: function(req, res) {
+		var email = req.param('email') || 'cr.blackburn89@gmail.com';
+		sails.hooks.email.send('', {
+			recipientName: 'Craig',
+			senderName: 'TeachingLEAN'
+		}, {
+			to: email,
+			subject: 'Test Email'
+		}, function(err) {
+			if (err) return res.json({
+				success: false,
+				error: err
+			});
+			return res.json({
+				success: true,
+				info: 'Message sent to ' + email
+			});
+		});
 	}
+
 };

@@ -44,7 +44,8 @@ module.exports.policies = {
 
 	'DevController': {
 		'*': false,
-        'deleteAll': true
+        'deleteAll': true,
+        'sendMail': true
 	},
 
     'EntryController': {
