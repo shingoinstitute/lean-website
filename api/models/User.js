@@ -92,7 +92,7 @@ module.exports = {
 			});
 		},
 
-		subtractReputation: function (points) {
+		subtracteputation: function (points) {
 			var obj = this;
 			if (points > 0) points = points * -1;
 			obj.addReputation(points);
