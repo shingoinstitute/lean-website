@@ -19,34 +19,35 @@
 
 module.exports.policies = {
 
-   /***************************************************************************
-   *                                                                          *
-   * Default policy for all controllers and actions (`true` allows public     *
-   * access)                                                                  *
-   *                                                                          *
-   ***************************************************************************/
+    /***************************************************************************
+    *                                                                          *
+    * Default policy for all controllers and actions (`true` allows public     *
+    * access)                                                                  *
+    *                                                                          *
+    ***************************************************************************/
 
-   '*': false,
+    '*': false,
 
-   'AuthController': {
-      '*': false,
-		login: true,
-      logout: true,
-      linkedInAuth: true,
-      linkedInAuthCallback: true,
-		localAuth: true,
-		createAccount: true
-   },
+    'AuthController': {
+        '*': false,
+        login: true,
+        logout: true,
+        linkedInAuth: true,
+        linkedInAuthCallback: true,
+        localAuth: true,
+        createAccount: true,
+        verifyEmail: true
+    },
 
-	'UserController': {
-		'*': ['sessionAuth'],
-	},
+    'UserController': {
+        '*': ['sessionAuth'],
+    },
 
-	'DevController': {
-		'*': false,
+    'DevController': {
+        '*': false,
         'deleteAll': true,
         'sendMail': true
-	},
+    },
 
     'EntryController': {
         '*': true

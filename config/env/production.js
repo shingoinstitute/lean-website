@@ -21,6 +21,10 @@ module.exports = {
   //   connection: 'someMysqlServer'
   // },
 
+  email: {
+    redirectUrl: ''
+  }
+
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/

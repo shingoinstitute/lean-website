@@ -53,7 +53,7 @@ module.exports = {
 
    createUser: function(req, res) {
       var username = req.param('email') || req.param('username');
-      User.findOne({primaryEmail: username}).exec(function(err, user) {
+      User.findOne({email: username}).exec(function(err, user) {
          if (err) return res.json({success: false, error: err});
          if (!user) {
             User.create(user).exec(function(err, user) {

@@ -13,7 +13,7 @@ var Promise = require('bluebird');
 module.exports = {
 
 	// attributes
-	attributes: { 
+	attributes: {
 
 		uuid: {
 			type: 'string',
@@ -32,8 +32,8 @@ module.exports = {
 		},
 
 		firstname: 'string',
-    
-    bio: 'text',
+
+		bio: 'text',
 
 		linkedinId: 'string',
 
@@ -47,7 +47,7 @@ module.exports = {
 			minLength: 8
 		},
 
-		primaryEmail: {
+		email: {
 			type: 'string',
 			email: true,
 			unique: true
@@ -57,6 +57,11 @@ module.exports = {
 			type: 'string',
 			email: true,
 			unique: true
+		},
+
+		verifiedEmail: {
+			type: 'string',
+			defaultsTo: 'not verified!'
 		},
 
 		role: {
@@ -98,7 +103,7 @@ module.exports = {
 			});
 		},
 
-		subtracteputation: function (points) {
+		subtractReputation: function (points) {
 			var obj = this;
 			if (points > 0) points = points * -1;
 			obj.addReputation(points);
@@ -116,9 +121,31 @@ module.exports = {
 			return obj;
 		},
 
+		/**
+		 * @description verifyEmail :: verifies the user's primary email address
+		 */
+		verifyEmail: function () {
+			var uuid = this.uuid;
+			return new Promise(function (resolve, reject) {
+				User.find({uuid: uuid}).exec(function(err, users) {
+					if (err) return reject(err);
+					var user = users.pop();
+					if (!user) return reject(new Error('User not found!'));
+					user.verifiedEmail = user.email;
+					user.save(function(err) {
+						if (err) return reject(err);
+						return resolve(user);
+					});
+				});
+			});
+		},
+
+		/**
+		 * @description getPermissions :: populates and returns permissions for a user
+		 */
 		getPermissions: function (next) {
 			var obj = this.toObject();
-			UserPermissions.findOne({ id: obj.permissions }).exec(function (err, permissions) {
+			UserPermissions.findOne({ uuid: obj.permissions }).exec(function (err, permissions) {
 				if (err) return next(err, false);
 				if (!permissions) return next(null, 'none');
 				return next(null, permissions);
@@ -130,13 +157,13 @@ module.exports = {
 		 * 										 
 		 * NOTE: Using this helper function will ensure the EntryTag has a value for it's 'createdBy' property.
 		 */
-		createEntryTag: function(tagName) {
-			return new Promise(function(resolve, reject) {
-				EntryTag.create({name: tagName}).exec(function(err, tag) {
+		createEntryTag: function (tagName) {
+			return new Promise(function (resolve, reject) {
+				EntryTag.create({ name: tagName }).exec(function (err, tag) {
 					if (err) return reject(err);
 					if (!tag) return reject(new Error('Unknown error occured, failed to create new tag.'));
 					tag.createdBy = user.uuid;
-					tag.save(function(err) {
+					tag.save(function (err) {
 						if (err) return reject(err)
 						return resolve();
 					});
@@ -183,8 +210,6 @@ module.exports = {
 	},
 
 	beforeUpdate: function (values, next) {
-		if (values.uuid) delete values.uuid;
-		if (values.password) AuthService.hashPassword(values);
 		return next();
 	},
 

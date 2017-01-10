@@ -1,31 +1,68 @@
+var Promise = require('bluebird');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
+var passport = require('passport');
 
 const saltRounds = 10;
 
-module.exports = {
+const options = {
 	secret: sails.config.passport.jwt.secret,
 	issuer: sails.config.passport.jwt.issuer,
 	audience: sails.config.passport.jwt.audience,
 	algorithm: sails.config.passport.jwt.algorithm,
-	expiresInMinutes: sails.config.passport.jwt.maxAge,
+	expiresInMinutes: sails.config.passport.jwt.maxAge
+}
 
-	hashPassword: function(user) {
+module.exports = {
+
+	/**
+	 * @description hashPassword :: hashes users password to store securely in the DB
+	 * @param {Object} user - a user object containing a password. The plain text password is replaced by the hashed password.
+	 */
+	hashPassword: function (user) {
 		if (user.password) {
 			user.password = bcrypt.hashSync(user.password, saltRounds);
 		}
 	},
 
-	comparePassword: function(password, hash) {
+	/**
+	 * @description comparePassword :: compares a password against a hashed password in the database
+	 * @param {String} password - the users non-hashed password
+	 * @param {String} hash - the user's hashed password stored in the database
+	 */
+	comparePassword: function (password, hash) {
 		return bcrypt.compareSync(password, hash);
 	},
 
-	createToken: function(user) {
-		return jwt.sign({ user: user.toJSON() }, this.secret, {
-			algorithm: this.algorithm,
-			expiresIn: this.maxAge,
-			// issuer: 'localhost',
-			audience: this.audience
+	/**
+	 * @description createToken :: creates a JSON web token for a user
+	 * @param {Object} user - a user object obtained from Waterline
+	 */
+	createToken: function (user) {
+
+		try {
+			user = user.toJSON();
+		} catch (e) { }
+
+		return jwt.sign({ user: user }, options.secret, {
+			algorithm: options.algorithm,
+			expiresIn: options.maxAge,
+			audience: options.audience
+		});
+	},
+
+	/**
+	 * @description verifyToken :: verifies a jwt token given to user in verification email
+	 * @returns - bluebird promise, reject(err) or resolve(user)
+	 */
+	verifyToken: function (req, res) {
+		return new Promise(function (resolve, reject) {
+			passport.authenticate('jwt', function (err, user, info) {
+				if (err) return reject(err);
+				if (!user) return reject(new Error('invalid token'));
+				return resolve(user);
+			})(req, res);
 		});
 	}
+
 };

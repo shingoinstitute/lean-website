@@ -26,6 +26,7 @@
     "lodash": "^4.17.4",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.7.0",
+    "nodemailer-smtp-transport": "^2.7.2",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
     "passport-linkedin-oauth2": "^1.4.1",
