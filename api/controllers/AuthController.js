@@ -22,20 +22,20 @@ module.exports = {
 			});
 		}
 
-		User.signUp(newUser)
-		.then(function(user) {
+		User.create(newUser).exec(function(err, user) {
+			if (err) return res.json({
+				success: false,
+				error: err
+			});
+
 			return res.json({
 				success: true,
 				user: user.toJSON(),
 				token: AuthService.createToken(user)
 			});
-		})
-		.catch(function(err) {
-			return res.json({
-				success: false,
-				error: err
-			});
+
 		});
+
 	},
 
 	localAuth: function(req, res) {
