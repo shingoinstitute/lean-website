@@ -247,7 +247,7 @@ module.exports = {
 					values.viewComments = true;
 					values.createComments = true;
 				default:
-					var error = new Error('Invalid role option for update. Available role types are ' + AppServices.toString(sails.config.models.roles));
+					var error = new Error('Invalid role option for update. Available role types are ' + AppServices.arrayToString(sails.config.models.roles));
 					return next(error);
 				break;
 			}

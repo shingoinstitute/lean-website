@@ -29,11 +29,12 @@ module.exports.routes = {
 	'/auth/login': 'AuthController.login',
 	'/auth/logout': 'AuthController.logout',
 	'POST /auth/createAccount': 'AuthController.createAccount',
+	'GET /verifyEmail': 'AuthController.verifyEmail',
 
 	// user routes
 	'/me': 'UserController.me',
 
 	//dev routes
-	'/dev/delete': 'DevController.deleteAll',
+	'/dev/delete': 'DevController.deleteAll'
 
 };

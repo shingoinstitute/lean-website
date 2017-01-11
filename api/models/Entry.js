@@ -48,6 +48,21 @@ module.exports = {
 		  via: 'parent'
 	  },
 
+	  tags: {
+		  collection: 'entryTag',
+		  via: 'questions'
+	  },
+
+	  users_did_upvote: {
+		  collection: 'user',
+		  via: 'questions_did_upvote'
+	  },
+
+	  users_did_downvote: {
+		  collection: 'user',
+		  via: 'questions_did_downvote'
+	  },
+
 	  owner: {
 		  model: 'user'
 	  },

@@ -3,24 +3,33 @@
 *
 */
 
+var Promise = require('bluebird');
+
 module.exports = {
-	toString: function(obj) {
-		if (Array.isArray(obj)) {
+
+	/**
+	 * @description objToString :: stringifies and flattens an array
+	 */
+	arrayToString: function(arr) {
+		if (Array.isArray(arr)) {
 			var string = "";
-			for (var i = 0; i < obj.length; i++) {
-				string += obj[i];
-				if (i < obj.length - 1) { string += ", "; }
+			for (var i = 0; i < arr.length; i++) {
+				string += arr[i];
+				if (i < arr.length - 1) { string += ", "; }
 			}
 			return string;
-		} else if (typeof obj === 'object') {
-			return JSON.stringify(obj, null, 2);
+		} else if (typeof arr === 'object') {
+			return JSON.stringify(arr);
 		} else {
-			try {
-				var string = obj.toString();
-				return string;
-			} catch (e) {
-				return e.fileName + ':' + e.lineNumber + ':  ' + e.message;
-			}
+			throw new Error('Error: cannot stringify array ', arr);
 		}
 	},
+
+	/**
+	 * @description getLoggedInUser :: gets currently logged in user if present.
+	 */
+	getLoggedInUser: function(next) {
+
+	}
+
 }

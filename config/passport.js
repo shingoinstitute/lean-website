@@ -23,6 +23,9 @@ var jwtStrategyConfig = {
 	  if (req && req.cookies) {
 		  token = req.cookies.JWT;
 	  }
+
+	  if (!token) token = req.param('JWT');
+
 	  return token;
   },
 };
