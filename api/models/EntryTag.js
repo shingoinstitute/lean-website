@@ -29,21 +29,17 @@ module.exports = {
   },
 
   /**
-   * @description beforeCreate :: lifecycle callback. 
-   *                              Checks that no other tags with the same name exist when creating a new one.
+   * @description beforeCreate :: lifecycle callback that checks that no other tags with the same name exist when creating a new one.
    */
   beforeCreate: function(values, done) {
     EntryTag.find().exec(function(err, tags) {
       if (err) return next(err);
-      for (var i = 0; i < tags.length; i++) {
-        var tag = tags[i];
-        if (!tag) {
-          return next();
-        }
-        if (values.name.toLowerCase() === tag.name.toLowerCase()) {
+      tags.forEach(function(tag) {
+        if (tag.name.toLowerCase() === values.name.toLowerCase()) {
           return done(new Error('That tag name already exists!'));
         }
-      }
+      });
+      return done();
     });
   }
 
