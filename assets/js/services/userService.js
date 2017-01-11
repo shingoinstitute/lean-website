@@ -38,15 +38,25 @@
 		 * @throws "No user returned" when the server doesn't return a user
 		 */
 		service.updateUser = function (user) {
-			delete user.permissions
 			var params = JSON.stringify(user);
 			return $http.put('/user/' + user.uuid, params)
 				.then(function (data) {
-					if (data.data) {
-						return data.data;
+					if (data.data && data.data.user) {
+						return data.data.user;
 					}
-					throw "No user returned!";
+					throw new Error("No user returned!");
 				});
+		}
+
+		service.createUser = function(user) {
+			var params = JSON.stringify(user);
+			return $http.post('/user/' + params)
+			.then(function(data) {
+				if (data.data && data.data.user) {
+					return data.data.user;
+				}
+				throw new Error("An error occured, failed to create new user...");
+			});
 		}
 
 		return service;

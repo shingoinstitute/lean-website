@@ -1,9 +1,10 @@
 /**
-*  @desc AppServices.js - A place to put custom functions used througout the app.
+*  @desc AppService.js - A place to put custom functions used througout the app.
 *
 */
 
 var Promise = require('bluebird');
+var uuid = require('node-uuid');
 
 module.exports = {
 
@@ -25,11 +26,15 @@ module.exports = {
 		}
 	},
 
-	/**
-	 * @description getLoggedInUser :: gets currently logged in user if present.
-	 */
-	getLoggedInUser: function(next) {
-
+	checkForUuidCollisions: function(values) {
+		return new Promise(function(resolve, reject) {
+			User.findOne({uuid: values.uuid}).exec(function(err, user) {
+				if (err) return reject(err);
+				if (!user) return resolve(values);
+				values.uuid = uuid.v4();
+				return this.checkForUuidCollisions(values);
+			});
+		});
 	}
 
 }

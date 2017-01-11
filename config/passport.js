@@ -20,11 +20,12 @@ var jwtStrategyConfig = {
   audience: AUDIENCE,
   jwtFromRequest: function cookieExtractor(req) {
 	  var token = null;
-	  if (req && req.cookies) {
-		  token = req.cookies.JWT;
-	  }
 
+	  if (req && req.cookies) token = req.cookies.JWT;
 	  if (!token) token = req.param('JWT');
+	  if (!token) token = req.headers.jwt;
+
+	  if (sails.config.environment == 'development' && !token) sails.log.error(new Error("token not found!"));
 
 	  return token;
   },

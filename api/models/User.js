@@ -127,12 +127,12 @@ module.exports = {
 		verifyEmail: function () {
 			var uuid = this.uuid;
 			return new Promise(function (resolve, reject) {
-				User.find({uuid: uuid}).exec(function(err, users) {
+				User.find({ uuid: uuid }).exec(function (err, users) {
 					if (err) return reject(err);
 					var user = users.pop();
 					if (!user) return reject(new Error('User not found!'));
 					user.verifiedEmail = user.email;
-					user.save(function(err) {
+					user.save(function (err) {
 						if (err) return reject(err);
 						return resolve(user);
 					});
@@ -192,21 +192,18 @@ module.exports = {
 
 	beforeCreate: function (values, next) {
 		AuthService.hashPassword(values);
-		(function checkForUuidCollisions(values) {
-			User.findOne({ uuid: values.uuid }).exec(function (err, user) {
-				if (err) { return next(err); }
-				if (!user) {
-					UserPermissions.create({ user: values.uuid }).exec(function (err, permissions) {
-						if (err) return next(err);
-						values.permissions = permissions.id;
-						return next();
-					});
-				} else {
-					values.uuid = uuid.v4();
-					checkForUuidCollisions(values);
-				}
+		AppService.checkForUuidCollisions(values)
+		.then(function(user) {
+			values = user;
+			UserPermissions.create({user: values.uuid}).exec(function(err, permissions) {
+				if (err) return next(err);
+				values.permissions = permissions.id;
+				return next();				
 			});
-		})(values);
+		})
+		.catch(function(err) {
+			return next(err);
+		});
 	},
 
 	beforeUpdate: function (values, next) {

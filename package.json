@@ -24,6 +24,7 @@
     "include-all": "^1.0.0",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.17.4",
+    "mocha": "^3.2.0",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.7.0",
     "nodemailer-smtp-transport": "^2.7.2",
@@ -40,7 +41,8 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "node ./node_modules/mocha/bin/mocha test/bootstrap.test.js test/integration/**/*.test.js"
   },
   "main": "app.js",
   "repository": {
@@ -48,5 +50,9 @@
     "url": "git://github.com/craigblackburn/lean-website.git"
   },
   "author": "craigblackburn",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "mocha": "^3.2.0"
+  }
 }
