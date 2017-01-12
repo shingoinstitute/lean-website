@@ -49,8 +49,8 @@
         <profile user="mc.user"></profile>
       </div>
     </md-tab>
-    <md-tab ng-show="mc.user.isAdmin" label="Admin">
-      <p>Admin View goes here</p>
+    <md-tab ng-if="mc.user.isAdmin === true" label="Admin">
+      <admin></admin>
     </md-tab>
   </md-tabs>
 </main-content>

@@ -1,6 +1,26 @@
-
-<main-content ng-controller="DashboardController as vm">
-	<div class="container md-padding">
-		<h2>Admin Control Panel</h2>
-	</div>
-</main-content>
+<md-content layout>
+	<md-card class="md-padding">
+		<md-subheader class="header-lg">Users</md-subheader>
+		<md-whiteframe class="md-whiteframe-1dp md-padding md-margin" layout ng-model="vm.users" ng-repeat="user in vm.users">
+			<div flex>
+				<ul><strong>{{user.firstname}} {{user.lastname}}</strong>
+					<li><strong>ID:</strong> {{user.uuid}}</li>
+					<li><strong>Email:</strong> {{user.email}}</li>
+					<li><strong>Secondary email:</strong> {{user.secondaryEmail || 'none'}}</li>
+					<li><strong>User Role:</strong> {{user.role}}</li>
+					<li><strong>IsAdmin:</strong> {{user.isAdmin}}</li>
+				</ul>
+			</div>
+			<div>
+				<md-button class="md-button md-raised md-accent" ng-click="vm.deleteUser(user)">Delete</md-button>
+				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.updateUser(user)">Edit</md-button>
+			</div>
+		</md-whiteframe class="md-whiteframe-1dp">
+	</md-card>
+	<md-card ng-if="mc.user.role === 'systemAdmin'" flex class="md-padding">
+		<h3>Dev Tools</h3>
+		<div>
+			<md-button aria-label="button-label" class="md-button md-raised md-primary" ng-click="vm.createMockUsers()">Create Mock Users</md-button>
+		</div>
+	</md-card>
+</md-content>

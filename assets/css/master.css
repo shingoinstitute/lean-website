@@ -92,6 +92,11 @@ message-container {
   padding: 0;
 }
 
+.header-lg,
+.header-lg .md-subheader-content {
+  font-size: 18px;
+}
+
 md-toolbar img {
   height: 49px;
   margin-top: 5px;

@@ -36,9 +36,6 @@
 				.when('/teachingResources', {
 					templateUrl: 'templates/teachingResources.html'
 				})
-				.when('/admin', {
-					templateUrl: 'templates/user/admin.html',
-				})
 				.when('/entries', {
 					templateUrl: 'templates/entries/home.html'
 				})

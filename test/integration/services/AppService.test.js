@@ -4,7 +4,7 @@ var AppService = require('../../../api/services/AppService');
 
 describe('AppService.js', function() {
 	describe('#checkForUuidCollisions(values)', function() {
-		it('should recursively call itself until it finds a non-used UUID, then return a bluebird promise', function() {
+		it('should recursively call itself until it finds a non-used UUID, assign it, then return a bluebird promise', function() {
 			// create mock users to test with
 			var user_1 = {
 				firstname: 'bob',
@@ -24,7 +24,10 @@ describe('AppService.js', function() {
 				User.create(user_2).exec(function(err, user2) {
 					if (err) assert.ifError(err);
 					user_2 = user2;
+
+					// set user_2's uuid to user_1's uuid for guarenteed collision
 					user_2.uuid = user_1.uuid;
+
 					AppService.checkForUuidCollisions(user_2)
 					.then(function(values) {
 						user_2 = values;
@@ -38,5 +41,5 @@ describe('AppService.js', function() {
 				});
 			});
 		});
-	})
-})
+	});
+});

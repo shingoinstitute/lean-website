@@ -117,7 +117,11 @@ module.exports = {
 			delete obj.updatedAt;
 			delete obj.linkedinId;
 			obj.isAdmin = (obj.role == 'admin' || obj.role == 'systemAdmin');
-			obj.name = obj.firstname + ' ' + obj.lastname;
+			if (obj.firstname && obj.lastname) {
+				obj.name = obj.firstname + ' ' + obj.lastname;
+			} else {
+				obj.name = obj.lastname;
+			}
 			return obj;
 		},
 
@@ -194,16 +198,25 @@ module.exports = {
 		AuthService.hashPassword(values);
 		AppService.checkForUuidCollisions(values)
 		.then(function(user) {
-			values = user;
-			UserPermissions.create({user: values.uuid}).exec(function(err, permissions) {
-				if (err) return next(err);
-				values.permissions = permissions.id;
-				return next();				
-			});
+			values.uuid = user.uuid;
+			return next();
 		})
 		.catch(function(err) {
 			return next(err);
 		});
+	},
+
+	afterCreate: function(newRecord, next) {
+		UserPermissions.create({user: newRecord.uuid}).exec(function(err, permissions) {
+			if (err) return next(err);
+			newRecord.permissions = permissions.uuid;
+		});
+		User.findOne(newRecord).exec(function(err, user) {
+			if (err) return next(err);
+			if (!user) return next(new Error('user not found in afterCreate User.js lifecyle callback'));
+			user.verifyEmail();
+		});
+		return next();
 	},
 
 	beforeUpdate: function (values, next) {
