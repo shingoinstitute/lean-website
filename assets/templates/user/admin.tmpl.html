@@ -1,0 +1,61 @@
+<md-content layout>
+	<md-card flex class="md-padding">
+		<md-subheader class="header-lg md-no-sticky">Users</md-subheader>
+		<md-whiteframe class="md-whiteframe-1dp md-padding md-margin" layout="column" layout-align="space-around stretch" ng-model="vm.users" ng-repeat="user in vm.users track by $index">
+			<div layout>
+				<md-subheader>{{user.firstname}} {{user.lastname}}</md-subheader>
+				<md-divider></md-divider>
+				<md-subheader>Has Admin Rights? {{ user.isAdmin ? 'Yes' : 'No' }}</md-subheader>
+			</div>
+			<div layout layout-align="center center">
+				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.onClickSaveButton(user)">Save</md-button>
+				<md-button class="md-button md-raised md-accent" ng-click="vm.deleteUser(user)">Delete</md-button>
+			</div>
+			<p><!-- spacer --></p>
+			<div layout>
+				<md-input-container flex-gt-sm>
+					<label>ID</label>
+					<input ng-model="user.uuid" ng-disabled="true">
+				</md-input-container>
+				<md-input-container flex-gt-sm>
+					Role
+					<select name="role" ng-model="user.role">
+						<option selected>{{user.role}}</option>
+						<option ng-if="user.role != 'System Admin'">System Admin</option>
+						<option ng-if="user.role != 'Admin'">Admin</option>
+						<option ng-if="user.role != 'Editor'">Editor</option>
+						<option ng-if="user.role != 'Author'">Author</option>
+						<option ng-if="user.role != 'Moderator'">Moderator</option>
+						<option ng-if="user.role != 'Member'">Member</option>
+					</select>
+				</md-input-container>
+			</div>
+			<div layout>
+				<md-input-container flex-gt-sm>
+					<label>First name</label>
+					<input ng-model="user.firstname">
+				</md-input-container>
+				<md-input-container flex-gt-sm>
+					<label>Last name</label>
+					<input ng-model="user.lastname">
+				</md-input-container>
+			</div>
+			<div layout>
+				<md-input-container flex-gt-sm>
+					<label>Primary email</label>
+					<input ng-model="user.email">
+				</md-input-container>
+				<md-input-container flex-gt-sm>
+					<label>Secondary email</label>
+					<input ng-model="user.secondaryEmail">
+				</md-input-container>
+			</div>
+		</md-whiteframe class="md-whiteframe-1dp">
+	</md-card>
+	<md-card flex class="md-padding" ng-show="mc.user.role == 'systemAdmin'">
+		<md-subheader class="header-lg md-no-sticky">Dev Tools</md-subheader>
+		<div>
+			<md-button aria-label="button-label" class="md-button md-raised md-primary" ng-click="vm.createMockUsers()">Create Mock Users</md-button>
+		</div>
+	</md-card>
+</md-content>
