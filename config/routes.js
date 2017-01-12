@@ -31,6 +31,10 @@ module.exports.routes = {
 	'POST /auth/createAccount': 'AuthController.createAccount',
 	'GET /verifyEmail': 'AuthController.verifyEmail',
 
+	// entry routes
+	'PUT /entry/upvote/:id': 'EntryController.upvote',
+	'PUT /entry/downvote/:id': 'EntryController.downvote',
+
 	// user routes
 	'/me': 'UserController.me',
 

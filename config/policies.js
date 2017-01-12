@@ -50,7 +50,7 @@ module.exports.policies = {
     },
 
     'EntryController': {
-        '*': true
+        '*': ['sessionAuth']
     },
 
     'CommentController': {

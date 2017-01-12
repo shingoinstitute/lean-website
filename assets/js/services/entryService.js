@@ -97,6 +97,24 @@
       });
     }
 
+    service.upvoteEntry = function(entry, user) {
+      return $http({
+        method: 'put',
+        dataType: 'json',
+        url: '/entry/upvote/' + entry.id,
+        data: {userId: user.uuid}
+      });
+    }
+
+    service.downvoteEntry = function(entry, user) {
+      return $http({
+        method: 'delete',
+        dataType: 'json',
+        url: '/entry/downvote/' + entry.id,
+        data: {userId: user.uuid}
+      });
+    }
+
     service.query = function (queryString) {
       var query = {
         'or': [{

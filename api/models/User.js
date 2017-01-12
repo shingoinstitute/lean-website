@@ -116,6 +116,7 @@ module.exports = {
 			delete obj.createdAt;
 			delete obj.updatedAt;
 			delete obj.linkedinId;
+			delete obj.verifiedEmail;
 			obj.isAdmin = (obj.role == 'admin' || obj.role == 'systemAdmin');
 			if (obj.firstname && obj.lastname) {
 				obj.name = obj.firstname + ' ' + obj.lastname;
