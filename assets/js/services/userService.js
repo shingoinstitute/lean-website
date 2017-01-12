@@ -39,13 +39,15 @@
 		 */
 		service.updateUser = function (user) {
 			var params = JSON.stringify(user);
-			return $http.put('/user/' + user.uuid, params)
+			return $q(function(resolve, reject) {
+				$http.put('/user/' + user.uuid, params)
 				.then(function (data) {
 					if (data.data) {
-						return data.data;
+						return resolve(data.data);
 					}
-					throw new Error("No user returned!");
+					return reject(new Error("No user returned!"));
 				});
+			});
 		}
 
 		/**

@@ -19,7 +19,7 @@
     </md-input-container>
     User Role
     <select name="role" ng-model="updateUser.role">
-      <option selected>{{AdminController.updateUser.role}}</option>
+      <option selected>{{updateUser.role}}</option>
       <option>Admin</option>
       <option>System Admin</option>
       <option>Author</option>
@@ -29,7 +29,4 @@
     </select>
     <md-button class="md-raised md-primary" ng-click="answer(updateUser)">Update User</md-button>
   </form>
-  <p>{{updateUser.name}}</p>
-  <p>{{AdminController.users}}</p>
-  <p>{{vm.users}}</p>
 </md-dialog>

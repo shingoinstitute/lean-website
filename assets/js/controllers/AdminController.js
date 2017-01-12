@@ -33,44 +33,34 @@
 			}
 
 			_userService.createUser(u1)
-			.finally(function(user) {
-				_userService.createUser(u2)
-				.finally(function(user) {
-					_userService.createUser(u3)
-					.finally(function(user) {
-						vm.findAllUsers();	
-					});
+				.finally(function (user) {
+					_userService.createUser(u2)
+						.finally(function (user) {
+							_userService.createUser(u3)
+								.finally(function (user) {
+									vm.findAllUsers();
+								});
+						});
 				});
-			});
 		}
 
-		vm.findAllUsers = function() {
+		vm.findAllUsers = function () {
 			_userService.findAll()
-			.then(function(users) {
-				if (users) {
-					vm.users = users;
-				} else {
-					return console.error('data.data undefined');
-				}
-			});
-			// $http.get('/user')
-			// .then(function(data) {
-			// 	if (data.data) {
-			// 		vm.users = [];
-			// 		if (Array.isArray(data.data)) {
-			// 			for (var i = 0; i < data.data.length; i++) {
-			// 				vm.users.push(data.data[i]);
-			// 			}
-			// 		}
-			// 	} else {
-					
-			// 	}
-			// });
+				.then(function (users) {
+					if (users) {
+						vm.users = users;
+						for (var i = 0; i < vm.users.length; i++) {
+							vm.displayRoleText(vm.users[i])
+						}
+					} else {
+						return console.error('data.data undefined');
+					}
+				});
 		}
 
 		vm.findAllUsers();
 
-		vm.deleteUser = function(user) {
+		vm.deleteUser = function (user) {
 			try {
 				_userService.deleteUser(user);
 				vm.findAllUsers();
@@ -79,39 +69,61 @@
 					console.error(e);
 				}
 			}
-			
-			// $http.delete('/user/' + user.uuid)
-			// .then(function(data) {
-			// 	vm.findAllUsers();
-			// });
 		}
 
-		
-
-		vm.updateUser = function(user) {
-			$mdDialog.show({
-				controller: AdminController,
-				templateUrl: 'templates/user/admin.dialog.updateuser.tmpl.html',
-				parent: angular.element(document.body),
-				clickOutsideToClose: true,
-				locals: {
-					updateUser: user
+		vm.onClickSaveButton = function (user) {
+			try {
+				switch(user.role) {
+					case "System Admin":
+					user.role = "systemAdmin";
+					break;
+					case "Admin":
+					user.role = "admin";
+					break;
+					case "Editor":
+					user.role = "editor";
+					break;
+					case "Author":
+					user.role = "author";
+					break;
+					case "Moderator":
+					user.role = "moderator";
+					break;
+					default: user.role = "user";
 				}
-			})
-			.then(function(updatedUser) {
-				try {
-					debugger;
-					_userService.updateUser(vm.updatedUser);
+
+				_userService.updateUser(user)
+				.finally(function(user) {
 					vm.findAllUsers();
-				} catch (e) {
-					if (BROADCAST.loggingLevel === "DEBUG") {
-						console.error(e);
-					}
+				});
+			} catch (e) {
+				if (BROADCAST.loggingLevel === "DEBUG") {
+					console.error(e);
 				}
-			});
+			}
 		}
 
-		
+		vm.displayRoleText = function (user) {
+			switch (user.role) {
+				case "systemAdmin":
+					user.role = "System Admin";
+					break;
+				case "admin":
+					user.role = "Admin";
+					break;
+				case "author":
+					user.role = "Author";
+					break;
+				case "editor":
+					user.role = "Editor";
+				case "moderator":
+					user.role = "Moderator";
+					break;
+				default:
+					user.role = "Member";
+			}
+		}
+
 	}
 
 })();
