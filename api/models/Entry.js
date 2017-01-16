@@ -70,41 +70,11 @@ module.exports = {
 			model: 'user'
 		},
 
-		addUpvote: function (user) {
-			return new Promise(function (resolve, reject) {
-				Entry.findOne({ id: this.id }).exec(function (err, entry) {
-					if (err) return reject(err);
-					if (!entry) return reject(new Error('entry not found!'));
-
-					if (entry.users_did_upvote.indexOf(user) != -1) return reject('user has already cast an upvote for this question.');
-
-					entry.users_did_upvote.push(user);
-					entry.users_did_downvote.remove(user);
-					entry.save(function(err) {
-						if (err) return reject(err);
-						return resolve(entry);
-					});
-				});
-			});
-		},
-
-		addDownvote: function(user) {
-			return new Promise(function (resolve, reject) {
-				Entry.findOne({ id: this.id }).exec(function (err, entry) {
-					if (err) return reject(err);
-					if (!entry) return reject(new Error('entry not found!'));
-
-					if (entry.users_did_downvote.indexOf(user) != -1) return reject('user has already cast a downvote for this question.')
-
-					entry.users_did_downvote.push(user);
-					entry.users_did_upvote.remove(user);
-					entry.save(function(err) {
-						if (err) return reject(err);
-						return resolve(entry);
-					});
-				});
-			});
+		toJSON: function() {
+			var obj = this.toObject();
+			// if (!obj.users_did_upvote) obj.users_did_upvote = [];
+			// if (!obj.user_did_downvote) obj.users_did_downvote = [];
+			return obj;
 		}
-
 	}
 };

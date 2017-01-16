@@ -8,62 +8,36 @@
 module.exports = {
 	upvote: function(req, res) {
 		var entryId = req.param('id');
-		var userId = req.param('userId');
-		
-		Entry.findOne({id: entryId}).exec(function(err, entry) {
-			if (err) return res.json({
-				success: false,
-				error: err
-			});
-
-			if (!entry) return res.json({
-				success: false,
-				error: 'entry not found!'
-			});
-
-			entry.addUpvote(userId)
-			.then(function(entry) {
-				return res.json({
-					success: true,
-					entry: entry
-				});
-			})
-			.catch(function(err) {
-				return res.json({
-					success: false,
-					error: err
-				});
+		var user = req.user;
+		user.questions_did_upvote.add(entryId);
+		user.questions_did_downvote.remove(entryId);
+		user.save(function(err) {
+			if (err) return res.json({error: err});
+			Entry.findOne({id: entryId})
+			.populate('users_did_upvote')
+			.populate('users_did_downvote')
+			.exec(function(err, entry) {
+				if (err) return res.json({error: err});
+				if (!entry) return res.json({error: 'entry not found, failed to add upvote.'});
+				return res.json(entry.toJSON());
 			});
 		});
 	},
 
 	downvote: function(req, res) {
 		var entryId = req.param('id');
-		var userId = req.param('userId');
-
-		Entry.findOne({id: entryId}).exec(function(err, entry) {
-			if (err) return res.json({
-				success: false,
-				error: err
-			});
-
-			if (!entry) return res.json({
-				success: false,
-				error: 'entry not found!'
-			});
-
-			entry.addDownvote(userId)
-			.then(function(entry) {
-				return res.json({
-					success: true,
-					entry: entry
-				});
-			})
-			.catch(function(err) {
-				return res.json({
-					success: false,
-					error: err
-				});
+		var user = req.user;
+		user.questions_did_downvote.add(entryId);
+		user.questions_did_upvote.remove(entryId);
+		user.save(function(err) {
+			if (err) return res.json({error: err});
+			Entry.findOne({id: entryId})
+			.populate('users_did_upvote')
+			.populate('users_did_downvote')
+			.exec(function(err, entry) {
+				if (err) return res.json({error: err});
+				if (!entry) return res.json({error: 'entry not found, failed to add downvote'});
+				return res.json(entry.toJSON());
 			});
 		});
 	}

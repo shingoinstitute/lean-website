@@ -4,9 +4,9 @@
   angular.module('leansite')
     .factory('_entryService', _entryService);
 
-  _entryService.$inject = ['$http']
+  _entryService.$inject = ['$http', '$q']
 
-  function _entryService($http) {
+  function _entryService($http, $q) {
     var service = {};
 
     service.getUserQuestions = function (uuid) {
@@ -49,7 +49,7 @@
       return $http({
         method: 'get',
         dataType: 'json',
-        url: '/entry/' + id + '?populate=answers,owner,comments,parent'
+        url: '/entry/' + id + '?populate=answers,owner,comments,parent,users_did_upvote,users_did_downvote'
       });
     }
 
@@ -97,22 +97,12 @@
       });
     }
 
-    service.upvoteEntry = function(entry, user) {
-      return $http({
-        method: 'put',
-        dataType: 'json',
-        url: '/entry/upvote/' + entry.id,
-        data: {userId: user.uuid}
-      });
+    service.upvoteEntry = function(entry) {
+      return $http.put('/entry/upvote/' + entry.id);
     }
 
-    service.downvoteEntry = function(entry, user) {
-      return $http({
-        method: 'delete',
-        dataType: 'json',
-        url: '/entry/downvote/' + entry.id,
-        data: {userId: user.uuid}
-      });
+    service.downvoteEntry = function(entry) {
+      return $http.put('/entry/downvote/' + entry.id);
     }
 
     service.query = function (queryString) {

@@ -32,7 +32,7 @@ module.exports = {
 				if (err) return reject(err);
 				if (!user) return resolve(values);
 				values.uuid = uuid.v4();
-				return this.checkForUuidCollisions(values);
+				return AppService.checkForUuidCollisions(values);
 			});
 		});
 	}
