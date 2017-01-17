@@ -3,9 +3,9 @@
 	angular.module('leansite')
 		.controller('AdminController', AdminController);
 
-	AdminController.$inject = ['$scope', '$rootScope', '$http', '$mdDialog', '_userService', 'BROADCAST'];
+	AdminController.$inject = ['$scope', '$rootScope', '$http', '$mdDialog', '$mdToast', '_userService', 'BROADCAST'];
 
-	function AdminController($scope, $rootScope, $http, $mdDialog, _userService, BROADCAST) {
+	function AdminController($scope, $rootScope, $http, $mdDialog, $mdToast, _userService, BROADCAST) {
 		var vm = this;
 
 		vm.users = [];
@@ -46,64 +46,89 @@
 
 		vm.findAllUsers = function () {
 			_userService.findAll()
-				.then(function (users) {
-					if (users) {
-						vm.users = users;
-						for (var i = 0; i < vm.users.length; i++) {
-							vm.displayRoleText(vm.users[i])
-						}
-					} else {
-						return console.error('data.data undefined');
+			.then(function (response) {
+				var users = response.data;
+				if (users) {
+					for (var i = 0; i < users.length; i++) {
+						vm.parseRoleText(users[i])
 					}
-				});
+					vm.users = users;
+				} else {
+					return console.error('Error, server not responding...');
+				}
+			})
+			.catch(function(err) {
+				if (BROADCAST.loggingLevel === "DEBUG") {
+					console.error(e);
+				}
+			});
 		}
 
 		vm.findAllUsers();
 
-		vm.deleteUser = function (user) {
-			try {
-				_userService.deleteUser(user);
-				vm.findAllUsers();
-			} catch (e) {
-				if (BROADCAST.loggingLevel === "DEBUG") {
-					console.error(e);
-				}
-			}
+		vm.onClickDeleteButton = function (user) {
+			var toast = $mdToast.simple().textContent('Deleting User...').hideDelay(500).position('top right');
+			$mdToast.show(toast)
+			.then(function() {
+				_userService.deleteUser(user)
+				.then(function(response) {
+					toast.textContent('Successfully Deleted User!');
+					$mdToast.show(toast);
+					vm.findAllUsers();	
+				})
+				.catch(function(response) {
+					var toastErr = $mdToast.simple()
+						.textContent('Error: ' + response.data.details)
+						.hideDelay(false).action('Okay')
+						.position('top right')
+						.highlightAction(true);
+					$mdToast.show(toastErr);
+				});
+			});
 		}
 
 		vm.onClickSaveButton = function (user) {
-			try {
-				switch(user.role) {
+			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position('top right');
+			$mdToast.show(toast)
+			.then(function() {
+				var updatee = JSON.parse(JSON.stringify(user));
+				switch(updatee.role) {
 					case "System Admin":
-					user.role = "systemAdmin";
+					updatee.role = "systemAdmin";
 					break;
 					case "Admin":
-					user.role = "admin";
+					updatee.role = "admin";
 					break;
 					case "Editor":
-					user.role = "editor";
+					updatee.role = "editor";
 					break;
 					case "Author":
-					user.role = "author";
+					updatee.role = "author";
 					break;
 					case "Moderator":
-					user.role = "moderator";
+					updatee.role = "moderator";
 					break;
-					default: user.role = "user";
+					default: updatee.role = "user";
 				}
 
-				_userService.updateUser(user)
-				.finally(function(user) {
+				_userService.updateUser(updatee)
+				.then(function(response) {
+					toast.textContent('Save Successful!');
+					$mdToast.show(toast);
 					vm.findAllUsers();
+				})
+				.catch(function(response) {
+					var toastErr = $mdToast.simple()
+						.textContent('Error: ' + response.data.details)
+						.hideDelay(false).action('Okay')
+						.position('top right')
+						.highlightAction(true);
+					$mdToast.show(toastErr);
 				});
-			} catch (e) {
-				if (BROADCAST.loggingLevel === "DEBUG") {
-					console.error(e);
-				}
-			}
+			});
 		}
 
-		vm.displayRoleText = function (user) {
+		vm.parseRoleText = function (user) {
 			switch (user.role) {
 				case "systemAdmin":
 					user.role = "System Admin";

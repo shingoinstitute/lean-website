@@ -12,7 +12,7 @@
       _entryService.readEntry(id)
         .then(function (response) {
           vm.question = response.data;
-          vm.question.votes = 0;
+          vm.question.votes = (vm.question.users_did_upvote.length + 1) - (vm.question.users_did_downvote.length + 1);
         })
         .catch(function (err) {
           if (BROADCAST.loggingLevel == "DEBUG") {

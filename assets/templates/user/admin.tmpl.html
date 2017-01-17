@@ -5,11 +5,11 @@
 			<div layout>
 				<md-subheader>{{user.firstname}} {{user.lastname}}</md-subheader>
 				<md-divider></md-divider>
-				<md-subheader>Has Admin Rights? {{ user.isAdmin ? 'Yes' : 'No' }}</md-subheader>
+				<md-subheader>Admin? {{ user.isAdmin ? 'Yes' : 'No' }}</md-subheader>
 			</div>
 			<div layout layout-align="center center">
 				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.onClickSaveButton(user)">Save</md-button>
-				<md-button class="md-button md-raised md-accent" ng-click="vm.deleteUser(user)">Delete</md-button>
+				<md-button class="md-button md-raised md-accent" ng-click="vm.onClickDeleteButton(user)">Delete</md-button>
 			</div>
 			<p><!-- spacer --></p>
 			<div layout>
@@ -52,7 +52,7 @@
 			</div>
 		</md-whiteframe class="md-whiteframe-1dp">
 	</md-card>
-	<md-card flex class="md-padding" ng-show="mc.user.role == 'systemAdmin'">
+	<md-card flex class="md-padding" ng-if="mc.user.role == 'systemAdmin'">
 		<md-subheader class="header-lg md-no-sticky">Dev Tools</md-subheader>
 		<div>
 			<md-button aria-label="button-label" class="md-button md-raised md-primary" ng-click="vm.createMockUsers()">Create Mock Users</md-button>

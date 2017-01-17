@@ -116,6 +116,7 @@ module.exports = {
 			delete obj.createdAt;
 			delete obj.updatedAt;
 			delete obj.linkedinId;
+			delete obj.verifiedEmail;
 			obj.isAdmin = (obj.role == 'admin' || obj.role == 'systemAdmin');
 			if (obj.firstname && obj.lastname) {
 				obj.name = obj.firstname + ' ' + obj.lastname;
@@ -195,15 +196,17 @@ module.exports = {
 	// +----------------------+
 
 	beforeCreate: function (values, next) {
+		console.log('creating new user...');
 		AuthService.hashPassword(values);
-		AppService.checkForUuidCollisions(values)
-		.then(function(user) {
-			values.uuid = user.uuid;
-			return next();
-		})
-		.catch(function(err) {
-			return next(err);
-		});
+		return next();
+		// AppService.checkForUuidCollisions(values)
+		// .then(function(user) {
+		// 	values.uuid = user.uuid;
+		// 	return next();
+		// })
+		// .catch(function(err) {
+		// 	return next(err);
+		// });
 	},
 
 	afterCreate: function(newRecord, next) {
@@ -220,6 +223,11 @@ module.exports = {
 	},
 
 	beforeUpdate: function (values, next) {
+		return next();
+	},
+
+	afterUpdate: function(updatedRecord, next) {
+		if (updatedRecord.isAdmin) delete updatedRecord.isAdmin;
 		return next();
 	},
 

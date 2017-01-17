@@ -71,12 +71,34 @@
         })
     }
 
-    $scope.upVote = function () {
-      $scope.entry.votes += 1;
+    $scope.upVote = function() {
+      _entryService.upvoteEntry($scope.entry)
+      .then(function(response) {
+        response = response.data;
+        $scope.entry.votes = (response.users_did_upvote.length) - (response.users_did_downvote.length);
+      })
+      .catch(function(err) {
+        if (BROADCAST.loggingLevel == "DEBUG") {
+          $rootScope.$broadcast(BROADCAST.error, JSON.stringify(err));
+        } else {
+          $rootScope.$broadcast(BROADCAST.error, JSON.stringify("There was an error upvoting the question. Please try again..."));
+        }
+      });
     }
 
-    $scope.downVote = function () {
-      $scope.entry.votes -= 1;
+    $scope.downVote = function() {
+      _entryService.downvoteEntry($scope.entry)
+      .then(function(response) {
+        response = response.data;
+        $scope.entry.votes = (response.users_did_upvote.length) - (response.users_did_downvote.length);
+      })
+      .catch(function(err) {
+        if (BROADCAST.loggingLevel == "DEBUG") {
+          $rootScope.$broadcast(BROADCAST.error, JSON.stringify(err));
+        } else {
+          $rootScope.$broadcast(BROADCAST.error, JSON.stringify("There was an error downvoting the question. Please try again..."));
+        }
+      });
     }
 
     $scope.comment = function () {

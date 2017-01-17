@@ -50,7 +50,13 @@ module.exports.policies = {
     },
 
     'EntryController': {
-        '*': true
+        '*': ['sessionAuth']
+    },
+
+    'UserController': {
+        '*': ['sessionAuth'],
+        update: ['sessionAuth', 'canUpdateUser'],
+        destroy: ['sessionAuth', 'isAdmin']
     },
 
     'CommentController': {

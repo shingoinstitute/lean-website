@@ -32,34 +32,14 @@
 		}
 
 		/**
-		 * @description Call to REST API to update user
-		 * @param user - the new fields to update
-		 * @return updatedUser - the updatedUser from the server
-		 * @throws "No user returned" when the server doesn't return a user
-		 */
-		service.updateUser = function (user) {
-			var params = JSON.stringify(user);
-			return $q(function(resolve, reject) {
-				$http.put('/user/' + user.uuid, params)
-				.then(function (data) {
-					if (data.data) {
-						return resolve(data.data);
-					}
-					return reject(new Error("No user returned!"));
-				});
-			});
-		}
-
-		/**
 		 * @description createUser :: Call to REST API to create new user
 		 * @param {Object} user - new user object
 		 * @return {Object} - newly created user object
 		 * @throws {Error} - "Failed to create new user" when server doesn't return a user
 		 */
 		service.createUser = function (user) {
-			var params = JSON.stringify(user);
 			return $q(function(resolve, reject) {
-				$http.post('/user', params)
+				$http.post('/user', user)
 				.then(function (data) {
 					if (data.data) {
 						return resolve(data.data);
@@ -69,8 +49,7 @@
 				.catch(function (err) {
 					return reject(err);
 				});
-			})
-			
+			});
 		}
 
 		/**
@@ -78,35 +57,19 @@
 		 * @param {Object} user - user object with a valid uuid
 		 */
 		service.deleteUser = function (user) {
-			var uuid = user.uuid;
-			return $q(function (resolve, reject) {
-				if (!uuid) return reject(new Error('uuid is undefined, failed to delete user...'));
-				$http.delete('/user/' + uuid)
-				.then(function (data) {
-					if (data.data) {
-						return resolve(data.data);
-					}
-					return reject(new Error("An unknown error occured, failed to delete user..."));
-				})
-				.catch(function(err) {
-					return reject(err);
-				});
-			});
+			return $http.delete('/user/' + user.uuid);
+		}
+
+		/**
+		 * @description Call to REST API to update user
+		 * @param {Object} user - the new fields to update
+		 */
+		service.updateUser = function (user) {
+			return $http.put('/user/' + user.uuid, user);
 		}
 
 		service.findAll = function () {
-			return $q(function (resolve, reject) {
-				$http.get('/user')
-				.then(function (data) {
-					if (data.data) {
-						return resolve(data.data);
-					}
-					return reject(new Error("Users not returned!"));
-				})
-				.catch(function(err) {
-					return reject(err);
-				});
-			});
+			return $http.get('/user');
 		}
 
 		return service;

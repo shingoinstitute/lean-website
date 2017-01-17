@@ -14,7 +14,10 @@
 		 */
 		vm.getUser = function () {
 			_userService.getUser(function(err, user) {
-				if (user) vm.user = user;
+				if (user) {
+					vm.user = user;
+					$rootScope.userId = user.uuid;
+				}
 			});
 		};
 
@@ -104,6 +107,18 @@
 				break;
 				case 'SettingsController':
 				// do something...
+				break;
+				case 'QuestionController':
+				if (vm.user) {
+					$rootScope.$broadcast('$QuestionControllerListener', vm.user);
+				} else {
+					_userService.getUser(function(err, user) {
+						if (user) {
+							vm.user = user;
+							$rootScope.$broadcast('$QuestionControllerListener', vm.user);
+						}
+					});
+				}
 				break;
 				case 'TEST':
 				console.log('user: ', vm.user);
