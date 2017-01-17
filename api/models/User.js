@@ -95,6 +95,11 @@ module.exports = {
 			defaultsTo: 0
 		},
 
+		accountIsActive: {
+			type: 'boolean',
+			defaultsTo: true
+		},
+
 		addReputation: function (points) {
 			var obj = this;
 			obj.reputation += points;
@@ -199,14 +204,6 @@ module.exports = {
 		console.log('creating new user...');
 		AuthService.hashPassword(values);
 		return next();
-		// AppService.checkForUuidCollisions(values)
-		// .then(function(user) {
-		// 	values.uuid = user.uuid;
-		// 	return next();
-		// })
-		// .catch(function(err) {
-		// 	return next(err);
-		// });
 	},
 
 	afterCreate: function(newRecord, next) {
@@ -231,10 +228,28 @@ module.exports = {
 		return next();
 	},
 
+	/**
+	 * @description :: Rather than delete an account, set "accountIsActive" to false. 
+	 * 					 Removes permissions.
+	 */
 	beforeDestroy: function (criteria, next) {
+
+		// Always return next(error) so that users are never deleted, just set inActive
 		User.find(criteria).exec(function (err, users) {
 			if (err) return next(err);
-			var user = users[0];
+			if (!users) return next(new Error('user not found!'));
+			var user = users.pop();
+			user.accountIsActive = false;
+			user.save(function(err) {
+				if (err) return next(err);
+				return next(user.email + "'s account cannot be deleted, however it has been deactivated. Accounts are not deleted to preserve history of comments, questions, etc.");
+			});
+		});
+
+		// Removes permissions
+		User.find(criteria).exec(function (err, users) {
+			if (err) return next(err);
+			var user = users.pop();
 			if (!user) return next();
 			UserPermissions.findOne({ user: user.uuid }).exec(function (err, permissions) {
 				if (err) return next(err);

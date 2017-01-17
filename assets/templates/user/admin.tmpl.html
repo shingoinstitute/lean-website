@@ -1,4 +1,10 @@
-<md-content layout>
+<md-content layout="column">
+	<md-card flex class="md-padding" ng-if="mc.user.role == 'systemAdmin'">
+		<md-subheader class="header-lg md-no-sticky">Dev Tools</md-subheader>
+		<div>
+			<md-button aria-label="button-label" class="md-button md-raised md-primary" ng-click="vm.createMockUsers()">Create Mock Users</md-button>
+		</div>
+	</md-card>
 	<md-card flex class="md-padding">
 		<md-subheader class="header-lg md-no-sticky">Users</md-subheader>
 		<md-whiteframe class="md-whiteframe-1dp md-padding md-margin" layout="column" layout-align="space-around stretch" ng-model="vm.users" ng-repeat="user in vm.users track by $index">
@@ -51,11 +57,5 @@
 				</md-input-container>
 			</div>
 		</md-whiteframe class="md-whiteframe-1dp">
-	</md-card>
-	<md-card flex class="md-padding" ng-if="mc.user.role == 'systemAdmin'">
-		<md-subheader class="header-lg md-no-sticky">Dev Tools</md-subheader>
-		<div>
-			<md-button aria-label="button-label" class="md-button md-raised md-primary" ng-click="vm.createMockUsers()">Create Mock Users</md-button>
-		</div>
 	</md-card>
 </md-content>

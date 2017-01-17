@@ -13,12 +13,16 @@
     <md-tab label="Dashboard">
       <div layout-gt-sm="row" ng-controller="DashboardController as vm" layout="column" layout-fill class="content">
         <md-tabs md-dynamic-height md-stretch-tabs md-border-bottom md-autoselect flex="70">
-          <md-tab label="Recent Activity">
+          <md-tab label="My Recent Activity" ng-init="vm.getRecent()">
             <div layout-padding>
-              <span>Recent Activity goes here...</span>
+              <md-list>
+                <md-list-item ng-repeat="entry in vm.recent">
+                  <entry-summary entry="entry" flex></entry-summary>
+                </md-list-item>
+              </md-list>
             </div>
           </md-tab>
-          <md-tab label="Questions">
+          <md-tab label="My Questions">
             <div layout-padding>
               <md-list>
                 <md-list-item ng-repeat="entry in vm.questions">
@@ -27,7 +31,7 @@
               </md-list>
             </div>
           </md-tab>
-          <md-tab label="Answers">
+          <md-tab label="My Answers">
             <div layout-padding>
               <md-list>
                 <md-list-item ng-repeat="entry in vm.answers">
@@ -36,7 +40,7 @@
               </md-list>
             </div>
           </md-tab>
-          <md-tab label="Comments">
+          <md-tab label="My Comments">
             <div layout-padding>
               <md-list>
                 <md-list-item ng-repeat="comment in vm.comments" class="md-3-line">

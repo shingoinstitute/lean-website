@@ -21,11 +21,15 @@
       _entryService.getUserQuestions(userId)
         .then(function (response) {
           vm.questions = response.data;
-          return _entryService.getUserAnswers(userId)
+          return _entryService.getUserAnswers(userId);
         })
         .then(function (response) {
           vm.answers = response.data;
-          return _entryService.getUserComments(userId)
+          return _entryService.getRecent(10, userId);
+        })
+        .then(function(response) {
+          vm.recent = response.data;
+          return _entryService.getUserComments(userId);
         })
         .then(function (response) {
           vm.comments = response.data;
