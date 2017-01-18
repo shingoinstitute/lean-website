@@ -13,12 +13,11 @@
 		 * @desc {function} getUser :: returns a user object from the API. Requires a JWT token.
 		 */
 		vm.getUser = function () {
-			_userService.getUser(function(err, user) {
-				if (user) {
-					vm.user = user;
-					$rootScope.userId = user.uuid;
-				}
-			});
+			_userService.getUser()
+			.then(function(response) {
+				vm.user = response.data;
+				$rootScope.userId = response.data.uuid;
+			})
 		};
 
 		/**
@@ -47,10 +46,17 @@
 		 * @desc :: listener for BROADCAST.error, displays error message when invoked
 		 */
 		$scope.$on(BROADCAST.error, function (event, args) {
-			if (typeof args == 'string') {
+			if (args.data && args.data.error) {
+				args = args.data.error;
+			} else if (args.error) {
+				args = args.error;
+			}
+			if (typeof args == 'Error') {
+				vm.error = args.message;
+			} else if (typeof args == 'string') {
 				vm.error = args;
-			} else if (args && args.error) {
-				vm.error = args.error;
+			} else {
+				vm.error = JSON.stringify(args, null, 2);
 			}
 		});
 
@@ -94,11 +100,14 @@
 				if (vm.user) {
 					$rootScope.$broadcast('$DashboardControllerListener', vm.user);
 				} else {
-					_userService.getUser(function(err, user) {
-						if (err) $location.path('/login');
-						if (!user) $location.path('/login');
-						vm.user = user;
+					_userService.getUser()
+					.then(function(response) {
+						if (response.error) { $rootScope.$broadcast(BROADCAST.error, response.error); }
+						vm.user = response.data;
 						$rootScope.$broadcast('$DashboardControllerListener', vm.user);
+					})
+					.catch(function(err) {
+						$rootScope.$broadcast(BROADCAST.error, err);
 					});
 				}
 				break;
@@ -112,11 +121,13 @@
 				if (vm.user) {
 					$rootScope.$broadcast('$QuestionControllerListener', vm.user);
 				} else {
-					_userService.getUser(function(err, user) {
-						if (user) {
-							vm.user = user;
-							$rootScope.$broadcast('$QuestionControllerListener', vm.user);
-						}
+					_userService.getUser()
+					.then(function(response) {
+						vm.user = response.data;
+						$rootScope.$broadcast('$QuestionControllerListener', vm.user);
+					})
+					.catch(function(err) {
+						$rootScope.$broadcast(BROADCAST.error, err);
 					});
 				}
 				break;

@@ -3,30 +3,30 @@
   <div flex></div>
   <md-menu md-offset="-70 65">
     <md-button class="md-icon-button" aria-label="Menu" ng-click="vm.openMenu($mdOpenMenu, $event)">
-      <md-icon md-menu-origin class="green-text text-lighten-1"><i class="mdi mdi-dots-vertical mdi-24px"></i></md-icon>
+      <md-icon md-menu-align-target><i class="material-icons">more_vert</i></md-icon>
     </md-button>
     <md-menu-content width="3">
-      <md-menu-item ng-click="vm.showDashboard()">
-        <md-button>
-          <md-icon md-menu-align-target><i class="mdi mdi-view-dashboard mdi-24px"></i></md-icon>
+      <md-menu-item>
+        <md-button ng-href="/dashboard">
+          <md-icon md-menu-align-target><i class="material-icons">dashboard</i></md-icon>
           Dashboard
         </md-button>
       </md-menu-item>
-      <md-menu-item ng-href="/admin" ng-if="mc.user.isAdmin">
-        <md-button>
-          <md-icon md-menu-align-target><i class="mdi mdi-developer-board mdi-24px"></i></md-icon>
+      <md-menu-item ng-if="mc.user.isAdmin">
+        <md-button ng-href="/admin">
+          <md-icon md-menu-align-target><i class="material-icons">developer_board</i></md-icon>
           Admin
         </md-button>
       </md-menu-item>
-      <md-menu-item ng-href="/login" ng-if="!mc.user">
-        <md-button>
-          <md-icon md-menu-align-target><i class="mdi mdi-login-variant mdi-24px"></i></md-icon>
+      <md-menu-item ng-if="!mc.user">
+        <md-button ng-href="/login">
+          <md-icon md-menu-align-target><i class="material-icons">input</i></md-icon>
           Login
         </md-button>
       </md-menu-item>
-      <md-menu-item ng-click="vm.logout()" ng-if="mc.user">
-        <md-button>
-          <md-icon md-menu-align-target><i class="mdi mdi-logout mdi-24px"></i></md-icon>
+      <md-menu-item ng-if="mc.user">
+        <md-button ng-click="vm.logout()">
+          <md-icon md-menu-align-target><i class="material-icons">subdirectory_arrow_left</i></md-icon>
           Logout
         </md-button>
       </md-menu-item>

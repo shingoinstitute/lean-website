@@ -7,72 +7,55 @@ var _ = require('lodash');
 module.exports = {
 
 	me: function(req, res) {
-		if (req.user) {
-			User.findOne({uuid: req.user.uuid}).exec(function(err, user) {
-				UserPermissions.findOne({user: user.uuid}).exec(function(err, permissions) {
-					if (err) return res.status(500).json({error: err});
-					if (!permissions) return res.json({error: 'user permissions not found'});
-					var grantedPermissions = [];
-					_.forEach(permissions, function(value, key) {
-						if (value === true) {
-							grantedPermissions.push(key);
-						}
-					});
-					user.permissions = grantedPermissions;
-					return res.json({
-						success: true,
-						user: user
-					});
-				});
-			});
-		} else {
-			sails.log.info('user attempted to access /me route without JWT.');
-			res.cookie('tl-message', 'You are not logged in.');
-			return res.json({
-				success: false,
-				error: 'user is not logged in'
-			});
-		}
+		if (!req.user) { return res.status(401).json({error: 'user is not logged in.'}); }
+      return res.json(req.user.toJSON());
 	},
 
    users: function(req, res) {
       User.find().exec(function(err, users) {
-         if (err) {
-            return res.json({
-               success: false,
-               error: err
-            });
-         } else {
-            return res.json({
-               success: true,
-               users: users
-            });
-         }
+         if (err) { return res.status(500).json(err); }
+         if (!users) return res.status(404).json('users not found');
+         _.forEach(users, function(user) {
+            user = user.toJSON();
+         });
+         return res.json(users);
       });
    },
 
-   createUser: function(req, res) {
-      var username = req.param('email') || req.param('username');
-      User.findOne({email: username}).exec(function(err, user) {
-         if (err) return res.json({success: false, error: err});
-         if (!user) {
-            User.create(user).exec(function(err, user) {
-               if (err) return res.json({success: false, error: err});
-               return res.json({
-                  success: true,
-                  user: user
-               });
-            });
-         } else {
-            return res.json({
-					success: false,
-               error: 'That email address is already in use.'
-            });
-         }
-      });
-   },
+   create: function (req, res) {
+		var newUser = {};
+		newUser.email = req.param('email');
+		newUser.password = req.param('password');
+		newUser.firstname = req.param('firstname');
+		newUser.lastname = req.param('lastname');
 
-   dashboard: function(req, res) {
+		if (!newUser.email || !newUser.password || !newUser.firstname || !newUser.lastname) {
+			return res.status(403).json('Error: Could not create new account, missing required parameters (must have email, password, firstname, and lastname).');
+		}
 
-   },
+		User.create(newUser).exec(function (err, user) {
+			if (err) return res.status(400).json(err);
+
+			if (Array.isArray(user)) user = user.pop();
+
+			if (sails.config.environment === 'production') {
+				EmailService.sendVerificationEmail(user)
+				.then(function (info) {
+					sails.log.info('Email verification link sent to ' + user.email);
+				})
+				.catch(function (err) {
+					sails.log.error(err);
+				});
+			}
+
+			return res.json({
+				success: true,
+				user: user.toJSON(),
+				token: AuthService.createToken(user),
+				info: typeof info != 'undefined' ? info.response : ''
+			});
+		});
+
+	},
+
 }

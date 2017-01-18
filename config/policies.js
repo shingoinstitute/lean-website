@@ -31,16 +31,11 @@ module.exports.policies = {
     'AuthController': {
         '*': false,
         login: true,
-        logout: true,
+        logout: ['sessionAuth'],
         linkedInAuth: true,
         linkedInAuthCallback: true,
         localAuth: true,
-        createAccount: true,
         verifyEmail: true
-    },
-
-    'UserController': {
-        '*': ['sessionAuth'],
     },
 
     'DevController': {
@@ -56,7 +51,9 @@ module.exports.policies = {
     'UserController': {
         '*': ['sessionAuth'],
         update: ['sessionAuth', 'canUpdateUser'],
-        destroy: ['sessionAuth', 'isAdmin']
+        destroy: ['sessionAuth', 'isAdmin'],
+        users: ['sessionAuth', 'isAdmin'],
+        create: true
     },
 
     'CommentController': {

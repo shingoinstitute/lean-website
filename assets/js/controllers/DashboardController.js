@@ -44,8 +44,6 @@
         });
     }
 
-    vm.loadData();
-
 		/**
 		 * @description {function} onPageLoad :: sends broadcast to MainController, which in return sends broadcast back to DashboardController via '$DashboardControllerListener'
 		 * @param {string} listenerName :: name of the listener
@@ -59,8 +57,10 @@
 		 * @description {function} :: listener for broadcast from MainController. If user (in function(event, user)) is null, a user is not logged in.
 		 */
 		$scope.$on('$DashboardControllerListener', function(event, user) {
-			userId = user.uuid;
-      vm.loadData();
+      if (user) {
+        userId = user.uuid;
+        vm.loadData();
+      }
 		});
 
 		vm.onPageLoad('$MainControllerListener', 'DashboardController');

@@ -9,6 +9,7 @@
 		var vm = this;
 
 		vm.users = [];
+		vm.progressCircleEnabled = false;
 
 		vm.createMockUsers = function () {
 			var u1 = {
@@ -31,17 +32,47 @@
 				email: 'craig.blackburn_test3@usu.edu',
 				password: 'password'
 			}
-
+			vm.progressCircleEnabled = true;
 			_userService.createUser(u1)
-				.finally(function (user) {
+				.finally(function (response) {
 					_userService.createUser(u2)
-						.finally(function (user) {
+						.finally(function (response) {
 							_userService.createUser(u3)
-								.finally(function (user) {
+								.finally(function (response) {
+									vm.progressCircleEnabled = false;
+									var toast = $mdToast.simple()
+									.textContent('Mock users created...')
+									.position('top right')
+									$mdToast.show(toast);
 									vm.findAllUsers();
 								});
 						});
 				});
+		}
+
+		vm.deleteAllUsers = function() {
+			vm.progressCircleEnabled = true;
+			$http.delete('/dev/delete')
+			.then(function(response) {
+				console.log(JSON.stringify(response));
+				var toast = $mdToast.simple()
+				.textContent('Users successfully deleted. Please create a new account.')
+				.hideDelay(false)
+				.action('Okay')
+				.position('top right')
+				.highlightAction(true);
+				$mdToast.show(toast);
+			})
+			.catch(function(err) {
+				if (BROADCAST.loggingLevel == "DEBUG") {
+					$rootScope.$broadcast(BROADCAST.error, err);
+				} else {
+					$rootScope.$broadcast(BROADCAST.error, err.message);
+				}
+			})
+			.finally(function() {
+				vm.progressCircleEnabled = false;
+			});
 		}
 
 		vm.findAllUsers = function () {
@@ -148,6 +179,8 @@
 					user.role = "Member";
 			}
 		}
+
+		
 
 	}
 

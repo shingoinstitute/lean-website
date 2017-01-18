@@ -12,19 +12,19 @@
     <!--User Navigation-->
     <md-subheader></md-subheader>
     <md-list-item ng-href="/dashboard">
-      <md-icon md-menu-align-target><i class="mdi mdi-view-dashboard mdi-24px"></i></md-icon>
+      <md-icon md-menu-align-target><i class="material-icons">dashboard</i></md-icon>
       <span>Dashboard</span>
     </md-list-item>
     <md-list-item ng-href="/admin" ng-if="mc.user.isAdmin">
-      <md-icon md-menu-align-target><i class="mdi mdi-developer-board mdi-24px"></i></md-icon>
+      <md-icon md-menu-align-target><i class="material-icons">developer_board</i></md-icon>
       Admin
     </md-list-item>
     <md-list-item ng-href="/login" ng-if="!mc.user">
-      <md-icon md-menu-align-target><i class="mdi mdi-login-variant mdi-24px"></i></md-icon>
+      <md-icon md-menu-align-target><i class="material-icons">input</i></md-icon>
       Login
     </md-list-item>
     <md-list-item ng-click="vm.logout()" ng-if="mc.user">
-      <md-icon md-menu-align-target><i class="mdi mdi-logout mdi-24px"></i></md-icon>
+      <md-icon md-menu-align-target><i class="material-icons">subdirectory_arrow_left</i></md-icon>
       Logout
     </md-list-item>
   </md-list>

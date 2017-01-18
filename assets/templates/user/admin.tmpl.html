@@ -1,8 +1,15 @@
 <md-content layout="column">
 	<md-card flex class="md-padding" ng-if="mc.user.role == 'systemAdmin'">
-		<md-subheader class="header-lg md-no-sticky">Dev Tools</md-subheader>
+		<div layout>
+			<md-subheader class="header-lg md-no-sticky">Dev Tools</md-subheader>
+			<md-progress-circular md-mode="indeterminate" ng-disabled="!vm.progressCircleEnabled" ng-show="vm.progressCircleEnabled"></md-progress-circular>
+		</div>
+		
 		<div>
-			<md-button aria-label="button-label" class="md-button md-raised md-primary" ng-click="vm.createMockUsers()">Create Mock Users</md-button>
+			<md-button aria-label="create mock users button" class="md-button md-raised md-primary" ng-click="vm.createMockUsers()">Create Mock Users</md-button>
+		</div>
+		<div>
+			<md-button aria-label="delete button" class="md-button md-raised md-primary" ng-click="vm.deleteAllUsers()">Delete All Users (development only)</md-button>
 		</div>
 	</md-card>
 	<md-card flex class="md-padding">
@@ -11,7 +18,7 @@
 			<div layout>
 				<md-subheader>{{user.firstname}} {{user.lastname}}</md-subheader>
 				<md-divider></md-divider>
-				<md-subheader>Admin? {{ user.isAdmin ? 'Yes' : 'No' }}</md-subheader>
+				<md-subheader>Account Active? {{ user.accountIsActive ? 'Yes' : 'No' }}</md-subheader>
 			</div>
 			<div layout layout-align="center center">
 				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.onClickSaveButton(user)">Save</md-button>

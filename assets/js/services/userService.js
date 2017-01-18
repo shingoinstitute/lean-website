@@ -12,44 +12,15 @@
 		/**
 		 * @desc {function} getUser :: API call to find user, requires a JWT
 		 */
-		service.getUser = function (next) {
-
-			if (!$cookies.get(JWT_TOKEN)) {
-				return next(new Error('Error: user does not have a JSON Web Token'), false);
-			}
-
-			$http.get('/me')
-				.then(function (data) {
-					var user;
-					if (data.data) user = data.data.user;
-					if (!user) { return next(new Error('Error: user not found, @ userService.findMe.')); }
-					return next(null, user);
-				})
-				.catch(function (err) {
-					console.error('Error: ', err);
-					return next(err, false);
-				});
+		service.getUser = function () {
+			return $http.get('/me');
 		}
 
 		/**
 		 * @description createUser :: Call to REST API to create new user
-		 * @param {Object} user - new user object
-		 * @return {Object} - newly created user object
-		 * @throws {Error} - "Failed to create new user" when server doesn't return a user
 		 */
 		service.createUser = function (user) {
-			return $q(function(resolve, reject) {
-				$http.post('/user', user)
-				.then(function (data) {
-					if (data.data) {
-						return resolve(data.data);
-					}
-					return reject(new Error("An unknown error occured, failed to create new user..."));
-				})
-				.catch(function (err) {
-					return reject(err);
-				});
-			});
+			return $http.post('/user', user);
 		}
 
 		/**
