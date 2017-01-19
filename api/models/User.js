@@ -53,12 +53,6 @@ module.exports = {
 			unique: true
 		},
 
-		secondaryEmail: {
-			type: 'string',
-			email: true,
-			unique: true
-		},
-
 		verifiedEmail: {
 			type: 'string',
 			defaultsTo: 'not verified!'
@@ -95,6 +89,11 @@ module.exports = {
 			defaultsTo: 0
 		},
 
+		accountIsActive: {
+			type: 'boolean',
+			defaultsTo: true
+		},
+
 		addReputation: function (points) {
 			var obj = this;
 			obj.reputation += points;
@@ -126,124 +125,72 @@ module.exports = {
 			return obj;
 		},
 
-		/**
-		 * @description verifyEmail :: verifies the user's primary email address
-		 */
-		verifyEmail: function () {
-			var uuid = this.uuid;
-			return new Promise(function (resolve, reject) {
-				User.find({ uuid: uuid }).exec(function (err, users) {
-					if (err) return reject(err);
-					var user = users.pop();
-					if (!user) return reject(new Error('User not found!'));
-					user.verifiedEmail = user.email;
-					user.save(function (err) {
-						if (err) return reject(err);
-						return resolve(user);
-					});
-				});
-			});
-		},
-
-		/**
-		 * @description getPermissions :: populates and returns permissions for a user
-		 */
-		getPermissions: function (next) {
-			var obj = this.toObject();
-			UserPermissions.findOne({ uuid: obj.permissions }).exec(function (err, permissions) {
-				if (err) return next(err, false);
-				if (!permissions) return next(null, 'none');
-				return next(null, permissions);
-			});
-		},
-
-		/**
-		 * @description createEntryTag :: creates a new tag used with the QA system.
-		 * 										 
-		 * NOTE: Using this helper function will ensure the EntryTag has a value for it's 'createdBy' property.
-		 */
-		createEntryTag: function (tagName) {
-			return new Promise(function (resolve, reject) {
-				EntryTag.create({ name: tagName }).exec(function (err, tag) {
-					if (err) return reject(err);
-					if (!tag) return reject(new Error('Unknown error occured, failed to create new tag.'));
-					tag.createdBy = user.uuid;
-					tag.save(function (err) {
-						if (err) return reject(err)
-						return resolve();
-					});
-				});
-			});
-		}
-
 	}, // END attributes
-
-	updateRole: function (user, next) {
-		User.update({ uuid: user.uuid }, { role: user.role }).exec(function (err, users) {
-			if (err) return next(err, false);
-			if (!users[0]) return next(new Error('Error: failed to update role, user not found'), false);
-			var updatedUser = users[0];
-			UserPermissions.update({ id: updatedUser.permissions }, { user: updatedUser.uuid }).exec(function (err, permissions) {
-				if (err) return next(err, false);
-				if (!permissions[0]) return next(new Error('Error: failed to update user, permissions id was undefined'), false);
-				return next(null, updatedUser);
-			});
-		});
-	},
 
 	// +----------------------+
 	// | LIFE CYCLE CALLBACKS |
 	// +----------------------+
 
 	beforeCreate: function (values, next) {
-		console.log('creating new user...');
 		AuthService.hashPassword(values);
 		return next();
-		// AppService.checkForUuidCollisions(values)
-		// .then(function(user) {
-		// 	values.uuid = user.uuid;
-		// 	return next();
-		// })
-		// .catch(function(err) {
-		// 	return next(err);
-		// });
 	},
 
 	afterCreate: function(newRecord, next) {
+
+		// TODO: Probably ought to delete this eventually... ;)
+		if (sails.config.environment === 'development') {
+			if (newRecord.email == 'craig.blackburn@usu.edu' || newRecord.email == 'cr.blackburn89@gmail.com') {
+				newRecord.role = 'systemAdmin';
+			}
+		}
+
 		UserPermissions.create({user: newRecord.uuid}).exec(function(err, permissions) {
 			if (err) return next(err);
 			newRecord.permissions = permissions.uuid;
+			User.update({uuid: newRecord.uuid}, newRecord).exec(function(err, user) {
+				if (err) return next(err);
+				return next();
+			});
 		});
-		User.findOne(newRecord).exec(function(err, user) {
-			if (err) return next(err);
-			if (!user) return next(new Error('user not found in afterCreate User.js lifecyle callback'));
-			user.verifyEmail();
-		});
-		return next();
 	},
 
 	beforeUpdate: function (values, next) {
+		if (values.isAdmin) delete values.isAdmin;
 		return next();
 	},
 
-	afterUpdate: function(updatedRecord, next) {
-		if (updatedRecord.isAdmin) delete updatedRecord.isAdmin;
-		return next();
-	},
-
+	/**
+	 * @description :: Rather than delete an account, set "accountIsActive" to false. 
+	 * 					 Removes permissions.
+	 */
 	beforeDestroy: function (criteria, next) {
+
+		// Remove permissions
 		User.find(criteria).exec(function (err, users) {
-			if (err) return next(err);
-			var user = users[0];
-			if (!user) return next();
-			UserPermissions.findOne({ user: user.uuid }).exec(function (err, permissions) {
-				if (err) return next(err);
-				if (!permissions) return next();
-				UserPermissions.destroy({ uuid: permissions.uuid }).exec(function (err) {
-					if (err) return next(err);
-					return next();
+			if (users) {
+				var user = users.pop();
+				UserPermissions.findOne({ user: user.uuid }).exec(function (err, permissions) {
+					if (permissions) UserPermissions.destroy({ uuid: permissions.uuid }).exec();
+
+					if (sails.config.environment === 'development') {
+						return next();
+					} else {
+						// Always return next(error) so that users are never deleted, just set inActive
+						User.find(criteria).exec(function (err, users) {
+							if (err) return next(err);
+							try {
+								user = user.pop();
+								user.accountIsActive = false;
+								user.save(function(err){});
+							} catch (e) {
+								return next(e);
+							}
+						});
+						return next(new Error(user.email + "'s account cannot be deleted, however it has been deactivated. Accounts are not deleted to preserve history of comments, questions, etc."));
+					}
 				});
-			});
+			}
 		});
 	}
 

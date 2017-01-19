@@ -63,14 +63,17 @@
 					return;
 				}
 
-				_userService.getUser(function(err, user) {
-					if (err) return console.error('Error: ', err);
-					if (user) {
-						$rootScope.$broadcast(BROADCAST.userLogin, user);
+				_userService.getUser()
+					.then(function(response) {
+						if (response.data.error) return console.error('Error: ', err);
+						$rootScope.$broadcast(BROADCAST.userLogin, response.data);
 						$location.path('/dashboard');
-					}
-				});
-				
+					})
+					.catch(function(err) {
+						if (BROADCAST.loggingLevel === "DEBUG") {
+							console.error('Error: ', err);
+						}
+					});
 			});
 		}
 
@@ -79,8 +82,8 @@
 			&& typeof vm.user.lastname != 'undefined'
 			&& typeof vm.user.email != 'undefined'
 			&& vm.user.password && (vm.user.password == vm.user.confirmPassword);
-		}, function(value) {
-			vm.createButonEnabled = value;
+		}, function(shouldEnable) {
+			vm.createButonEnabled = shouldEnable;
 		});
 
 	}

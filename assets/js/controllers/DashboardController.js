@@ -21,11 +21,15 @@
       _entryService.getUserQuestions(userId)
         .then(function (response) {
           vm.questions = response.data;
-          return _entryService.getUserAnswers(userId)
+          return _entryService.getUserAnswers(userId);
         })
         .then(function (response) {
           vm.answers = response.data;
-          return _entryService.getUserComments(userId)
+          return _entryService.getRecent(10, userId);
+        })
+        .then(function(response) {
+          vm.recent = response.data;
+          return _entryService.getUserComments(userId);
         })
         .then(function (response) {
           vm.comments = response.data;
@@ -40,8 +44,6 @@
         });
     }
 
-    vm.loadData();
-
 		/**
 		 * @description {function} onPageLoad :: sends broadcast to MainController, which in return sends broadcast back to DashboardController via '$DashboardControllerListener'
 		 * @param {string} listenerName :: name of the listener
@@ -55,8 +57,10 @@
 		 * @description {function} :: listener for broadcast from MainController. If user (in function(event, user)) is null, a user is not logged in.
 		 */
 		$scope.$on('$DashboardControllerListener', function(event, user) {
-			userId = user.uuid;
-      vm.loadData();
+      if (user) {
+        userId = user.uuid;
+        vm.loadData();
+      }
 		});
 
 		vm.onPageLoad('$MainControllerListener', 'DashboardController');

@@ -33,10 +33,18 @@
       });
     }
 
-    service.getRecent = function (limit) {
+    service.getRecent = function (limit, userId) {
       var now = moment();
       var recent = now.subtract(10, 'days');
-      var url = '/entry?where={"createdAt": {">":"' + recent.toJSON() + '"},"parent":null}&populate=owner' + (limit ? '&limit=' + limit : '');
+      var params = {
+        createdAt: {
+          ">": recent.toJSON()
+        },
+        parent: null, 
+        owner: userId,
+      }
+      var url = '/entry?where=' + JSON.stringify(params) + (limit ? '&limit=' + limit : '');
+      // var url = '/entry?where={"createdAt": {">":"' + recent.toJSON() + '"},"parent":null}&populate=owner' + (limit ? '&limit=' + limit : '');
       console.log('url: ', url);
       return $http({
         method: 'get',

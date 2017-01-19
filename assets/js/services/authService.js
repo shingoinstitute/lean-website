@@ -19,9 +19,9 @@
 				username: username,
 				password: password
 			})
-				.then(function (data) {
-					if (data.data && data.data.error) {
-						var error = data.data.error;
+				.then(function (response) {
+					if (response.data && response.data.error) {
+						var error = response.data.error;
 						if (typeof error == 'Error') {
 							return next(error, false);
 						}
@@ -29,14 +29,14 @@
 					}
 
 					var user;
-					if (data.data) { user = data.data.user; }
+					if (response.data) { user = response.data.user; }
 
 					if (!user) {
 						return next(new Error('Error: user not found.'), false);
 					}
 
 					var token;
-					if (data.data && data.data.token) { token = data.data.token; }
+					if (response.data && response.data.token) { token = response.data.token; }
 
 					if (!token) {
 						return next(new Error('Error: JWT token not found.'), false);
@@ -46,8 +46,8 @@
 					return next(null, user);
 				})
 				.catch(function (err) {
-					var e = new Error();
-					console.error('Error: authService:' + (e.lineNumber - 1), err);
+					console.error('', err);
+					if (err.data && err.data.error) return next(err.data.error);
 					return next(err);
 				});
 		}
@@ -70,24 +70,24 @@
 					return next(new Error('Error: Missing required fields.'), false);
 				}
 
-				$http.post('/auth/createAccount', {
+				$http.post('/user', {
 					firstname: user.firstname,
 					lastname: user.lastname,
 					email: user.email,
 					password: user.password
 				})
-				.then(function (data) {
-					if (data.data && data.data.error)
-						return next(data.data.error, false);
+				.then(function (response) {
+					if (response.data && response.data.error)
+						return next(response.data.error, false);
 						// return reject(data.data.error)
 
 					var user;
-					if (data.data)
-						user = data.data.user;
+					if (response.data)
+						user = response.data.user;
 
 					var token;
-					if (data.data)
-						token = data.data.token;
+					if (response.data)
+						token = response.data.token;
 
 					if (!token)
 						return next(new Error('failed to generate JSON Web Token!'));

@@ -31,16 +31,11 @@ module.exports.policies = {
     'AuthController': {
         '*': false,
         login: true,
-        logout: true,
+        logout: ['sessionAuth'],
         linkedInAuth: true,
         linkedInAuthCallback: true,
         localAuth: true,
-        createAccount: true,
         verifyEmail: true
-    },
-
-    'UserController': {
-        '*': ['sessionAuth'],
     },
 
     'DevController': {
@@ -49,17 +44,26 @@ module.exports.policies = {
         'sendMail': true
     },
 
+    'CommentController': {
+        '*': ['sessionAuth'],
+        find: true,
+        findOne: true,
+        update: ['sessionAuth', 'isCommentOwner']
+    },
+
     'EntryController': {
-        '*': ['sessionAuth']
+        '*': ['sessionAuth'],
+        find: true,
+        findOne: true,
+        update: ['sessionAuth', 'isEntryOwner']
     },
 
     'UserController': {
         '*': ['sessionAuth'],
         update: ['sessionAuth', 'canUpdateUser'],
-        destroy: ['sessionAuth', 'isAdmin']
-    },
-
-    'CommentController': {
-        '*': true
+        destroy: ['sessionAuth', 'isAdmin'],
+        users: ['sessionAuth', 'isAdmin'],
+        create: true
     }
+    
 };

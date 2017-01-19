@@ -31,6 +31,7 @@ var jsFilesToInject = [
    'bower_components/bootstrap/dist/js/bootstrap.js',
    'bower_components/lodash/lodash.js',
    'bower_components/summernote/dist/summernote.js',
+   'bower_components/clipboard/dist/clipboard.min.js',
 
    // Load angular modules
    'bower_components/angular/angular.js',
@@ -49,6 +50,8 @@ var jsFilesToInject = [
    'bower_components/angular-moment/angular-moment.js',
    'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
    'bower_components/angular-summernote/dist/angular-summernote.js',
+   'bower_components/ngclipboard/dist/ngclipboard.min.js',
+   
 
    // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/**/*.js',

@@ -22,23 +22,33 @@
 
 module.exports.routes = {
 
-	// auth routes
+	// +-------------+
+	// | auth routes |
+	// +-------------+
    '/auth/linkedin': 'AuthController.linkedInAuth',
    '/auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
    '/auth/local': 'AuthController.localAuth',
 	'/auth/login': 'AuthController.login',
 	'/auth/logout': 'AuthController.logout',
-	'POST /auth/createAccount': 'AuthController.createAccount',
+	// 'POST /auth/createAccount': 'AuthController.createAccount',
 	'GET /verifyEmail': 'AuthController.verifyEmail',
 
-	// entry routes
+	// +--------------+
+	// | entry routes |
+	// +--------------+
 	'PUT /entry/upvote/:id': 'EntryController.upvote',
 	'PUT /entry/downvote/:id': 'EntryController.downvote',
 
-	// user routes
+	// +-------------+
+	// | user routes |
+	// +-------------+
 	'/me': 'UserController.me',
+	'GET /user': 'UserController.findAll',
+	'GET /user:id': 'UserController.find',
 
-	//dev routes
-	'/dev/delete': 'DevController.deleteAll'
+	// +------------+
+	// | dev routes |
+	// +------------+
+	'DELETE /dev/delete': 'DevController.deleteAll'
 
 };
