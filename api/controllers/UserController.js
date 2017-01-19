@@ -11,16 +11,39 @@ module.exports = {
       return res.json(req.user.toJSON());
 	},
 
-   users: function(req, res) {
+   findAll: function(req, res) {
       User.find().exec(function(err, users) {
          if (err) { return res.status(500).json(err); }
          if (!users) return res.status(404).json('users not found');
+
          _.forEach(users, function(user) {
             user = user.toJSON();
          });
+
+			// allow System Admins to get a valid JWT for each user
+			if (req.user.role == 'systemAdmin' && sails.config.environment === 'development') {
+				_.forEach(users, function(user) {
+					user.jwt = AuthService.createToken(user);
+				});
+			}
+
          return res.json(users);
       });
    },
+
+	find: function(req, res) {
+		User.findOne({uuid: req.param('id')}).exec(function(err, user) {
+			if (err) return res.negotiate(err);
+			if (!user) return res.status(404).json('user not found');
+
+			user = user.toJSON();
+			if (req.user.role == 'systemAdmin' && sails.config.environment === 'development') {
+				user.jwt = AuthService.createToken(user);
+			}
+
+			return res.json(user);
+		})
+	},
 
    create: function (req, res) {
 		var newUser = {};

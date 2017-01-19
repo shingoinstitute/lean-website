@@ -43,7 +43,8 @@ module.exports.routes = {
 	// | user routes |
 	// +-------------+
 	'/me': 'UserController.me',
-	'GET /user': 'UserController.users', // Overriding blueprint route "/user" so that user objects can use their .toJSON() method to removes properties such as their hashed password before returning to the client.
+	'GET /user': 'UserController.findAll',
+	'GET /user:id': 'UserController.find',
 
 	// +------------+
 	// | dev routes |

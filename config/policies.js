@@ -44,8 +44,18 @@ module.exports.policies = {
         'sendMail': true
     },
 
+    'CommentController': {
+        '*': ['sessionAuth'],
+        find: true,
+        findOne: true,
+        update: ['sessionAuth', 'isCommentOwner']
+    },
+
     'EntryController': {
-        '*': ['sessionAuth']
+        '*': ['sessionAuth'],
+        find: true,
+        findOne: true,
+        update: ['sessionAuth', 'isEntryOwner']
     },
 
     'UserController': {
@@ -54,9 +64,6 @@ module.exports.policies = {
         destroy: ['sessionAuth', 'isAdmin'],
         users: ['sessionAuth', 'isAdmin'],
         create: true
-    },
-
-    'CommentController': {
-        '*': true
     }
+    
 };
