@@ -4,7 +4,6 @@
 			<md-subheader class="header-lg md-no-sticky">Dev Tools</md-subheader>
 			<md-progress-circular md-mode="indeterminate" ng-disabled="!vm.progressCircleEnabled" ng-show="vm.progressCircleEnabled"></md-progress-circular>
 		</div>
-		
 		<div>
 			<md-button aria-label="create mock users button" class="md-button md-raised md-primary" ng-click="vm.createMockUsers()">Create Mock Users</md-button>
 		</div>
@@ -16,14 +15,15 @@
 		<md-subheader class="header-lg md-no-sticky">Users</md-subheader>
 		<md-whiteframe class="md-whiteframe-1dp md-padding md-margin" layout="column" layout-align="space-around stretch" ng-model="vm.users" ng-repeat="user in vm.users track by $index">
 			<div layout>
-				<md-subheader>{{user.firstname}} {{user.lastname}}</md-subheader>
-				<md-divider></md-divider>
-				<md-subheader>Account Active? {{ user.accountIsActive ? 'Yes' : 'No' }}</md-subheader>
-				<md-divider></md-divider>
-				<div>
-					<md-subheader ng-if="mc.user.role == 'systemAdmin'">JWT: </md-subheader>
-					<button class="btn" ngclipboard data-clipboard-text="{{user.jwt}}">Copy to clipboard</button>
-				</div>
+				<pre>{{user.firstname}} {{user.lastname}}</pre>
+				<pre>Account Active? {{ user.accountIsActive ? 'Yes' : 'No' }}</pre>
+			</div>
+			<div layout layout-align="center center">
+				<pre>JWT: <input id="jwt" value="{{user.jwt}}"></pre>
+				<md-button class="md-raised" ngclipboard data-clipboard-target="#jwt" aria-label="Token">
+					<md-icon md-svg-src="images/icons/ic_content_copy_black_24px.svg" alt="Copy to clipboard"></md-icon>
+					<md-tooltip>Copy</md-tooltip>
+				</md-button>	
 			</div>
 			<div layout layout-align="center center">
 				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.onClickSaveButton(user)">Save</md-button>
