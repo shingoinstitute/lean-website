@@ -18,7 +18,7 @@
 				<pre>{{user.firstname}} {{user.lastname}}</pre>
 				<pre>Account Active? {{ user.accountIsActive ? 'Yes' : 'No' }}</pre>
 			</div>
-			<div layout layout-align="center center">
+			<div layout>
 				<pre>JWT: <input id="jwt" value="{{user.jwt}}"></pre>
 				<md-button class="md-raised" ngclipboard data-clipboard-target="#jwt" aria-label="Token">
 					<md-icon md-svg-src="images/icons/ic_content_copy_black_24px.svg" alt="Copy to clipboard"></md-icon>
