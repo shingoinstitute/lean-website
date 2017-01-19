@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for js/controllers/NavController.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">js/controllers/</a> NavController.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">46.67% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>21/45</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">16.67% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">37.5% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">46.67% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>21/45</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function () {
+  'use strict';
+&nbsp;
+  angular.module('leansite')
+    .controller('NavController', NavController);
+&nbsp;
+	NavController.$inject = ['$scope', '$rootScope', '$location', '$mdSidenav', '$mdDialog', '_authService']
+	function NavController($scope, $rootScope, $location, $mdSidenav, $mdDialog, _authService) {
+		var vm = this;
+		var originatorEv;
+&nbsp;
+		/**
+		 * @description {function} openMenu :: Handler for opening/closing the toolbar menu
+		 */
+		vm.openMenu = <span class="fstat-no" title="function not covered" >function ($mdOpenMenu, $event) {</span>
+<span class="cstat-no" title="statement not covered" >			originatorEv = $event;</span>
+<span class="cstat-no" title="statement not covered" >			$mdOpenMenu($event);</span>
+		}
+&nbsp;
+		/**
+		 * @description {function} showDashboard :: sends broadcast message to MainController which then sends a broadcast message back to NavController via '$NavControllerListener'
+		 */
+		vm.showDashboard = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >			$rootScope.$broadcast('$MainControllerListener');</span>
+		}
+&nbsp;
+		/**
+		 * @description {function} :: listens for broadcast from MainController then directs user to '/dashboard' or '/login' depending on whether or not a user is logged in.
+		 */
+		$scope.$on('$NavControllerListener', <span class="fstat-no" title="function not covered" >function (event, user) {</span>
+<span class="cstat-no" title="statement not covered" >			if (user) {</span>
+<span class="cstat-no" title="statement not covered" >				$location.path('/dashboard');</span>
+			} else {
+<span class="cstat-no" title="statement not covered" >				$location.path('/login');</span>
+			}
+		});
+&nbsp;
+		/**
+		 * @description {function} logout :: logs user out via _authService
+		 */
+		vm.logout = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >			_authService.logout();</span>
+		}
+&nbsp;
+		/**
+		 * @description {function} :: Changes the title on the toolbar depending on current route
+		 * @param {string} url - fully qualified current url.
+		 */
+    vm.setTitle = function(url) {
+      url = url.split("/")
+      url = url[url.length - 1];
+      switch (url) {
+        case 'home':
+          vm.title = "Home";
+          break;
+<span class="branch-1 cbranch-no" title="branch not covered" >        case 'dashboard':</span>
+<span class="cstat-no" title="statement not covered" >          vm.title = "Settings";</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+<span class="branch-2 cbranch-no" title="branch not covered" >        case 'education':</span>
+<span class="cstat-no" title="statement not covered" >          vm.title = "Education";</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+<span class="branch-3 cbranch-no" title="branch not covered" >        case 'about':</span>
+<span class="cstat-no" title="statement not covered" >          vm.title = "About";</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+<span class="branch-4 cbranch-no" title="branch not covered" >        case 'login':</span>
+<span class="cstat-no" title="statement not covered" >          vm.title = "Login";</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+<span class="branch-5 cbranch-no" title="branch not covered" >        case 'createAccount':</span>
+<span class="cstat-no" title="statement not covered" >          vm.title = "Create Account";</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+<span class="branch-6 cbranch-no" title="branch not covered" >        case 'teachingResources':</span>
+<span class="cstat-no" title="statement not covered" >          vm.title = "Teaching Resources";</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+<span class="branch-7 cbranch-no" title="branch not covered" >        case 'admin':</span>
+<span class="cstat-no" title="statement not covered" >          vm.title = "Admin Panel";</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+<span class="branch-8 cbranch-no" title="branch not covered" >        case 'entries':</span>
+<span class="cstat-no" title="statement not covered" >          vm.title = "Q &amp; A Forum";</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+        default:
+          vm.title = "Teaching Lean";
+          break;
+      }
+    }
+&nbsp;
+    $scope.$on('$locationChangeSuccess', <span class="fstat-no" title="function not covered" >function (event, newUrl, oldUrl) {</span>
+<span class="cstat-no" title="statement not covered" >      vm.setTitle(newUrl);</span>
+    });
+&nbsp;
+&nbsp;
+    vm.setTitle($location.url());
+    $scope.vm = vm;
+  }
+})();
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 19 2017 15:30:42 GMT-0700 (MST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
