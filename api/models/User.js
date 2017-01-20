@@ -94,6 +94,10 @@ module.exports = {
 			defaultsTo: true
 		},
 
+		resetPasswordToken: 'string',
+
+		resetPasswordExpires: 'integer', // number of milliseconds since Jan 1, 1970
+
 		addReputation: function (points) {
 			var obj = this;
 			obj.reputation += points;
@@ -116,6 +120,8 @@ module.exports = {
 			delete obj.updatedAt;
 			delete obj.linkedinId;
 			delete obj.verifiedEmail;
+			delete obj.resetPasswordToken;
+			delete obj.resetPasswordExpires;
 			obj.isAdmin = (obj.role == 'admin' || obj.role == 'systemAdmin');
 			if (obj.firstname && obj.lastname) {
 				obj.name = obj.firstname + ' ' + obj.lastname;

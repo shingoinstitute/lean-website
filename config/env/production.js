@@ -22,7 +22,8 @@ module.exports = {
   // },
 
   email: {
-    redirectUrl: ''
+    // emailVerificationURL: '/verifyEmail',
+    // passwordResetURL: '/reset'
   }
 
   /***************************************************************************

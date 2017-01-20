@@ -39,16 +39,15 @@ module.exports = {
 	 * @param {Object} user - a user object obtained from Waterline
 	 */
 	createToken: function (user) {
-
 		try {
 			user = user.toJSON();
-		} catch (e) { }
-
-		return jwt.sign({ user: user }, options.secret, {
-			algorithm: options.algorithm,
-			expiresIn: options.maxAge,
-			audience: options.audience
-		});
+		} finally {
+			return jwt.sign({ user: user }, options.secret, {
+				algorithm: options.algorithm,
+				expiresIn: options.maxAge,
+				audience: options.audience
+			});
+		}
 	},
 
 	/**
@@ -60,6 +59,7 @@ module.exports = {
 			passport.authenticate('jwt', function (err, user, info) {
 				if (err) return reject(err);
 				if (!user) return reject(new Error('invalid token'));
+				if (info) sails.log.info(info);
 				return resolve(user);
 			})(req, res);
 		});

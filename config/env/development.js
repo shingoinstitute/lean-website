@@ -24,7 +24,8 @@ module.exports = {
     secret: 'keyboardcats123'
   },
   email: {
-    redirectUrl: 'http://localhost:1337/verifyEmail'
+    emailVerificationURL: 'http://localhost:1337/verifyEmail',
+    passwordResetURL: 'http://localhost:1337/reset'
   }
 
 };

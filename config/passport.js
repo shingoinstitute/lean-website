@@ -25,8 +25,6 @@ var jwtStrategyConfig = {
 	  if (!token) token = req.param('JWT');
 	  if (!token) token = req.headers.jwt;
 
-	  if (sails.config.environment == 'development' && !token) sails.log.error(new Error("token not found!"));
-
 	  return token;
   },
 };

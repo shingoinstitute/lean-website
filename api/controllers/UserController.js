@@ -78,7 +78,52 @@ module.exports = {
 				info: typeof info != 'undefined' ? info.response : ''
 			});
 		});
-
 	},
+
+	/**
+	 * @description resetPassword :: Handler for user resetting password.
+	 * @returns :: Anything other than HTTP status 200 means an error occured, the user is not authorized, or their token is expired. 
+	 */
+	resetPassword: function(req, res) {
+
+		// If HTTP method is GET, treat request as if the user clicked the reset password link from the password reset email they recieved at their primary email address.
+		if (req.method == "GET") {
+
+			AuthService.verifyToken(req, res)
+			.then(function(user) {
+				if (req.param('JWT') != user.resetPasswordToken) {
+					return res.status(403).json('user not authorized!');
+				}
+
+				if (Date.now() > user.resetPasswordExpires) {
+					return res.status(403).json('token invalid or expired.');
+				}
+
+				req.user.resetPasswordToken = null;
+				req.user.resetPasswordExpires = null;
+				req.user.save(function(err) {
+					if (err) sails.log.error(err);
+				});
+
+				return res.json(user.toJSON());
+			})
+			.catch(function(err) {
+				return res.negotiate(err);
+			});
+
+		} else {
+
+			EmailService.sendPasswordResetEmail(req.user)
+			.then(function(info) {
+				return res.json(info);
+			})
+			.catch(function(err) {
+				sails.log.error(err);
+				return res.negotiate(err);
+			});
+		}
+
+		
+	}
 
 }
