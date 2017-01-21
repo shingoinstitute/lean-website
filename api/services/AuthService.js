@@ -16,12 +16,13 @@ const options = {
 module.exports = {
 
 	/**
-	 * @description hashPassword :: hashes users password to store securely in the DB
-	 * @param {Object} user - a user object containing a password. The plain text password is replaced by the hashed password.
+	 * Hashes users password to store securely in the DB using bycrypt
+	 * 
+	 * @param {Object} values - an object containing a password. The plain text password is replaced by the hashed password.
 	 */
-	hashPassword: function (user) {
-		if (user.password) {
-			user.password = bcrypt.hashSync(user.password, saltRounds);
+	hashPassword: function (values) {
+		if (values.password) {
+			values.password = bcrypt.hashSync(values.password, saltRounds);
 		}
 	},
 
@@ -58,9 +59,8 @@ module.exports = {
 		return new Promise(function (resolve, reject) {
 			passport.authenticate('jwt', function (err, user, info) {
 				if (err) return reject(err);
-				if (!user) return reject(new Error('invalid token'));
-				if (info) sails.log.info(info);
-				return resolve(user);
+				if (!user) return reject(new Error('invalid token!'));
+				return resolve(user, info);
 			})(req, res);
 		});
 	}

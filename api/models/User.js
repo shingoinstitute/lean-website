@@ -122,6 +122,7 @@ module.exports = {
 			delete obj.verifiedEmail;
 			delete obj.resetPasswordToken;
 			delete obj.resetPasswordExpires;
+			delete obj.permissions;
 			obj.isAdmin = (obj.role == 'admin' || obj.role == 'systemAdmin');
 			if (obj.firstname && obj.lastname) {
 				obj.name = obj.firstname + ' ' + obj.lastname;
@@ -145,10 +146,8 @@ module.exports = {
 	afterCreate: function(newRecord, next) {
 
 		// TODO: Probably ought to delete this eventually... ;)
-		if (sails.config.environment === 'development') {
-			if (newRecord.email == 'craig.blackburn@usu.edu' || newRecord.email == 'cr.blackburn89@gmail.com') {
-				newRecord.role = 'systemAdmin';
-			}
+		if (sails.config.environment === 'development' && (newRecord.email == 'craig.blackburn@usu.edu' || newRecord.email == 'cr.blackburn89@gmail.com')) {
+			newRecord.role = 'systemAdmin';
 		}
 
 		UserPermissions.create({user: newRecord.uuid}).exec(function(err, permissions) {
@@ -163,6 +162,14 @@ module.exports = {
 
 	beforeUpdate: function (values, next) {
 		if (values.isAdmin) delete values.isAdmin;
+		if (values.password && values.password[0] != '$' && values.resetPasswordToken) {
+			values.resetPasswordToken = null;
+			values.resetPasswordExpires = null;
+			AuthService.hashPassword(values);
+		} else {
+			delete values.password;
+		}
+		
 		return next();
 	},
 

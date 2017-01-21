@@ -43,6 +43,21 @@
 			return $http.get('/user');
 		}
 
+		/**
+		 * @description Call to REST API to send user an email with a password reset link
+		 * @param email - the email the reset link will be sent to. If null, sends reset link to logged in user, if any.
+		 */
+		service.requestPasswordResetEmail = function(email) {
+			return $http.get('/user/reset', {email: email});
+		}
+
+		service.requestPasswordUpdate = function(password, token) {
+			return $http.put('/user/reset', {
+				password: password,
+				r_jwt: token
+			});
+		}
+
 		return service;
 	};
 

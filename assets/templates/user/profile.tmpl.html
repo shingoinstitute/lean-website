@@ -31,13 +31,15 @@
         <div class="trix-content" ng-bind-html="user.bio"></div>
       </md-content>
       <md-input-container ng-show="vm.isEditing" md-no-float>
-         <summernote   md-no-resize ng-model="user.bio"></summernote>
+        <summernote md-no-resize ng-model="user.bio"></summernote>
       </md-input-container>
+      <md-button ng-href="/reset" class="md-accent" ng-show="vm.isEditing">reset password</md-button>
     </md-card-content>
     <md-card-actions layout-align="center center" layout-padding>
       <md-card-icon-actions>
         <md-button class="md-raised md-primary" ng-show="!vm.isEditing" ng-click="vm.isEditing = true">Edit</md-button>
-        <md-button ng-disabled="profileForm.$invalid || profileForm.$pristine" class="md-raised md-primary" ng-show="vm.isEditing" ng-click="vm.save()">Save</md-button>
+        <md-button ng-disabled="profileForm.$invalid || profileForm.$pristine" class="md-raised md-primary" ng-show="vm.isEditing"
+          ng-click="vm.save()">Save</md-button>
         <md-button class="md-raised md-accent" ng-show="vm.isEditing" ng-click="vm.isEditing = false">Cancel</md-button>
       </md-card-icon-actions>
     </md-card-actions>

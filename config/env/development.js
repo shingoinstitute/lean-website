@@ -25,7 +25,8 @@ module.exports = {
   },
   email: {
     emailVerificationURL: 'http://localhost:1337/verifyEmail',
-    passwordResetURL: 'http://localhost:1337/reset'
+    passwordResetURL: 'http://localhost:1337/reset',
+    resetPasswordTokenParamName: 'r_jwt'
   }
 
 };

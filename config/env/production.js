@@ -23,7 +23,8 @@ module.exports = {
 
   email: {
     // emailVerificationURL: '/verifyEmail',
-    // passwordResetURL: '/reset'
+    // passwordResetURL: '/reset',
+    resetPasswordTokenParamName: 'r_jwt'
   }
 
   /***************************************************************************

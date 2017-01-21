@@ -62,7 +62,6 @@ module.exports.policies = {
         '*': ['sessionAuth'],
         update: ['sessionAuth', 'canUpdateUser'],
         destroy: ['sessionAuth', 'isAdmin'],
-        users: ['sessionAuth', 'isAdmin'],
         create: true
     }
     

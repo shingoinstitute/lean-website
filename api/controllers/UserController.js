@@ -11,40 +11,6 @@ module.exports = {
       return res.json(req.user.toJSON());
 	},
 
-   findAll: function(req, res) {
-      User.find().exec(function(err, users) {
-         if (err) { return res.status(500).json(err); }
-         if (!users) return res.status(404).json('users not found');
-
-         _.forEach(users, function(user) {
-            user = user.toJSON();
-         });
-
-			// allow System Admins to get a valid JWT for each user
-			if (req.user.role == 'systemAdmin' && sails.config.environment === 'development') {
-				_.forEach(users, function(user) {
-					user.jwt = AuthService.createToken(user);
-				});
-			}
-
-         return res.json(users);
-      });
-   },
-
-	find: function(req, res) {
-		User.findOne({uuid: req.param('id')}).exec(function(err, user) {
-			if (err) return res.negotiate(err);
-			if (!user) return res.status(404).json('user not found');
-
-			user = user.toJSON();
-			if (req.user.role == 'systemAdmin' && sails.config.environment === 'development') {
-				user.jwt = AuthService.createToken(user);
-			}
-
-			return res.json(user);
-		})
-	},
-
    create: function (req, res) {
 		var newUser = {};
 		newUser.email = req.param('email');
@@ -81,38 +47,32 @@ module.exports = {
 	},
 
 	/**
-	 * @description resetPassword :: Handler for user resetting password.
-	 * @returns :: Anything other than HTTP status 200 means an error occured, the user is not authorized, or their token is expired. 
+	 * Handler for requesting a password reset
+	 * 
+	 * @description If a resetToken is present, lets request go through to '/reset', otherwise sends an email with a password reset link to the logged in user's primary email address
 	 */
-	resetPassword: function(req, res) {
+	requestPasswordReset: function(req, res) {
+		var resetToken = req.param(sails.config.email.resetPasswordTokenParamName);
+		if (resetToken && resetToken == req.user.resetPasswordToken && Date.now() > req.user.resetPasswordExpires) {
+			return res.json("OK");
+		}
 
-		// If HTTP method is GET, treat request as if the user clicked the reset password link from the password reset email they recieved at their primary email address.
-		if (req.method == "GET") {
+		var email = req.param('email');
 
-			AuthService.verifyToken(req, res)
-			.then(function(user) {
-				if (req.param('JWT') != user.resetPasswordToken) {
-					return res.status(403).json('user not authorized!');
-				}
-
-				if (Date.now() > user.resetPasswordExpires) {
-					return res.status(403).json('token invalid or expired.');
-				}
-
-				req.user.resetPasswordToken = null;
-				req.user.resetPasswordExpires = null;
-				req.user.save(function(err) {
-					if (err) sails.log.error(err);
-				});
-
-				return res.json(user.toJSON());
+		if (email) {
+			User.findOne({email: email}).exec(function(err, user) {
+				if (err) return res.negotiate(err);
+				if (!user) return res.status(404).json('user not found');
+				return EmailService.sendPasswordResetEmail(user)
+			})
+			.then(function(info) {
+			return res.json(info);
 			})
 			.catch(function(err) {
+				sails.log.error(err);
 				return res.negotiate(err);
 			});
-
 		} else {
-
 			EmailService.sendPasswordResetEmail(req.user)
 			.then(function(info) {
 				return res.json(info);
@@ -122,8 +82,35 @@ module.exports = {
 				return res.negotiate(err);
 			});
 		}
+	},
 
-		
+	/**
+	 * Handler for resetting passwords
+	 * 
+	 * @returns Anything other than HTTP status 200 means an error occured, the user is not authorized, or their token is expired. 
+	 */
+	resetPassword: function(req, res) {
+		var resetToken = req.param(sails.config.email.resetPasswordTokenParamName);
+		if (resetToken != req.user.resetPasswordToken) {
+			return res.status(403).json('user not authorized!');
+		}
+
+		if (Date.now() > req.user.resetPasswordExpires) {
+			return res.status(403).json('token invalid or expired.');
+		}
+
+		var password = req.param('password');
+
+		if (!password) return res.status(403).json('password not found!');
+
+		req.user.password = password;
+		req.user.save(function(err) {
+			if (err) {
+				sails.log.error(err);
+				return res.negotiate(err);
+			}
+			return res.json(req.user.toJSON());
+		});
 	}
 
 }

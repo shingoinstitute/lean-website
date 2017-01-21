@@ -43,8 +43,8 @@ module.exports.routes = {
 	// | user routes |
 	// +-------------+
 	'/me': 'UserController.me',
-	'GET /user': 'UserController.findAll',
-	'GET /user:id': 'UserController.find',
+	'GET /user/reset': 'UserController.requestPasswordReset',
+	'PUT /user/reset': 'UserController.resetPassword',
 
 	// +------------+
 	// | dev routes |
