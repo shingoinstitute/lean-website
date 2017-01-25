@@ -58,6 +58,24 @@
 			});
 		}
 
+		service.uploadPhoto = function(file){
+			return $http({
+				method: 'post',
+				headers: {
+					'Content-Type': undefined
+				},
+				url: '/user/photoUpload',
+				data: {'profile': file},
+				transformRequest: function(data, headersGetter){
+					var formData = new FormData();
+					angular.forEach(data, function(value, key){
+						formData.append(key,value);
+					});
+					return formData;
+				}
+			});
+		}
+
 		return service;
 	};
 

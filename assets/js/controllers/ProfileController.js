@@ -25,5 +25,21 @@
         });
     }
 
+    vm.uploadPhoto = function (element) {
+      console.log("File", element.files[0]);
+      user.uploadPhoto(element.files[0])
+        .then(function (response) {
+            $scope.user.pictureUrl = response.data;
+            $rootScope.$broadcast(BROADCAST.userUpdated, $scope.user);
+        })
+        .catch(function (err) {
+          if (BROADCAST.loggingLevel == "DEBUG") {
+            $rootScope.$broadcast(BROADCAST.error, JSON.stringify(err));
+          } else {
+            $rootScope.$broadcast(BROADCAST.error, "There was an error uploading your picture...");
+          }
+        })
+    }
+
   }
 })();

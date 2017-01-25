@@ -39,7 +39,8 @@ module.exports = {
 
 		pictureUrl: {
 			type: 'string',
-			url: true
+			url: true,
+			defaultsTo: 'http://res.cloudinary.com/shingo/image/upload/v1414874243/silhouette_vzugec.png'
 		},
 
 		password: {
