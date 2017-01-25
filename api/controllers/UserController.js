@@ -11,40 +11,6 @@ module.exports = {
       return res.json(req.user.toJSON());
 	},
 
-   findAll: function(req, res) {
-      User.find().exec(function(err, users) {
-         if (err) { return res.status(500).json(err); }
-         if (!users) return res.status(404).json('users not found');
-
-         _.forEach(users, function(user) {
-            user = user.toJSON();
-         });
-
-			// allow System Admins to get a valid JWT for each user
-			if (req.user.role == 'systemAdmin' && sails.config.environment === 'development') {
-				_.forEach(users, function(user) {
-					user.jwt = AuthService.createToken(user);
-				});
-			}
-
-         return res.json(users);
-      });
-   },
-
-	find: function(req, res) {
-		User.findOne({uuid: req.param('id')}).exec(function(err, user) {
-			if (err) return res.negotiate(err);
-			if (!user) return res.status(404).json('user not found');
-
-			user = user.toJSON();
-			if (req.user.role == 'systemAdmin' && sails.config.environment === 'development') {
-				user.jwt = AuthService.createToken(user);
-			}
-
-			return res.json(user);
-		})
-	},
-
    create: function (req, res) {
 		var newUser = {};
 		newUser.email = req.param('email');
@@ -78,7 +44,73 @@ module.exports = {
 				info: typeof info != 'undefined' ? info.response : ''
 			});
 		});
+	},
+
+	/**
+	 * Handler for GET "/reset/:id"
+	 */
+	reset: function(req, res) {
+		var uuid = req.param('id');
+		var token = req.param(sails.config.email.resetPasswordTokenParamName);
+
+		User.findOne({uuid: uuid}).exec(function(err, user) {
+			if (err) return res.negotiate(err);
+			if (!user) return res.status(404).json('user not found');
+
+			if (!AuthService.compareResetToken(token, user)) return res.status(403).json('reset link invalid or expired');
+			
+			return res.redirect("/reset?id=" + uuid + "&r_jwt=" + token);
+		});
+	},
+
+	/**
+	 * Handler for route POST "/reset", expecting "email" parameter
+	 */
+	sendPasswordResetEmail: function(req, res) {
+		var email = req.param('email');
+
+		if (!email) {
+			return res.status(400).json("missing email param");
+		}
+
+		EmailService.sendPasswordResetEmail(email)
+		.then(function(info) {
+			return res.json(info);
+		})
+		.catch(function(err) {
+			sails.log.error(err);
+			return res.negotiate(err);
+		});
 
 	},
+
+	/**
+	 * Handler for PUT "/reset/:id", expects a token parameter to identify the user
+	 */
+	updatePassword: function(req, res) {
+		var uuid = req.param('id');
+		var token = req.param('token');
+		var password = req.param('password');
+
+		if (!token) {return res.status(403).json('user not authorized!');}
+		
+		if (!password) return res.status(400).json('missing password parameter');
+
+		User.findOne({uuid: uuid}).exec(function(err, user) {
+			if (err) return res.negotiate(err);
+			if (!user) return res.status(404).json('user not found');
+
+			if (!AuthService.compareResetToken(token, user)) return res.status(403).json('reset link invalid or expired');
+
+			user.password = password;
+			user.save(function(err) {
+				if (err) {
+					sails.log.error(err);
+					return res.negotiate(err);
+				}
+				return res.json(user.toJSON());
+			});
+		});
+	}
 
 }

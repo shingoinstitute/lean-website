@@ -26,6 +26,19 @@ module.exports = {
 
 			return res.json('deleted ' + users.length + ' records.');
 		});
+	},
+
+	anythingGoes: function(req, res) {
+		var id = req.param('id');
+		User.findOne({uuid: id}).exec(function(err, user) {
+			if (err) return res.json(err);
+			if (!user) return res.json('user not found');
+			delete user.emailVerificationToken;
+			user.save(function(err) {
+				if (err) return res.json(err);
+				return res.json('SUCCESS');
+			});
+		});
 	}
 
 };

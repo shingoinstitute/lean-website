@@ -16,19 +16,13 @@ var localStrategyConfig = {
 };
 
 var jwtStrategyConfig = {
-  secretOrKey: SECRET,
-  audience: AUDIENCE,
-  jwtFromRequest: function cookieExtractor(req) {
-	  var token = null;
-
-	  if (req && req.cookies) token = req.cookies.JWT;
-	  if (!token) token = req.param('JWT');
-	  if (!token) token = req.headers.jwt;
-
-	  if (sails.config.environment == 'development' && !token) sails.log.error(new Error("token not found!"));
-
-	  return token;
-  },
+	secretOrKey: SECRET,
+	audience: AUDIENCE,
+	jwtFromRequest: function cookieExtractor(req) {
+		return typeof req.cookies.JWT != 'undefined' ? req.cookies.JWT :
+			typeof req.headers.jwt != 'undefined' ? req.headers.jwt :
+				typeof req.param('JWT') != 'undefined' ? req.param('JWT') : null
+	},
 };
 
 var linkedinStrategyConfig = {
@@ -43,7 +37,7 @@ var linkedinStrategyConfig = {
 *  @description :: Authentication handler for local strategy
 */
 function onLocalAuth(username, password, next) {
-	User.findOne({email: username}).exec(function(err, user) {
+	User.findOne({ email: username }).exec(function (err, user) {
 		if (err) { return next(err); }
 
 		if (!user) return next(null, false, {
@@ -66,17 +60,9 @@ function onLocalAuth(username, password, next) {
 *  @param {function} done - callback accepting arguments done(err, user, info)
 */
 function onJwtAuth(payload, done) {
-	User.findOne({uuid: payload.user.uuid}).exec(function(err, user) {
-		if (err) {
-			return done(err, false);
-		}
-
-		if (!user) {
-			var error = new Error('User does not exist.', 'passport.js');
-			error.name = 'E_USER_NOT_FOUND'
-			return done(null, false, { message: error });
-		}
-
+	User.findOne({ uuid: payload.user.uuid }).exec(function (err, user) {
+		if (err) return done(err, false);
+		if (!user) return done(new Error('user not found!'));
 		return done(null, user);
 	});
 }
@@ -91,16 +77,16 @@ function onLinkedinAuth(accessToken, refreshToken, profile, done) {
 	query.pictureUrl = json.pictureUrl;
 	query.bio = json.summary;
 
-	User.findOne({email: query.email}).exec(function(err, user) {
+	User.findOne({ email: query.email }).exec(function (err, user) {
 		if (err) {
 			return done(err, false)
 		} else if (!user) {
-			User.create(query).exec(function(err, user) {
+			User.create(query).exec(function (err, user) {
 				if (err) return done(err, false);
 				return done(null, user);
 			});
 		} else if (!user.linkedinId) {
-			User.update({email: user.email}, query).exec(function(err, updated) {
+			User.update({ email: user.email }, query).exec(function (err, updated) {
 				if (err) return done(err, false);
 				return done(null, updated[0]);
 			});

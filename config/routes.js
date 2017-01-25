@@ -31,7 +31,7 @@ module.exports.routes = {
 	'/auth/login': 'AuthController.login',
 	'/auth/logout': 'AuthController.logout',
 	// 'POST /auth/createAccount': 'AuthController.createAccount',
-	'GET /verifyEmail': 'AuthController.verifyEmail',
+	'GET /verifyEmail/:id': 'AuthController.verifyEmail',
 
 	// +--------------+
 	// | entry routes |
@@ -43,12 +43,18 @@ module.exports.routes = {
 	// | user routes |
 	// +-------------+
 	'/me': 'UserController.me',
-	'GET /user': 'UserController.findAll',
-	'GET /user:id': 'UserController.find',
+	'POST /reset': 'UserController.sendPasswordResetEmail',
+	'GET /reset/:id': {
+		layout: 'layout',
+		controller: 'UserController',
+		action: 'reset'
+	},
+	'PUT /reset/:id': 'UserController.updatePassword',
 
 	// +------------+
 	// | dev routes |
 	// +------------+
-	'DELETE /dev/delete': 'DevController.deleteAll'
+	'DELETE /dev/delete': 'DevController.deleteAll',
+	'/dev/anything': 'DevController.anythingGoes'
 
 };
