@@ -13,6 +13,7 @@
           $scope.entry = response.data;
           $scope.entry.votes = $scope.entry.users_did_upvote.length - $scope.entry.users_did_downvote.length;
           $scope.entry.canMarkCorrect = $rootScope.userId == $scope.entry.parent.owner;
+          $scope.entry.canEdit = $rootScope.userId == $scope.entry.owner.uuid;
         })
         .catch(function (err) {
           if (BROADCAST.loggingLevel == "DEBUG") {
