@@ -134,6 +134,39 @@ md-list-item .md-list-item-inner>md-icon.md-secondary:not(.md-avatar-icon) {
   height: 100vh;
 }
 
+.material-icons.md-light {
+  color: rgba(255, 255, 255, 1);
+}
+
+#photoUpload {
+  position: absolute;
+  height: 80px;
+  width: 80px;
+  border: 5px rgba(70, 70, 70, 0.63) solid;
+}
+
+#photoUpload input[type=file] {
+  opacity: 0;
+  position: absolute;
+  width: 70px;
+  height: 100px;
+  cursor: pointer;
+  z-index: 99;
+}
+
+#photoUpload>p {
+  position: absolute;
+  top: 80px;
+  width: 100px;
+  left: -5px;
+  color: deepskyblue;
+}
+
+md-card-avatar>img {
+  width: 80px;
+  height: 80px;
+}
+
 .text-warn {
   color: #F44336;
 }
