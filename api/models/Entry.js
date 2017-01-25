@@ -9,7 +9,8 @@ var Promise = require('bluebird');
 var _ = require('lodash');
 
 module.exports = {
-
+	schema: true,
+	
 	attributes: {
 		id: {
 			type: 'integer',

@@ -12,7 +12,6 @@ var Promise = require('bluebird');
 
 module.exports = {
 
-	// attributes
 	attributes: {
 
 		uuid: {

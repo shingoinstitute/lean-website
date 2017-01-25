@@ -6,26 +6,26 @@
  */
 
 module.exports = {
+	schema: true,
+	attributes: {
+		id: {
+			type: 'integer',
+			primaryKey: true,
+			autoIncrement: true
+		},
 
-  attributes: {
-	  id: {
-		  type: 'integer',
-		  primaryKey: true,
-		  autoIncrement: true
-	  },
+		content: {
+			type: 'string',
+			maxLength: 1200
+		},
 
-	  content: {
-		  type: 'string',
-		  maxLength: 1200
-	  },
+		parent: {
+			model: 'entry'
+		},
 
-	  parent: {
-		  model: 'entry'
-	  },
+		owner: {
+			model: 'user'
+		}
 
-	  owner: {
-		  model: 'user'
-	  }
-
-  }
+	}
 };
