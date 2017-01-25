@@ -39,10 +39,7 @@ module.exports.policies = {
     },
 
     'DevController': {
-        '*': false,
-        'deleteAll': true,
-        'sendMail': true,
-        'anythingGoes': true
+        '*': true,
     },
 
     'CommentController': {
