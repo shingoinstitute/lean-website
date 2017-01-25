@@ -10,10 +10,8 @@ var _ = require('lodash');
 module.exports = {
 	deleteAll: function (req, res) {
 
-		if (sails.config.environment === 'production') {
-			return res.status(403).json('You cannot perform this function in a production environment!');
-		}
-
+		if (sails.config.environment != 'development') return res.forbidden('This action is only available in a development environment');
+		
 		User.find().populate('permissions').exec(function (err, users) {
 
 			if (err) return res.negotiate(err);
@@ -28,7 +26,9 @@ module.exports = {
 		});
 	},
 
-	anythingGoes: function(req, res) {
+	test: function(req, res) {
+		if (sails.config.environment != 'development') return res.forbidden('This action is only available in a development environment');
+
 		var id = req.param('id');
 		User.findOne({uuid: id}).exec(function(err, user) {
 			if (err) return res.json(err);

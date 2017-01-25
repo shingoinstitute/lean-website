@@ -7,11 +7,12 @@
   function AnswerController($scope, $rootScope, $mdDialog, _entryService, BROADCAST) {
     if ($scope.entry) $scope.entry.votes = 0;
 
-    if (!$scope.entry || !$scope.entry.owner.id || !$scope.entry.comments) {
+    if (!$scope.entry || !$scope.entry.owner.uuid || !$scope.entry.comments) {
       _entryService.readEntry($scope.entry.id)
         .then(function (response) {
           $scope.entry = response.data;
-          $scope.entry.votes = 0;
+          $scope.entry.votes = $scope.entry.users_did_upvote.length - $scope.entry.users_did_downvote.length;
+          $scope.entry.canMarkCorrect = $rootScope.userId == $scope.entry.parent.owner;
         })
         .catch(function (err) {
           if (BROADCAST.loggingLevel == "DEBUG") {

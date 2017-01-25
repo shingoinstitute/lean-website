@@ -40,7 +40,7 @@
           <md-button ng-show="isEditing" ng-disabled="answerDetailForm.$invalid || answerDetailForm.$pristine" ng-click="save()" class="md-raised md-primary">Save</md-button>
           <md-button ng-show="isEditing" ng-click="isEditing = false" class="md-raised md-accent">Cancel</md-button>
           <md-button ng-show="!isEditing" class="md-raised md-primary" ng-click="comment()">Comment</md-button>
-          <md-button ng-show="!isEditing && !entry.markedCorrect && !answered()" class="md-fab md-accent" ng-click="accepted()">&check;</md-button>
+          <md-button ng-show="!isEditing && !entry.markedCorrect && !answered() && entry.canMarkCorrect" class="md-fab md-accent" ng-click="accepted()">&check;</md-button>
         </md-card-actions>
       </div>
     </div>

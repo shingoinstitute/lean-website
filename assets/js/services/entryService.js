@@ -44,8 +44,6 @@
         owner: userId,
       }
       var url = '/entry?where=' + JSON.stringify(params) + (limit ? '&limit=' + limit : '');
-      // var url = '/entry?where={"createdAt": {">":"' + recent.toJSON() + '"},"parent":null}&populate=owner' + (limit ? '&limit=' + limit : '');
-      console.log('url: ', url);
       return $http({
         method: 'get',
         dataType: 'json',
@@ -128,7 +126,6 @@
         ]
       };
       var url = '/entry?where=' + JSON.stringify(query) + '&populate=owner';
-      console.log("query: ", url);
       return $http({
         method: 'get',
         dataType: 'json',
