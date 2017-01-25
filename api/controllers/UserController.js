@@ -47,69 +47,69 @@ module.exports = {
 	},
 
 	/**
-	 * Handler for requesting a password reset
-	 * 
-	 * @description If a resetToken is present, lets request go through to '/reset', otherwise sends an email with a password reset link to the logged in user's primary email address
+	 * Handler for GET "/reset/:id"
 	 */
-	requestPasswordReset: function(req, res) {
-		var resetToken = req.param(sails.config.email.resetPasswordTokenParamName);
-		if (resetToken && resetToken == req.user.resetPasswordToken && Date.now() > req.user.resetPasswordExpires) {
-			return res.json("OK");
-		}
+	reset: function(req, res) {
+		var uuid = req.param('id');
+		var token = req.param(sails.config.email.resetPasswordTokenParamName);
 
-		var email = req.param('email');
+		User.findOne({uuid: uuid}).exec(function(err, user) {
+			if (err) return res.negotiate(err);
+			if (!user) return res.status(404).json('user not found');
 
-		if (email) {
-			User.findOne({email: email}).exec(function(err, user) {
-				if (err) return res.negotiate(err);
-				if (!user) return res.status(404).json('user not found');
-				return EmailService.sendPasswordResetEmail(user)
-			})
-			.then(function(info) {
-			return res.json(info);
-			})
-			.catch(function(err) {
-				sails.log.error(err);
-				return res.negotiate(err);
-			});
-		} else {
-			EmailService.sendPasswordResetEmail(req.user)
-			.then(function(info) {
-				return res.json(info);
-			})
-			.catch(function(err) {
-				sails.log.error(err);
-				return res.negotiate(err);
-			});
-		}
+			if (!AuthService.compareResetToken(token, user)) return res.status(403).json('reset link invalid or expired');
+			
+			return res.redirect("/reset?id=" + uuid + "&r_jwt=" + token);
+		});
 	},
 
 	/**
-	 * Handler for resetting passwords
-	 * 
-	 * @returns Anything other than HTTP status 200 means an error occured, the user is not authorized, or their token is expired. 
+	 * Handler for route POST "/reset", expecting "email" parameter
 	 */
-	resetPassword: function(req, res) {
-		var resetToken = req.param(sails.config.email.resetPasswordTokenParamName);
-		if (resetToken != req.user.resetPasswordToken) {
-			return res.status(403).json('user not authorized!');
+	sendPasswordResetEmail: function(req, res) {
+		var email = req.param('email');
+
+		if (!email) {
+			return res.status(400).json("missing email param");
 		}
 
-		if (Date.now() > req.user.resetPasswordExpires) {
-			return res.status(403).json('token invalid or expired.');
-		}
+		EmailService.sendPasswordResetEmail(email)
+		.then(function(info) {
+			return res.json(info);
+		})
+		.catch(function(err) {
+			sails.log.error(err);
+			return res.negotiate(err);
+		});
 
+	},
+
+	/**
+	 * Handler for PUT "/reset/:id", expects a token parameter to identify the user
+	 */
+	updatePassword: function(req, res) {
+		var uuid = req.param('id');
+		var token = req.param('token');
 		var password = req.param('password');
 
-		if (!password) return res.status(403).json('password not found!');
+		if (!token) {return res.status(403).json('user not authorized!');}
+		
+		if (!password) return res.status(400).json('missing password parameter');
 
-		req.user.password = password;
-		req.user.save(function(err) {
-			if (err) {
-				sails.log.error(err);
-				return res.negotiate(err);
-			}
-			return res.json(req.user.toJSON());
+		User.findOne({uuid: uuid}).exec(function(err, user) {
+			if (err) return res.negotiate(err);
+			if (!user) return res.status(404).json('user not found');
+
+			if (!AuthService.compareResetToken(token, user)) return res.status(403).json('reset link invalid or expired');
+
+			user.password = password;
+			user.save(function(err) {
+				if (err) {
+					sails.log.error(err);
+					return res.negotiate(err);
+				}
+				return res.json(user.toJSON());
+			});
 		});
 	}
 

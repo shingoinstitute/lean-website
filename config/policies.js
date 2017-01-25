@@ -41,7 +41,8 @@ module.exports.policies = {
     'DevController': {
         '*': false,
         'deleteAll': true,
-        'sendMail': true
+        'sendMail': true,
+        'anythingGoes': true
     },
 
     'CommentController': {
@@ -62,7 +63,10 @@ module.exports.policies = {
         '*': ['sessionAuth'],
         update: ['sessionAuth', 'canUpdateUser'],
         destroy: ['sessionAuth', 'isAdmin'],
-        create: true
+        create: true,
+        sendPasswordResetEmail: true,
+        reset: true,
+        updatePassword: true
     }
     
 };

@@ -6,29 +6,25 @@
 
 var passport = require('passport');
 var nodemailer = require('nodemailer');
+var bcrypt = require('bcrypt');
 
 module.exports = {
 
 	verifyEmail: function (req, res) {
-		AuthService.verifyToken(req, res)
-		.then(function (user) {
+		var uuid = req.param('id');
+		var token = req.param('vt'); // vt: verify token
 
-			User.findOne({uuid: user.uuid}).exec(function(err, user) {
-				if (err) return res.status(500).json(err);
+		User.findOne({uuid: uuid}).exec(function(err, user) {
+			if (err) return res.negotiate(err);
+			if (!user) return res.status(404).json('E_USER_NOT_FOUND');
 
-				if (!user) return res.status(404).json('Error: user not found!');
-				
-				user.verifiedEmail = user.email;
-				user.save(function(err) {
-					if (err) return res.status(500).json(err);
-					return res.json(user.toJSON());
-				});
-
+			if (!bcrypt.compareSync(token, user.emailVerificationToken)) return res.status(403).json('E_NOT_AUTHORIZED');
+			user.verifiedEmail = user.email;
+			user.emailVerificationToken = null;
+			user.save(function(err) {
+				if (err) return res.negotiate(err);
+				return res.redirect('/dashboard');
 			});
-		})
-		.catch(function (err) {
-			sails.log.error(err);
-			return res.status(500).json({error: err});
 		});
 	},
 

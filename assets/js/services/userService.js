@@ -48,13 +48,13 @@
 		 * @param email - the email the reset link will be sent to. If null, sends reset link to logged in user, if any.
 		 */
 		service.requestPasswordResetEmail = function(email) {
-			return $http.get('/user/reset', {email: email});
+			return $http.post('/reset', {email: email});
 		}
 
-		service.requestPasswordUpdate = function(password, token) {
-			return $http.put('/user/reset', {
-				password: password,
-				r_jwt: token
+		service.requestPasswordUpdate = function(options) {
+			return $http.put('/reset/' + options.userId, {
+				password: options.password,
+				token: options.token
 			});
 		}
 

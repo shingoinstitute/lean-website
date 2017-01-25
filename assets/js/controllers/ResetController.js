@@ -7,6 +7,7 @@
 	function ResetController($scope, $routeParams, $http, $location, $rootScope, $mdDialog, _userService, BROADCAST) {
 		var vm = this;
 		var token = $routeParams.r_jwt;
+		var userId = $routeParams.id;
 
 		vm.password = '';
 		vm.passwordConfirm = '';
@@ -19,9 +20,14 @@
 		$scope.submit = function() {
 			if (vm.password != '' && (vm.password == vm.passwordConfirm)) {
 				vm.resetPasswordFormEnabled = false;
-				_userService.requestPasswordUpdate(vm.password, token)
+				var options = {
+					userId: userId,
+					password: vm.password,
+					token: token
+				}
+				_userService.requestPasswordUpdate(options)
 				.then(function(response) {
-					$location.path('/login');
+					$location.url($location.path('/login'));
 				})
 				.catch(function(responseError) {
 					if (BROADCAST.loggingLevel == "DEBUG") {
@@ -49,20 +55,19 @@
 		 */
 		vm.reset = function() {
 			vm.didClickRequestButton = true;
-			$mdDialog.show(
-				$mdDialog.alert()
+			var alert = $mdDialog.alert()
 				.clickOutsideToClose(true)
 				.title('Message Sent')
 				.textContent('Check your email for a message sent by shingo.it@usu.edu. If you do not recieve an email from us within 10 minutes, please try again.')
 				.ariaLabel('Message Send Dialog')
 				.ok('Okay')
-			);
 			_userService.requestPasswordResetEmail(vm.email)
 			.then(function(response) {
+				$mdDialog.show(alert);
 				console.log('Success: ', response);
 			})
 			.catch(function(responseError) {
-				if (responseError.status == 404) {
+				if (responseError.data && responseError.data.message == "user not found") {
 					vm.userNotFoundError = "An account with " + vm.email + " does not exist.";
 				} else if (BROADCAST.loggingLevel == "DEBUG") {
 					$rootScope.$broadcast(BROADCAST.error, JSON.stringify(responseError, null, 2));

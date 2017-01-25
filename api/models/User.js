@@ -96,7 +96,9 @@ module.exports = {
 
 		resetPasswordToken: 'string',
 
-		resetPasswordExpires: 'integer', // number of milliseconds since Jan 1, 1970
+		resetPasswordExpires: 'integer', // number of milliseconds since Jan 1, 1970,
+
+		emailVerificationToken: 'string',
 
 		addReputation: function (points) {
 			var obj = this;
@@ -123,12 +125,9 @@ module.exports = {
 			delete obj.resetPasswordToken;
 			delete obj.resetPasswordExpires;
 			delete obj.permissions;
+			delete obj.emailVerificationToken;
 			obj.isAdmin = (obj.role == 'admin' || obj.role == 'systemAdmin');
-			if (obj.firstname && obj.lastname) {
-				obj.name = obj.firstname + ' ' + obj.lastname;
-			} else {
-				obj.name = obj.lastname;
-			}
+			obj.name = (obj.firstname && obj.lastname) ? obj.firstname + ' ' + obj.lastname : obj.lastname;
 			return obj;
 		},
 
@@ -181,29 +180,37 @@ module.exports = {
 
 		// Remove permissions
 		User.find(criteria).exec(function (err, users) {
-			if (users) {
-				var user = users.pop();
-				UserPermissions.findOne({ user: user.uuid }).exec(function (err, permissions) {
-					if (permissions) UserPermissions.destroy({ uuid: permissions.uuid }).exec();
+			if (err) return next(err);
 
-					if (sails.config.environment === 'development') {
-						return next();
-					} else {
-						// Always return next(error) so that users are never deleted, just set inActive
-						User.find(criteria).exec(function (err, users) {
-							if (err) return next(err);
-							try {
-								user = user.pop();
-								user.accountIsActive = false;
-								user.save(function(err){});
-							} catch (e) {
-								return next(e);
-							}
-						});
-						return next(new Error(user.email + "'s account cannot be deleted, however it has been deactivated. Accounts are not deleted to preserve history of comments, questions, etc."));
+			if (!users) return next();
+
+			var user = users.pop();
+			if (!user) return next();
+
+			UserPermissions.findOne({ user: user.uuid }).exec(function (err, permissions) {
+				if (err) return next(err);
+
+				if (!permissions) return next();
+
+				UserPermissions.destroy({ uuid: permissions.uuid }).exec();
+
+				if (sails.config.environment === 'development') return next();
+				
+				// Always return next(error) so that users are never deleted, just set inActive
+				User.find(criteria).exec(function (err, users) {
+					if (err) sails.log.error(err);
+					try {
+						user = user.pop();
+						user.accountIsActive = false;
+						user.save(function(err){});
+					} catch (e) {
+						sails.log.error(e);
 					}
 				});
-			}
+				
+				return next(new Error(user.email + "'s account cannot be deleted, however it has been deactivated. Accounts are not deleted to preserve history of comments, questions, etc."));
+			});
+			
 		});
 	}
 

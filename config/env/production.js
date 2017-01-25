@@ -24,7 +24,9 @@ module.exports = {
   email: {
     // emailVerificationURL: '/verifyEmail',
     // passwordResetURL: '/reset',
-    resetPasswordTokenParamName: 'r_jwt'
+    resetPasswordTokenParamName: 'token',
+    saltRounds: 10,
+    tokenExpires: 1000*60*60*12
   }
 
   /***************************************************************************

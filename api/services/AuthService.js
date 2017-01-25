@@ -2,8 +2,10 @@ var Promise = require('bluebird');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 var passport = require('passport');
+var crypto = require('crypto');
 
 const saltRounds = 10;
+const tokenExpires = 1000*60*60*12;
 
 const options = {
 	secret: sails.config.passport.jwt.secret,
@@ -63,6 +65,24 @@ module.exports = {
 				return resolve(user, info);
 			})(req, res);
 		});
+	},
+
+	/**
+	 * generateBase64Token
+	 * @description creates a random string to be used as a password reset token. Removes "/", "+", and "=" characters.
+	 */
+	generateBase64Token: function(user, next) {
+		var token = crypto.randomBytes(128).toString('base64').replace(/([\/\+\=])/g, '');
+		if (next) return next(null, token);
+		return token;
+		// crypto.randomBytes(128, function(err, buffer) {
+		// 	if (err) return next(err);
+		// 	return next(null, buffer.toString('base64').replace(/([\/\+\=])/g, ''));
+		// });
+	},
+
+	compareResetToken: function(token, user) {
+		return Date.now() > user.resetPasswordExpires ? false : bcrypt.compareSync(token, user.resetPasswordToken);
 	}
 
 };
