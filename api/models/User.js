@@ -94,6 +94,12 @@ module.exports = {
 			defaultsTo: true
 		},
 
+		resetPasswordToken: 'string',
+
+		resetPasswordExpires: 'integer', // number of milliseconds since Jan 1, 1970,
+
+		emailVerificationToken: 'string',
+
 		addReputation: function (points) {
 			var obj = this;
 			obj.reputation += points;
@@ -116,12 +122,12 @@ module.exports = {
 			delete obj.updatedAt;
 			delete obj.linkedinId;
 			delete obj.verifiedEmail;
+			delete obj.resetPasswordToken;
+			delete obj.resetPasswordExpires;
+			delete obj.permissions;
+			delete obj.emailVerificationToken;
 			obj.isAdmin = (obj.role == 'admin' || obj.role == 'systemAdmin');
-			if (obj.firstname && obj.lastname) {
-				obj.name = obj.firstname + ' ' + obj.lastname;
-			} else {
-				obj.name = obj.lastname;
-			}
+			obj.name = (obj.firstname && obj.lastname) ? obj.firstname + ' ' + obj.lastname : obj.lastname;
 			return obj;
 		},
 
@@ -139,10 +145,8 @@ module.exports = {
 	afterCreate: function(newRecord, next) {
 
 		// TODO: Probably ought to delete this eventually... ;)
-		if (sails.config.environment === 'development') {
-			if (newRecord.email == 'craig.blackburn@usu.edu' || newRecord.email == 'cr.blackburn89@gmail.com') {
-				newRecord.role = 'systemAdmin';
-			}
+		if (sails.config.environment === 'development' && (newRecord.email == 'craig.blackburn@usu.edu' || newRecord.email == 'cr.blackburn89@gmail.com')) {
+			newRecord.role = 'systemAdmin';
 		}
 
 		UserPermissions.create({user: newRecord.uuid}).exec(function(err, permissions) {
@@ -157,6 +161,14 @@ module.exports = {
 
 	beforeUpdate: function (values, next) {
 		if (values.isAdmin) delete values.isAdmin;
+		if (values.password && values.password[0] != '$' && values.resetPasswordToken) {
+			values.resetPasswordToken = null;
+			values.resetPasswordExpires = null;
+			AuthService.hashPassword(values);
+		} else {
+			delete values.password;
+		}
+		
 		return next();
 	},
 
@@ -168,29 +180,37 @@ module.exports = {
 
 		// Remove permissions
 		User.find(criteria).exec(function (err, users) {
-			if (users) {
-				var user = users.pop();
-				UserPermissions.findOne({ user: user.uuid }).exec(function (err, permissions) {
-					if (permissions) UserPermissions.destroy({ uuid: permissions.uuid }).exec();
+			if (err) return next(err);
 
-					if (sails.config.environment === 'development') {
-						return next();
-					} else {
-						// Always return next(error) so that users are never deleted, just set inActive
-						User.find(criteria).exec(function (err, users) {
-							if (err) return next(err);
-							try {
-								user = user.pop();
-								user.accountIsActive = false;
-								user.save(function(err){});
-							} catch (e) {
-								return next(e);
-							}
-						});
-						return next(new Error(user.email + "'s account cannot be deleted, however it has been deactivated. Accounts are not deleted to preserve history of comments, questions, etc."));
+			if (!users) return next();
+
+			var user = users.pop();
+			if (!user) return next();
+
+			UserPermissions.findOne({ user: user.uuid }).exec(function (err, permissions) {
+				if (err) return next(err);
+
+				if (!permissions) return next();
+
+				UserPermissions.destroy({ uuid: permissions.uuid }).exec();
+
+				if (sails.config.environment === 'development') return next();
+				
+				// Always return next(error) so that users are never deleted, just set inActive
+				User.find(criteria).exec(function (err, users) {
+					if (err) sails.log.error(err);
+					try {
+						user = user.pop();
+						user.accountIsActive = false;
+						user.save(function(err){});
+					} catch (e) {
+						sails.log.error(e);
 					}
 				});
-			}
+				
+				return next(new Error(user.email + "'s account cannot be deleted, however it has been deactivated. Accounts are not deleted to preserve history of comments, questions, etc."));
+			});
+			
 		});
 	}
 
