@@ -5,7 +5,7 @@
   </div>
   <span flex><!-- filler --></span>
   <div layout="row">
-    <md-button ng-show="!isEditing" class="small-button md-primary" ng-click="isEditing=true">Edit</md-button>
+    <md-button ng-show="!isEditing" ng-if="comm.canEdit" class="small-button md-primary" ng-click="isEditing=true">Edit</md-button>
     <md-button ng-show="isEditing" class="small-button md-primary" ng-click="save()">Save</md-button>
     <md-button ng-show="isEditing" class="small-button md-accent" ng-click="isEditing=false">Cancel</md-button>
     <span flex><!-- filler --></span>

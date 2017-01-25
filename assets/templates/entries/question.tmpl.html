@@ -31,7 +31,7 @@
         <span ng-show="entry.createdAt != entry.updatedAt" class="summary-small">Edited on {{entry.updatedAt | amDateFormat: 'MMM Do, YYYY hh:mm a'}}</span>
         <span flex><!-- filler --></span>
         <md-card-actions>
-          <md-button ng-show="!isEditing" class="md-raised md-primary" ng-click="isEditing = true">Edit</md-button>
+          <md-button ng-show="!isEditing" ng-if="entry.canEdit" class="md-raised md-primary" ng-click="isEditing = true">Edit</md-button>
           <md-button ng-show="isEditing" ng-disabled="questionDetailForm.$invalid || questionDetailForm.$pristine" ng-click="save()" class="md-raised md-primary">Save</md-button>
           <md-button ng-show="isEditing" ng-click="isEditing = false" class="md-raised md-accent">Cancel</md-button>
           <md-button ng-show="!isEditing" class="md-raised md-primary" ng-click="comment()">Comment</md-button>
