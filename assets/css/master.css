@@ -112,6 +112,12 @@ md-dialog>form {
   margin-top: 30px;
 }
 
+.md-green {
+  background: green;
+  background-color: green;
+  color: white;
+}
+
 md-list-item {
   width: initial;
 }
