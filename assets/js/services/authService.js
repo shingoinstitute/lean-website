@@ -118,7 +118,7 @@
 				.then(function (data) {
 					$cookies.remove(JWT_TOKEN);
 					$rootScope.$broadcast(BROADCAST.userLogout);
-					$location.path('/home');
+					$location.path('/login');
 				});
 		}
 

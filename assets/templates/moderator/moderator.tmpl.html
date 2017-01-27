@@ -1,0 +1,80 @@
+<div layout>
+	<md-tabs md-dynamic-height md-stretch-tabs layout-fill class="content top-level-tabs">
+		<md-tab label="Users">
+			<md-list>
+				<md-list-item ng-repeat="user in users | orderBy:'lastname'">
+					<md-whiteframe class="md-whiteframe-1dp md-padding md-margin" layout="column" layout-align="space-around stretch">
+						<div layout>
+							<pre>{{user.firstname}} {{user.lastname}}</pre>
+							<pre>Account Active? {{ user.accountIsActive ? 'Yes' : 'No' }}</pre>
+						</div>
+						<div layout layout-align="center center">
+							<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.onClickSaveButton(user)">Save</md-button>
+							<md-button class="md-button md-raised md-accent" ng-click="vm.onClickDeleteButton(user)">Delete</md-button>
+						</div>
+						<p><!-- spacer --></p>
+						<div layout>
+							<md-input-container flex-gt-sm>
+								<label>ID</label>
+								<input ng-model="user.uuid" ng-disabled="true">
+							</md-input-container>
+							<md-input-container flex-gt-sm>
+								Role
+								<select name="role" ng-model="user.role">
+									<option selected>{{user.role}}</option>
+									<option ng-if="user.role != 'System Admin'">System Admin</option>
+									<option ng-if="user.role != 'Admin'">Admin</option>
+									<option ng-if="user.role != 'Editor'">Editor</option>
+									<option ng-if="user.role != 'Author'">Author</option>
+									<option ng-if="user.role != 'Moderator'">Moderator</option>
+									<option ng-if="user.role != 'Member'">Member</option>
+								</select>
+							</md-input-container>
+						</div>
+						<div layout>
+							<md-input-container flex-gt-sm>
+								<label>First name</label>
+								<input ng-model="user.firstname">
+							</md-input-container>
+							<md-input-container flex-gt-sm>
+								<label>Last name</label>
+								<input ng-model="user.lastname">
+							</md-input-container>
+						</div>
+						<div layout>
+							<md-input-container flex-gt-sm>
+								<label>Primary email</label>
+								<input ng-model="user.email">
+							</md-input-container>
+							<md-input-container flex-gt-sm>
+								<label>Secondary email</label>
+								<input ng-model="user.secondaryEmail">
+							</md-input-container>
+						</div>
+					</md-whiteframe class="md-whiteframe-1dp">
+				</md-list-item>
+			</md-list>
+		</md-tab>
+		<md-tab label="Questions">
+			<md-list>
+				<md-list-item ng-repeat="question in questions track by $index">
+					<p>question ID: {{question.id}}</p>
+				</md-list-item>
+			</md-list>
+		</md-tab>
+		<md-tab label="Answers">
+			<md-list>
+				<md-list-item ng-repeat="answer in answers track by $index">
+					<p>answer ID: {{answer.id}}</p>
+				</md-list-item>
+			</md-list>
+		</md-tab>
+		<md-tab label="Comments">
+			<md-list>
+				<md-list-item ng-repeat="comment in comments track by $index">
+					<p>comment ID: {{comment.id}}</p>
+				</md-list-item>
+			</md-list>
+		</md-tab>
+	</md-tabs>
+</div>

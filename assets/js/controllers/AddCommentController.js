@@ -2,11 +2,11 @@
   'use strict';
 
   angular.module('leansite')
-    .controller('AddCommentController', ['$scope', '$rootScope', '$mdDialog', '_entryService', 'owner', 'parentId', 'BROADCAST', AddCommentController]);
+    .controller('AddCommentController', ['$scope', '$rootScope', '$mdDialog', '_entryService', 'parentId', 'BROADCAST', AddCommentController]);
 
-  function AddCommentController($scope, $rootScope, $mdDialog, _entryService, owner, parentId, BROADCAST) {
+  function AddCommentController($scope, $rootScope, $mdDialog, _entryService, parentId, BROADCAST) {
     $scope.comment = {};
-    $scope.comment.owner = owner;
+    $scope.comment.owner = $rootScope.userId;
     $scope.comment.parent = parentId;
 
     $scope.save = function () {

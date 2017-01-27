@@ -2,7 +2,8 @@
   <form name="profileForm">
     <md-card-title>
       <md-card-avatar>
-        <div ng-click="()" id="photoUpload" ng-show="vm.isEditing">
+        <!--<div ng-click="()" id="photoUpload" ng-show="vm.isEditing">-->
+        <div id="photoUpload" ng-show="vm.isEditing">
           <md-icon md-menu-align-target>
             <input type="file" onchange="angular.element(this).scope().vm.uploadPhoto(this)" accept="image/*" />
             <i class="material-icons md-light small">file_upload</i>
@@ -13,23 +14,27 @@
       </md-card-avatar>
       <span flex="5"><!-- Spacer --></span>
       <md-card-title-text>
-        <span ng-show="vm.isEditing"><i>Editing</i></span>
+        <p ng-show="vm.isEditing"><i>Editing</i></p>
+        <span flex="5"><!-- Spacer --></span>
         <!-- Profile Name -->
         <span ng-show="!vm.isEditing" class="md-headline">{{user.firstname}} {{user.lastname}}</span>
         <div layout="row">
           <md-input-container md-no-float ng-show="vm.isEditing" class="small-container">
+            <label>First name</label>
             <input type="text" ng-model="user.firstname" required aria-label="First Name" />
           </md-input-container>
           <md-input-container md-no-float ng-show="vm.isEditing" class="small-container">
+            <label>Last name</label>
             <input type="text" ng-model="user.lastname" required aria-label="Last Name" />
           </md-input-container>
         </div>
         <!-- Profile Email -->
         <span ng-show="!vm.isEditing" class="md-subhead">{{user.email}}</span>
         <md-input-container md-no-float ng-show="vm.isEditing" class="small-container">
+          <label>Email</label>
           <input type="email" ng-model="user.email" required aria-label="Email" />
         </md-input-container>
-        <span class="md-subhead">Reputation: {{user.reputation}}</span>
+        <span class="md-subhead"><b>Reputation</b>: {{user.reputation}}</span>
       </md-card-title-text>
     </md-card-title>
     <md-card-content>

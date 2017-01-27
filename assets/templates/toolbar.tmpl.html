@@ -12,12 +12,6 @@
           Dashboard
         </md-button>
       </md-menu-item>
-      <md-menu-item ng-if="mc.user.isAdmin">
-        <md-button ng-href="/admin">
-          <md-icon md-menu-align-target><i class="material-icons">developer_board</i></md-icon>
-          Admin
-        </md-button>
-      </md-menu-item>
       <md-menu-item ng-if="!mc.user">
         <md-button ng-href="/login">
           <md-icon md-menu-align-target><i class="material-icons">input</i></md-icon>
