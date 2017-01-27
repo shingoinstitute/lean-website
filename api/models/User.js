@@ -85,6 +85,11 @@ module.exports = {
 			via: 'users_did_downvote'
 		},
 
+		flagged: {
+			collection: 'flag',
+			via: 'owner'
+		},
+
 		reputation: {
 			type: 'integer',
 			defaultsTo: 0

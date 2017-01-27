@@ -2,7 +2,11 @@
   <form name="questionDetailForm" ng-cloak>
     <md-card-content>
       <div ng-show="!isEditing">
-        <h2>{{entry.title}}</h2>
+        <div layout="row">
+          <h2>{{entry.title}}</h2>
+          <span flex><!-- spacer --></span>
+          <flag content="entry" type="'Question'"></flag>
+        </div>
         <hr>
         <div flex ng-bind-html="entry.content" class="q-content trix-content"></div>
       </div>
@@ -15,7 +19,7 @@
             </div>
           </div>
         </md-input-container>
-        <summernote   ng-model="entry.content" height="300"></summernote>
+        <summernote ng-model="entry.content" height="300"></summernote>
       </div>
     </md-card-content>
     <span flex><!-- filler --></span>
@@ -32,10 +36,11 @@
         <span flex><!-- filler --></span>
         <md-card-actions>
           <md-button ng-show="!isEditing" class="md-raised md-primary" ng-click="isEditing = true">Edit</md-button>
-          <md-button ng-show="isEditing" ng-disabled="questionDetailForm.$invalid || questionDetailForm.$pristine" ng-click="save()" class="md-raised md-primary">Save</md-button>
-          <md-button ng-show="isEditing" ng-click="isEditing = false" class="md-raised md-accent">Cancel</md-button>
-          <md-button ng-show="!isEditing" class="md-raised md-primary" ng-click="comment()">Comment</md-button>
-          <md-button ng-show="!isEditing" class="md-raised md-primary" ng-click="answer()">Answer</md-button>
+          <md-button ng-show="isEditing" ng-disabled="questionDetailForm.$invalid || questionDetailForm.$pristine" ng-click="save()"
+            class="md-raised md-primary">Save</md-button>
+            <md-button ng-show="isEditing" ng-click="isEditing = false" class="md-raised md-accent">Cancel</md-button>
+            <md-button ng-show="!isEditing" class="md-raised md-primary" ng-click="comment()">Comment</md-button>
+            <md-button ng-show="!isEditing" class="md-raised md-primary" ng-click="answer()">Answer</md-button>
         </md-card-actions>
       </div>
     </div>

@@ -67,6 +67,10 @@ module.exports.policies = {
         sendPasswordResetEmail: true,
         reset: true,
         updatePassword: true
+    },
+
+    'FlagController': {
+        '*': ['sessionAuth', 'canFlag']
     }
     
 };
