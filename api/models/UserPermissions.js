@@ -137,6 +137,8 @@ module.exports = {
 	*  @param {function} done - callback function that accepts two arguments, done(error, user)
 	*/
 	revokeAllPriviledges: function(user, done) {
+		schema: true,
+		
 		UserPermissions.findOne({id: user.permissions}).exec(function(err, permissions) {
 			if (err) return done(err, false);
 			if (!permissions) return done(new Error('Failed to revoke user priviledges, permissions object is undefined'), false);

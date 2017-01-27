@@ -55,6 +55,6 @@ module.exports.routes = {
 	// | dev routes |
 	// +------------+
 	'DELETE /dev/delete': 'DevController.deleteAll',
-	'/dev/anything': 'DevController.anythingGoes'
+	'/dev/test': 'DevController.test'
 
 };

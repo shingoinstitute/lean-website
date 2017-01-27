@@ -8,7 +8,8 @@
 module.exports = {
 
   attributes: {
-
+    schema: true,
+    
     id: {
 		  type: 'integer',
 		  primaryKey: true,

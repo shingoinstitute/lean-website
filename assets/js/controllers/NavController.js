@@ -55,7 +55,7 @@
           vm.title = "Home";
           break;
         case 'dashboard':
-          vm.title = "Settings";
+          vm.title = "Dashboard";
           break;
         case 'education':
           vm.title = "Education";
