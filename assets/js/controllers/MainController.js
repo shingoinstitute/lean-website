@@ -17,7 +17,7 @@
 			.then(function(response) {
 				vm.user = response.data;
 				$rootScope.userId = response.data.uuid;
-			})
+			});
 		};
 
 		/**
@@ -64,7 +64,7 @@
 		 * @desc :: listener for BROADCAST.userLogout, removes user object from MainController
 		 */
 		$scope.$on(BROADCAST.userLogout, function (event) {
-			vm.user = null;
+			vm.user = $rootScope.userId = null;
 		});
 
 		/**
@@ -78,10 +78,9 @@
 		 * @desc :: listener for BROADCAST.userUpdated, fetches updated user object for MainController when invoked
 		 */
 		$scope.$on(BROADCAST.userUpdated, function (event, user) {
-			if (user)
-				vm.user = user;
-			else
-				vm.getUser();
+			if (!user) return vm.getUser();
+			vm.user = user;
+			$rootScope.userId = user.uuid;
 		});
 
 		/**

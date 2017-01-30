@@ -15,9 +15,9 @@
 				.when('/dashboard', {
 					templateUrl: 'templates/user/dashboard.html',
 				})
-				.when('/dashboard/settings', {
-					templateUrl: 'templates/user/settings.html',
-				})
+				// .when('/dashboard/settings', {
+				// 	templateUrl: 'templates/user/settings.html',
+				// })
 				.when('/education', {
 					templateUrl: 'templates/education.html',
 				})
@@ -41,6 +41,9 @@
 				})
 				.when('/entries/:id', {
 					templateUrl: 'templates/entries/detail.html'
+				})
+				.when('/reset', {
+					templateUrl: 'templates/user/passwordReset.html'
 				})
 				.otherwise({
 					redirectTo: '/home',

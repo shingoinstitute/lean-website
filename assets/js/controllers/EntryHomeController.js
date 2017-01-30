@@ -63,7 +63,6 @@
     vm.search = "";
 
     $scope.$watch('vm.search', function (newV, oldV) {
-      console.log("query", newV);
       if (newV == '') {
         vm.results = [];
         vm.isSearching = false;

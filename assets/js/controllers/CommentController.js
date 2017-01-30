@@ -11,6 +11,7 @@
       _entryService.readComment($scope.comm.id)
         .then(function (response) {
           $scope.comm = response.data;
+          $scope.comm.canEdit = response.data.owner.uuid == $rootScope.userId;
         })
         .catch(function (err) {
           if (BROADCAST.loggingLevel == "DEBUG") {

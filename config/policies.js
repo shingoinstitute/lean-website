@@ -39,9 +39,7 @@ module.exports.policies = {
     },
 
     'DevController': {
-        '*': false,
-        'deleteAll': true,
-        'sendMail': true
+        '*': true,
     },
 
     'CommentController': {
@@ -62,8 +60,14 @@ module.exports.policies = {
         '*': ['sessionAuth'],
         update: ['sessionAuth', 'canUpdateUser'],
         destroy: ['sessionAuth', 'isAdmin'],
-        users: ['sessionAuth', 'isAdmin'],
-        create: true
+        create: true,
+        sendPasswordResetEmail: true,
+        reset: true,
+        updatePassword: true
+    },
+
+    'FlagController': {
+        '*': ['sessionAuth', 'canFlag']
     }
     
 };
