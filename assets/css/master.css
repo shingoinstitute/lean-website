@@ -112,10 +112,65 @@ md-dialog>form {
   margin-top: 30px;
 }
 
-.md-green {
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: center;
+  padding: 5px;
+}
+
+tr.no-border th {
+  border: none;
+}
+
+tr.row-header:hover {
+  background-color: none;
+}
+tr:hover {
+  background-color: #f2f2f2;
+}
+td, th {
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+td.table-row {
+  max-height: 300px;
+}
+td.id-row {
+  text-align: center;
+}
+td md-content {
+  max-height: 300px;
+}
+td {
+  vertical-align: top;
+  text-align: left;
+}
+
+md-checkbox.centered {
+  margin: 0 auto;
+  width: 20px;
+}
+
+.md-success.md-button {
+  color: green;
+}
+
+.md-success.md-button:not([disabled]):hover {
+  background: lightgrey;
+}
+
+.md-success.md-button.md-raised {
   background: green;
   background-color: green;
   color: white;
+}
+
+.md-success.md-button.md-raised:not([disabled]):hover {
+  background-color: darkgreen;
 }
 
 md-list-item {

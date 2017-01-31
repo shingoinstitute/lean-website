@@ -1,17 +1,44 @@
-<div class="comment" layout="column">
-  <p ng-show="!isEditing" ng-bind-html="comm.content" class="trix-content"></p>
-  <div ng-show="isEditing">
-    <summernote id="comm.id"   ng-model="comm.content" height="100"></summernote>
-  </div>
-  <span flex><!-- filler --></span>
-  <div layout="row">
-    <md-button ng-hide="isEditing" ng-show="comm.canEdit" class="small-button md-primary" ng-click="isEditing=true">Edit</md-button>
-    <md-button ng-show="isEditing" class="small-button md-primary" ng-click="save()">Save</md-button>
-    <md-button ng-show="isEditing" class="small-button md-accent" ng-click="isEditing=false">Cancel</md-button>
-    <span flex><!-- filler --></span>
-    <div layout="column">
-      <span class="summary-small">Posted by {{comm.owner.name || 'unknown'}} on {{comm.createdAt | amDateFormat: 'MMM Do, YYYY hh:mm a'}}</span>
-      <span ng-show="_entry.createdAt != _entry.updatedAt" class="summary-small">Edited on {{comm.updatedAt | amDateFormat: 'MMM Do, YYYY hh:mm a'}}</span>
-    </div>
-  </div>
+<div layout="column">
+	<div layout>
+		<span flex></span>
+		<md-button class="md-warn md-raised" ng-click="deleteActiveComments(comments)">delete</md-button>
+	</div>
+	<div layout>
+		<table layout-fill>
+			<tr class="row-header">
+				<th>ID</th>
+				<th>Owner Name</th>
+				<th>Content</th>
+				<th></th>
+				<th><md-checkbox class="centered checkbox" aria-label="check all" ng-click="selectAll=!selectAll"></md-checkbox></th>
+			</tr>
+			<tr ng-repeat="comment in comments track by $index">
+				<td class="id-row">
+					{{comment.id}}
+				</td>
+				<td>
+					<strong>{{formatName(comment)}}</strong>
+				</td>
+				<td class="table-row" ng-hide="isEditing">
+					<md-content ng-bind-html="comment.content"></md-content>
+				</td>
+				<td ng-show="isEditing">
+					<div layout>
+						<md-button class="md-primary" ng-click="saveActiveEntries(comment);isEditing=false">save</md-button>
+						<md-button ng-click="isEditing=false">cancel</md-button>
+						<span flex></span>
+						<md-button class="md-warn" ng-click="deleteActiveComments(comment);isEditing=false">delete</md-button>
+					</div>
+					<summernote ng-model="comment.content" height="300"></summernote>
+				</td>
+				<td>
+					<md-button class="md-success" ng-click="isEditing=!isEditing" ng-disabled="!comment.id">edit</md-button>
+					<md-button class="md-primary" ng-href="/entries/{{comment.parent.parent}}">Go to Comment</md-button>
+				</td>
+				<td>
+					<md-checkbox class="centered checkbox" aria-label="Checkbox" ng-disabled="!comment.id" ng-click="comments[$index].$isActive=!comments[$index].$isActive" ng-checked="comments[$index].$isActive"></md-checkbox>
+				</td>
+			</tr>
+		</table>
+	</div>
 </div>

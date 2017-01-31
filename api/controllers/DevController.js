@@ -12,17 +12,14 @@ module.exports = {
 
 		if (sails.config.environment != 'development') return res.forbidden('This action is only available in a development environment');
 		
-		User.find().populate('permissions').exec(function (err, users) {
-
+		User.destroy({}).exec(function(err) {
 			if (err) return res.negotiate(err);
-
-			users.forEach(function (record) {
-				User.destroy({ uuid: record.uuid }).exec(function (err) {
-					if (err) res.negotiate(err);
+			UserPermissions.destroy({}).exec(function(err) {
+				if (err) return res.negotiate(err);
+				return res.json({
+					success: true
 				});
 			});
-
-			return res.json('deleted ' + users.length + ' records.');
 		});
 	},
 

@@ -1,5 +1,5 @@
 <div layout>
-	<md-tabs md-dynamic-height md-stretch-tabs layout-fill class="content top-level-tabs">
+	<md-tabs md-dynamic-height md-stretch-tabs layout-fill class="content top-level-tabs" md-selected="1">
 		<md-tab label="Users">
 			<div layout>
 				<md-list flex>
@@ -9,26 +9,14 @@
 				</md-list>
 			</div>
 		</md-tab>
-		<md-tab label="Questions">
-			<md-list>
-				<md-list-item ng-repeat="question in questions">
-					<moderator-question question="question"></moderator-question>
-				</md-list-item>
-			</md-list>
+		<md-tab label="Questions" >
+			<moderator-questions></moderator-questions>
 		</md-tab>
 		<md-tab label="Answers">
-			<md-list>
-				<md-list-item ng-repeat="answer in answers">
-					<p>answer ID: {{answer.id}}</p>
-				</md-list-item>
-			</md-list>
+			<moderator-answers></moderator-answers>
 		</md-tab>
-		<md-tab label="Comments">
-			<md-list>
-				<md-list-item ng-repeat="comment in comments">
-					<p>comment ID: {{comment.id}}</p>
-				</md-list-item>
-			</md-list>
+		<md-tab label="Comments" layout>
+			<moderator-comments></moderator-comments>
 		</md-tab>
 	</md-tabs>
 </div>

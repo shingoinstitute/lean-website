@@ -18,11 +18,10 @@
 				user: "="
 			},
 			templateUrl: 'templates/moderator/moderator.user.tmpl.html',
-			controller: 'ModeratorController',
-			controllerAs: 'vm'
+			controller: 'ModeratorController'
 		}
 	})
-	.directive('moderatorAnswer', function() {
+	.directive('moderatorAnswers', function() {
 		return {
 			scope: {
 				answer: "="
@@ -31,16 +30,13 @@
 			controller: 'ModeratorController'
 		}
 	})
-	.directive('moderatorQuestion', function() {
+	.directive('moderatorQuestions', function() {
 		return {
-			scope: {
-				question: "="
-			},
 			templateUrl: 'templates/moderator/moderator.question.tmpl.html',
 			controller: 'ModeratorController'
 		}
 	})
-	.directive('moderatorComment', function() {
+	.directive('moderatorComments', function() {
 		return {
 			scope: {
 				comment: "="
