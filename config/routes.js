@@ -22,34 +22,39 @@
 
 module.exports.routes = {
 
-	// auth routes
+	// +-------------+
+	// | auth routes |
+	// +-------------+
    '/auth/linkedin': 'AuthController.linkedInAuth',
    '/auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
    '/auth/local': 'AuthController.localAuth',
 	'/auth/login': 'AuthController.login',
 	'/auth/logout': 'AuthController.logout',
-	'/auth/signup': 'AuthController.signUp',
+	// 'POST /auth/createAccount': 'AuthController.createAccount',
+	'GET /verifyEmail/:id': 'AuthController.verifyEmail',
 
-	// user routes
+	// +--------------+
+	// | entry routes |
+	// +--------------+
+	'PUT /entry/upvote/:id': 'EntryController.upvote',
+	'PUT /entry/downvote/:id': 'EntryController.downvote',
+
+	// +-------------+
+	// | user routes |
+	// +-------------+
 	'/me': 'UserController.me',
-
-	//dev routes
-	'GET /dev/auth/linkedin': {
-		layout: 'devLayout',
-		controller: 'DevController',
-		action: 'linkedinAuth'
+	'POST /reset': 'UserController.sendPasswordResetEmail',
+	'GET /reset/:id': {
+		layout: 'layout',
+		controller: 'UserController',
+		action: 'reset'
 	},
+	'PUT /reset/:id': 'UserController.updatePassword',
 
-	'GET /dev/login': {
-		layout: 'devLayout',
-		controller: 'DevController',
-		action: 'linkedinAuth'
-	},
-
-	'/dev/auth/linkedin/callback': {
-		layout: 'devLayout',
-		controller: 'DevController',
-		action: 'linkedinAuthCallback'
-	}
+	// +------------+
+	// | dev routes |
+	// +------------+
+	'DELETE /dev/delete': 'DevController.deleteAll',
+	'/dev/test': 'DevController.test'
 
 };

@@ -5,45 +5,37 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-var passport = require('passport');
+var _ = require('lodash');
 
 module.exports = {
-	linkedinAuth: function(req, res) {
-		return res.view('dev/login', {
-			layout: 'devLayout'
-		});
-	},
+	deleteAll: function (req, res) {
 
-	linkedinAuthCallback: function(req, res) {
-		passport.authenticate('linkedin', {
-			failureRedirect: '/login',
-			session: false
-		})(req, res, function(err, foo, bar) {
-			if (err) {
-				sails.log.error(err);
+		if (sails.config.environment != 'development') return res.forbidden('This action is only available in a development environment');
+		
+		User.destroy({}).exec(function(err) {
+			if (err) return res.negotiate(err);
+			UserPermissions.destroy({}).exec(function(err) {
+				if (err) return res.negotiate(err);
 				return res.json({
-					success: false,
-					user: null,
-					error: err
+					success: true
 				});
-			}
-
-			if (req.user) {
-				var token = AuthService.createToken(req.user);
-				res.cookie('token', token);
-				res.set('Authorization', 'JWT ' + token);
-				sails.log.info('Auth header: ' + res.headers.authorization);
-				sails.log.info('Token: ' + token);
-			} else {
-				sails.log.info('No user in req.');
-			}
-
-			return res.view('dev/user', {
-				layout: 'devLayout',
-				error: err,
-				user: foo,
-				foo: bar
 			});
 		});
 	},
+
+	test: function(req, res) {
+		if (sails.config.environment != 'development') return res.forbidden('This action is only available in a development environment');
+
+		var id = req.param('id');
+		User.findOne({uuid: id}).exec(function(err, user) {
+			if (err) return res.json(err);
+			if (!user) return res.json('user not found');
+			delete user.emailVerificationToken;
+			user.save(function(err) {
+				if (err) return res.json(err);
+				return res.json('SUCCESS');
+			});
+		});
+	}
+
 };

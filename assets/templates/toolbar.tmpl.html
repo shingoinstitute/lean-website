@@ -1,0 +1,29 @@
+<md-toolbar class="md-padding" layout>
+  <h3>{{vm.title}}</h3>
+  <div flex></div>
+  <md-menu md-offset="-70 65">
+    <md-button class="md-icon-button" aria-label="Menu" ng-click="vm.openMenu($mdOpenMenu, $event)">
+      <md-icon md-menu-align-target><i class="material-icons">more_vert</i></md-icon>
+    </md-button>
+    <md-menu-content width="3">
+      <md-menu-item>
+        <md-button ng-href="/dashboard">
+          <md-icon md-menu-align-target><i class="material-icons">dashboard</i></md-icon>
+          Dashboard
+        </md-button>
+      </md-menu-item>
+      <md-menu-item ng-if="!mc.user">
+        <md-button ng-href="/login">
+          <md-icon md-menu-align-target><i class="material-icons">input</i></md-icon>
+          Login
+        </md-button>
+      </md-menu-item>
+      <md-menu-item ng-if="mc.user">
+        <md-button ng-click="vm.logout()">
+          <md-icon md-menu-align-target><i class="material-icons">subdirectory_arrow_left</i></md-icon>
+          Logout
+        </md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+</md-toolbar>
