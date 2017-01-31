@@ -14,17 +14,16 @@
       </md-card-avatar>
       <span flex="5"><!-- Spacer --></span>
       <md-card-title-text>
-        <p ng-show="vm.isEditing"><i>Editing</i></p>
-        <span flex="5"><!-- Spacer --></span>
+        <span ng-show="vm.isEditing"><i>Editing</i><hr></span>
         <!-- Profile Name -->
         <span ng-show="!vm.isEditing" class="md-headline">{{user.firstname}} {{user.lastname}}</span>
         <div layout="row">
           <md-input-container md-no-float ng-show="vm.isEditing" class="small-container">
-            <label>First name</label>
+            <label>First Name</label>
             <input type="text" ng-model="user.firstname" required aria-label="First Name" />
           </md-input-container>
           <md-input-container md-no-float ng-show="vm.isEditing" class="small-container">
-            <label>Last name</label>
+            <label>Last Name</label>
             <input type="text" ng-model="user.lastname" required aria-label="Last Name" />
           </md-input-container>
         </div>

@@ -44,12 +44,11 @@
 
 		/**
 		 * @description {function} :: Changes the title on the toolbar depending on current route
-		 * @param {string} newUrl - fully qualified current url.
-		 * @param {string} oldUrl - fully qualified old url.
+		 * @param {string} url - fully qualified current url.
 		 */
-    function setTitle(url) {
+    vm.setTitle = function(url) {
+      url = url.split("/")
       url = url[url.length - 1];
-
       switch (url) {
         case 'home':
           vm.title = "Home";
@@ -85,12 +84,11 @@
     }
 
     $scope.$on('$locationChangeSuccess', function (event, newUrl, oldUrl) {
-      var url = newUrl.split("/");
-      setTitle(url);
+      vm.setTitle(newUrl);
     });
 
 
-    setTitle($location.url().split("/"));
+    vm.setTitle($location.url());
     $scope.vm = vm;
   }
 })();

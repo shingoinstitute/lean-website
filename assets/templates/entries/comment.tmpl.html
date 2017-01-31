@@ -1,5 +1,9 @@
 <div class="comment" layout="column">
-  <p ng-show="!isEditing" ng-bind-html="comm.content" class="trix-content"></p>
+  <div layout="row">
+    <p ng-show="!isEditing" ng-bind-html="comm.content" class="trix-content"></p>
+    <span flex><!-- spacer --></span>
+    <flag content="comm" type="'Comment'"></flag>
+  </div>
   <div ng-show="isEditing">
     <summernote id="comm.id"   ng-model="comm.content" height="100"></summernote>
   </div>

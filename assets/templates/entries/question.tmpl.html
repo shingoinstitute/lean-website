@@ -2,7 +2,11 @@
   <form name="questionDetailForm" ng-cloak>
     <md-card-content>
       <div ng-show="!isEditing">
-        <h2>{{entry.title}}</h2>
+        <div layout="row">
+          <h2>{{entry.title}}</h2>
+          <span flex><!-- spacer --></span>
+          <flag content="entry" type="'Question'"></flag>
+        </div>
         <hr>
         <div flex ng-bind-html="entry.content" class="q-content trix-content"></div>
       </div>
@@ -15,7 +19,7 @@
             </div>
           </div>
         </md-input-container>
-        <summernote   ng-model="entry.content" height="300"></summernote>
+        <summernote ng-model="entry.content" height="300"></summernote>
       </div>
     </md-card-content>
     <span flex><!-- filler --></span>
