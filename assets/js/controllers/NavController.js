@@ -17,6 +17,10 @@
 			$mdOpenMenu($event);
 		}
 
+    $scope.$on('toggle-sidenav', function(ev) {
+      $mdSidenav('sidenav').toggle();
+    });
+
 		/**
 		 * @description {function} showDashboard :: sends broadcast message to MainController which then sends a broadcast message back to NavController via '$NavControllerListener'
 		 */
@@ -86,7 +90,6 @@
     $scope.$on('$locationChangeSuccess', function (event, newUrl, oldUrl) {
       vm.setTitle(newUrl);
     });
-
 
     vm.setTitle($location.url());
     $scope.vm = vm;

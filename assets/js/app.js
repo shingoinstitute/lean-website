@@ -15,9 +15,6 @@
 				.when('/dashboard', {
 					templateUrl: 'templates/user/dashboard.html',
 				})
-				// .when('/dashboard/settings', {
-				// 	templateUrl: 'templates/user/settings.html',
-				// })
 				.when('/education', {
 					templateUrl: 'templates/education.html',
 				})
@@ -45,15 +42,15 @@
 				.when('/reset', {
 					templateUrl: 'templates/user/passwordReset.html'
 				})
-				.otherwise({
-					redirectTo: '/home',
-				});
+				// .otherwise({
+				// 	redirectTo: '/home'
+				// });
 
 			$locationProvider.html5Mode(true);
 
 			$mdThemingProvider.theme('default')
-				.primaryPalette('indigo')
-				.accentPalette('red');
+				.primaryPalette('orange')
+				.accentPalette('blue-grey');
 
 			$mdThemingProvider.theme('darkTheme')
 				.primaryPalette('orange')
