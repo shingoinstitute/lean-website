@@ -2,7 +2,8 @@
   <form name="profileForm">
     <md-card-title>
       <md-card-avatar>
-        <div ng-click="()" id="photoUpload" ng-show="vm.isEditing">
+        <!--<div ng-click="()" id="photoUpload" ng-show="vm.isEditing">-->
+        <div id="photoUpload" ng-show="vm.isEditing">
           <md-icon md-menu-align-target>
             <input type="file" onchange="angular.element(this).scope().vm.uploadPhoto(this)" accept="image/*" />
             <i class="material-icons md-light small">file_upload</i>
@@ -32,7 +33,7 @@
           <label>Email</label>
           <input type="email" ng-model="user.email" required aria-label="Email" />
         </md-input-container>
-        <span class="md-subhead">Reputation: {{user.reputation}}</span>
+        <span class="md-subhead"><b>Reputation</b>: {{user.reputation}}</span>
       </md-card-title-text>
     </md-card-title>
     <md-card-content>

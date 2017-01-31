@@ -3,7 +3,7 @@
 	angular.module('leansite')
 	.directive('admin', function() {
 		return {
-			templateUrl: 'templates/user/admin.tmpl.html',
+			templateUrl: 'templates/admin/admin.tmpl.html',
 			controller: 'AdminController',
 			controllerAs: 'vm'
 		}

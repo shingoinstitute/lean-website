@@ -56,5 +56,8 @@
     <md-tab ng-if="mc.user.isAdmin === true" label="Admin">
       <admin></admin>
     </md-tab>
+    <md-tab ng-if="mc.user.isAdmin == true || mc.user.isModerator == true" label="Moderator">
+      <moderator users="vm.users"></moderator>
+    </md-tab>
   </md-tabs>
 </main-content>

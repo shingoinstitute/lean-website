@@ -7,7 +7,7 @@
   function CommentController($scope, $rootScope, _entryService, BROADCAST) {
     $scope.isEditing = false;
 
-    if ($scope.comm && !$scope.comm.owner.id) {
+    if ($scope.comm && $scope.comm.owner && !$scope.comm.owner.uuid) {
       _entryService.readComment($scope.comm.id)
         .then(function (response) {
           $scope.comm = response.data;

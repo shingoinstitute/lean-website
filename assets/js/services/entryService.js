@@ -33,6 +33,18 @@
       });
     }
 
+    service.getQuestions = function() {
+      return $http.get('/entry?where={"parent":null}&populate=owner,parent');
+    }
+
+    service.getAnswers = function() {
+      return $http.get('/entry?where={"parent": {"!":null}}&populate=owner,parent');
+    }
+
+    service.getComments = function() {
+      return $http.get('/comment?populate=owner,parent');
+    }
+
     service.getRecent = function (limit, userId) {
       var now = moment();
       var recent = now.subtract(10, 'days');
@@ -73,6 +85,24 @@
         dataType: 'json',
         url: '/entry',
         data: entry
+      });
+    }
+
+    service.destroyEntry = function(entry) {
+      return $http({
+        method: 'delete',
+        dataType: 'json',
+        url: '/entry',
+        data: entry
+      });
+    }
+
+    service.destroyComment = function(comm) {
+      return $http({
+        method: 'delete',
+        dataType: 'json',
+        url: '/comment',
+        data: comm
       });
     }
 
