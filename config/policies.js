@@ -19,53 +19,55 @@
 
 module.exports.policies = {
 
-   /***************************************************************************
-   *                                                                          *
-   * Default policy for all controllers and actions (`true` allows public     *
-   * access)                                                                  *
-   *                                                                          *
-   ***************************************************************************/
+    /***************************************************************************
+    *                                                                          *
+    * Default policy for all controllers and actions (`true` allows public     *
+    * access)                                                                  *
+    *                                                                          *
+    ***************************************************************************/
 
-   '*': false,
+    '*': false,
 
-   'AuthController': {
-      '*': false,
-		login: true,
-      logout: true,
-      linkedInAuth: true,
-      linkedInAuthCallback: true,
-		localAuth: true,
-		signUp: true
-   },
+    'AuthController': {
+        '*': false,
+        login: true,
+        logout: ['sessionAuth'],
+        linkedInAuth: true,
+        linkedInAuthCallback: true,
+        localAuth: true,
+        verifyEmail: true
+    },
 
-	'UserController': {
-		'*': ['sessionAuth'],
-	},
+    'DevController': {
+        '*': true,
+    },
 
-	'DevController': {
-		'*': false,
-		linkedinAuth: true,
-		linkedinAuthCallback: true,
-	}
+    'CommentController': {
+        '*': ['sessionAuth'],
+        find: true,
+        findOne: true,
+        update: ['sessionAuth', 'isCommentOwner']
+    },
 
-   /***************************************************************************
-   *                                                                          *
-   * Here's an example of mapping some policies to run before a controller    *
-   * and its actions                                                          *
-   *                                                                          *
-   ***************************************************************************/
-   // RabbitController: {
+    'EntryController': {
+        '*': ['sessionAuth'],
+        find: true,
+        findOne: true,
+        update: ['sessionAuth', 'isEntryOwner']
+    },
 
-   // Apply the `false` policy as the default for all of RabbitController's actions
-   // (`false` prevents all access, which ensures that nothing bad happens to our rabbits)
-   // '*': false,
+    'UserController': {
+        '*': ['sessionAuth'],
+        update: ['sessionAuth', 'canUpdateUser'],
+        destroy: ['sessionAuth', 'isAdmin'],
+        create: true,
+        sendPasswordResetEmail: true,
+        reset: true,
+        updatePassword: true
+    },
 
-   // For the action `nurture`, apply the 'isRabbitMother' policy
-   // (this overrides `false` above)
-   // nurture	: 'isRabbitMother',
-
-   // Apply the `isNiceToAnimals` AND `hasRabbitFood` policies
-   // before letting any users feed our rabbits
-   // feed : ['isNiceToAnimals', 'hasRabbitFood']
-   // }
+    'FlagController': {
+        '*': ['sessionAuth', 'canFlag']
+    }
+    
 };

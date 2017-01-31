@@ -9,7 +9,7 @@ module.exports = {
 
 	attributes: {
 
-		id: {
+		uuid: {
 			type: 'string',
 			uuid: true,
 			primaryKey: true,
@@ -28,12 +28,22 @@ module.exports = {
 			defaultsTo: false
 		},
 
+		editQuestions: {
+			type: 'boolean',
+			defaultsTo: false
+		},
+
+		editAnswers: {
+			type: 'boolean',
+			defaultsTo: false
+		},
+
 		editComments: {
 			type: 'boolean',
 			defaultsTo: false
 		},
 
-		changePasswords: {
+		resetPasswords: {
 			type: 'boolean',
 			defaultsTo: false
 		},
@@ -68,12 +78,7 @@ module.exports = {
 			defaultsTo: false
 		},
 
-		approve: {
-			type: 'boolean',
-			defaultsTo: false
-		},
-
-		approveComments: {
+		approveDocuments: {
 			type: 'boolean',
 			defaultsTo: false
 		},
@@ -99,26 +104,22 @@ module.exports = {
 	grantAllPriviledges: function(user, done) {
 		sails.log.info('permissions id: ' + user.permissions);
 		UserPermissions.findOne({id: user.permissions}).exec(function(err, permissions) {
-			if (err) {
-				return done(err, false);
-			}
+			if (err) { return done(err, false); }
 
-			if (!permissions) {
-				var error = new Error('Failed to grant user priviledges, permissions object not found!');
-				return done(error, false);
-			}
+			if (!permissions) { return done(new Error('Failed to grant user priviledges, permissions object not found!'), false); }
 
 			permissions.editAll = true;
+			permissions.editQuestions = true;
+			permissions.editAnswers = true;
 			permissions.editComments = true;
-			permissions.changePasswords = true;
+			permissions.resetPasswords = true;
 			permissions.viewAll = true;
 			permissions.viewComments = true;
 			permissions.createAll = true;
 			permissions.createComments = true;
 			permissions.deleteAll = true;
 			permissions.deleteComments = true;
-			permissions.approve = true;
-			permissions.approveComments = true;
+			permissions.approveDocuments = true;
 			permissions.review = true;
 			permissions.submit = true;
 
@@ -136,16 +137,15 @@ module.exports = {
 	*  @param {function} done - callback function that accepts two arguments, done(error, user)
 	*/
 	revokeAllPriviledges: function(user, done) {
+		schema: true,
+		
 		UserPermissions.findOne({id: user.permissions}).exec(function(err, permissions) {
-			if (err) {
-				return done(err, false);
-			}
-
-			if (!permissions) {
-				return done(new Error('Failed to revoke user priviledges, permissions object is undefined'), false);
-			}
+			if (err) return done(err, false);
+			if (!permissions) return done(new Error('Failed to revoke user priviledges, permissions object is undefined'), false);
 
 			permissions.editAll = false;
+			permissions.editQuestions = false;
+			permissions.editAnswers = false;
 			permissions.editComments = false;
 			permissions.changePasswords = false;
 			permissions.viewAll = false;
@@ -175,6 +175,8 @@ module.exports = {
 			// "Reset" permissions to false
 			values.editAll = false;
 			values.editComments = false;
+			permissions.editQuestions = true;
+			permissions.editAnswers = true;
 			values.changePasswords = false;
 			values.viewAll = false;
 			values.viewComments = false;
@@ -182,7 +184,7 @@ module.exports = {
 			values.createComments = false;
 			values.deleteAll = false;
 			values.deleteComments = false;
-			values.approve = false;
+			values.approveDocuments = false;
 			values.approveComments = false;
 			values.review = false;
 			values.submit = false;
@@ -190,67 +192,52 @@ module.exports = {
 			switch (user.role) {
 				case 'systemAdmin':
 					values.editAll = true;
+					permissions.editQuestions = true;
+					permissions.editAnswers = true;
 					values.editComments = true;
 					values.changePasswords = true;
 					values.viewAll = true;
-					values.viewComments = true;
 					values.createAll = true;
-					values.createComments = true;
 					values.deleteAll = true;
 					values.deleteComments = true;
-					values.approve = true;
-					values.approveComments = true;
+					values.approveDocuments = true;
 					values.review = true;
 					values.submit = true;
 					break;
 				case 'admin':
 					values.editAll = true;
+					permissions.editQuestions = true;
+					permissions.editAnswers = true;
 					values.editComments = true;
 					values.viewAll = true;
-					values.viewComments = true;
 					values.createAll = true;
-					values.createComments = true;
 					values.deleteAll = true;
 					values.deleteComments = true;
-					values.approve = true;
-					values.approveComments = true;
+					values.approveDocuments = true;
 					values.review = true;
 					values.submit = true;
 					break;
 				case 'editor':
-					values.editAll = true;
 					values.viewAll = true;
-					values.viewComments = true;
-					values.createAll = true;
-					values.createComments = true;
-					values.deleteAll = true;
-					values.approve = true;
 					values.review = true;
 					values.submit = true;
 					break;
 				case 'author':
-					values.editAll = true;
 					values.viewAll = true;
-					values.viewComments = true;
-					values.createAll = true;
-					values.createComments = true;
 					values.submit = true;
 					break;
 				case 'moderator':
 					values.editComments = true;
-					values.viewComments = true;
-					values.createComments = true;
 					values.deleteComments = true;
-					values.approveComments = true;
 					break;
-				case 'user':
-					values.viewComments = true;
-					values.createComments = true;
 				default:
-					var error = new Error('Invalid role option for update. Available role types are ' + AppServices.toString(sails.config.models.roles));
+					var error = new Error('Invalid role option for update. Available role types are ' + AppService.arrayToString(sails.config.models.roles));
 					return next(error);
 				break;
 			}
+
+			values.viewComments = true;
+			values.createComments = true;
 
 			return next();
 		});

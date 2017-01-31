@@ -15,9 +15,10 @@
 // CSS files to inject in order
 
 var cssFilesToInject = [
-   '/bower_components/bootstrap/dist/css/*.css',
-   '/bower_components/angular-material/angular-material.css',
-   'styles/**/*.css'
+   'bower_components/bootstrap/dist/css/*.css',
+   'bower_components/angular-material/angular-material.css',
+   'bower_components/summernote/dist/summernote.css',
+   'css/master.css'
 ];
 
 var jsFilesToInject = [
@@ -29,6 +30,8 @@ var jsFilesToInject = [
 
    'bower_components/bootstrap/dist/js/bootstrap.js',
    'bower_components/lodash/lodash.js',
+   'bower_components/summernote/dist/summernote.js',
+   'bower_components/clipboard/dist/clipboard.min.js',
 
    // Load angular modules
    'bower_components/angular/angular.js',
@@ -40,12 +43,15 @@ var jsFilesToInject = [
    'bower_components/underscore/underscore-min.js',
    'bower_components/angular-underscore-module/angular-underscore-module.js',
    'bower_components/angular-sanitize/angular-sanitize.js',
-	'bower_components/angular-cookies/angular-cookies.min.js',
+	 'bower_components/angular-cookies/angular-cookies.min.js',
    'bower_components/trix/dist/trix.js',
    'bower_components/angular-trix/dist/angular-trix.js',
    'bower_components/moment/moment.js',
    'bower_components/angular-moment/angular-moment.js',
    'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+   'bower_components/angular-summernote/dist/angular-summernote.js',
+   'bower_components/ngclipboard/dist/ngclipboard.min.js',
+   
 
    // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/**/*.js',

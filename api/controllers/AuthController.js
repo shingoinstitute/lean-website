@@ -5,102 +5,88 @@
 */
 
 var passport = require('passport');
+var nodemailer = require('nodemailer');
+var bcrypt = require('bcrypt');
 
 module.exports = {
 
-	signUp: function(req, res) {
-		var newUser = {};
-		newUser.email = req.param('username');
-		newUser.password = req.param('password');
-		newUser.firstname = req.param('firstname');
-		newUser.lastname = req.param('lastname');
+	verifyEmail: function (req, res) {
+		var uuid = req.param('id');
+		var token = req.param('vt'); // vt: verify token
 
-		User.signUp(newUser)
-		.then(function(user) {
-			return res.json({
-				success: true,
-				user: user.toJSON()
-			});
-		})
-		.catch(function(err) {
-			return res.json({
-				success: false,
-				error: err
+		User.findOne({uuid: uuid}).exec(function(err, user) {
+			if (err) return res.negotiate(err);
+			if (!user) return res.status(404).json('E_USER_NOT_FOUND');
+
+			if (!bcrypt.compareSync(token, user.emailVerificationToken)) return res.status(403).json('E_NOT_AUTHORIZED');
+			user.verifiedEmail = user.email;
+			user.emailVerificationToken = null;
+			user.save(function(err) {
+				if (err) return res.negotiate(err);
+				return res.redirect('/dashboard');
 			});
 		});
 	},
 
-	localAuth: function(req, res) {
+	localAuth: function (req, res) {
 		passport.authenticate('local', function (err, user, info) {
-				if (info) {
-					sails.log.info(JSON.stringify(info, null, 2));
-				}
+			if (info) {
+				sails.log.info(JSON.stringify(info, null, 2));
+			}
 
-				if (err) {
-					sails.log.error('/auth/local @callback: ' + err.name + ': ' + err.message);
-					return res.json({error: err, user: null});
-				}
+			if (err) {
+				sails.log.error('/auth/local @callback: ' + err.name + ': ' + err.message);
+				return res.status(500).json(err);
+			}
 
-				if (!user) {
-					sails.log.warn('/auth/local @callback:  User is undefined!');
-					return res.json({
-						user: null,
-						info: info,
-						error: err
-					});
-				}
+			if (!user) {
+				sails.log.warn('/auth/local @callback:  User is undefined!');
+				return res.status(404).json({error: info.error || 'Error: user not found.'});
+			}
 
-				return res.json({
-					token: AuthService.createToken(user),
-					user: user.toJSON()
-				});
+			return res.json({
+				success: true,
+				user: user.toJSON(),
+				token: AuthService.createToken(user)
+			});
 		})(req, res);
 	},
 
-   linkedInAuth: function(req, res) {
-      passport.authenticate('linkedin')(req, res);
-   },
+	linkedInAuth: function (req, res) {
+		passport.authenticate('linkedin')(req, res);
+	},
 
-   linkedInAuthCallback: function(req, res) {
-      passport.authenticate('linkedin', {
+	linkedInAuthCallback: function (req, res) {
+		passport.authenticate('linkedin', {
 			failureRedirect: '/login',
 			session: false
-		})(req, res, function(err, foo, bar) {
+		})(req, res, function (err, foo, bar) {
 			if (err) {
 				sails.log.error(err);
-				return res.json({
-					success: false,
-					user: null,
-					error: err
-				});
+				return res.status(500).json(err);
 			}
 
-			if (req.user) {
-				var token = AuthService.createToken(req.user);
-				res.cookie('token', token);
-				res.set('Authorization', 'JWT ' + token);
+			if (!req.user) {
+				sails.log.error(new Error('LinkedInAuthCallback missing user object in request...'));
 			} else {
-				sails.log.info('No user in req.');
+				var token = AuthService.createToken(req.user);
+				res.cookie('JWT', token);
+				res.set('Authorization', 'JWT ' + token);
 			}
 
 			return res.redirect('/dashboard');
 		});
-   },
-
-	login: function(req, res) {
-		var data = {};
-		data.error = 'If you see this message, something probably went wrong logging in.'
-		if (req.user) data.user = req.user;
-		return res.json(data);
 	},
 
-   logout: function(req, res) {
+	login: function (req, res) {
 		if (req.user) {
-			req.logout();
-			return res.json({success: true, message: 'User successfully logged out.'});
-		} else {
-			req.logout();
-			return res.json({success: true, message: 'Logout was attempted, but no user was logged in.'})
+			return res.redirect('/dashboard');
 		}
-   },
+		return res.json('user not logged in.');
+	},
+
+	logout: function (req, res) {
+		req.logout();
+		return res.json('User successfully logged out.');
+	},
 }

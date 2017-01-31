@@ -1,5 +1,5 @@
 /**
- * sessionAuth
+ * isAdmin.js
  *
  * @module      :: Policy
  * @description :: Simple policy to allow any authenticated user
@@ -19,7 +19,7 @@ module.exports = function(req, res, next) {
 			return res.status(403).json({ error: 'user not authorized', info: info });
 		}
 
-		if (user.role != 'systemAdmin' || user.role != 'admin') {
+		if (!user.toJSON().isAdmin) {
 			return res.status(403).json({ error: 'user not authorized', info: info });
 		}
 

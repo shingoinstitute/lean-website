@@ -1,0 +1,73 @@
+<md-content layout="column">
+	<md-card flex class="md-padding" ng-if="mc.user.role == 'systemAdmin'">
+		<div layout>
+			<md-subheader class="header-lg md-no-sticky">Dev Tools</md-subheader>
+			<md-progress-circular md-mode="indeterminate" ng-disabled="!vm.progressCircleEnabled" ng-show="vm.progressCircleEnabled"></md-progress-circular>
+		</div>
+		<div>
+			<md-button aria-label="create mock users button" class="md-button md-raised md-primary" ng-click="vm.createMockUsers()">Create Mock Users</md-button>
+		</div>
+		<div>
+			<md-button aria-label="delete button" class="md-button md-raised md-primary" ng-click="vm.deleteAllUsers()">Delete All Users (dev environment only)</md-button>
+		</div>
+	</md-card>
+	<md-card flex class="md-padding">
+		<md-subheader class="header-lg md-no-sticky">Users</md-subheader>
+		<md-whiteframe class="md-whiteframe-1dp md-padding md-margin" layout="column" layout-align="space-around stretch" ng-model="vm.users" ng-repeat="user in vm.users track by $index">
+			<div layout>
+				<pre>{{user.firstname}} {{user.lastname}}</pre>
+				<pre>Account Active? {{ user.accountIsActive ? 'Yes' : 'No' }}</pre>
+			</div>
+			<div layout>
+				<pre>JWT: <input id="jwt" value="{{user.jwt}}"></pre>
+				<md-button class="md-raised" ngclipboard data-clipboard-target="#jwt" aria-label="Token">
+					<md-icon md-svg-src="images/icons/ic_content_copy_black_24px.svg" alt="Copy to clipboard"></md-icon>
+					<md-tooltip>Copy</md-tooltip>
+				</md-button>	
+			</div>
+			<div layout layout-align="center center">
+				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.onClickSaveButton(user)">Save</md-button>
+				<md-button class="md-button md-raised md-accent" ng-click="vm.onClickDeleteButton(user)">Delete</md-button>
+			</div>
+			<p><!-- spacer --></p>
+			<div layout>
+				<md-input-container flex-gt-sm>
+					<label>ID</label>
+					<input ng-model="user.uuid" ng-disabled="true">
+				</md-input-container>
+				<md-input-container flex-gt-sm>
+					Role
+					<select name="role" ng-model="user.role">
+						<option selected>{{user.role}}</option>
+						<option ng-if="user.role != 'System Admin'">System Admin</option>
+						<option ng-if="user.role != 'Admin'">Admin</option>
+						<option ng-if="user.role != 'Editor'">Editor</option>
+						<option ng-if="user.role != 'Author'">Author</option>
+						<option ng-if="user.role != 'Moderator'">Moderator</option>
+						<option ng-if="user.role != 'Member'">Member</option>
+					</select>
+				</md-input-container>
+			</div>
+			<div layout>
+				<md-input-container flex-gt-sm>
+					<label>First name</label>
+					<input ng-model="user.firstname">
+				</md-input-container>
+				<md-input-container flex-gt-sm>
+					<label>Last name</label>
+					<input ng-model="user.lastname">
+				</md-input-container>
+			</div>
+			<div layout>
+				<md-input-container flex-gt-sm>
+					<label>Primary email</label>
+					<input ng-model="user.email">
+				</md-input-container>
+				<md-input-container flex-gt-sm>
+					<label>Secondary email</label>
+					<input ng-model="user.secondaryEmail">
+				</md-input-container>
+			</div>
+		</md-whiteframe>
+	</md-card>
+</md-content>

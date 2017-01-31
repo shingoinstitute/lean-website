@@ -1,0 +1,29 @@
+<md-sidenav class="md-sidenav-left" md-component-id="sidenav" md-is-locked-open="mc.sideNavEnabled" md-whiteframe="4">
+  <a href="/" class="logo">
+    <!--TODO: Add logo after approval-->
+    <!--<img src="/images/main_logo.png" alt="Teaching LEAN">-->
+    <h1>Teaching LEAN</h1>
+  </a>
+  <md-list ng-controller="NavController as vm">
+    <!--<md-subheader class="md-no-sticky">Navigation</md-subheader>-->
+    <md-list-item ng-href="/" name="home">Home</md-list-item>
+    <md-list-item ng-href="/education" name="education">Education</md-list-item>
+    <md-list-item ng-href="/teachingResources" name="teachingResources">Teaching Resources</md-list-item>
+    <md-list-item ng-href="/entries" name="entries">Q &amp; A Forum</md-list-item>
+    <md-list-item ng-href="/about" name="about">About Us</md-list-item>
+    <!--User Navigation-->
+    <md-subheader></md-subheader>
+    <md-list-item ng-href="/dashboard">
+      <md-icon md-menu-align-target><i class="material-icons">dashboard</i></md-icon>
+      <span>Dashboard</span>
+    </md-list-item>
+    <md-list-item ng-href="/login" ng-if="!mc.user">
+      <md-icon md-menu-align-target><i class="material-icons">input</i></md-icon>
+      Login
+    </md-list-item>
+    <md-list-item ng-click="vm.logout()" ng-if="mc.user">
+      <md-icon md-menu-align-target><i class="material-icons">subdirectory_arrow_left</i></md-icon>
+      Logout
+    </md-list-item>
+  </md-list>
+</md-sidenav>

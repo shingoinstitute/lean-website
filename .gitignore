@@ -18,7 +18,8 @@
 ################################################
 
 
-
+_SpecRunner.html
+bin/
 
 ################################################
 # Local Configuration
@@ -115,3 +116,7 @@ npm-debug.log
 nbproject
 .idea
 .node_history
+.vscode
+typings
+tsconfig.json
+typings.d.ts
