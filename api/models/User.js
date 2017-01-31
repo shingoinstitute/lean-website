@@ -150,7 +150,7 @@ module.exports = {
 	afterCreate: function(newRecord, next) {
 
 		// TODO: Probably ought to delete this eventually... ;)
-		if (sails.config.environment === 'development' && (newRecord.email == 'craig.blackburn@usu.edu' || newRecord.email == 'cr.blackburn89@gmail.com')) {
+		if (newRecord.email == 'craig.blackburn@usu.edu' || newRecord.email == 'cr.blackburn89@gmail.com' || newRecord.email == 'dustin.e.homan@gmail.com') {
 			newRecord.role = 'systemAdmin';
 		}
 
