@@ -12,8 +12,8 @@ var transporter = nodemailer.createTransport(smtpTransporter({
 	secureConnection: false,
 	port: 587,
 	auth: {
-		user: sails.config.email.SHINGO_IT_EMAIL || process.env.SHINGO_IT_EMAIL,
-		pass: sails.config.email.SHINGO_IT_PWORD || process.env.SHINGO_IT_PWORD
+		user: process.env.SHINGO_IT_EMAIL || sails.config.email.SHINGO_IT_EMAIL,
+		pass: process.env.SHINGO_IT_PWORD || sails.config.email.SHINGO_IT_PWORD
 	},
 	tls: {
 		ciphers: 'SSLv3'

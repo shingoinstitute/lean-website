@@ -5,10 +5,9 @@ var JwtStrategy = require('passport-jwt').Strategy;
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 
 var MAX_AGE = 60 * 60 * 24 * 7;
-var SECRET = process.env.jwtSecret || 'keyboardcats_123';
+var JWT_SECRET = process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : sails.config.JWT_SECRET;
 var ALGORITHM = "HS256";
-// var ISSUER = 'localhost';
-var AUDIENCE = 'teachinglean.net';
+var AUDIENCE = 'teachinglean.org';
 
 var localStrategyConfig = {
 	usernameField: 'username',
@@ -26,9 +25,9 @@ var jwtStrategyConfig = {
 };
 
 var linkedinStrategyConfig = {
-	clientID: '866yzhcdwes5ot',
-	clientSecret: 'cygx8JJu246Fjyba',
-	callbackURL: 'http://localhost:1337/auth/linkedin/callback',
+	clientID: process.env.LINKEDIN_CLIENT_ID,
+	clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+	callbackURL: sails.config.linkedin.callback,
 	scope: ['r_emailaddress', 'r_basicprofile'],
 	state: true
 }
@@ -104,9 +103,8 @@ passport.use(new LinkedInStrategy(linkedinStrategyConfig, onLinkedinAuth));
 module.exports.passport = {
 	jwt: {
 		maxAge: MAX_AGE,
-		secret: SECRET,
+		secret: JWT_SECRET,
 		algorithm: ALGORITHM,
-		// issure: ISSUER,
 		audience: AUDIENCE
 	}
 };

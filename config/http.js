@@ -31,8 +31,6 @@ module.exports.http = {
       *                                                                          *
       ***************************************************************************/
 
-      // passportInit: require('passport').initialize(),
-      // passportSession: require('passport').session(),
 
 
       order: [
@@ -42,8 +40,6 @@ module.exports.http = {
          'myRequestLogger',
          'bodyParser',
          'handleBodyParserError',
-			// 'passportInit',
-			// 'passportSession',
          'compress',
          'methodOverride',
          'poweredBy',
