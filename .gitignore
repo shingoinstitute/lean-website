@@ -121,3 +121,4 @@ typings
 tsconfig.json
 typings.d.ts
 .grunt
+sails_log.log
