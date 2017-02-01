@@ -21,6 +21,10 @@ module.exports = {
     connection: 'mysql'
   },
 
+  cryptoJs: {
+    secret: 'f80963fb06094fb5a5edb6dde41fe1db'
+  },
+
   email: {
     resetPasswordTokenParamName: 'token',
     saltRounds: 10,
@@ -29,6 +33,10 @@ module.exports = {
   
   session: {
     adapter: 'redis'
+  },
+
+  grunt: {
+    _hookTimeout: 600000
   }
 
   /***************************************************************************
