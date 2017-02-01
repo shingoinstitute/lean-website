@@ -25,6 +25,10 @@ module.exports = {
     resetPasswordTokenParamName: 'token',
     saltRounds: 10,
     tokenExpires: 1000*60*60*12
+  },
+  
+  session: {
+    adapter: 'redis'
   }
 
   /***************************************************************************
