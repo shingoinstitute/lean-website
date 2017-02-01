@@ -5,7 +5,7 @@ var JwtStrategy = require('passport-jwt').Strategy;
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 
 var MAX_AGE = 60 * 60 * 24 * 7;
-var JWT_SECRET = process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : sails.config.JWT_SECRET;
+var JWT_SECRET = process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : 'keyboardcats123';
 var ALGORITHM = "HS256";
 var AUDIENCE = 'teachinglean.org';
 
@@ -15,7 +15,7 @@ var localStrategyConfig = {
 };
 
 var jwtStrategyConfig = {
-	secretOrKey: SECRET,
+	secretOrKey: JWT_SECRET,
 	audience: AUDIENCE,
 	jwtFromRequest: function cookieExtractor(req) {
 		return typeof req.cookies.JWT != 'undefined' ? req.cookies.JWT :
@@ -27,7 +27,7 @@ var jwtStrategyConfig = {
 var linkedinStrategyConfig = {
 	clientID: process.env.LINKEDIN_CLIENT_ID,
 	clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-	callbackURL: sails.config.linkedin.callback,
+	callbackURL: process.env.NODE_ENV == 'production' ? 'http://www.teachinglean.org/auth/linkedin/callback' : 'http://localhost:1337/auth/linkedin/callback',
 	scope: ['r_emailaddress', 'r_basicprofile'],
 	state: true
 }

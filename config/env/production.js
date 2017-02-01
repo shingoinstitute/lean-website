@@ -33,10 +33,6 @@ module.exports = {
     saltRounds: 10,
     tokenExpires: 1000*60*60*12
   },
-
-  linkedin: {
-    callback: 'http://www.teachinglean.org/auth/linkedin/callback'
-  },
   
   session: {
     adapter: 'redis'

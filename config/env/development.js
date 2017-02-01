@@ -31,12 +31,6 @@ module.exports = {
     resetPasswordTokenParamName: 'token',
     saltRounds: 10,
     tokenExpires: 1000*60*60*12
-  },
-
-  linkedin: {
-    callback: 'http://localhost:1337/auth/linkedin/callback'
-  },
-
-  JWT_SECRET: 'keyboardcats123'
+  }
 
 };
