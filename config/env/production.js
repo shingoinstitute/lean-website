@@ -17,13 +17,11 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  // models: {
-  //   connection: 'someMysqlServer'
-  // },
+  models: {
+    connection: 'mysql'
+  },
 
   email: {
-    // emailVerificationURL: '/verifyEmail',
-    // passwordResetURL: '/reset',
     resetPasswordTokenParamName: 'token',
     saltRounds: 10,
     tokenExpires: 1000*60*60*12
