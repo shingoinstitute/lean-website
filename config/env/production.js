@@ -17,16 +17,26 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  // models: {
-  //   connection: 'someMysqlServer'
-  // },
+  models: {
+    connection: 'mysql'
+  },
+
+  cryptoJs: {
+    secret: 'f80963fb06094fb5a5edb6dde41fe1db'
+  },
 
   email: {
-    // emailVerificationURL: '/verifyEmail',
-    // passwordResetURL: '/reset',
     resetPasswordTokenParamName: 'token',
     saltRounds: 10,
     tokenExpires: 1000*60*60*12
+  },
+  
+  session: {
+    adapter: 'redis'
+  },
+
+  grunt: {
+    _hookTimeout: 600000
   }
 
   /***************************************************************************
