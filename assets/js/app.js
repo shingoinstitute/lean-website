@@ -6,10 +6,10 @@
 	'use strict';
 
 	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngSanitize', 'angularMoment', 'summernote', 'ngclipboard'])
-		.config(function ($locationProvider, $routeProvider, $mdThemingProvider, $mdIconProvider, $httpProvider) {
+		.config(function($locationProvider, $routeProvider, $mdThemingProvider, $mdIconProvider, $httpProvider) {
 
 			$routeProvider
-				.when('/home', {
+				.when('/', {
 					templateUrl: 'templates/homepage.html',
 				})
 				.when('/dashboard', {
@@ -42,9 +42,9 @@
 				.when('/reset', {
 					templateUrl: 'templates/user/passwordReset.html'
 				})
-				// .otherwise({
-				// 	redirectTo: '/home'
-				// });
+				.otherwise({
+					redirectTo: '/'
+				});
 
 			$locationProvider.html5Mode(true);
 
