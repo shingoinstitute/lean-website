@@ -37,8 +37,13 @@ module.exports = {
 
   grunt: {
     _hookTimeout: 600000
-  }
+  },
 
+  log: {
+    level: 'warn',
+    filePath: './sails_log.log'
+  }
+  
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
