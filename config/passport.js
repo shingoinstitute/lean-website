@@ -7,7 +7,6 @@ var ExtractJwt = require('passport-jwt').ExtractJwt;
 var MAX_AGE = 60 * 60 * 24 * 7;
 var SECRET = process.env.jwtSecret || 'keyboardcats_123';
 var ALGORITHM = "HS256";
-// var ISSUER = 'localhost';
 var AUDIENCE = 'teachinglean.net';
 
 var localStrategyConfig = {
@@ -28,7 +27,7 @@ var jwtStrategyConfig = {
 var linkedinStrategyConfig = {
 	clientID: '866yzhcdwes5ot',
 	clientSecret: 'cygx8JJu246Fjyba',
-	callbackURL: 'http://localhost:1337/auth/linkedin/callback',
+	callbackURL: process.env.NODE_ENV === 'production' ? 'https://teachinglean.org/auth/linkedin/callback' : 'http://localhost:1337/auth/linkedin/callback',
 	scope: ['r_emailaddress', 'r_basicprofile'],
 	state: true
 }
