@@ -28,7 +28,7 @@ var jwtStrategyConfig = {
 var linkedinStrategyConfig = {
 	clientID: '866yzhcdwes5ot',
 	clientSecret: 'cygx8JJu246Fjyba',
-	callbackURL: 'http://localhost:1337/auth/linkedin/callback',
+	callbackURL: process.env.NODE_ENV === 'production' ? 'https://teachinglean.org/auth/linkedin/callback' : 'http://localhost:1337/auth/linkedin/callback',
 	scope: ['r_emailaddress', 'r_basicprofile'],
 	state: true
 }
