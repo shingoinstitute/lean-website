@@ -22,10 +22,13 @@ module.exports = {
   },
 
   cryptoJs: {
-    secret: 'f80963fb06094fb5a5edb6dde41fe1db'
+    secret: process.env.CRYPTO_JS_SECRET
   },
 
   email: {
+
+    emailVerificationURL: 'http://www.teachinglean.org/verifyEmail',
+    passwordResetURL: 'http://www.teachinglean.org/reset',
     resetPasswordTokenParamName: 'token',
     saltRounds: 10,
     tokenExpires: 1000*60*60*12
@@ -37,20 +40,21 @@ module.exports = {
 
   grunt: {
     _hookTimeout: 600000
-  }
-
+  },
+  
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
 
-  // port: 80,
+  port: 80,
 
   /***************************************************************************
-   * Set the log level in production environment to "silent"                 *
+   * Set the log level in production environment to "warn"                 *
    ***************************************************************************/
 
-  // log: {
-  //   level: "silent"
-  // }
+  log: {
+    level: 'warn',
+    filePath: './sails_log.log'
+  }
 
 };

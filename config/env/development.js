@@ -20,9 +20,11 @@ module.exports = {
   models: {
     connection: 'localDiskDb'
   },
+
   cryptoJs: {
     secret: 'keyboardcats123'
   },
+
   email: {
     emailVerificationURL: 'http://localhost:1337/verifyEmail',
     passwordResetURL: 'http://localhost:1337/reset',
