@@ -25,6 +25,7 @@ var jwtStrategyConfig = {
 };
 
 var linkedinStrategyConfig = {
+
 	clientID: process.env.LINKEDIN_CLIENT_ID,
 	clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
 	callbackURL: process.env.NODE_ENV == 'production' ? 'http://www.teachinglean.org/auth/linkedin/callback' : 'http://localhost:1337/auth/linkedin/callback',
