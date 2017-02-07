@@ -22,7 +22,7 @@ module.exports = {
   },
 
   cryptoJs: {
-    secret: 'f80963fb06094fb5a5edb6dde41fe1db'
+    secret: process.env.CRYPTO_JS_SECRET
   },
 
   email: {
@@ -32,7 +32,7 @@ module.exports = {
   },
   
   session: {
-    adapter: 'redis'
+    adapter: 'redis',
   },
 
   grunt: {
