@@ -12,7 +12,7 @@ module.exports = {
 
 	verifyEmail: function (req, res) {
 		var uuid = req.param('id');
-		var token = req.param('vt'); // vt: verify token
+		var token = req.param('vt'); // verification token
 
 		User.findOne({uuid: uuid}).exec(function(err, user) {
 			if (err) return res.negotiate(err);
@@ -60,7 +60,7 @@ module.exports = {
 		passport.authenticate('linkedin', {
 			failureRedirect: '/login',
 			session: false
-		})(req, res, function (err, foo, bar) {
+		})(req, res, function (err) {
 			if (err) {
 				sails.log.error(err);
 				return res.status(500).json(err);
