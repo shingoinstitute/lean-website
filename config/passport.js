@@ -7,12 +7,7 @@ var ExtractJwt = require('passport-jwt').ExtractJwt;
 var MAX_AGE = 60 * 60 * 24 * 7;
 var SECRET = process.env.jwtSecret || 'keyboardcats_123';
 var ALGORITHM = "HS256";
-<<<<<<< HEAD
-// var ISSUER = 'localhost';
 var AUDIENCE = 'teachinglean.org';
-=======
-var AUDIENCE = 'teachinglean.net';
->>>>>>> origin/session-config
 
 var localStrategyConfig = {
 	usernameField: 'username',
@@ -30,10 +25,9 @@ var jwtStrategyConfig = {
 };
 
 var linkedinStrategyConfig = {
-	clientID: process.env.LNKEDIN_CLIENT_ID,
+	clientID: process.env.LINKEDIN_CLIENT_ID,
 	clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-	// callbackURL: process.env.NODE_ENV == 'production' ? 'https://teachinglean.org/auth/linkedin/callback' : 'http://localhost:1337/auth/linkedin/callback',
-	callbackURL: 'http://localhost:1337/auth/linkedin/callback',
+	callbackURL: process.env.NODE_ENV == 'production' ? 'https://teachinglean.org/auth/linkedin/callback' : 'http://localhost:1337/auth/linkedin/callback',
 	scope: ['r_emailaddress', 'r_basicprofile'],
 	state: true
 }
@@ -101,6 +95,18 @@ function onLinkedinAuth(accessToken, refreshToken, profile, done) {
 	});
 }
 
+passport.serializeUser(function(user, done) {
+	return done(null, user.uuid);
+});
+
+passport.deserializeUser(function(uuid, done) {
+	User.findOne({uuid: uuid}).exec(function(err, user) {
+		if (err) return done(err);
+		if (!user) return done(new Error('user is undefined'));
+		return done(null, user);
+	});
+});
+
 passport.use(new LocalStrategy(localStrategyConfig, onLocalAuth));
 passport.use(new JwtStrategy(jwtStrategyConfig, onJwtAuth));
 passport.use(new LinkedInStrategy(linkedinStrategyConfig, onLinkedinAuth));
@@ -111,7 +117,6 @@ module.exports.passport = {
 		maxAge: MAX_AGE,
 		secret: SECRET,
 		algorithm: ALGORITHM,
-		// issure: ISSUER,
 		audience: AUDIENCE
 	}
 };

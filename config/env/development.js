@@ -24,13 +24,5 @@ module.exports = {
   cryptoJs: {
     secret: 'keyboardcats123'
   },
-  
-  email: {
-    emailVerificationURL: 'http://localhost:1337/verifyEmail',
-    passwordResetURL: 'http://localhost:1337/reset',
-    resetPasswordTokenParamName: 'token',
-    saltRounds: 10,
-    tokenExpires: 1000*60*60*12
-  }
 
 };

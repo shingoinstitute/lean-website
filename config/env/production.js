@@ -1,122 +1,50 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
-var JwtStrategy = require('passport-jwt').Strategy;
-var ExtractJwt = require('passport-jwt').ExtractJwt;
-
-var MAX_AGE = 60 * 60 * 24 * 7;
-var SECRET = process.env.jwtSecret || 'keyboardcats_123';
-var ALGORITHM = "HS256";
-var AUDIENCE = 'teachinglean.org';
-
-var localStrategyConfig = {
-	usernameField: 'username',
-	passwordField: 'password'
-};
-
-var jwtStrategyConfig = {
-	secretOrKey: SECRET,
-	audience: AUDIENCE,
-	jwtFromRequest: function cookieExtractor(req) {
-		return typeof req.cookies.JWT != 'undefined' ? req.cookies.JWT :
-			typeof req.headers.jwt != 'undefined' ? req.headers.jwt :
-				typeof req.param('JWT') != 'undefined' ? req.param('JWT') : null
-	},
-};
-
-var linkedinStrategyConfig = {
-	clientID: process.env.LNKEDIN_CLIENT_ID,
-	clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-	callbackURL: process.env.NODE_ENV == 'production' ? 'https://teachinglean.org/auth/linkedin/callback' : 'http://localhost:1337/auth/linkedin/callback',
-	scope: ['r_emailaddress', 'r_basicprofile'],
-	state: true
-}
-
 /**
-*  @description :: Authentication handler for local strategy
-*/
-function onLocalAuth(username, password, next) {
-	User.findOne({ email: username }).exec(function (err, user) {
-		if (err) { return next(err); }
+ * Production environment settings
+ *
+ * This file can include shared settings for a production environment,
+ * such as API keys or remote database passwords.  If you're using
+ * a version control solution for your Sails app, this file will
+ * be committed to your repository unless you add it to your .gitignore
+ * file.  If your repository will be publicly viewable, don't add
+ * any private information to this file!
+ *
+ */
 
-		if (!user) return next(null, false, {
-			error: 'An account with ' + username + ' does not exist.',
-		});
+module.exports = {
 
-		if (!AuthService.comparePassword(password, user.password)) {
-			return next(null, false, {
-				error: 'incorrect password.'
-			});
-		}
+  /***************************************************************************
+   * Set the default database connection for models in the production        *
+   * environment (see config/connections.js and config/models.js )           *
+   ***************************************************************************/
 
-		return next(null, user);
-	});
-}
+  models: {
+    connection: 'mysql'
+  },
 
-/**
-*  @description :: Authentication handler for JWT strategy
-*  @param {object} payload - json web token
-*  @param {function} done - callback accepting arguments done(err, user, info)
-*/
-function onJwtAuth(payload, done) {
-	User.findOne({ uuid: payload.user.uuid }).exec(function (err, user) {
-		if (err) return done(err, false);
-		if (!user) return done(new Error('user not found!'));
-		return done(null, user);
-	});
-}
+  cryptoJs: {
+    secret: process.env.CRYPTO_JS_SECRET
+  },
+  
+  session: {
+    adapter: 'redis',
+  },
 
-function onLinkedinAuth(accessToken, refreshToken, profile, done) {
-	var json = profile._json;
-	var query = {};
-	query.linkedinId = json.id;
-	query.email = json.emailAddress;
-	query.firstname = json.firstName;
-	query.lastname = json.lastName;
-	query.pictureUrl = json.pictureUrl;
-	query.bio = json.summary;
+  grunt: {
+    _hookTimeout: 600000
+  },
 
-	User.findOne({ email: query.email }).exec(function (err, user) {
-		if (err) {
-			return done(err, false)
-		} else if (!user) {
-			User.create(query).exec(function (err, user) {
-				if (err) return done(err, false);
-				return done(null, user);
-			});
-		} else if (!user.linkedinId) {
-			User.update({ email: user.email }, query).exec(function (err, updated) {
-				if (err) return done(err, false);
-				return done(null, updated[0]);
-			});
-		} else {
-			return done(null, user);
-		}
-	});
-}
+  /***************************************************************************
+   * Set the port in the production environment to 80                        *
+   ***************************************************************************/
 
-passport.serializeUser(function(user, done) {
-	return done(null, user.uuid);
-});
+  // port: 80,
 
-passport.deserializeUser(function(uuid, done) {
-	User.findOne({uuid: uuid}).exec(function(err, user) {
-		if (err) return done(err);
-		if (!user) return done(new Error('user is undefined'));
-		return done(null, user);
-	});
-});
+  /***************************************************************************
+   * Set the log level in production environment to "silent"                 *
+   ***************************************************************************/
 
-passport.use(new LocalStrategy(localStrategyConfig, onLocalAuth));
-passport.use(new JwtStrategy(jwtStrategyConfig, onJwtAuth));
-passport.use(new LinkedInStrategy(linkedinStrategyConfig, onLinkedinAuth));
+  log: {
+    level: "info"
+  }
 
-
-module.exports.passport = {
-	jwt: {
-		maxAge: MAX_AGE,
-		secret: SECRET,
-		algorithm: ALGORITHM,
-		audience: AUDIENCE
-	}
 };
