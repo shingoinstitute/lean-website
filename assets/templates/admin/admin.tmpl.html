@@ -5,13 +5,6 @@
 				<pre>{{user.firstname}} {{user.lastname}}</pre>
 				<pre>Account Active? {{ user.accountIsActive ? 'Yes' : 'No' }}</pre>
 			</div>
-			<div layout>
-				<pre>JWT: <input id="jwt" value="{{user.jwt}}"></pre>
-				<md-button class="md-raised" ngclipboard data-clipboard-target="#jwt" aria-label="Token">
-					<md-icon md-svg-src="images/icons/ic_content_copy_black_24px.svg" alt="Copy to clipboard"></md-icon>
-					<md-tooltip>Copy</md-tooltip>
-				</md-button>	
-			</div>
 			<div layout layout-align="center center">
 				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.onClickSaveButton(user)">Save</md-button>
 				<md-button class="md-button md-raised md-accent" ng-click="vm.onClickDeleteButton(user)">Delete</md-button>
