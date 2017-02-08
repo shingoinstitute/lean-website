@@ -7,8 +7,12 @@ var ExtractJwt = require('passport-jwt').ExtractJwt;
 var MAX_AGE = 60 * 60 * 24 * 7;
 var SECRET = process.env.jwtSecret || 'keyboardcats_123';
 var ALGORITHM = "HS256";
+<<<<<<< HEAD
 // var ISSUER = 'localhost';
 var AUDIENCE = 'teachinglean.org';
+=======
+var AUDIENCE = 'teachinglean.net';
+>>>>>>> origin/session-config
 
 var localStrategyConfig = {
 	usernameField: 'username',

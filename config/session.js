@@ -35,7 +35,7 @@ module.exports.session = {
   * of your users, forcing them to log in again.                             *
   *                                                                          *
   ***************************************************************************/
-  secret: '9a7b4d022894b239380fab70cff732dc',
+  secret: process.env.SESSION_SECRET || 'keyboard cats',
 
   // store: sessionStore,
 

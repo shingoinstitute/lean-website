@@ -42,9 +42,9 @@
 				.when('/reset', {
 					templateUrl: 'templates/user/passwordReset.html'
 				})
-				.otherwise({
-					redirectTo: '/'
-				});
+				// .otherwise({
+				// 	redirectTo: '/'
+				// });
 
 			$locationProvider.html5Mode(true);
 
