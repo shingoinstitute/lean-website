@@ -7,7 +7,7 @@
 		<md-card-title-text layout>
 			<md-subheader><b>Role</b>? {{user.role}}</md-subheader>
 			<md-subheader><b>Account Status</b>? {{user.accountIsActive ? 'Active' : 'Disabled'}}</md-subheader>
-			<md-subheader>Has Flagged Content? <i>implement here...</i></md-subheader>
+			<md-subheader ng-hide="true">Has Flagged Content? <i>implement here...</i></md-subheader>
 		</md-card-title-text>
 		<md-card-content>
 			<md-button class="md-raised" ng-click="isEditingQuestions=!isEditingQuestions;getUserQuestions(user);">Questions</md-button>

@@ -24,12 +24,6 @@ module.exports = {
   cryptoJs: {
     secret: process.env.CRYPTO_JS_SECRET
   },
-
-  email: {
-    resetPasswordTokenParamName: 'token',
-    saltRounds: 10,
-    tokenExpires: 1000*60*60*12
-  },
   
   session: {
     adapter: 'redis',
@@ -37,7 +31,7 @@ module.exports = {
 
   grunt: {
     _hookTimeout: 600000
-  }
+  },
 
   /***************************************************************************
    * Set the port in the production environment to 80                        *
@@ -49,8 +43,8 @@ module.exports = {
    * Set the log level in production environment to "silent"                 *
    ***************************************************************************/
 
-  // log: {
-  //   level: "silent"
-  // }
+  log: {
+    level: "info"
+  }
 
 };
