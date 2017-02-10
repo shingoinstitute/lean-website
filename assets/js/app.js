@@ -42,9 +42,9 @@
 				.when('/reset', {
 					templateUrl: 'templates/user/passwordReset.html'
 				})
-				.otherwise({
-					redirectTo: '/'
-				});
+				// .otherwise({
+				// 	redirectTo: '/'
+				// });
 
 			$locationProvider.html5Mode(true);
 
@@ -58,7 +58,7 @@
 				.dark();
 		})
 		.constant('BROADCAST', {
-			loggingLevel: 'DEBUG', // 'DEBUG' or 'PRODUCTION'
+			loggingLevel: 'PRODUCTION', // 'DEBUG' or 'PRODUCTION'
 			info: '$infoMessage',
 			error: '$errorMessage',
 			userLogout: '$userLoggedOut',

@@ -1,29 +1,56 @@
-<md-sidenav class="md-sidenav-left" md-component-id="sidenav" md-is-locked-open="mc.sideNavEnabled" md-whiteframe="4">
+<md-sidenav class="md-sidenav-left" md-component-id="sidenav" md-is-locked-open="mc.sideNavLocked" md-whiteframe="4">
   <a href="/" class="logo">
     <!--TODO: Add logo after approval-->
     <!--<img src="/images/main_logo.png" alt="Teaching LEAN">-->
-    <h1>Teaching LEAN</h1>
+    <h1 class="md-display-1">TeachingLean.org</h1>
   </a>
   <md-list ng-controller="NavController as vm">
-    <!--<md-subheader class="md-no-sticky">Navigation</md-subheader>-->
-    <md-list-item ng-href="/" name="home">Home</md-list-item>
-    <md-list-item ng-href="/education" name="education">Education</md-list-item>
-    <md-list-item ng-href="/teachingResources" name="teachingResources">Teaching Resources</md-list-item>
-    <md-list-item ng-href="/entries" name="entries">Q &amp; A Forum</md-list-item>
-    <md-list-item ng-href="/about" name="about">About Us</md-list-item>
+    <md-list-item ng-href="/" name="home" ng-click="mc.toggleSidenav()">
+      <p class="md-body-2">Home</p>
+    </md-list-item>
+
+    <md-list-item name="education" ng-href="/education" ng-click="mc.toggleSidenav()">
+      <p class="md-body-2">Education</p>
+    </md-list-item>
+
+    <md-list-item 
+    ng-href="/education" 
+    ng-click="mc.toggleSidenav()">
+      <p class="md-body-1" style="padding-left:50px;">Courses</p>
+    </md-list-item>
+
+    <md-list-item 
+    ng-href="/teachingResources" 
+    name="teachingResources" 
+    ng-click="mc.toggleSidenav()">
+      <p class="md-body-1" style="padding-left:50px;" >Teaching Resources</p>
+    </md-list-item>
+
+    <md-list-item ng-href="/entries" name="entries" ng-click="mc.toggleSidenav()">
+      <p class="md-body-2">Q &amp; A Forum</p>
+    </md-list-item>
+
+    <md-list-item ng-href="/about" name="about" ng-click="mc.toggleSidenav()">
+      <p class="md-body-2">About Us</p>
+    </md-list-item>
+
     <!--User Navigation-->
     <md-subheader></md-subheader>
-    <md-list-item ng-href="/dashboard">
+
+    <md-list-item ng-href="/dashboard" ng-click="mc.toggleSidenav()">
       <md-icon md-menu-align-target><i class="material-icons">dashboard</i></md-icon>
-      <span>Dashboard</span>
+      <p class="md-body-2">Dashboard</p>
     </md-list-item>
-    <md-list-item ng-href="/login" ng-if="!mc.user">
+
+    <md-list-item ng-href="/login" ng-if="!mc.user" ng-click="mc.toggleSidenav()">
       <md-icon md-menu-align-target><i class="material-icons">input</i></md-icon>
-      Login
+      <p class="md-body-2">Login</p>
     </md-list-item>
-    <md-list-item ng-click="vm.logout()" ng-if="mc.user">
+
+    <md-list-item ng-click="vm.logout();mc.toggleSidenav()" ng-if="mc.user">
       <md-icon md-menu-align-target><i class="material-icons">subdirectory_arrow_left</i></md-icon>
-      Logout
+      <p class="md-body-2">Logout</p>
     </md-list-item>
+
   </md-list>
 </md-sidenav>

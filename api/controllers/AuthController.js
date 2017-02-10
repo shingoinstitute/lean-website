@@ -11,8 +11,8 @@ var bcrypt = require('bcrypt');
 module.exports = {
 
 	verifyEmail: function (req, res) {
-		var uuid = req.param('id');
-		var token = req.param('vt'); // vt: verify token
+		var uuid = req.param('id'); // user's uuid
+		var token = req.param('vt'); // verification token
 
 		User.findOne({uuid: uuid}).exec(function(err, user) {
 			if (err) return res.negotiate(err);
@@ -31,7 +31,7 @@ module.exports = {
 	localAuth: function (req, res) {
 		passport.authenticate('local', function (err, user, info) {
 			if (info) {
-				sails.log.info(JSON.stringify(info, null, 2));
+				sails.log.info('', info);
 			}
 
 			if (err) {
@@ -60,7 +60,7 @@ module.exports = {
 		passport.authenticate('linkedin', {
 			failureRedirect: '/login',
 			session: false
-		})(req, res, function (err, foo, bar) {
+		})(req, res, function (err) {
 			if (err) {
 				sails.log.error(err);
 				return res.status(500).json(err);

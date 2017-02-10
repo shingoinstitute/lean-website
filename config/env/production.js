@@ -24,24 +24,15 @@ module.exports = {
   cryptoJs: {
     secret: process.env.CRYPTO_JS_SECRET
   },
-
-  email: {
-
-    emailVerificationURL: 'http://www.teachinglean.org/verifyEmail',
-    passwordResetURL: 'http://www.teachinglean.org/reset',
-    resetPasswordTokenParamName: 'token',
-    saltRounds: 10,
-    tokenExpires: 1000*60*60*12
-  },
   
   session: {
-    adapter: 'redis'
+    adapter: 'redis',
   },
 
   grunt: {
     _hookTimeout: 600000
   },
-  
+
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
@@ -53,8 +44,7 @@ module.exports = {
    ***************************************************************************/
 
   log: {
-    level: 'warn',
-    filePath: './sails_log.log'
+    level: "info"
   }
 
 };

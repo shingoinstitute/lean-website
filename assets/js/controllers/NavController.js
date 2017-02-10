@@ -9,14 +9,6 @@
 		var vm = this;
 		var originatorEv;
 
-		/**
-		 * @description {function} openMenu :: Handler for opening/closing the toolbar menu
-		 */
-		vm.openMenu = function ($mdOpenMenu, $event) {
-			originatorEv = $event;
-			$mdOpenMenu($event);
-		}
-
     $scope.$on('toggle-sidenav', function(ev) {
       $mdSidenav('sidenav').toggle();
     });
@@ -54,7 +46,7 @@
       url = url.split("/")
       url = url[url.length - 1];
       switch (url) {
-        case 'home':
+        case '':
           vm.title = "Home";
           break;
         case 'dashboard':
@@ -64,7 +56,7 @@
           vm.title = "Education";
           break;
         case 'about':
-          vm.title = "About";
+          vm.title = "About Us";
           break;
         case 'login':
           vm.title = "Login";
@@ -82,7 +74,7 @@
           vm.title = "Q & A Forum";
           break;
         default:
-          vm.title = "Teaching Lean";
+          vm.title = "teachinglean.org";
           break;
       }
     }

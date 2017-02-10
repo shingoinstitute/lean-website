@@ -12,6 +12,20 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.session.html
  */
 
+// var passport = require('passport');
+// var session = require('express-session');
+// var RedisStore = require('connect-redis')(session);
+
+// var redis = require('redis');
+// var client = redis.createClient();
+
+// var sessionStore = new RedisStore({
+//   host: 'localhost',
+//   port: 6379,
+//   client: client,
+//   ttl: 5*60
+// })
+
 module.exports.session = {
 
   /***************************************************************************
@@ -21,7 +35,8 @@ module.exports.session = {
   * of your users, forcing them to log in again.                             *
   *                                                                          *
   ***************************************************************************/
-  secret: process.env.SESSION_SECRET || 'I like cats',
+
+  secret: process.env.SESSION_SECRET || 'keyboard cats',
 
   /***************************************************************************
   *                                                                          *
@@ -43,7 +58,7 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-  // adapter: 'redis',
+  adapter: 'connect-redis',
 
   /***************************************************************************
   *                                                                          *
@@ -54,13 +69,16 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-  // host: 'localhost',
+  host: 'localhost',
   // port: 6379,
-  // ttl: <redis session TTL in seconds>,
+  // ttl: 60*60,
+  // resave: true,
+  // saveUninitialized: true,
   // db: 0,
-  // pass: <redis auth password>,
+  // pass: 'password',
   // prefix: 'sess:',
 
+  
 
   /***************************************************************************
   *                                                                          *
