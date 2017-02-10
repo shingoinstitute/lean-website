@@ -1,33 +1,54 @@
+<style>
+	/*for larger screens*/
+	@media screen and (min-width: 1400px) {
+		.login-form-container {
+			display: fixed;
+			margin-left: 25%;
+		}
+	}
+
+	/*login form for mobile screens*/
+	@media screen and (max-width: 1399px) {
+		.login-form-container {
+			margin: 0 auto;
+		}
+	}
+	
+	.login-form-container {
+		padding: 1%;
+	}
+	
+	.login-form {
+		margin-bottom: 0;
+	}
+</style>
+
 <div flex ng-controller="AuthController as vm" layout>
-	<md-card flex style="max-width: 500px;">
-		<md-card-title>
-			<md-card-title-text>
-				<span class="md-headline md-primary">Sign Into Your Account</span>
-				<span class="md-subhead text-warn">{{vm.loginError}}</span>
-			</md-card-title-text>
-		</md-card-title>
-		<md-card-content layout="row" layout-sm="column" layout-align="space-around" ng-if="vm.progressCircleEnabled">
-			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
-		</md-card-content>
-		<md-card-content>
-			<div layout="column">
-				<md-input-container>
-					<label>Username</label>
-					<input required ng-model="username" type="email">
-				</md-input-container>
-				<md-input-container>
-					<label>Password</label>
-					<input required ng-model="password" type="password">
-				</md-input-container>
+	<md-whiteframe class="md-whiteframe-2dp login-form-container">
+		<div layout="column">
+			<md-button class="md-icon" aria-label="linkedin signup" ng-click="vm.authenticateLinkedIn()">
+				<img ng-src="/images/logos/lkin-login-form-btn.png" class="md-card-image">
+			</md-button>
+			<h3 class="md-headline text-center">Sign Into Your Account</h3>
+			<span class="md-subhead text-warn">{{vm.loginError}}</span>
+			<div layout="row" layout-sm="column" layout-align="space-around" ng-if="vm.progressCircleEnabled">
+				<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 			</div>
-		</md-card-content>
-		<md-card-content layout="column">
-			<md-button class="md-raised md-primary" ng-click="vm.authenticateLocal(username, password)">Sign in</md-button>
-			<md-button class="md-raised md-primary" ng-click="vm.authenticateLinkedIn()">Login through LinkedIn</md-button>
-		</md-card-content>
-		<md-card-content layout="column">
-			<md-button class="md-raised md-primary" ng-href="/reset">Forgot Password?</md-button>
-			<md-button class="md-raised md-accent" ng-href="/createAccount">Create Account</md-button>
-		</md-card-content>
-	</md-card>
+			<md-input-container class="login-form">
+				<label>Email</label>
+				<input required ng-model="username" type="email">
+			</md-input-container>
+			<md-input-container class="login-form">
+				<label>Password</label>
+				<input required ng-model="password" type="password">
+			</md-input-container>
+			<div layout>
+				<md-button class="md-raised md-primary" ng-click="vm.authenticateLocal(username, password)">Login</md-button>
+				<md-button class="md-primary" ng-href="/createAccount">Sign Up</md-button>
+			</div>
+			<div class="md-margin">
+				<a href="/reset" style="text-align: center;">forgot password?</a>
+			</div>
+		</div>
+	</md-whiteframe>
 </div>

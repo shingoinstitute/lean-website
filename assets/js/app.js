@@ -49,8 +49,8 @@
 			$locationProvider.html5Mode(true);
 
 			$mdThemingProvider.theme('default')
-				.primaryPalette('orange')
-				.accentPalette('blue-grey');
+				.primaryPalette('blue-grey')
+				.accentPalette('orange');
 
 			$mdThemingProvider.theme('darkTheme')
 				.primaryPalette('orange')
