@@ -34,7 +34,11 @@ module.exports = {
 	 * @param {String} hash - the user's hashed password stored in the database
 	 */
 	comparePassword: function (password, hash) {
-		return bcrypt.compareSync(password, hash);
+		try {
+			return bcrypt.compareSync(password, hash);
+		} catch (e) {
+			return false
+		}
 	},
 
 	/**

@@ -1,7 +1,17 @@
-<md-toolbar class="md-padding" layout>
+<md-toolbar class="md-padding" layout layout-align="center center">
   <h3 style="color:white;">{{vm.title}}</h3>
   <div flex></div>
-  <md-button class="md-icon-button" aria-label="Menu" ng-click="mc.toggleSidenav()" hide-gt-sm>
-    <md-icon md-menu-align-target><i class="material-icons">menu</i></md-icon>
-  </md-button>
+  <div ng-hide="mc.user">
+    <md-button class="md-raised" aria-label="Login" ng-href="/login">
+      Login
+    </md-button>
+    <md-button class="md-raised" aria-label="Sign Up" ng-href="/login">
+      Sign Up
+    </md-button>
+  </div>
+  <div>
+    <md-button class="md-icon-button" aria-label="Menu" ng-click="mc.toggleSidenav()" hide-gt-sm>
+      <md-icon md-menu-align-target><i class="material-icons">menu</i></md-icon>
+    </md-button>
+  </div>
 </md-toolbar>
