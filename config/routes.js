@@ -29,6 +29,7 @@ module.exports.routes = {
    '/auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
    '/auth/local': 'AuthController.localAuth',
 	'/auth/login': 'AuthController.login',
+	'PUT /auth/login': 'AuthController.login',
 	'/auth/logout': 'AuthController.logout',
 	'GET /verifyEmail/:id': 'AuthController.verifyEmail',
 

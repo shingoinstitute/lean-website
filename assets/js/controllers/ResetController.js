@@ -6,7 +6,7 @@
 
 	function ResetController($scope, $routeParams, $http, $location, $rootScope, $mdDialog, _userService, BROADCAST) {
 		var vm = this;
-		var token = $routeParams.r_jwt;
+		var token = $routeParams.token;
 		var userId = $routeParams.id;
 
 		vm.password = '';
@@ -28,6 +28,7 @@
 				_userService.requestPasswordUpdate(options)
 				.then(function(response) {
 					$location.url($location.path('/login'));
+					$location.path('/login');
 				})
 				.catch(function(responseError) {
 					if (BROADCAST.loggingLevel == "DEBUG") {
@@ -67,7 +68,7 @@
 				console.log('Success: ', response);
 			})
 			.catch(function(responseError) {
-				if (responseError.data && responseError.data.message == "user not found") {
+				if (responseError.data && responseError.data == "user not found") {
 					vm.userNotFoundError = "An account with " + vm.email + " does not exist.";
 				} else if (BROADCAST.loggingLevel == "DEBUG") {
 					$rootScope.$broadcast(BROADCAST.error, JSON.stringify(responseError, null, 2));
@@ -78,7 +79,6 @@
 		}
 
 		onPageLoad();
-
 	}
 
 })();

@@ -39,7 +39,7 @@
 		 * @desc :: listener for BROADCAST.error, displays error message when invoked
 		 */
 		$scope.$on(BROADCAST.error, function (event, args) {
-			if ($BROADCAST.loggingLevel == "DEBUG") {
+			if (BROADCAST.loggingLevel == "DEBUG") {
 				if (args.data && args.data.error) {
 					args = args.data.error;
 				} else if (args.error) {
