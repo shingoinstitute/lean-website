@@ -94,9 +94,7 @@ module.exports = {
     }).exec(function (err, user) {
       if (err) return res.negotiate(err);
       if (!user) return res.status(404).json('user not found');
-
-      if (!AuthService.compareResetToken(token, user)) return res.redirect('/reset');
-
+      // if (!AuthService.compareResetToken(token, user)) return res.redirect('/reset');
       return res.view('ok', {
         user: user.toJSON()
       });
@@ -108,12 +106,11 @@ module.exports = {
    */
   sendPasswordResetEmail: function (req, res) {
     var email = req.param('email');
-
-    if (!email) {
-      return res.status(400).json("missing email param");
-    }
-
-    EmailService.sendPasswordResetEmail(email)
+    if (!email) { return res.status(400).json("missing email param"); }
+    User.findOne({email: email}).exec(function(err, user) {
+      if (err) return res.negotiate(err);
+      if (!user) return res.status(404).json('user not found');
+      EmailService.sendPasswordResetEmail(user.email)
       .then(function (info) {
         return res.json(info);
       })
@@ -121,7 +118,7 @@ module.exports = {
         sails.log.error(err);
         return res.negotiate(err);
       });
-
+    });
   },
 
   /**
@@ -133,19 +130,19 @@ module.exports = {
     var password = req.param('password');
 
     if (!token) {
-      return res.status(403).json('user not authorized!');
+      return res.json('user not authorized!');
     }
 
-    if (!password) return res.status(400).json('missing password parameter');
+    if (!password) return res.json('missing password parameter');
 
     User.findOne({
       uuid: uuid
     }).exec(function (err, user) {
       if (err) return res.negotiate(err);
-      if (!user) return res.status(404).json('user not found');
-
-      if (!AuthService.compareResetToken(token, user)) return res.redirect('/reset')
-
+      if (!user) return res.negotiate('user not found');
+      if (!AuthService.compareResetToken(token, user)) {
+        return res.negotiate('mismatched tokens');
+      }
       user.password = password;
       user.save(function (err) {
         if (err) {
