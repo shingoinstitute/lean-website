@@ -95,9 +95,11 @@ module.exports = {
       if (err) return res.negotiate(err);
       if (!user) return res.status(404).json('user not found');
 
-      if (!AuthService.compareResetToken(token, user)) return res.status(403).json('reset link invalid or expired');
+      if (!AuthService.compareResetToken(token, user)) return res.redirect('/reset');
 
-      return res.redirect("/reset?id=" + uuid + "&r_jwt=" + token);
+      return res.view('ok', {
+        user: user.toJSON()
+      });
     });
   },
 
@@ -142,7 +144,7 @@ module.exports = {
       if (err) return res.negotiate(err);
       if (!user) return res.status(404).json('user not found');
 
-      if (!AuthService.compareResetToken(token, user)) return res.status(403).json('reset link invalid or expired');
+      if (!AuthService.compareResetToken(token, user)) return res.redirect('/reset')
 
       user.password = password;
       user.save(function (err) {

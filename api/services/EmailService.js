@@ -26,26 +26,22 @@ module.exports = {
 
 	/**
 	 * @description sendVerificationEmail :: sends verifcation email to user's primary email address
-	 * @returns - bluebird promise
 	 */
 	sendVerificationEmail: function (user) {
-		// AuthService.generateBase64Token(user, function(err, token) {
-		// 	if (err) return Promise.reject(err);
-			var token = AuthService.generateBase64Token(user);
-			user.emailVerificationToken = bcrypt.hashSync(token, saltRounds);
-			user.save(function(err) {
-				if (err) sails.log.error(err);
-			});
+		var token = AuthService.generateBase64Token(user);
+		user.emailVerificationToken = bcrypt.hashSync(token, saltRounds);
+		user.save(function(err) {
+			if (err) sails.log.error(err);
+		});
 
-			var redirectUrl = sails.config.email.emailVerificationURL + "/" + user.uuid + "?vt=" + token;
+		var redirectUrl = sails.config.email.emailVerificationURL + "/" + user.uuid + "?vt=" + token;
 
-			return transporter.sendMailAsync({
-				from: 'shingo.it@usu.edu',
-				to: user.email,
-				subject: 'TeachingLEAN.net - email verification',
-				html: '<p>Click <a href="' + redirectUrl + '">here</a> to verify your email address for TeachingLEAN.net.</p>'
-			});
-		// });
+		return transporter.sendMailAsync({
+			from: 'shingo.it@usu.edu',
+			to: user.email,
+			subject: 'TeachingLEAN.net - email verification',
+			html: '<p>Click <a href="' + redirectUrl + '">here</a> to verify your email address for TeachingLEAN.net.</p>'
+		});
 	},
 
 	/**
@@ -69,11 +65,11 @@ module.exports = {
 					});
 
 					var redirectUrl = sails.config.email.passwordResetURL + "/" + user.uuid + "?" + sails.config.email.resetPasswordTokenParamName + "=" + token;
-
+					// passwordResetURL: process.env.NODE_ENV == 'production' ? 'https://teachinglean.org/reset' : 'http://localhost:1337/reset',
 					transporter.sendMailAsync({
 						from: 'shingo.it@usu.edu',
 						to: user.email,
-						subject: 'TeachingLEAN.net - password reset',
+						subject: 'TeachingLean.org - password reset',
 						html: '<style>p {text-align: center;}</style>' +
 								'<p>Click <a href="' + redirectUrl + '">here</a> to reset your password.</p>' +
 								'<p>Or</p>' +

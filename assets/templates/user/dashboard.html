@@ -1,13 +1,11 @@
 <main-content layout-fill>
-  <div ng-hide="mc.user" class="container">
-    <div flex class="md-padding">
-      <div class="md-padding" layout="column" layout-align="center center">
-        <h3 flex>You are not logged in.</h3>
-        <div flex>
-          <md-button class="md-raised md-accent" ng-href="/login">Login here</md-button>
-        </div>
+  <div ng-hide="mc.user" layout layout-align="center center">
+    <md-whiteframe class="md-whiteframe-2dp md-padding" layout="column" layout-align="center center" style="width: 500px;">
+      <h3 flex>You are not logged in.</h3>
+      <div flex>
+        <md-button class="md-primary" ng-href="/login">Login here</md-button>
       </div>
-    </div>
+    </md-whiteframe>
   </div>
   <md-tabs md-dynamic-height md-stretch-tabs ng-show="mc.user" layout-fill class="content top-level-tabs">
     <md-tab label="Dashboard">

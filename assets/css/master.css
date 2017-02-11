@@ -13,6 +13,28 @@ body {
   height: initial;
 }
 
+/*for larger screens*/
+	@media screen and (min-width: 1400px) {
+		.login-form-container {
+      margin: 0 auto;
+			margin-left: 33%;
+		}
+	}
+
+	/*login form for mobile screens*/
+	@media screen and (max-width: 1399px) {
+		.login-form-container {
+			margin: 0 auto;
+		}
+	}
+	
+	.login-form-container {
+		padding: 1%;
+	}
+	
+	.login-form {
+		margin-bottom: 0;
+	}
 
 .logo {
   text-align: center;

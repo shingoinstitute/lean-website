@@ -30,7 +30,6 @@ module.exports.routes = {
    '/auth/local': 'AuthController.localAuth',
 	'/auth/login': 'AuthController.login',
 	'/auth/logout': 'AuthController.logout',
-	// 'POST /auth/createAccount': 'AuthController.createAccount',
 	'GET /verifyEmail/:id': 'AuthController.verifyEmail',
 
 	// +--------------+
@@ -48,6 +47,9 @@ module.exports.routes = {
 		layout: 'layout',
 		controller: 'UserController',
 		action: 'reset'
+	},
+	'GET /reset': {
+		view: '/'
 	},
 	'PUT /reset/:id': 'UserController.updatePassword',
 

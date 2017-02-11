@@ -1,28 +1,3 @@
-<style>
-	/*for larger screens*/
-	@media screen and (min-width: 1400px) {
-		.login-form-container {
-			display: fixed;
-			margin-left: 25%;
-		}
-	}
-
-	/*login form for mobile screens*/
-	@media screen and (max-width: 1399px) {
-		.login-form-container {
-			margin: 0 auto;
-		}
-	}
-	
-	.login-form-container {
-		padding: 1%;
-	}
-	
-	.login-form {
-		margin-bottom: 0;
-	}
-</style>
-
 <div flex ng-controller="AuthController as vm" layout>
 	<md-whiteframe class="md-whiteframe-2dp login-form-container">
 		<div layout="column">
