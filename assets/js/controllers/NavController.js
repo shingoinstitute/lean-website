@@ -58,9 +58,9 @@
         case 'about':
           vm.title = "About Us";
           break;
-        case 'login':
-          vm.title = "Login";
-          break;
+        // case 'login':
+        //   vm.title = "Login";
+        //   break;
         case 'createAccount':
           vm.title = "Create Account";
           break;
@@ -74,7 +74,7 @@
           vm.title = "Q & A Forum";
           break;
         default:
-          vm.title = "teachinglean.org";
+          vm.title = "";
           break;
       }
     }

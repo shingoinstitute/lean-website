@@ -34,11 +34,10 @@ module.exports = {
 	 * @param {String} hash - the user's hashed password stored in the database
 	 */
 	comparePassword: function (password, hash) {
-		try {
-			return bcrypt.compareSync(password, hash);
-		} catch (e) {
-			return false
+		if (!password || !hash) {
+			return false;
 		}
+		return bcrypt.compareSync(password, hash);
 	},
 
 	/**
@@ -86,6 +85,7 @@ module.exports = {
 	},
 
 	compareResetToken: function(token, user) {
+		if (!token || !(user && user.resetPasswordToken)) return false;
 		return Date.now() > user.resetPasswordExpires ? false : bcrypt.compareSync(token, user.resetPasswordToken);
 	}
 

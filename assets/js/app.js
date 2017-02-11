@@ -40,11 +40,14 @@
 					templateUrl: 'templates/entries/detail.html'
 				})
 				.when('/reset', {
-					templateUrl: 'templates/user/passwordReset.html'
+					templateUrl: 'templates/user/passwordResetRequest.html'
 				})
-				// .otherwise({
-				// 	redirectTo: '/'
-				// });
+				.when('/reset/:id', {
+					templateUrl: 'templates/user/passwordResetForm.html'
+				})
+				.otherwise({
+					redirectTo: '/'
+				});
 
 			$locationProvider.html5Mode(true);
 
