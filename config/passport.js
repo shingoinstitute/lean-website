@@ -49,7 +49,7 @@ function onLocalAuth(username, password, next) {
 			});
 		}
 
-		user.lastLoggedIn = new Date();
+		user.lastLogin = new Date();
 		user.save(function(err) {
 			if (err) sails.log.error(err);
 		});
@@ -90,13 +90,12 @@ function onLinkedinAuth(accessToken, refreshToken, profile, done) {
 			});
 		} else {
 
-			if (user.email != query.email || user.pictureUrl != query.pictureUrl) {
-				user.email = query.email;
-				user.pictureUrl = query.pictureUrl;
-				user.save(function(err) {
-					if (err) sails.log.error(err);
-				});
-			}
+			if (user.email != query.email) {user.email = query.email;}
+			if (user.pictureUrl != query.pictureUrl) {user.pictureUrl = query.pictureUrl;}
+			user.lastLogin = new Date();
+			user.save(function(err) {
+				if (err) sails.log.error(err);
+			});
 
 			return done(null, user);
 		}
