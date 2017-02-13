@@ -1,9 +1,10 @@
 <md-content layout="column">
 		<md-subheader class="header-lg md-no-sticky">Users</md-subheader>
 		<md-whiteframe class="md-whiteframe-1dp md-padding md-margin" layout="column" layout-align="space-around stretch" ng-model="vm.users" ng-repeat="user in vm.users track by $index" id="frame-{{$index}}">
-			<div layout>
-				<pre>{{user.firstname}} {{user.lastname}}</pre>
-				<pre>Account Active? {{ user.accountIsActive ? 'Yes' : 'No' }}</pre>
+			<div layout="column">
+				<p class="md-body-1"<b>{{user.firstname}} {{user.lastname}}</b></p>
+				<p class="md-body-1">Account Status: <b>{{ user.accountIsActive ? 'Active' : 'Disabled' }}</b></p>
+				<p class="md-body-1">Last Login: <b>{{user.lastLogin | date: 'MMM dd, yyyy h:mm a'}}</b></p>
 			</div>
 			<div layout>
 				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.updateUser(user, 'frame-' + $index)">Save</md-button>

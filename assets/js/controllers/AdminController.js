@@ -11,6 +11,10 @@
 		vm.users = [];
 		vm.progressCircleEnabled = false;
 
+		// $scope.dateParser = function(dateString) {
+		// 	return Date.parse(dateString);
+		// }
+
 		vm.createMockUsers = function () {
 			var u1 = {
 				firstname: 'Bob',
