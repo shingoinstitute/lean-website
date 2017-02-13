@@ -6,9 +6,10 @@
 				<pre>Account Active? {{ user.accountIsActive ? 'Yes' : 'No' }}</pre>
 			</div>
 			<div layout>
-				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.onClickSaveButton(user)">Save</md-button>
+				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.updateUser(user, 'frame-' + $index)">Save</md-button>
 				<md-button class="md-button md-raised md-warn" ng-click="vm.disableAccount(user, 'frame-' + $index)" ng-show="user.accountIsActive == true">Disable Account</md-button>
 				<md-button class="md-button md-raised md-warn" ng-click="vm.enableAccount(user, 'frame-' + $index)" ng-show="user.accountIsActive == false">Enable Account</md-button>
+				<md-progress-circular md-mode="indeterminate" ng-show="updateInProgress"></md-progress-circular>
 			</div>
 			<p><!-- spacer --></p>
 			<div layout>

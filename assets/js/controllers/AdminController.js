@@ -98,50 +98,50 @@
 		vm.findAllUsers();
 
 		vm.disableAccount = function (user, el) {
-			var toast = $mdToast.simple().textContent('Disabling account...').hideDelay(500).position('top right').parent($document[0].querySelector('#'+el));
-			$mdToast.show(toast)
-			.then(function() {
-				_userService.deleteUser(user)
-				.then(function(response) {
-					toast.textContent('Account succesfully disabled.');
-					$mdToast.show(toast);
-					vm.findAllUsers();	
-				})
-				.catch(function(response) {
-					toast.textContent('Error: ' + response.data.details)
-					.hideDelay(false).action('Okay')
-					.position('top right')
-					.highlightAction(true);
-					$mdToast.show(toastErr);
-				});
+			$scope.updateInProgress = true;
+			var toast = $mdToast.simple().hideDelay(500).position('top left').parent($document[0].querySelector('#'+el));
+			_userService.deleteUser(user)
+			.then(function(response) {
+				toast.textContent('Account succesfully disabled.');
+				$mdToast.show(toast);
+				vm.findAllUsers();	
+				$scope.updateInProgress = false;
+			})
+			.catch(function(response) {
+				toast.textContent('Error: ' + response.data.details)
+				.hideDelay(false).action('Okay')
+				.position('top right')
+				.highlightAction(true);
+				$mdToast.show(toastErr);
+				$scope.updateInProgress = false;
 			});
 		}
 
 		vm.enableAccount = function(user, el) {
-			var toast = $mdToast.simple().textContent('Enabling account...').hideDelay(500).position('top right').parent($document[0].querySelector('#'+el));
-			$mdToast.show(toast)
-			.then(function() {
-				var _user = {}
-				_user.uuid = user.uuid;
-				_user.accountIsActive = true;
-				_userService.updateUser(_user)
-				.then(function(response) {
-					toast.textContent('Account succesfully enabled.');
-					$mdToast.show(toast);
-					vm.findAllUsers();
-				})
-				.catch(function(response) {
-					toast.textContent('Error: ' + response.data.details)
-					.hideDelay(false).action('Okay')
-					.position('top right')
-					.highlightAction(true);
-					$mdToast.show(toast);
-				})
+			$scope.updateInProgress = true;
+			var toast = $mdToast.simple().hideDelay(500).position('top left').parent($document[0].querySelector('#'+el));
+			var _user = {}
+			_user.uuid = user.uuid;
+			_user.accountIsActive = true;
+			_userService.updateUser(_user)
+			.then(function(response) {
+				toast.textContent('Account succesfully enabled.');
+				$mdToast.show(toast);
+				vm.findAllUsers();
+				$scope.updateInProgress = false;
 			})
+			.catch(function(response) {
+				toast.textContent('Error: ' + response.data.details)
+				.hideDelay(false).action('Okay')
+				.position('top right')
+				.highlightAction(true);
+				$mdToast.show(toast);
+				$scope.updateInProgress = false;
+			});
 		}
 
-		vm.onClickSaveButton = function (user) {
-			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position('top right');
+		vm.updateUser = function (user, el) {
+			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position('top right').parent($document[0].querySelector('#'+el));;
 			$mdToast.show(toast)
 			.then(function() {
 				var updatee = JSON.parse(JSON.stringify(user));
@@ -171,12 +171,11 @@
 					vm.findAllUsers();
 				})
 				.catch(function(response) {
-					var toastErr = $mdToast.simple()
-						.textContent('Error: ' + response.data.details)
-						.hideDelay(false).action('Okay')
-						.position('top right')
-						.highlightAction(true);
-					$mdToast.show(toastErr);
+					toast.textContent('Error: ' + response.data.details)
+					.hideDelay(false).action('Okay')
+					.position('top right')
+					.highlightAction(true);
+					$mdToast.show(toast);
 				});
 			});
 		}
