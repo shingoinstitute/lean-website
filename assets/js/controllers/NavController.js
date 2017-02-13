@@ -43,40 +43,41 @@
 		 * @param {string} url - fully qualified current url.
 		 */
     vm.setTitle = function(url) {
-      url = url.split("/")
-      url = url[url.length - 1];
-      switch (url) {
-        case '':
-          vm.title = "Home";
-          break;
-        case 'dashboard':
-          vm.title = "Dashboard";
-          break;
-        case 'education':
-          vm.title = "Education";
-          break;
-        case 'about':
-          vm.title = "About Us";
-          break;
-        // case 'login':
-        //   vm.title = "Login";
-        //   break;
-        case 'createAccount':
-          vm.title = "Create Account";
-          break;
-        case 'teachingResources':
-          vm.title = "Teaching Resources";
-          break;
-        case 'admin':
-          vm.title = "Admin Panel";
-          break;
-        case 'entries':
-          vm.title = "Q & A Forum";
-          break;
-        default:
-          vm.title = "";
-          break;
-      }
+      return "";
+      // url = url.split("/")
+      // url = url[url.length - 1];
+      // switch (url) {
+      //   case '':
+      //     vm.title = "Home";
+      //     break;
+      //   case 'dashboard':
+      //     vm.title = "Dashboard";
+      //     break;
+      //   case 'education':
+      //     vm.title = "Education";
+      //     break;
+      //   case 'about':
+      //     vm.title = "About Us";
+      //     break;
+      //   case 'login':
+      //     vm.title = "Login";
+      //     break;
+      //   case 'createAccount':
+      //     vm.title = "Create Account";
+      //     break;
+      //   case 'teachingResources':
+      //     vm.title = "Teaching Resources";
+      //     break;
+      //   case 'admin':
+      //     vm.title = "Admin Panel";
+      //     break;
+      //   case 'entries':
+      //     vm.title = "Q & A Forum";
+      //     break;
+      //   default:
+      //     vm.title = "";
+      //     break;
+      // }
     }
 
     $scope.$on('$locationChangeSuccess', function (event, newUrl, oldUrl) {

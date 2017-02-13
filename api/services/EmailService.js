@@ -40,7 +40,10 @@ module.exports = {
 			from: 'shingo.it@usu.edu',
 			to: user.email,
 			subject: 'TeachingLEAN.net - email verification',
-			html: '<p>Click <a href="' + redirectUrl + '">here</a> to verify your email address for TeachingLEAN.net.</p>'
+			html: "Thank you for signing up with TeachingLean.org, we're excited to see you join the community." +
+			'<p>Click <a href="' + redirectUrl + '">here</a> to verify your email address for TeachingLEAN.net.</p>' +
+			"<p>For HTML safe browsers, copy and paste this link into your web browser:</p>" + 
+			"<p>" + redirectUrl + "</p>"
 		});
 	},
 

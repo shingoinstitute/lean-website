@@ -48,10 +48,7 @@
 		}
 
 		vm.createAccount = function(user) {
-			console.log('user: ', user);
 			delete user.confirmPassword;
-			console.log('user: ', user);
-			
 			_authService.createAccount(user, function(err, user) {
 				if (err) {
 					vm.error = err;
@@ -66,7 +63,6 @@
 				_userService.getUser()
 					.then(function(response) {
 						if (response.data.error) return console.error('Error: ', err);
-						$rootScope.$broadcast(BROADCAST.userLogin, response.data);
 						$location.path('/dashboard');
 					})
 					.catch(function(err) {

@@ -3,9 +3,9 @@
 	angular.module('leansite')
 		.controller('AdminController', AdminController);
 
-	AdminController.$inject = ['$scope', '$rootScope', '$http', '$mdDialog', '$mdToast', '_userService', 'BROADCAST'];
+	AdminController.$inject = ['$scope', '$document', '$rootScope', '$http', '$mdDialog', '$mdToast', '_userService', 'BROADCAST'];
 
-	function AdminController($scope, $rootScope, $http, $mdDialog, $mdToast, _userService, BROADCAST) {
+	function AdminController($scope, $document, $rootScope, $http, $mdDialog, $mdToast, _userService, BROADCAST) {
 		var vm = this;
 
 		vm.users = [];
@@ -97,29 +97,51 @@
 
 		vm.findAllUsers();
 
-		vm.onClickDeleteButton = function (user) {
-			var toast = $mdToast.simple().textContent('Deleting User...').hideDelay(500).position('top right');
-			$mdToast.show(toast)
-			.then(function() {
-				_userService.deleteUser(user)
-				.then(function(response) {
-					toast.textContent('Successfully Deleted User!');
-					$mdToast.show(toast);
-					vm.findAllUsers();	
-				})
-				.catch(function(response) {
-					var toastErr = $mdToast.simple()
-						.textContent('Error: ' + response.data.details)
-						.hideDelay(false).action('Okay')
-						.position('top right')
-						.highlightAction(true);
-					$mdToast.show(toastErr);
-				});
+		vm.disableAccount = function (user, el) {
+			$scope.updateInProgress = true;
+			var toast = $mdToast.simple().hideDelay(500).position('top left').parent($document[0].querySelector('#'+el));
+			_userService.deleteUser(user)
+			.then(function(response) {
+				toast.textContent('Account succesfully disabled.');
+				$mdToast.show(toast);
+				vm.findAllUsers();	
+				$scope.updateInProgress = false;
+			})
+			.catch(function(response) {
+				toast.textContent('Error: ' + response.data.details)
+				.hideDelay(false).action('Okay')
+				.position('top right')
+				.highlightAction(true);
+				$mdToast.show(toastErr);
+				$scope.updateInProgress = false;
 			});
 		}
 
-		vm.onClickSaveButton = function (user) {
-			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position('top right');
+		vm.enableAccount = function(user, el) {
+			$scope.updateInProgress = true;
+			var toast = $mdToast.simple().hideDelay(500).position('top left').parent($document[0].querySelector('#'+el));
+			var _user = {}
+			_user.uuid = user.uuid;
+			_user.accountIsActive = true;
+			_userService.updateUser(_user)
+			.then(function(response) {
+				toast.textContent('Account succesfully enabled.');
+				$mdToast.show(toast);
+				vm.findAllUsers();
+				$scope.updateInProgress = false;
+			})
+			.catch(function(response) {
+				toast.textContent('Error: ' + response.data.details)
+				.hideDelay(false).action('Okay')
+				.position('top right')
+				.highlightAction(true);
+				$mdToast.show(toast);
+				$scope.updateInProgress = false;
+			});
+		}
+
+		vm.updateUser = function (user, el) {
+			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position('top right').parent($document[0].querySelector('#'+el));;
 			$mdToast.show(toast)
 			.then(function() {
 				var updatee = JSON.parse(JSON.stringify(user));
@@ -149,12 +171,11 @@
 					vm.findAllUsers();
 				})
 				.catch(function(response) {
-					var toastErr = $mdToast.simple()
-						.textContent('Error: ' + response.data.details)
-						.hideDelay(false).action('Okay')
-						.position('top right')
-						.highlightAction(true);
-					$mdToast.show(toastErr);
+					toast.textContent('Error: ' + response.data.details)
+					.hideDelay(false).action('Okay')
+					.position('top right')
+					.highlightAction(true);
+					$mdToast.show(toast);
 				});
 			});
 		}

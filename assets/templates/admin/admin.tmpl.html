@@ -1,13 +1,15 @@
 <md-content layout="column">
 		<md-subheader class="header-lg md-no-sticky">Users</md-subheader>
-		<md-whiteframe class="md-whiteframe-1dp md-padding md-margin" layout="column" layout-align="space-around stretch" ng-model="vm.users" ng-repeat="user in vm.users track by $index">
+		<md-whiteframe class="md-whiteframe-1dp md-padding md-margin" layout="column" layout-align="space-around stretch" ng-model="vm.users" ng-repeat="user in vm.users track by $index" id="frame-{{$index}}">
 			<div layout>
 				<pre>{{user.firstname}} {{user.lastname}}</pre>
 				<pre>Account Active? {{ user.accountIsActive ? 'Yes' : 'No' }}</pre>
 			</div>
-			<div layout layout-align="center center">
-				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.onClickSaveButton(user)">Save</md-button>
-				<!--<md-button class="md-button md-raised md-accent" ng-click="vm.onClickDeleteButton(user)">Delete</md-button>-->
+			<div layout>
+				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.updateUser(user, 'frame-' + $index)">Save</md-button>
+				<md-button class="md-button md-raised md-warn" ng-click="vm.disableAccount(user, 'frame-' + $index)" ng-show="user.accountIsActive == true">Disable Account</md-button>
+				<md-button class="md-button md-raised md-warn" ng-click="vm.enableAccount(user, 'frame-' + $index)" ng-show="user.accountIsActive == false">Enable Account</md-button>
+				<md-progress-circular md-mode="indeterminate" ng-show="updateInProgress"></md-progress-circular>
 			</div>
 			<p><!-- spacer --></p>
 			<div layout>

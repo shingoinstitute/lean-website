@@ -49,6 +49,10 @@ function onLocalAuth(username, password, next) {
 			});
 		}
 
+		user.lastLoggedIn = new Date();
+		user.save(function(err) {
+			if (err) sails.log.error(err);
+		});
 		return next(null, user);
 	});
 }
@@ -76,20 +80,24 @@ function onLinkedinAuth(accessToken, refreshToken, profile, done) {
 	query.pictureUrl = json.pictureUrl;
 	query.bio = json.summary;
 
-	User.findOne({ email: query.email }).exec(function (err, user) {
-		if (err) {
-			return done(err, false)
-		} else if (!user) {
+	User.findOne({ linkedinId: query.linkedinId }).exec(function (err, user) {
+		if (err) return done(err, false)
+			
+		if (!user) {
 			User.create(query).exec(function (err, user) {
 				if (err) return done(err, false);
 				return done(null, user);
 			});
-		} else if (!user.linkedinId) {
-			User.update({ email: user.email }, query).exec(function (err, updated) {
-				if (err) return done(err, false);
-				return done(null, updated[0]);
-			});
 		} else {
+
+			if (user.email != query.email || user.pictureUrl != query.pictureUrl) {
+				user.email = query.email;
+				user.pictureUrl = query.pictureUrl;
+				user.save(function(err) {
+					if (err) sails.log.error(err);
+				});
+			}
+
 			return done(null, user);
 		}
 	});
