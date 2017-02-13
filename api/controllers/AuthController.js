@@ -79,9 +79,7 @@ module.exports = {
 	},
 
 	login: function (req, res) {
-		if (req.user) {
-			return res.redirect('/dashboard');
-		}
+		if (req.user) return res.redirect('/dashboard');
 		return res.json('user not logged in.');
 	},
 

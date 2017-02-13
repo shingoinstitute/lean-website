@@ -3,9 +3,9 @@
 	angular.module('leansite')
 		.controller('AdminController', AdminController);
 
-	AdminController.$inject = ['$scope', '$rootScope', '$http', '$mdDialog', '$mdToast', '_userService', 'BROADCAST'];
+	AdminController.$inject = ['$scope', '$document', '$rootScope', '$http', '$mdDialog', '$mdToast', '_userService', 'BROADCAST'];
 
-	function AdminController($scope, $rootScope, $http, $mdDialog, $mdToast, _userService, BROADCAST) {
+	function AdminController($scope, $document, $rootScope, $http, $mdDialog, $mdToast, _userService, BROADCAST) {
 		var vm = this;
 
 		vm.users = [];
@@ -97,25 +97,47 @@
 
 		vm.findAllUsers();
 
-		vm.onClickDeleteButton = function (user) {
-			var toast = $mdToast.simple().textContent('Deleting User...').hideDelay(500).position('top right');
+		vm.disableAccount = function (user, el) {
+			var toast = $mdToast.simple().textContent('Disabling account...').hideDelay(500).position('top right').parent($document[0].querySelector('#'+el));
 			$mdToast.show(toast)
 			.then(function() {
 				_userService.deleteUser(user)
 				.then(function(response) {
-					toast.textContent('Successfully Deleted User!');
+					toast.textContent('Account succesfully disabled.');
 					$mdToast.show(toast);
 					vm.findAllUsers();	
 				})
 				.catch(function(response) {
-					var toastErr = $mdToast.simple()
-						.textContent('Error: ' + response.data.details)
-						.hideDelay(false).action('Okay')
-						.position('top right')
-						.highlightAction(true);
+					toast.textContent('Error: ' + response.data.details)
+					.hideDelay(false).action('Okay')
+					.position('top right')
+					.highlightAction(true);
 					$mdToast.show(toastErr);
 				});
 			});
+		}
+
+		vm.enableAccount = function(user, el) {
+			var toast = $mdToast.simple().textContent('Enabling account...').hideDelay(500).position('top right').parent($document[0].querySelector('#'+el));
+			$mdToast.show(toast)
+			.then(function() {
+				var _user = {}
+				_user.uuid = user.uuid;
+				_user.accountIsActive = true;
+				_userService.updateUser(_user)
+				.then(function(response) {
+					toast.textContent('Account succesfully enabled.');
+					$mdToast.show(toast);
+					vm.findAllUsers();
+				})
+				.catch(function(response) {
+					toast.textContent('Error: ' + response.data.details)
+					.hideDelay(false).action('Okay')
+					.position('top right')
+					.highlightAction(true);
+					$mdToast.show(toast);
+				})
+			})
 		}
 
 		vm.onClickSaveButton = function (user) {

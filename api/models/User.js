@@ -101,7 +101,19 @@ module.exports = {
 
 		resetPasswordToken: 'string',
 
-		resetPasswordExpires: 'integer', // number of milliseconds since Jan 1, 1970,
+		// represents the number of milliseconds since 1/1/70
+		resetPasswordExpires: {
+			type: 'integer', 
+			size: 64
+		},
+
+		lastLogin: {
+			type: 'string',
+			datetime: true,
+			defaultsTo: function() {
+				return new Date();
+			}
+		},
 
 		emailVerificationToken: 'string',
 
@@ -123,8 +135,6 @@ module.exports = {
 			var obj = this.toObject();
 			delete obj.password;
 			delete obj.notificationPreferences;
-			delete obj.createdAt;
-			delete obj.updatedAt;
 			delete obj.linkedinId;
 			delete obj.verifiedEmail;
 			delete obj.resetPasswordToken;
@@ -154,6 +164,9 @@ module.exports = {
 			newRecord.role = 'systemAdmin';
 		}
 
+		// If accountIsActive is false, this is account is being recreated after a deletion, and a permissions object shouldn't be created for it.
+		if (newRecord.accountIsActive === false) {return next();}
+
 		UserPermissions.create({user: newRecord.uuid}).exec(function(err, permissions) {
 			if (err) return next(err);
 			newRecord.permissions = permissions.uuid;
@@ -177,45 +190,22 @@ module.exports = {
 		return next();
 	},
 
-	/**
-	 * @description :: Rather than delete an account, set "accountIsActive" to false. 
-	 * 					 Removes permissions.
-	 */
-	beforeDestroy: function (criteria, next) {
-
-		// Remove permissions
-		User.find(criteria).exec(function (err, users) {
+	beforeDestroy: function(criteria, next) {
+		UserPermissions.destroy({user: criteria.where.uuid}).exec(function(err, permissions) {
 			if (err) return next(err);
+			return next(null, criteria);
+		});
+	},
 
-			if (!users) return next();
-
-			var user = users.pop();
-			if (!user) return next();
-
-			UserPermissions.findOne({ user: user.uuid }).exec(function (err, permissions) {
-				if (err) return next(err);
-
-				if (!permissions) return next();
-
-				UserPermissions.destroy({ uuid: permissions.uuid }).exec();
-
-				if (sails.config.environment === 'development') return next();
-				
-				// Always return next(error) so that users are never deleted, just set inActive
-				User.find(criteria).exec(function (err, users) {
-					if (err) sails.log.error(err);
-					try {
-						user = user.pop();
-						user.accountIsActive = false;
-						user.save(function(err){});
-					} catch (e) {
-						sails.log.error(e);
-					}
-				});
-				
-				return next(new Error(user.email + "'s account cannot be deleted, however it has been deactivated. Accounts are not deleted to preserve history of comments, questions, etc."));
-			});
-			
+	/**
+	 * @description We don't want to delete records completely so that comments, entries, etc. are always associated with a user. Just set user.accountIsActive to false.
+	 */
+	afterDestroy: function(records, next) {
+		deletedRecord = records.pop();
+		deletedRecord.accountIsActive = false;
+		User.create(deletedRecord).exec(function(err, user) {
+			if (err) return next(err);
+			return next();
 		});
 	}
 
