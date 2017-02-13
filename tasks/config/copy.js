@@ -19,16 +19,25 @@
  *   https://github.com/gruntjs/grunt-contrib-copy
  *
  */
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
   grunt.config.set('copy', {
     dev: {
-      files: [{
-        expand: true,
-        cwd: './assets',
-        src: ['**/*.!(coffee|less)'],
-        dest: '.tmp/public'
-      }]
+      files: [
+        {
+          expand: true,
+          cwd: './assets',
+          src: ['**/*.!(coffee|less)'],
+          dest: '.tmp/public'
+        },
+        {
+          expand: true,
+          flatten: true,
+          cwd: './assets',
+          src: ['bower_components/summernote/dist/font/**/*'],
+          dest: '.tmp/public/min/font'
+        }
+      ]
     },
     build: {
       files: [{

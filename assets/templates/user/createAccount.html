@@ -1,34 +1,62 @@
 <md-content ng-controller="AuthController as vm">
-	<div class="container md-padding">
-		
-		<p class="text-warn" ng-if="vm.error" ng-model="vm.error"></p>
-
-		<md-input-container class="md-block">
-			<label>First name</label>
-			<input ng-model="vm.user.firstname" ng-required="true">
-		</md-input-container>
-		
-		<md-input-container class="md-block">
-			<label>Last name</label>
-			<input ng-model="vm.user.lastname" ng-required="true">
-		</md-input-container>
-
-		<md-input-container class="md-block">
-			<label>Email address</label>
-			<input type="email" ng-model="vm.user.email" ng-required="true">
-		</md-input-container>
-
-		<p class="text-warn" ng-if="vm.user.confirmPassword && vm.user.password != vm.user.confirmPassword">passwords don't match!</p>
-
-		<md-input-container class="md-block">
-			<label>Password</label>
-			<input  type="password" ng-model="vm.user.password" ng-required="true">
-		</md-input-container>
-
-		<md-input-container class="md-block">
-			<label>Confirm password</label>
-			<input type="password" ng-model="vm.user.confirmPassword" ng-required="true">
-		</md-input-container>
-		<md-button class="md-button md-raised md-primary" ng-disabled="!vm.createButonEnabled" ng-click="vm.createAccount(vm.user)">Create Account</md-button>
-	</div>
+  <div class="container md-padding">
+    <form name="newUserForm" ng-cloak>
+      <p class="text-warn" ng-if="vm.error" ng-model="vm.error"></p>
+      <md-input-container class="md-block">
+        <label>First name</label>
+        <input name="first" ng-model="vm.user.firstname" required>
+        <div ng-messages="newUserForm.first.$error">
+          <div ng-message="required">
+            Please enter your first name
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Last name</label>
+        <input name="last" ng-model="vm.user.lastname" required>
+        <div ng-messages="newUserForm.last.$error">
+          <div ng-message="required">
+            Please enter your last name
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Email address</label>
+        <input name="email" type="email" ng-model="vm.user.email" required>
+        <div ng-messages="newUserForm.email.$error">
+          <div ng-message="required">
+            Please enter an email
+          </div>
+		  <div ng-message="email">
+			Please enter a valid email
+		  </div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Password</label>
+        <input name="pword" type="password" ng-model="vm.user.password" minlength="8" required>
+        <div ng-messages="newUserForm.pword.$error" ng-show="newUserForm.pword.$dirty">
+          <div ng-message="required">
+            Please enter a password
+          </div>
+		  <div ng-message="minlength">
+			Your password must be at least 8 characters long
+		  </div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Confirm password</label>
+        <input name="confirmPword" type="password" ng-model="vm.user.confirmPassword" is-same="vm.user.password" required>
+        <div ng-messages="newUserForm.confirmPword.$error" ng-show="newUserForm.confirmPword.$dirty">
+          <div ng-message="same">
+            Passwords don't match
+          </div>
+          <div ng-message="required">
+            Please confirm your password
+          </div>
+        </div>
+      </md-input-container>
+      <md-button class="md-button md-raised md-primary" ng-disabled="!vm.createButonEnabled || newUserForm.$invalid" ng-click="vm.createAccount(vm.user)">Create Account</md-button>
+    </form>
+  </div>
 </md-content>
