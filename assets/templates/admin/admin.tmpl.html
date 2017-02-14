@@ -6,11 +6,11 @@
 			<th>Email Address</th>
 			<th>Last Login</th>
 		</tr>
-		<tr ng-model="vm.users" ng-repeat="user in vm.users track by $index" id="row-{{$index}}">
+		<tr ng-model="vm.users" ng-repeat="user in vm.users track by $index">
 			<td ng-show="!user.isEditing"><a ng-click="toggleUserCard(user, $index)">{{user.firstname}} {{user.lastname}}</a></td>
 			<td ng-show="!user.isEditing" style="background-color: slategray;">{{user.email}}</td>
 			<td ng-show="!user.isEditing" style="background-color: slategray;">{{user.lastLogin | date:'MMM dd, yyyy h:mm a'}}</td>
-			<td ng-show="user.isEditing" colspan="3"><admin-user-card user="user" index="$index" ctrl="vm"></admin-user-card></td>
+			<td ng-show="user.isEditing" colspan="3" ng-class="animate-vertical-container"><admin-user-card user="user" index="$index" ctrl="vm"></admin-user-card></td>
 		</tr>
 	</table>
 	<!--<md-whiteframe class="md-whiteframe-1dp" layout ng-model="vm.users" ng-repeat="user in vm.users track by $index" id="frame-{{$index}}">

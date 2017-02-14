@@ -1,4 +1,4 @@
-<div layout="column">
+<div layout="column" id="row-{{index}}" ng-class="animate-vertical">
 	<div layout>
 		<md-input-container flex-gt-sm>
 			<span class="md-body-2">Role</span>
@@ -13,8 +13,8 @@
 			</select>
 		</md-input-container>
 		<div>
-			<md-button class="md-warn" ng-click="ctrl.disableAccount(user, 'frame-' + index)" ng-show="user.accountIsActive == true">Disable Account</md-button>
-			<md-button class="md-warn" ng-click="ctrl.enableAccount(user, 'frame-' + index)" ng-show="user.accountIsActive == false">Enable Account</md-button>
+			<md-button class="md-warn" ng-click="vm.disableAccount(user, 'row-' + index)" ng-show="user.accountIsActive == true">Disable Account</md-button>
+			<md-button class="md-warn" ng-click="vm.enableAccount(user, 'row-' + index)" ng-show="user.accountIsActive == false">Enable Account</md-button>
 		</div>
 	</div>
 	<md-input-container flex-gt-sm>
@@ -29,9 +29,9 @@
 		<label>Primary email</label>
 		<input ng-model="user.email">
 	</md-input-container>
-	<div>
-		<md-button class="md-raised md-primary" ng-click="ctrl.updateUser(user, 'frame-' + $index)" ng-hide="updateInProgress">Save</md-button>
-		<md-progress-circular md-mode="indeterminate" ng-show="updateInProgress"></md-progress-circular>
+	<div layout>
+		<md-button class="md-raised md-primary" ng-click="vm.updateUser(user, 'row-' + index)" ng-disabled="vm.updatedInProgress">Save</md-button>
 		<md-button class="md-primary" ng-click="removeUser(index, ctrl)">Cancel</md-button>
+		<md-progress-circular md-mode="indeterminate" ng-show="vm.updateInProgress"></md-progress-circular>
 	</div>
 </div>

@@ -98,14 +98,14 @@
 		vm.findAllUsers();
 
 		vm.disableAccount = function (user, el) {
-			$scope.$parent.updateInProgress = true;
+			vm.updateInProgress = true;
 			user.accountIsActive = false;
-			var toast = $mdToast.simple().hideDelay(500).position('top left').parent($document[0].querySelector('#'+el));
+			var toast = $mdToast.simple().hideDelay(500).position('bottom right').parent($document[0].querySelector('#'+el));
 			_userService.deleteUser(user)
 			.then(function(response) {
 				toast.textContent('Account succesfully disabled.');
 				$mdToast.show(toast);
-				$scope.updateInProgress = false;
+				vm.updateInProgress = false;
 			})
 			.catch(function(response) {
 				toast.textContent('Error: ' + response.data.details)
@@ -113,14 +113,14 @@
 				.position('top right')
 				.highlightAction(true);
 				$mdToast.show(toastErr);
-				$scope.updateInProgress = false;
+				vm.updateInProgress = false;
 			});
 		}
 
 		vm.enableAccount = function(user, el) {
 			user.accountIsActive = true;
 			$scope.$parent.updateInProgress = true;
-			var toast = $mdToast.simple().hideDelay(500).position('top left').parent($document[0].querySelector('#'+el));
+			var toast = $mdToast.simple().hideDelay(500).position('bottom right').parent($document[0].querySelector('#'+el));
 			_userService.updateUser({
 				uuid: user.uuid,
 				accountIsActive: user.accountIsActive
@@ -141,7 +141,7 @@
 		}
 
 		vm.updateUser = function (user, el) {
-			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position('top right').parent($document[0].querySelector('#'+el));
+			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position('bottom right').parent($document[0].querySelector('#'+el));
 			vm.updateInProgress = true;
 			var updatee = $.extend(true, {}, user);
 			switch(updatee.role) {
@@ -166,6 +166,7 @@
 			_userService.updateUser(updatee)
 			.then(function(response) {
 				toast.textContent('Save Successful!');
+				vm.updateInProgress = false;
 				$mdToast.show(toast);
 			})
 			.catch(function(response) {
@@ -173,6 +174,7 @@
 				.hideDelay(false).action('Okay')
 				.position('top right')
 				.highlightAction(true);
+				vm.updateInProgress = false;
 				$mdToast.show(toast);
 			});
 		}

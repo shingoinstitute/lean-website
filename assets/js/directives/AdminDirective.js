@@ -17,7 +17,8 @@
 				ctrl: "="
 			},
 			templateUrl: 'templates/admin/adminUserCard.tmpl.html',
-			controller: 'AdminController'
+			controller: 'AdminController',
+			controllerAs: 'vm'
 		}
 	});
 
