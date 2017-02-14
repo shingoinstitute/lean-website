@@ -11,10 +11,6 @@
 		vm.users = [];
 		vm.progressCircleEnabled = false;
 
-		// $scope.dateParser = function(dateString) {
-		// 	return Date.parse(dateString);
-		// }
-
 		vm.createMockUsers = function () {
 			var u1 = {
 				firstname: 'Bob',
@@ -102,13 +98,13 @@
 		vm.findAllUsers();
 
 		vm.disableAccount = function (user, el) {
-			$scope.updateInProgress = true;
+			$scope.$parent.updateInProgress = true;
+			user.accountIsActive = false;
 			var toast = $mdToast.simple().hideDelay(500).position('top left').parent($document[0].querySelector('#'+el));
 			_userService.deleteUser(user)
 			.then(function(response) {
 				toast.textContent('Account succesfully disabled.');
 				$mdToast.show(toast);
-				vm.findAllUsers();	
 				$scope.updateInProgress = false;
 			})
 			.catch(function(response) {
@@ -122,16 +118,16 @@
 		}
 
 		vm.enableAccount = function(user, el) {
-			$scope.updateInProgress = true;
+			user.accountIsActive = true;
+			$scope.$parent.updateInProgress = true;
 			var toast = $mdToast.simple().hideDelay(500).position('top left').parent($document[0].querySelector('#'+el));
-			var _user = {}
-			_user.uuid = user.uuid;
-			_user.accountIsActive = true;
-			_userService.updateUser(_user)
+			_userService.updateUser({
+				uuid: user.uuid,
+				accountIsActive: user.accountIsActive
+			})
 			.then(function(response) {
 				toast.textContent('Account succesfully enabled.');
 				$mdToast.show(toast);
-				vm.findAllUsers();
 				$scope.updateInProgress = false;
 			})
 			.catch(function(response) {
@@ -145,42 +141,39 @@
 		}
 
 		vm.updateUser = function (user, el) {
-			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position('top right').parent($document[0].querySelector('#'+el));;
-			$mdToast.show(toast)
-			.then(function() {
-				var updatee = JSON.parse(JSON.stringify(user));
-				switch(updatee.role) {
-					case "System Admin":
-					updatee.role = "systemAdmin";
-					break;
-					case "Admin":
-					updatee.role = "admin";
-					break;
-					case "Editor":
-					updatee.role = "editor";
-					break;
-					case "Author":
-					updatee.role = "author";
-					break;
-					case "Moderator":
-					updatee.role = "moderator";
-					break;
-					default: updatee.role = "user";
-				}
+			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position('top right').parent($document[0].querySelector('#'+el));
+			vm.updateInProgress = true;
+			var updatee = $.extend(true, {}, user);
+			switch(updatee.role) {
+				case "System Admin":
+				updatee.role = "systemAdmin";
+				break;
+				case "Admin":
+				updatee.role = "admin";
+				break;
+				case "Editor":
+				updatee.role = "editor";
+				break;
+				case "Author":
+				updatee.role = "author";
+				break;
+				case "Moderator":
+				updatee.role = "moderator";
+				break;
+				default: updatee.role = "user";
+			}
 
-				_userService.updateUser(updatee)
-				.then(function(response) {
-					toast.textContent('Save Successful!');
-					$mdToast.show(toast);
-					vm.findAllUsers();
-				})
-				.catch(function(response) {
-					toast.textContent('Error: ' + response.data.details)
-					.hideDelay(false).action('Okay')
-					.position('top right')
-					.highlightAction(true);
-					$mdToast.show(toast);
-				});
+			_userService.updateUser(updatee)
+			.then(function(response) {
+				toast.textContent('Save Successful!');
+				$mdToast.show(toast);
+			})
+			.catch(function(response) {
+				toast.textContent('Error: ' + response.data.details)
+				.hideDelay(false).action('Okay')
+				.position('top right')
+				.highlightAction(true);
+				$mdToast.show(toast);
 			});
 		}
 
@@ -205,7 +198,21 @@
 			}
 		}
 
-		
+		$scope.toggleUserCard = function(user, index) {
+			if (vm.users[index+1] && vm.users[index+1].isEditing) {
+				// user is already being edited, so remove the user clone.
+				vm.users.splice(index, 1);
+				vm.users[index].isEditing = false;
+			} else if (!user.isEditing) {
+				// user is starting to be edited, so add a clone of the user that is editable.
+				vm.users.splice(index, 0, $.extend(true, {}, user));
+				vm.users[index+1].isEditing = true;
+			}
+		}
+
+		$scope.removeUser = function(index, ctrl) {
+			ctrl.users.splice(index, 1);
+		}
 
 	}
 

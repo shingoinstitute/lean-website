@@ -1,56 +1,19 @@
 <md-content layout="column">
-		<md-subheader class="header-lg md-no-sticky">Users</md-subheader>
-		<md-whiteframe class="md-whiteframe-1dp md-padding md-margin" layout="column" layout-align="space-around stretch" ng-model="vm.users" ng-repeat="user in vm.users track by $index" id="frame-{{$index}}">
-			<div layout="column">
-				<p class="md-body-1"<b>{{user.firstname}} {{user.lastname}}</b></p>
-				<p class="md-body-1">Account Status: <b>{{ user.accountIsActive ? 'Active' : 'Disabled' }}</b></p>
-				<p class="md-body-1">Last Login: <b>{{user.lastLogin | date: 'MMM dd, yyyy h:mm a'}}</b></p>
-			</div>
-			<div layout>
-				<md-button class="md-button md-raised" style="color: white; background: green;" ng-click="vm.updateUser(user, 'frame-' + $index)">Save</md-button>
-				<md-button class="md-button md-raised md-warn" ng-click="vm.disableAccount(user, 'frame-' + $index)" ng-show="user.accountIsActive == true">Disable Account</md-button>
-				<md-button class="md-button md-raised md-warn" ng-click="vm.enableAccount(user, 'frame-' + $index)" ng-show="user.accountIsActive == false">Enable Account</md-button>
-				<md-progress-circular md-mode="indeterminate" ng-show="updateInProgress"></md-progress-circular>
-			</div>
-			<p><!-- spacer --></p>
-			<div layout>
-				<md-input-container flex-gt-sm>
-					<label>ID</label>
-					<input ng-model="user.uuid" ng-disabled="true">
-				</md-input-container>
-				<md-input-container flex-gt-sm>
-					Role
-					<select name="role" ng-model="user.role">
-						<option selected>{{user.role}}</option>
-						<option ng-if="user.role != 'System Admin'">System Admin</option>
-						<option ng-if="user.role != 'Admin'">Admin</option>
-						<option ng-if="user.role != 'Editor'">Editor</option>
-						<option ng-if="user.role != 'Author'">Author</option>
-						<option ng-if="user.role != 'Moderator'">Moderator</option>
-						<option ng-if="user.role != 'Member'">Member</option>
-					</select>
-				</md-input-container>
-			</div>
-			<div layout>
-				<md-input-container flex-gt-sm>
-					<label>First name</label>
-					<input ng-model="user.firstname">
-				</md-input-container>
-				<md-input-container flex-gt-sm>
-					<label>Last name</label>
-					<input ng-model="user.lastname">
-				</md-input-container>
-			</div>
-			<div layout>
-				<md-input-container flex-gt-sm>
-					<label>Primary email</label>
-					<input ng-model="user.email">
-				</md-input-container>
-				<md-input-container flex-gt-sm>
-					<label>Secondary email</label>
-					<input ng-model="user.secondaryEmail">
-				</md-input-container>
-			</div>
-		</md-whiteframe>
-	</md-card>
+	<md-subheader class="md-header md-no-sticky">Users</md-subheader>
+	<table style="max-width: 680px;">
+		<tr>
+			<th>Name</th>
+			<th>Email Address</th>
+			<th>Last Login</th>
+		</tr>
+		<tr ng-model="vm.users" ng-repeat="user in vm.users track by $index" id="row-{{$index}}">
+			<td ng-show="!user.isEditing"><a ng-click="toggleUserCard(user, $index)">{{user.firstname}} {{user.lastname}}</a></td>
+			<td ng-show="!user.isEditing" style="background-color: slategray;">{{user.email}}</td>
+			<td ng-show="!user.isEditing" style="background-color: slategray;">{{user.lastLogin | date:'MMM dd, yyyy h:mm a'}}</td>
+			<td ng-show="user.isEditing" colspan="3"><admin-user-card user="user" index="$index" ctrl="vm"></admin-user-card></td>
+		</tr>
+	</table>
+	<!--<md-whiteframe class="md-whiteframe-1dp" layout ng-model="vm.users" ng-repeat="user in vm.users track by $index" id="frame-{{$index}}">
+			<p class="md-body-1">{{user.firstname}} {{user.lastname}}, {{user.email}}, {{user.lastLogin | date:'MMM dd, yyyy h:mm a'}}</p>		
+	</md-whiteframe>-->
 </md-content>
