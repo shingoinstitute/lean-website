@@ -52,7 +52,7 @@
       </div>
     </md-tab>
     <md-tab ng-if="mc.user.isAdmin === true" label="Admin">
-      <admin></admin>
+      <admin ctrl="vm"></admin>
     </md-tab>
     <md-tab ng-if="mc.user.isAdmin == true || mc.user.isModerator == true" label="Moderator">
       <moderator users="vm.users"></moderator>

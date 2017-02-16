@@ -1,19 +1,67 @@
-<md-content layout="column">
-	<md-subheader class="md-header md-no-sticky">Users</md-subheader>
-	<table style="max-width: 680px;">
-		<tr>
-			<th>Name</th>
-			<th>Email Address</th>
-			<th>Last Login</th>
-		</tr>
-		<tr ng-model="vm.users" ng-repeat="user in vm.users track by $index">
-			<td ng-show="!user.isEditing"><a ng-click="toggleUserCard(user, $index)">{{user.firstname}} {{user.lastname}}</a></td>
-			<td ng-show="!user.isEditing" style="background-color: slategray;">{{user.email}}</td>
-			<td ng-show="!user.isEditing" style="background-color: slategray;">{{user.lastLogin | date:'MMM dd, yyyy h:mm a'}}</td>
-			<td ng-show="user.isEditing" colspan="3" ng-class="animate-vertical-container"><admin-user-card user="user" index="$index" ctrl="vm"></admin-user-card></td>
-		</tr>
-	</table>
-	<!--<md-whiteframe class="md-whiteframe-1dp" layout ng-model="vm.users" ng-repeat="user in vm.users track by $index" id="frame-{{$index}}">
-			<p class="md-body-1">{{user.firstname}} {{user.lastname}}, {{user.email}}, {{user.lastLogin | date:'MMM dd, yyyy h:mm a'}}</p>		
-	</md-whiteframe>-->
+<md-content layout id="user-table" ng-controller="AdminController as vm">
+	<div layout="column" id="user-manager">
+		<div>
+			<h3 class="md-header">Users</h3>
+			<p class="md-body-1">Use this interface to manage users.</p>
+			<md-input-container>
+				<label>Search</label>
+				<input type="text">
+			</md-input-container>
+		</div>
+		<table class="md-whiteframe-2dp">
+			<tr>
+				<th class="md-checkbox-container">
+					<md-checkbox aria-label="checkbox"></md-checkbox>
+				</th>
+				<th class="md-body-1">Name</th>
+				<th class="md-body-1">Email Address</th>
+				<th class="md-body-1">Last Login</th>
+				<th class="md-body-1">Role</th>
+				<th class="md-body-1">Account Status</th>
+			</tr>
+			<tr ng-model="vm.users" ng-repeat="user in vm.users | orderBy: 'lastname' track by $index">
+				<td class="md-checkbox-container">
+					<md-checkbox aria-label="checkbox"></md-checkbox>
+				</td>
+				<td class="md-body-1" ng-show="!user.isEditing">{{user.lastname}}, {{user.firstname}}</td>
+				<td class="md-body-1" ng-show="!user.isEditing">{{user.email}}</td>
+				<td class="md-body-1" ng-show="!user.isEditing">{{user.lastLogin | date:'MMM dd, yyyy h:mm a'}}</td>
+				<td class="md-body-1">
+					<md-menu>
+						<p class="md-body-1 margin-none" ng-click="$mdOpenMenu()">{{user.role}}
+							<md-icon md-menu-align-target md-svg-icon="/images/icons/menu-down.svg"></md-icon>
+						</p>
+						<md-menu-content>
+							<md-menu-item ng-if="user.role != 'System Admin'">
+								<md-button class="button-lower" ng-click="updateRole(user, 'System Admin')">System Admin</md-button>
+							</md-menu-item>
+							<md-menu-item ng-if="user.role != 'Admin'">
+								<md-button class="button-lower" ng-click="updateRole(user, 'Admin')">Admin</md-button>
+							</md-menu-item>
+							<md-menu-item ng-if="user.role != 'Editor'">
+								<md-button class="button-lower" ng-click="updateRole(user, 'Editor')">Editor</md-button>
+							</md-menu-item>
+							<md-menu-item ng-if="user.role != 'Author'">
+								<md-button class="button-lower" ng-click="updateRole(user, 'Author')">Author</md-button>
+							</md-menu-item>
+							<md-menu-item ng-if="user.role != 'Moderator'">
+								<md-button class="button-lower" ng-click="updateRole(user, 'Moderator')">Moderator</md-button>
+							</md-menu-item>
+							<md-menu-item ng-if="user.role != 'Member'">
+								<md-button class="button-lower" ng-click="updateRole(user, 'Member')">Member</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+				</td>
+				<td>
+					<div>
+						<md-button class="button-lower md-warn" ng-click="vm.disableAccount(user, 'user-manager')" ng-show="user.accountIsActive" ng-if="!updateInProgress">Enabled</md-button>
+						<md-button class="button-lower md-warn" ng-click="vm.enabledAccount(user, 'user-manager')" ng-hide="user.accountIsActive" ng-if="!updateInProgress">Disabled</md-button>
+						<md-progress-circular md-mode="indeterminate" ng-show="updateInProgress"></md-progress-circular>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<span flex></span>
 </md-content>

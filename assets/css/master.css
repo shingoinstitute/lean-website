@@ -131,40 +131,71 @@ md-dialog>form {
 
 table {
   border-collapse: collapse;
+  border: 1px solid lightgrey;
 }
 
+th.md-body-1 {
+  opacity: 0.54;
+  font-family: "Roboto", sans-serif;
+  color: black;
+  font-weight: 700;
+  font-size: 13px;
+}
+td.md-body-1 {
+  opacity: 0.87;
+  color: black;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+th.numeric, td.numeric {
+  text-align: right;
+}
+.margin-none {
+  margin: 0 auto;
+}
 th, td {
-  text-align: center;
-  padding: 5px;
+  text-align: justify;
+  padding-right: 56px;
+  padding-left: 24px;
+  vertical-align: middle;
 }
 
+.md-checkbox-container {
+  padding-top: 16px;
+  padding-right: 24px;
+  padding-bottom: 0;
+  padding-left: 24px;
+  margin: 0 auto;
+}
+
+.md-checkbox, .md-checkbox {
+  width: 18px;
+  height: 18px;
+  margin: 0 auto;
+}
+.button-lower {
+  font-size: 12px;
+  text-transform: none;
+}
 tr.no-border th {
   border: none;
 }
-
 tr.row-header:hover {
   background-color: none;
 }
 tr:hover {
-  background-color: #f2f2f2;
+  background-color: #EEEEEE;
 }
 td, th {
-  border-right: 1px solid #ddd;
-  border-left: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid lightgrey;
 }
 td.table-row {
   max-height: 300px;
 }
 td.id-row {
   text-align: center;
-}
-td md-content {
-  max-height: 300px;
-}
-td {
-  vertical-align: top;
-  text-align: left;
 }
 
 md-checkbox.centered {

@@ -10,6 +10,7 @@
 
 		vm.users = [];
 		vm.progressCircleEnabled = false;
+		vm.toastPosition = 'top right';
 
 		vm.createMockUsers = function () {
 			var u1 = {
@@ -98,9 +99,9 @@
 		vm.findAllUsers();
 
 		vm.disableAccount = function (user, el) {
-			vm.updateInProgress = true;
+			$scope.updateInProgress = true;
 			user.accountIsActive = false;
-			var toast = $mdToast.simple().hideDelay(500).position('bottom right').parent($document[0].querySelector('#'+el));
+			var toast = $mdToast.simple().hideDelay(500).position(vm.toastPosition).parent($document[0].querySelector('#'+el));
 			_userService.deleteUser(user)
 			.then(function(response) {
 				toast.textContent('Account succesfully disabled.');
@@ -119,8 +120,8 @@
 
 		vm.enableAccount = function(user, el) {
 			user.accountIsActive = true;
-			$scope.$parent.updateInProgress = true;
-			var toast = $mdToast.simple().hideDelay(500).position('bottom right').parent($document[0].querySelector('#'+el));
+			$scope.updateInProgress = true;
+			var toast = $mdToast.simple().hideDelay(500).position(vm.toastPosition).parent($document[0].querySelector('#'+el));
 			_userService.updateUser({
 				uuid: user.uuid,
 				accountIsActive: user.accountIsActive
@@ -141,7 +142,7 @@
 		}
 
 		vm.updateUser = function (user, el) {
-			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position('bottom right').parent($document[0].querySelector('#'+el));
+			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position(vm.toastPosition).parent($document[0].querySelector('#'+el));
 			vm.updateInProgress = true;
 			var updatee = $.extend(true, {}, user);
 			switch(updatee.role) {
@@ -214,6 +215,11 @@
 
 		$scope.removeUser = function(index, ctrl) {
 			ctrl.users.splice(index, 1);
+		}
+
+		$scope.updateRole = function(user, role) {
+			user.role = role;
+			vm.updateUser(user, 'user-manager');
 		}
 
 	}
