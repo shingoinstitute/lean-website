@@ -32,7 +32,8 @@
     "summernote": "^0.8.2",
     "trix": "^0.10.0",
     "angular-trix": "^1.0.2",
-    "ngclipboard": "^1.1.1"
+    "ngclipboard": "^1.1.1",
+    "lodash": "^4.17.4"
   },
   "resolutions": {
     "angular": ">=1.6.0 <1.7.0"

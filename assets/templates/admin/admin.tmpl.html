@@ -3,24 +3,25 @@
 		<div>
 			<h3 class="md-header">Users</h3>
 			<p class="md-body-1">Use this interface to manage users.</p>
-			<md-input-container>
+			<md-input-container ng-model="userSearchQuery">
 				<label>Search</label>
 				<input type="text">
 			</md-input-container>
 		</div>
 		<table class="md-whiteframe-2dp">
 			<tr>
-				<th colspan="6" style="padding: 0">
-					<div layout>
-						<md-button class="md-primary" style="margin-left: 0;">save</md-button>
-						<span flex></span>
-						<md-button class="md-primary">kill server</md-button>
+				<th class="table-actions">
+					<div flex class="flex-align-center">
+						<md-button aria-label="email icon" class="md-primary"><md-icon md-menu-align-target md-svg-icon="/images/icons/email-outline.svg"></md-icon></md-button>
 					</div>
 				</th>
+				<th colspan="5"></th>
 			</tr>
 			<tr>
-				<th class="md-checkbox-container">
-					<md-checkbox aria-label="checkbox"></md-checkbox>
+				<th class="flex-checkbox-cell">
+					<div class="flex-align-center">
+						<md-checkbox aria-label="checkbox" style="width:20px;" ng-click="onTopCBClick()"></md-checkbox>
+					</div>
 				</th>
 				<th class="md-body-1">Name</th>
 				<th class="md-body-1">Email Address</th>
@@ -29,35 +30,37 @@
 				<th class="md-body-1">Account Status</th>
 			</tr>
 			<tr ng-model="vm.users" ng-repeat="user in vm.users | orderBy: 'lastname' track by $index">
-				<td class="md-checkbox-container">
-					<md-checkbox aria-label="checkbox"></md-checkbox>
+				<td class="flex-checkbox-cell">
+					<div class="flex-align-center">
+						<md-checkbox aria-label="checkbox" ng-checked="selectedUsers[user.uuid]" ng-click="onCBClick(user)"></md-checkbox>
+					</div>
 				</td>
 				<td class="md-body-1" ng-show="!user.isEditing">{{user.lastname}}, {{user.firstname}}</td>
 				<td class="md-body-1" ng-show="!user.isEditing">{{user.email}}</td>
 				<td class="md-body-1" ng-show="!user.isEditing">{{user.lastLogin | date:'MMM dd, yyyy h:mm a'}}</td>
 				<td class="md-body-1">
 					<md-menu>
-						<p class="md-body-1 margin-none" ng-click="$mdOpenMenu()">{{user.role}}
+						<p class="md-body-1 margin-none" ng-click="$mdOpenMenu()">{{parseRole(user.role)}}
 							<md-icon md-menu-align-target md-svg-icon="/images/icons/menu-down.svg"></md-icon>
 						</p>
 						<md-menu-content>
 							<md-menu-item ng-if="user.role != 'System Admin'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'System Admin')">System Admin</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'systemAdmin')">System Admin</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Admin'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'Admin')">Admin</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'admin')">Admin</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Editor'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'Editor')">Editor</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'editor')">Editor</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Author'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'Author')">Author</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'author')">Author</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Moderator'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'Moderator')">Moderator</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'moderator')">Moderator</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Member'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'Member')">Member</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'member')">Member</md-button>
 							</md-menu-item>
 						</md-menu-content>
 					</md-menu>
