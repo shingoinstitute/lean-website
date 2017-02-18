@@ -1,5 +1,5 @@
-<md-content layout id="user-table" ng-controller="AdminController as vm">
-	<div layout="column" id="user-manager">
+<div layout id="user-table">
+	<div layout="column" id="{{userContainerId}}">
 		<div>
 			<h3 class="md-header">Users</h3>
 			<p class="md-body-1">Use this interface to manage users.</p>
@@ -9,6 +9,15 @@
 			</md-input-container>
 		</div>
 		<table class="md-whiteframe-2dp">
+			<tr>
+				<th colspan="6" style="padding: 0">
+					<div layout>
+						<md-button class="md-primary" style="margin-left: 0;">save</md-button>
+						<span flex></span>
+						<md-button class="md-primary">kill server</md-button>
+					</div>
+				</th>
+			</tr>
 			<tr>
 				<th class="md-checkbox-container">
 					<md-checkbox aria-label="checkbox"></md-checkbox>
@@ -33,35 +42,39 @@
 						</p>
 						<md-menu-content>
 							<md-menu-item ng-if="user.role != 'System Admin'">
-								<md-button class="button-lower" ng-click="updateRole(user, 'System Admin')">System Admin</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'System Admin')">System Admin</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Admin'">
-								<md-button class="button-lower" ng-click="updateRole(user, 'Admin')">Admin</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'Admin')">Admin</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Editor'">
-								<md-button class="button-lower" ng-click="updateRole(user, 'Editor')">Editor</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'Editor')">Editor</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Author'">
-								<md-button class="button-lower" ng-click="updateRole(user, 'Author')">Author</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'Author')">Author</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Moderator'">
-								<md-button class="button-lower" ng-click="updateRole(user, 'Moderator')">Moderator</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'Moderator')">Moderator</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Member'">
-								<md-button class="button-lower" ng-click="updateRole(user, 'Member')">Member</md-button>
+								<md-button class="button-lower" ng-click="vm.updateRole(user, 'Member')">Member</md-button>
 							</md-menu-item>
 						</md-menu-content>
 					</md-menu>
 				</td>
 				<td>
 					<div>
-						<md-button class="button-lower md-warn" ng-click="vm.disableAccount(user, 'user-manager')" ng-show="user.accountIsActive" ng-if="!updateInProgress">Enabled</md-button>
-						<md-button class="button-lower md-warn" ng-click="vm.enabledAccount(user, 'user-manager')" ng-hide="user.accountIsActive" ng-if="!updateInProgress">Disabled</md-button>
-						<md-progress-circular md-mode="indeterminate" ng-show="updateInProgress"></md-progress-circular>
+						<md-button class="button-lower md-warn" ng-click="vm.showDisableWarningDialog(user, this, $event)" ng-show="!updateInProgress && user.accountIsActive">Active</md-button>
+					</div>
+					<div>
+						<md-button class="button-lower md-warn" ng-click="vm.enableAccount(user, this)" ng-show="!updateInProgress && !user.accountIsActive">Disabled</md-button>
+					</div>
+					<div>
+						<md-progress-circular class="centered" md-mode="indeterminate" ng-hide="!updateInProgress"></md-progress-circular>
 					</div>
 				</td>
 			</tr>
 		</table>
 	</div>
 	<span flex></span>
-</md-content>
+</div>

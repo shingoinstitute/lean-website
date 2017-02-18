@@ -11,6 +11,7 @@
 		vm.users = [];
 		vm.progressCircleEnabled = false;
 		vm.toastPosition = 'top right';
+		$scope.userContainerId = 'user-manager-container'
 
 		vm.createMockUsers = function () {
 			var u1 = {
@@ -98,30 +99,50 @@
 
 		vm.findAllUsers();
 
-		vm.disableAccount = function (user, el) {
-			$scope.updateInProgress = true;
-			user.accountIsActive = false;
-			var toast = $mdToast.simple().hideDelay(500).position(vm.toastPosition).parent($document[0].querySelector('#'+el));
-			_userService.deleteUser(user)
-			.then(function(response) {
-				toast.textContent('Account succesfully disabled.');
-				$mdToast.show(toast);
-				vm.updateInProgress = false;
+		vm.showDisableWarningDialog = function(user, _scope, $event) {
+			var template = '<md-dialog flex-gt-sm="25" layout="column" aria-label="warning dialog" layout-padding>' +
+								'	<md-dialog-content>' +
+								'		<h3 class="md-heading">Warning</h3>' +
+								'		<p class="md-body-1">Disabling <b>' + user.firstname + ' ' + user.lastname + '\'s</b> account will reset their password.</p>' +
+								'		<p class="md-body-1">Disabling accounts has potentially irreversible side effects, <em>continue</em>?</p>' +
+								'	</md-dialog-content>' +
+								'  <md-dialog-actions layout>' +
+								'		<md-button class="md-primary" ng-click="onCloseDialog(\'continue\')">Continue</md-button>' +
+								'		<md-button class="md-raised md-primary" ng-click="onCloseDialog(\'cancel\')">Cancel</md-button>' +
+								'  </md-dialog-actions>' +
+								'</md-dialog>';
+			$mdDialog.show({
+				parent: angular.element(document.body),
+				targetEvent: $event,
+				template: template,
+				controller: 'AdminController',
+				onComplete: _scope.onCloseDialog,
+				locals: {
+					user: user,
+					_scope: _scope,
+					$event: $event
+				}
 			})
-			.catch(function(response) {
-				toast.textContent('Error: ' + response.data.details)
-				.hideDelay(false).action('Okay')
-				.position('top right')
-				.highlightAction(true);
-				$mdToast.show(toastErr);
-				vm.updateInProgress = false;
+			.then(function() {
+				vm.disableAccount(user, _scope);
+			})
+			.catch(function(e) {
+				console.log('canceled...');
 			});
 		}
 
-		vm.enableAccount = function(user, el) {
+		$scope.onCloseDialog = function(opt) {
+			if (opt == "continue") {
+				$mdDialog.hide();
+			} else if (opt == "cancel"){
+				$mdDialog.cancel();
+			}
+		}
+
+		vm.enableAccount = function (user, _scope) {
 			user.accountIsActive = true;
-			$scope.updateInProgress = true;
-			var toast = $mdToast.simple().hideDelay(500).position(vm.toastPosition).parent($document[0].querySelector('#'+el));
+			_scope.updateInProgress = true
+			var toast = $mdToast.simple().hideDelay(500).position(vm.toastPosition).parent($document[0].querySelector('#'+$scope.userContainerId));
 			_userService.updateUser({
 				uuid: user.uuid,
 				accountIsActive: user.accountIsActive
@@ -129,7 +150,7 @@
 			.then(function(response) {
 				toast.textContent('Account succesfully enabled.');
 				$mdToast.show(toast);
-				$scope.updateInProgress = false;
+				_scope.updateInProgress = false;
 			})
 			.catch(function(response) {
 				toast.textContent('Error: ' + response.data.details)
@@ -137,12 +158,32 @@
 				.position('top right')
 				.highlightAction(true);
 				$mdToast.show(toast);
-				$scope.updateInProgress = false;
+				_scope.updateInProgress = false;
 			});
 		}
 
-		vm.updateUser = function (user, el) {
-			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position(vm.toastPosition).parent($document[0].querySelector('#'+el));
+		vm.disableAccount = function (user, _scope) {
+			user.accountIsActive = false;
+			_scope.updateInProgress = true;
+			var toast = $mdToast.simple().hideDelay(500).position(vm.toastPosition).parent($document[0].querySelector('#'+$scope.userContainerId));
+			_userService.deleteUser(user)
+			.then(function(response) {
+				toast.textContent('Account succesfully disabled.');
+				$mdToast.show(toast);
+				_scope.updateInProgress = false;
+			})
+			.catch(function(response) {
+				toast.textContent('Error: ' + response.data.details)
+				.hideDelay(false).action('Okay')
+				.position('top right')
+				.highlightAction(true);
+				$mdToast.show(toast);
+				_scope.updateInProgress = false;
+			});
+		}
+
+		vm.updateUser = function (user) {
+			var toast = $mdToast.simple().textContent('Saving...').hideDelay(500).position(vm.toastPosition).parent($document[0].querySelector('#'+$scope.userContainerId));
 			vm.updateInProgress = true;
 			var updatee = $.extend(true, {}, user);
 			switch(updatee.role) {
@@ -217,7 +258,7 @@
 			ctrl.users.splice(index, 1);
 		}
 
-		$scope.updateRole = function(user, role) {
+		vm.updateRole = function(user, role) {
 			user.role = role;
 			vm.updateUser(user, 'user-manager');
 		}

@@ -157,8 +157,8 @@ th.numeric, td.numeric {
 }
 th, td {
   text-align: justify;
-  padding-right: 56px;
-  padding-left: 24px;
+  padding-right: 36px;
+  padding-left: 18px;
   vertical-align: middle;
 }
 
@@ -173,6 +173,9 @@ th, td {
 .md-checkbox, .md-checkbox {
   width: 18px;
   height: 18px;
+  margin: 0 auto;
+}
+md-progress-circular.centered {
   margin: 0 auto;
 }
 .button-lower {
