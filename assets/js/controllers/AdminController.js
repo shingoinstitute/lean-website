@@ -167,12 +167,15 @@
 		}
 
 		$scope.selectedUsers = {};
-		$scope.onTopCBClick = function() {
-			if (Object.keys($scope.selectedUsers).length == vm.users.length) {
+		$scope.hasSelection = false;
+		$scope.onMasterCBClick = function() {
+			$scope.isSelected = !$scope.isSelected;
+			if (Object.keys($scope.selectedUsers).length == vm.users.length && !$scope.isSelected) {
 				$scope.selectedUsers = {};
-			} else {
+			} else if($scope.isSelected) {
 				$scope.selectedUsers = _.keyBy(vm.users, 'uuid');
 			}
+			$scope.hasSelection = Object.keys($scope.selectedUsers).length > 0;
 		}
 
 		$scope.onCBClick = function(user) {
@@ -181,6 +184,10 @@
 			} else {
 				$scope.selectedUsers[user.uuid] = user;
 			}
+			if (Object.keys($scope.selectedUsers).length > 0) {
+				$scope.isSelected = false;
+			}
+			$scope.hasSelection = Object.keys($scope.selectedUsers).length > 0;
 		}
 
 	}

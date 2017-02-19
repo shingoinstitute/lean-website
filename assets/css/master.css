@@ -440,7 +440,6 @@ md-card-avatar>img {
   justify-content: flex-end;
 }
 .flex-align-center {
-  /*margin-bottom: -1px;*/
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: row;
@@ -450,12 +449,14 @@ md-card-avatar>img {
   -webkit-justify-content: center;
   justify-content: center;
 }
-.flex-checkbox-cell {
-  margin: 0 auto;
-  padding-left: 24px;
-  padding-right: 24px;
+.md-cell-checkbox {
+  width: 20px !important;
+  margin: 0 auto !important;
 }
 .table-actions {
   padding-left: 0;
   padding-right: 0;
+}
+.md-cell-padding {
+  padding: 6px 12px 6px 12px;
 }

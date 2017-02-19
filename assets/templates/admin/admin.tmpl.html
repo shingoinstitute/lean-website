@@ -12,15 +12,15 @@
 			<tr>
 				<th class="table-actions">
 					<div flex class="flex-align-center">
-						<md-button aria-label="email icon" class="md-primary"><md-icon md-menu-align-target md-svg-icon="/images/icons/email-outline.svg"></md-icon></md-button>
+						<md-button aria-label="email icon" class="md-primary" ng-disabled="!hasSelection"><md-icon md-menu-align-target md-svg-icon="/images/icons/email-outline.svg"></md-icon></md-button>
 					</div>
 				</th>
 				<th colspan="5"></th>
 			</tr>
 			<tr>
-				<th class="flex-checkbox-cell">
-					<div class="flex-align-center">
-						<md-checkbox aria-label="checkbox" style="width:20px;" ng-click="onTopCBClick()"></md-checkbox>
+				<th class="md-cell-padding">
+					<div class="flex-align-center md-cell-padding">
+						<md-checkbox aria-label="checkbox" class="md-cell-checkbox" ng-checked="isSelected" ng-click="onMasterCBClick()"></md-checkbox>
 					</div>
 				</th>
 				<th class="md-body-1">Name</th>
@@ -30,9 +30,9 @@
 				<th class="md-body-1">Account Status</th>
 			</tr>
 			<tr ng-model="vm.users" ng-repeat="user in vm.users | orderBy: 'lastname' track by $index">
-				<td class="flex-checkbox-cell">
-					<div class="flex-align-center">
-						<md-checkbox aria-label="checkbox" ng-checked="selectedUsers[user.uuid]" ng-click="onCBClick(user)"></md-checkbox>
+				<td class="md-cell-padding">
+					<div class="flex-align-center md-cell-padding">
+						<md-checkbox aria-label="checkbox" class="md-cell-checkbox" ng-checked="selectedUsers[user.uuid]" ng-click="onCBClick(user)"></md-checkbox>
 					</div>
 				</td>
 				<td class="md-body-1" ng-show="!user.isEditing">{{user.lastname}}, {{user.firstname}}</td>

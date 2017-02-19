@@ -33,7 +33,6 @@
         })
         .then(function (response) {
           vm.comments = response.data;
-          console.log("loaded data", vm.questions);
         })
         .catch(function (err) {
           if (BROADCAST.loggingLevel == "DEBUG") {
