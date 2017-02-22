@@ -36,17 +36,17 @@
     <md-subheader></md-subheader>
 
     <md-list-item ng-href="/dashboard" ng-click="mc.toggleSidenav()">
-      <md-icon md-menu-align-target><i class="material-icons">dashboard</i></md-icon>
+      <md-icon md-menu-align-target md-svg-icon="/images/icons/account-circle.svg"></md-icon>
       <p class="md-body-2">Dashboard</p>
     </md-list-item>
 
     <md-list-item ng-href="/login" ng-if="!mc.user" ng-click="mc.toggleSidenav()">
-      <md-icon md-menu-align-target><i class="material-icons">input</i></md-icon>
+      <md-icon md-menu-align-target md-svg-icon="/images/icons/login.svg"></md-icon>
       <p class="md-body-2">Login</p>
     </md-list-item>
 
     <md-list-item ng-click="vm.logout();mc.toggleSidenav()" ng-if="mc.user">
-      <md-icon md-menu-align-target><i class="material-icons">subdirectory_arrow_left</i></md-icon>
+      <md-icon md-menu-align-target md-svg-icon="/images/icons/logout.svg"></md-icon>
       <p class="md-body-2">Logout</p>
     </md-list-item>
 
