@@ -74,4 +74,6 @@
 		})
 		.constant('JWT_TOKEN', 'JWT');
 
+		angular.module('leansite').constant('_', _);
+
 })();
