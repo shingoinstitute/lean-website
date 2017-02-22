@@ -3,11 +3,8 @@
 		<div>
 			<h3 class="md-header">Users</h3>
 			<p class="md-body-1">Use this interface to manage users.</p>
-			<md-input-container ng-model="userSearchQuery">
-				<label>Search</label>
-				<input type="text">
-			</md-input-container>
 		</div>
+		
 		<table class="md-whiteframe-2dp">
 			<tr>
 				<th class="table-actions">
@@ -15,7 +12,10 @@
 						<md-button aria-label="email icon" class="md-primary" ng-disabled="!hasSelection"><md-icon md-menu-align-target md-svg-icon="/images/icons/email-outline.svg"></md-icon></md-button>
 					</div>
 				</th>
-				<th colspan="5"></th>
+				<th colspan="5">
+					<input flex class="md-input" ng-model="userQuery" type="text" placeholder="Search...">
+					<md-button aria-label="search button" class="md-fab md-fab-flat"><md-icon md-svg-src="images/icons/ic_search_black_24px.svg"></md-icon></md-button>
+				</th>
 			</tr>
 			<tr>
 				<th class="md-cell-padding">
@@ -40,40 +40,47 @@
 				<td class="md-body-1" ng-show="!user.isEditing">{{user.lastLogin | date:'MMM dd, yyyy h:mm a'}}</td>
 				<td class="md-body-1">
 					<md-menu>
-						<p class="md-body-1 margin-none" ng-click="$mdOpenMenu()">{{parseRole(user.role)}}
+						<md-button class="no-transform margin-none" ng-click="$mdMenu.open()">{{parseRole(user.role)}}
 							<md-icon md-menu-align-target md-svg-icon="/images/icons/menu-down.svg"></md-icon>
-						</p>
+						</md-button>
 						<md-menu-content>
 							<md-menu-item ng-if="user.role != 'System Admin'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'systemAdmin')">System Admin</md-button>
+								<md-button class="no-transform" ng-click="vm.updateRole(user, 'systemAdmin')">System Admin</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Admin'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'admin')">Admin</md-button>
+								<md-button class="no-transform" ng-click="vm.updateRole(user, 'admin')">Admin</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Editor'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'editor')">Editor</md-button>
+								<md-button class="no-transform" ng-click="vm.updateRole(user, 'editor')">Editor</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Author'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'author')">Author</md-button>
+								<md-button class="no-transform" ng-click="vm.updateRole(user, 'author')">Author</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Moderator'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'moderator')">Moderator</md-button>
+								<md-button class="no-transform" ng-click="vm.updateRole(user, 'moderator')">Moderator</md-button>
 							</md-menu-item>
 							<md-menu-item ng-if="user.role != 'Member'">
-								<md-button class="button-lower" ng-click="vm.updateRole(user, 'member')">Member</md-button>
+								<md-button class="no-transform" ng-click="vm.updateRole(user, 'member')">Member</md-button>
 							</md-menu-item>
 						</md-menu-content>
 					</md-menu>
 				</td>
 				<td>
 					<div>
-						<md-button class="button-lower md-warn" ng-click="vm.showDisableWarningDialog(user, this, $event)" ng-show="!updateInProgress && user.accountIsActive">Active</md-button>
+						<md-button class="no-transform md-warn" ng-click="vm.showDisableWarningDialog(user, this, $event)" ng-show="!updateInProgress && user.accountIsActive">Active</md-button>
 					</div>
 					<div>
-						<md-button class="button-lower md-warn" ng-click="vm.enableAccount(user, this)" ng-show="!updateInProgress && !user.accountIsActive">Disabled</md-button>
+						<md-button class="no-transform md-warn" ng-click="vm.enableAccount(user, this)" ng-show="!updateInProgress && !user.accountIsActive">Disabled</md-button>
 					</div>
 					<div>
 						<md-progress-circular class="centered" md-mode="indeterminate" ng-hide="!updateInProgress"></md-progress-circular>
+					</div>
+				</td>
+			</tr>
+			<tr ng-show="vm.users.length == 0">
+				<td colspan="6">
+					<div flex class="md-margin md-padding">
+						<p flex class="md-body-1 text-align-center">Your search returned no results.</p>
 					</div>
 				</td>
 			</tr>
