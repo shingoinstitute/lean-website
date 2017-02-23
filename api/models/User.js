@@ -60,7 +60,7 @@ module.exports = {
 
 		role: {
 			type: 'string',
-			enum: sails.config.models.roles,
+			enum: ['systemAdmin', 'admin', 'editor', 'author', 'moderator', 'user'],
 			defaultsTo: 'user'
 		},
 
