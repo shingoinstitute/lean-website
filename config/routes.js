@@ -50,7 +50,7 @@ module.exports.routes = {
 		action: 'reset'
 	},
 	'GET /reset': {
-		view: '/'
+		view: 'layout'
 	},
 	'PUT /reset/:id': 'UserController.updatePassword',
 
