@@ -9,12 +9,7 @@
  * http://sailsjs.org/#!/documentation/concepts/ORM
  */
 
- const ROLES = ['systemAdmin', 'admin', 'editor', 'author', 'moderator', 'user'];
-
-
 module.exports.models = {
-
-	roles: ROLES,
 	
   /***************************************************************************
   *                                                                          *
