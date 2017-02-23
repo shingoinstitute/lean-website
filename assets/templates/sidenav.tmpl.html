@@ -31,24 +31,5 @@
     <md-list-item ng-href="/about" name="about" ng-click="mc.toggleSidenav()">
       <p class="md-body-2">About Us</p>
     </md-list-item>
-
-    <!--User Navigation-->
-    <md-subheader></md-subheader>
-
-    <md-list-item ng-href="/dashboard" ng-click="mc.toggleSidenav()">
-      <md-icon md-menu-align-target md-svg-icon="/images/icons/account-circle.svg"></md-icon>
-      <p class="md-body-2">Dashboard</p>
-    </md-list-item>
-
-    <md-list-item ng-href="/login" ng-if="!mc.user" ng-click="mc.toggleSidenav()">
-      <md-icon md-menu-align-target md-svg-icon="/images/icons/login.svg"></md-icon>
-      <p class="md-body-2">Login</p>
-    </md-list-item>
-
-    <md-list-item ng-click="vm.logout();mc.toggleSidenav()" ng-if="mc.user">
-      <md-icon md-menu-align-target md-svg-icon="/images/icons/logout.svg"></md-icon>
-      <p class="md-body-2">Logout</p>
-    </md-list-item>
-
   </md-list>
 </md-sidenav>
