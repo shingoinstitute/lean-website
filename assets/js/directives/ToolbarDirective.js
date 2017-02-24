@@ -5,7 +5,7 @@
     .directive('toolBar', function(){
         return {
             restrict: 'EA',
-            templateUrl: 'templates/toolbar.tmpl.html',
+            templateUrl: 'templates/public/toolbar.tmpl.html',
             controller: 'NavController',
             controllerAs: 'vm'
         }

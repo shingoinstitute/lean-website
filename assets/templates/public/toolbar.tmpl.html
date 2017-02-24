@@ -1,4 +1,4 @@
-<md-toolbar layout layout-padding layout-align="center center">
+<md-toolbar layout layout-padding layout-align="center center" md-whiteframe="2dp">
   <div flex></div>
   <div ng-hide="mc.user" layout>
     <md-button class="" aria-label="Sign Up" ng-href="/login">
@@ -7,6 +7,7 @@
     <md-button class="md-raised" aria-label="Login" ng-href="/login">
       Login
     </md-button>
+    <span style="margin-right: 88px"><!-- side spacer --></span>
   </div>
   <md-menu md-offset="50" ng-show="mc.user">
     <md-button class="md-icon-button" aria-label="Profile" ng-click="$mdMenu.open($event)">
@@ -16,7 +17,7 @@
       <md-menu-item>
         <div>
           <md-icon md-svg-icon="/images/icons/view-dashboard.svg"></md-icon>
-          <md-button class="md-primary">Dashboard</md-button>
+          <md-button class="md-primary" ng-href="/dashboard">Dashboard</md-button>
         </div>
       </md-menu-item>
       <md-menu-item>

@@ -5,7 +5,7 @@
     .directive('sideNav', function(){
         return {
             restrict: 'EA',
-            templateUrl: 'templates/sidenav.tmpl.html',
+            templateUrl: 'templates/public/sidenav.tmpl.html',
             controller: 'NavController'
         }
     });
