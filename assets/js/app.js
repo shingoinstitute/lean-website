@@ -10,19 +10,19 @@
 
 			$routeProvider
 				.when('/', {
-					templateUrl: 'templates/homepage.html',
+					templateUrl: 'templates/public/homepage.html',
 				})
 				.when('/dashboard', {
 					templateUrl: 'templates/user/dashboard.html',
 				})
 				.when('/education', {
-					templateUrl: 'templates/education.html',
+					templateUrl: 'templates/public/education.html',
 				})
 				.when('/about', {
-					templateUrl: 'templates/about.html',
+					templateUrl: 'templates/public/about.html',
 				})
 				.when('/login', {
-					templateUrl: 'templates/login.html',
+					templateUrl: 'templates/public/login.html',
 				})
 				.when('/auth/linkedin/callback*', {
 					template: "<p ng-init=\"linkedinCallback()\">redirecting...</p>",
@@ -31,7 +31,7 @@
 					templateUrl: 'templates/user/createAccount.html'
 				})
 				.when('/teachingResources', {
-					templateUrl: 'templates/teachingResources.html'
+					templateUrl: 'templates/public/teachingResources.html'
 				})
 				.when('/entries', {
 					templateUrl: 'templates/entries/home.html'
