@@ -1,0 +1,23 @@
+<md-sidenav class="md-sidenav-left" md-component-id="sidenav" md-is-locked-open="mc.sideNavLocked" md-whiteframe="2">
+  <a href="/" class="logo">
+    <img src="/images/logos/LEAN.png" alt="Teaching LEAN" class="md-padding" />
+  </a>
+  <md-divider></md-divider>
+  <md-button class="transform-none sidenav" ng-href="/" name="home" ng-click="mc.toggleSidenav()">Home</md-button>
+  <md-divider></md-divider>
+  <md-button class="transform-none sidenav" ng-href="/entries" name="entries" ng-click="mc.toggleSidenav()">Q&amp;A Forum</md-button>
+  <md-divider></md-divider>
+  <md-button class="transform-none sidenav" ng-href="/education" ng-click="mc.toggleSidenav()">LEAN Education</md-button>
+  <md-divider></md-divider>
+  <md-button class="transform-none sidenav" ng-href="/teachingResources" ng-click="mc.toggleSidenav()">Teaching Resources</md-button>
+  <md-divider></md-divider>
+  <md-button class="transform-none sidenav" ng-href="/about" name="about" ng-click="mc.toggleSidenav()">About Us</md-button>
+  <md-divider></md-divider>  
+  <md-button class="transform-none sidenav" ng-href="/dashboard" ng-click="mc.toggleSidenav()" ng-hide="!mc.user">
+    <div layout>
+      <md-icon class="sidenav" md-svg-icon="/images/icons/view-dashboard.svg"></md-icon>
+      <span>Dashboard</span>
+    </div>
+  </md-button>
+  
+</md-sidenav>

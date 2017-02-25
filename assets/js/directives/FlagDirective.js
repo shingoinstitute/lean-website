@@ -15,7 +15,7 @@
             $mdDialog.show({
                 controller: 'FlagContentController',
                 controllerAs: 'vm',
-                templateUrl: 'templates/flagContent.tmpl.html',
+                templateUrl: 'templates/public/flagContent.tmpl.html',
                 parent: angular.element(document.body),
                 clickOutsideToClose: true,
                 fullscreen: true,

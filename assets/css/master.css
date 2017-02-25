@@ -56,6 +56,9 @@ body {
 .text-align-center {
   text-align: center;
 }
+.text-align-left {
+  text-align: left;
+}
 .logo {
   text-align: center;
   text-decoration: none;
@@ -198,7 +201,7 @@ th, td {
 md-progress-circular.centered {
   margin: 0 auto;
 }
-.no-transform {
+.transform-none {
   /*font-size: 14px;*/
   text-transform: none;
 }
@@ -264,8 +267,19 @@ md-list-item .md-list-item-inner>md-icon.md-secondary:not(.md-avatar-icon) {
 
 .md-sidenav-left {
   height: 100vh;
+  max-width: 300px;
 }
 
+a.sidenav,
+md-button.sidenav {
+  text-align: left;
+  margin: 0;
+  padding: 8px 0 8px 22px;
+}
+md-icon.sidenav {
+  margin-left: 0px;
+  margin-right: 8px;
+}
 .material-icons.md-light {
   color: rgba(255, 255, 255, 1);
 }
