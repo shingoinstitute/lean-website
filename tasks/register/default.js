@@ -23,9 +23,9 @@
  */
 module.exports = function (grunt) {
   grunt.registerTask('default', [
+    'rev',
     'compileAssets', 
-    'linkAssets',  
-    'hash',
-    'watch' // make sure `watch` is always last...
-    ]);
+    'linkAssets',
+    'watch'
+  ]);
 };

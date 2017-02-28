@@ -13,7 +13,6 @@
  */
 module.exports = function(grunt) {
   grunt.registerTask('prod', [
-    'hash',
     'compileAssets',
     'concat',
     'uglify',
