@@ -13,22 +13,21 @@
 module.exports = function(grunt) {
 
   grunt.config.set('clean', {
-    dev: 
-      {
-        src: ['.tmp/public/**', './assets/js/**/*.js', './assets/css/*.css'],
-        filter: function(filepath){
-          if (filepath.includes('.tmp/public/')) return true;
-          
-          return /\.[\w]{8}\./.test(filepath);
-        }
+    dev: ['.tmp/public/**'],
+    hash: {
+      src: ['./assets/js/**/*.js', './assets/css/*.css'],
+      filter: function(filepath) {
+        return /\.[\w]{8}\./.test(filepath);
       }
-    ,
+    },
+    hashProd: {
+      src: ['./assets/js/**/*.js', './assets/css/*.css'],
+      filter: function(filepath) {
+        return !/\.[\w]{8}\./.test(filepath);
+      }
+    },
     build: ['www'],
-    dist: ['assets/dist'],
-    prod: [
-        'assets/js/**/*.js',
-        'assets/css/*.css'
-      ]
+    dist: ['assets/dist']
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');

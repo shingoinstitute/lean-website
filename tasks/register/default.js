@@ -24,6 +24,7 @@
 module.exports = function (grunt) {
   grunt.registerTask('default', [
     'compileAssets',
+    'cleanHashAssets',
     'linkAssets',
     'watch'
   ]);
