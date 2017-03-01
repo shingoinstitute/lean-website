@@ -39,11 +39,19 @@ module.exports = function (grunt) {
         }
       ]
     },
-    rev: {
+    build: {
+      files: [{
+        expand: true,
+        cwd: '.tmp/public',
+        src: ['**/*'],
+        dest: 'www'
+      }]
+    },
+    hashAssets: {
       files: [
         {
           expand: true,
-          cwd: './assets/js',
+          cwd: './assets/js/',
           src: ['**/*.js'],
           dest: './assets/js/',
           rename: function(dest, src) {
@@ -68,15 +76,7 @@ module.exports = function (grunt) {
         }
       ]
     },
-    build: {
-      files: [{
-        expand: true,
-        cwd: '.tmp/public',
-        src: ['**/*'],
-        dest: 'www'
-      }]
-    },
-    prod: {
+    hashDist: {
       files: [
         {
           expand: true,
