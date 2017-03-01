@@ -17,13 +17,13 @@ module.exports = function(grunt) {
     hash: {
       src: ['./assets/js/**/*.js', './assets/css/*.css'],
       filter: function(filepath) {
-        return /\/[\w]*\.[\w]{8}\./.test(filepath);
+        return /\.[\w]{8}\./.test(filepath);
       }
     },
     hashProd: {
       src: ['./assets/js/**/*.js', './assets/css/*.css'],
       filter: function(filepath) {
-        return !/\/[\w]*\.[\w]{8}\./.test(filepath);
+        return !/\.[\w]{8}\./.test(filepath);
       }
     },
     build: ['www'],

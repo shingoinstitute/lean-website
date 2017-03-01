@@ -6,6 +6,7 @@
  */
 module.exports = function(grunt) {
   grunt.registerTask('hashAngularAssets', [
+    'compileAssets',
     'hash',
     'clean:hashProd',
     'copy:hashDist',
