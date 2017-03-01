@@ -48,19 +48,26 @@ module.exports = function (grunt) {
       }]
     },
     prod: {
-      files: [{
-        expand: true,
-        src: ['./assets/dist/**'],
-        dest: './assets',
-        rename: function(dest, src) {
-          if (src.includes('.css')) {
-            return './assets/css/' + src;
-          } else if (src.includes('.js')) {
-            return './assets/js/' + src;
+      files: [
+        {
+          expand: true,
+          cwd: './assets/dist/js',
+          src: ['**/*.js'],
+          dest: 'assets/js/rev',
+          rename: function(dest, src) {
+            if (src.includes('app.js')) {
+              return 'assets/js/';
+            }
+            return dest;
           }
-          return dest;
+        },
+        {
+          expand: true,
+          cwd: './assets/dist/css',
+          src: ['*.css'],
+          dest: 'assets/css/rev'
         }
-      }]
+      ]
     }
   });
 

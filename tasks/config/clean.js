@@ -15,7 +15,14 @@ module.exports = function(grunt) {
   grunt.config.set('clean', {
     dev: ['.tmp/public/**'],
     build: ['www'],
-    prod: ['assets/js/**/*.js', 'assets/css/*.css']
+    preProd: ['assets/dist'],
+    prod: [
+        'assets/js/controllers',
+        'assets/js/dependencies',
+        'assets/js/directives',
+        'assets/js/services',
+        'assets/css/*.css'
+      ]
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
