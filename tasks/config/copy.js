@@ -48,7 +48,7 @@ module.exports = function (grunt) {
           dest: './assets/js/',
           rename: function(dest, src) {
             if (src.includes('.io.js')) return dest + src;
-            var re = /\.[\w]*\./;
+            var re = /\.[\w]{8}\./;
             return re.test(src) ? dest + src.replace(re, '.') : dest + src;
           }
         },
@@ -58,7 +58,7 @@ module.exports = function (grunt) {
           src: '*.css',
           dest: './assets/css/',
           rename: function(dest, src) {
-            var re = /\.[\w]*\./;
+            var re = /\.[\w]{8}\./;
             if (!re.test(src)) {
               return dest + src;
             }

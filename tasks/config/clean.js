@@ -18,8 +18,8 @@ module.exports = function(grunt) {
         src: ['.tmp/public/**', './assets/js/**/*.js', './assets/css/*.css'],
         filter: function(filepath){
           if (filepath.includes('.tmp/public/')) return true;
-          if (filepath.includes('sails.io.js')) return false;
-          return /\.[\w]*\./.test(filepath);
+          
+          return /\.[\w]{8}\./.test(filepath);
         }
       }
     ,
