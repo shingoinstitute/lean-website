@@ -17,9 +17,7 @@ module.exports = function(grunt) {
     build: ['www'],
     dist: ['assets/dist'],
     prod: [
-        'assets/js/controllers',
-        'assets/js/directives',
-        'assets/js/services',
+        'assets/js/**/*.js',
         'assets/css/*.css'
       ]
   });

@@ -48,19 +48,7 @@ module.exports = function (grunt) {
               return dest + src;
             }
             src = src.replace(re, '.');
-            if (src == 'app.js') {
-              return 'assets/js/app.js';
-            }
-            if (/Controller/.test(src)) {
-              return 'assets/js/controllers/' + src;
-            }
-            if (/Directive/.test(src)) {
-              return 'assets/js/directives/' + src;
-            }
-            if (/Service/.test(src)) {
-              return 'assets/js/services/' + src;
-            }
-            return dest + src;
+            return 'assets/js/' + src;
           }
         },
         {
@@ -93,7 +81,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: './assets/dist/js',
           src: ['**/*.js'],
-          dest: 'assets/js/dist/',
+          dest: 'assets/js/',
           rename: function (dest, src) {
             if (/app\.[\w]*\.js/g.test(src)) {
               return 'assets/js/' + src;
@@ -107,7 +95,7 @@ module.exports = function (grunt) {
             if (/Service\.[\w]*\.js/g.test(src)) {
               return 'assets/js/services/' + src;
             }
-            return dest + src;
+            return dest + 'dependencies/' + src;
           }
         },
         {
