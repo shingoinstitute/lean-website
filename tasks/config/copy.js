@@ -36,6 +36,32 @@ module.exports = function (grunt) {
           cwd: './assets',
           src: ['bower_components/summernote/dist/font/**/*'],
           dest: '.tmp/public/min/font'
+        },
+        {
+          expand: true,
+          cwd: './assets/js',
+          src: ['**/*.js'],
+          dest: './assets/js/',
+          rename: function(dest, src) {
+            var re = /\.[\w]*\./;
+            if (!re.test(src)) {
+              return dest + src;
+            }
+            src = src.replace(re, '.');
+            if (src == 'app.js') {
+              return 'assets/js/app.js';
+            }
+            if (/Controller/.test(src)) {
+              return 'assets/js/controllers/' + src;
+            }
+            if (/Directive/.test(src)) {
+              return 'assets/js/directives/' + src;
+            }
+            if (/Service/.test(src)) {
+              return 'assets/js/services/' + src;
+            }
+            return dest + src;
+          }
         }
       ]
     },
@@ -55,8 +81,17 @@ module.exports = function (grunt) {
           src: ['**/*.js'],
           dest: 'assets/js/dist/',
           rename: function (dest, src) {
-            if (src.includes('app.js')) {
-              return 'assets/js/app.js';
+            if (/app\.[\w]*\.js/g.test(src)) {
+              return 'assets/js/' + src;
+            }
+            if (/Controller\.[\w]*\.js/g.test(src)) {
+              return 'assets/js/controllers/' + src;
+            }
+            if (/Directive\.[\w]*\.js/g.test(src)) {
+              return 'assets/js/directives/' + src;
+            }
+            if (/Service\.[\w]*\.js/g.test(src)) {
+              return 'assets/js/services/' + src;
             }
             return dest + src;
           }

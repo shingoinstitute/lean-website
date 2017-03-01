@@ -23,8 +23,7 @@
  */
 module.exports = function (grunt) {
   grunt.registerTask('default', [
-    'hash',
-    'compileAssets', 
+    'compileAssets',
     'linkAssets',
     'watch'
   ]);

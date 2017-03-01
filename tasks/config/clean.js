@@ -18,7 +18,6 @@ module.exports = function(grunt) {
     preProd: ['assets/dist'],
     prod: [
         'assets/js/controllers',
-        'assets/js/dependencies',
         'assets/js/directives',
         'assets/js/services',
         'assets/css/*.css'
