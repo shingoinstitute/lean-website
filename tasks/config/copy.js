@@ -36,7 +36,11 @@ module.exports = function (grunt) {
           cwd: './assets',
           src: ['bower_components/summernote/dist/font/**/*'],
           dest: '.tmp/public/min/font'
-        },
+        }
+      ]
+    },
+    rev: {
+      files: [
         {
           expand: true,
           cwd: './assets/js',

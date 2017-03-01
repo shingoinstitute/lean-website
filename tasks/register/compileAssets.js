@@ -13,6 +13,7 @@
  */
 module.exports = function(grunt) {
   grunt.registerTask('compileAssets', [
+    'copy:rev',
     'clean:dev',
     'jst:dev',
     'less:dev',
