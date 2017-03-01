@@ -15,11 +15,10 @@ module.exports = function(grunt) {
   grunt.config.set('clean', {
     dev: 
       {
-        src: ['.tmp/public/**', './assets/js/**/*.js', './assets/css/*.css', './assets/css/dist'],
+        src: ['.tmp/public/**', './assets/js/**/*.js', './assets/css/*.css'],
         filter: function(filepath){
           if (filepath.includes('.tmp/public/')) return true;
           if (filepath.includes('sails.io.js')) return false;
-          if (filepath.includes('assets/css/dist')) return true;
           return /\.[\w]*\./.test(filepath);
         }
       }
