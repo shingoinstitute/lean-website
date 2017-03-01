@@ -18,7 +18,7 @@ var cssFilesToInject = [
    'bower_components/bootstrap/dist/css/*.css',
    'bower_components/angular-material/angular-material.css',
    'bower_components/summernote/dist/summernote.css',
-   'css/master.css'
+   'css/*.css'
 ];
 
 var jsFilesToInject = [

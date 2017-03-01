@@ -42,7 +42,8 @@ bin/
 
 config/local.js
 *.docx
-
+hashManfest.json
+assets/dist
 
 
 ################################################
