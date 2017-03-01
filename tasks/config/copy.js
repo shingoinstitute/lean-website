@@ -53,19 +53,19 @@ module.exports = function (grunt) {
           expand: true,
           cwd: './assets/dist/js',
           src: ['**/*.js'],
-          dest: 'assets/js/rev',
-          rename: function(dest, src) {
+          dest: 'assets/js/dist/',
+          rename: function (dest, src) {
             if (src.includes('app.js')) {
-              return 'assets/js/';
+              return 'assets/js/app.js';
             }
-            return dest;
+            return dest + src;
           }
         },
         {
           expand: true,
           cwd: './assets/dist/css',
           src: ['*.css'],
-          dest: 'assets/css/rev'
+          dest: 'assets/css/dist/'
         }
       ]
     }
