@@ -13,7 +13,17 @@
 module.exports = function(grunt) {
 
   grunt.config.set('clean', {
-    dev: ['.tmp/public/**'],
+    dev: 
+      {
+        src: ['.tmp/public/**', './assets/js/**/*.js', './assets/css/*.css', './assets/css/dist'],
+        filter: function(filepath){
+          if (filepath.includes('.tmp/public/')) return true;
+          if (filepath.includes('sails.io.js')) return false;
+          if (filepath.includes('assets/css/dist')) return true;
+          return /\.[\w]*\./.test(filepath);
+        }
+      }
+    ,
     build: ['www'],
     dist: ['assets/dist'],
     prod: [

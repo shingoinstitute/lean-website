@@ -43,12 +43,9 @@ module.exports = function (grunt) {
           src: ['**/*.js'],
           dest: './assets/js/',
           rename: function(dest, src) {
+            if (src.includes('.io.js')) return dest + src;
             var re = /\.[\w]*\./;
-            if (!re.test(src)) {
-              return dest + src;
-            }
-            src = src.replace(re, '.');
-            return 'assets/js/' + src;
+            return re.test(src) ? dest + src.replace(re, '.') : dest + src;
           }
         },
         {
