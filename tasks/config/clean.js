@@ -15,7 +15,7 @@ module.exports = function(grunt) {
   grunt.config.set('clean', {
     dev: ['.tmp/public/**'],
     build: ['www'],
-    preProd: ['assets/dist'],
+    dist: ['assets/dist'],
     prod: [
         'assets/js/controllers',
         'assets/js/directives',

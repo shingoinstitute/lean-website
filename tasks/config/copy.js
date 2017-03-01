@@ -62,6 +62,20 @@ module.exports = function (grunt) {
             }
             return dest + src;
           }
+        },
+        {
+          expand: true,
+          cwd: './assets/css',
+          src: '*.css',
+          dest: './assets/css/',
+          rename: function(dest, src) {
+            var re = /\.[\w]*\./;
+            if (!re.test(src)) {
+              return dest + src;
+            }
+            src = src.replace(re, '.');
+            return dest + src;
+          }
         }
       ]
     },
