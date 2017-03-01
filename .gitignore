@@ -42,8 +42,9 @@ bin/
 
 config/local.js
 *.docx
-AssetsMap.json
-assets/dist
+hashManfest.json
+assets/**/dist
+
 
 ################################################
 # Dependencies

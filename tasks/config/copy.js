@@ -46,6 +46,21 @@ module.exports = function (grunt) {
         src: ['**/*'],
         dest: 'www'
       }]
+    },
+    prod: {
+      files: [{
+        expand: true,
+        src: ['./assets/dist/**'],
+        dest: './assets',
+        rename: function(dest, src) {
+          if (src.includes('.css')) {
+            return './assets/css/' + src;
+          } else if (src.includes('.js')) {
+            return './assets/js/' + src;
+          }
+          return dest;
+        }
+      }]
     }
   });
 
