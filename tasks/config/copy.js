@@ -46,66 +46,6 @@ module.exports = function (grunt) {
         src: ['**/*'],
         dest: 'www'
       }]
-    },
-    hashAssets: {
-      files: [
-        {
-          expand: true,
-          cwd: './assets/js/',
-          src: ['**/*.js'],
-          dest: './assets/js/',
-          rename: function(dest, src) {
-            if (src.includes('.io.js')) return dest + src;
-            var re = /\.[\w]{8}\./;
-            return re.test(src) ? dest + src.replace(re, '.') : dest + src;
-          }
-        },
-        {
-          expand: true,
-          cwd: './assets/css',
-          src: '*.css',
-          dest: './assets/css/',
-          rename: function(dest, src) {
-            var re = /\.[\w]{8}\./;
-            if (!re.test(src)) {
-              return dest + src;
-            }
-            src = src.replace(re, '.');
-            return dest + src;
-          }
-        }
-      ]
-    },
-    hashDist: {
-      files: [
-        {
-          expand: true,
-          cwd: './assets/dist/js',
-          src: ['**/*.js'],
-          dest: 'assets/js/',
-          rename: function (dest, src) {
-            if (/app\.[\w]*\.js/g.test(src)) {
-              return 'assets/js/' + src;
-            }
-            if (/Controller\.[\w]*\.js/g.test(src)) {
-              return 'assets/js/controllers/' + src;
-            }
-            if (/Directive\.[\w]*\.js/g.test(src)) {
-              return 'assets/js/directives/' + src;
-            }
-            if (/Service\.[\w]*\.js/g.test(src)) {
-              return 'assets/js/services/' + src;
-            }
-            return dest + 'dependencies/' + src;
-          }
-        },
-        {
-          expand: true,
-          cwd: './assets/dist/css',
-          src: ['*.css'],
-          dest: 'assets/css/'
-        }
-      ]
     }
   });
 

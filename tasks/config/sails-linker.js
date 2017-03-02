@@ -276,7 +276,23 @@ module.exports = function(grunt) {
       files: {
         'views/**/*.jade': ['.tmp/public/jst.js']
       }
+    },
+
+
+    prodJsHash: {
+      options: {
+        startTag: '<!--SCRIPTS-->',
+        endTag: '<!--SCRIPTS END-->',
+        fileTmpl: '<script src="%s"></script>',
+        appRoot: '.tmp/public'
+      },
+      files: {
+        '.tmp/public/**/*.html': ['.tmp/public/min/*.js'],
+        'views/**/*.html': ['.tmp/public/min/*.js'],
+        'views/**/*.ejs': ['.tmp/public/min/*.js']
+      }
     }
+
   });
 
   grunt.loadNpmTasks('grunt-sails-linker');
