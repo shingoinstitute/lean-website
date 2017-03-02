@@ -7,8 +7,8 @@ module.exports = function(grunt) {
 	grunt.config.set('hash', {
 		options: {
 			mapping: 'assets/hashManfest.json',
-			srcBasePath: 'assets/',
-			destBasePath: 'assets/',
+			srcBasePath: '.tmp/',
+			destBasePath: '.tmp/',
 			flatten: false,
 			hashLength: 8,
 			hashFunction: function(source, encoding) {
@@ -16,12 +16,8 @@ module.exports = function(grunt) {
 			}
 		},
 		js: {
-			src: 'assets/js/**/*.js',
-			dest: 'assets/dist/js'
-		},
-		css: {
-			src: 'assets/css/*.css',
-			dest: 'assets/dist/css'
+			src: ['.tmp/public/min/**/*.js'],
+			dest: '.tmp/public/min/'
 		}
 	});
 

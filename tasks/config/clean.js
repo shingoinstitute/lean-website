@@ -15,19 +15,12 @@ module.exports = function(grunt) {
   grunt.config.set('clean', {
     dev: ['.tmp/public/**'],
     hash: {
-      src: ['./assets/js/**/*.js', './assets/css/*.css'],
-      filter: function(filepath) {
-        return /\.[\w]{8}\./.test(filepath);
-      }
-    },
-    hashProd: {
-      src: ['./assets/js/**/*.js', './assets/css/*.css'],
+      src: ['.tmp/public/min/*.js'],
       filter: function(filepath) {
         return !/\.[\w]{8}\./.test(filepath);
       }
     },
-    build: ['www'],
-    dist: ['assets/dist']
+    build: ['www']
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
