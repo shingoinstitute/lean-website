@@ -533,3 +533,27 @@ table.content:hover,
 table.content:hover * {
   background: none;
 }
+ul, li {
+  list-style: none;
+}
+table.file-table {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  border: 1px solid lightgray;
+}
+table.file-table tr:hover {
+  background: none;
+}
+table.file-table td {
+  border-right: 1px solid lightgray;
+}
+.file-btn {
+  background: none;
+  border: none;
+}
+.file-btn:hover {
+  background: none;
+}
+p.table-file {
+  margin: 0 auto; 
+}
