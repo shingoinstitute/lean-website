@@ -22,13 +22,5 @@ describe('Unit: NavController tests', function(){
 
     describe('NavController Method tests', function(){
 
-        // Test Set URL sets Home title
-        it('sets vm.title to "Home" when url looks like "something/home"', function(){
-            var testUrl = "something/home";
-            var expected = "Home";
-            controller.setTitle(testUrl);
-            expect(controller.title).toEqual(expected);
-        });
-
     });
 });
