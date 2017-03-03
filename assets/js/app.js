@@ -30,8 +30,8 @@
 				.when('/createAccount', {
 					templateUrl: 'templates/user/createAccount.html'
 				})
-				.when('/teachingResources', {
-					templateUrl: 'templates/public/teachingResources.html'
+				.when('/teachingCurriculum', {
+					templateUrl: 'templates/public/teachingCurriculum.html'
 				})
 				.when('/entries', {
 					templateUrl: 'templates/entries/home.html'
@@ -66,7 +66,6 @@
 			error: '$errorMessage',
 			userLogout: '$userLoggedOut',
 			userLogin: '$userLoggedIn',
-			setTitle: '$setTitle',
 			qSave: '$questionSave',
 			qAnswered: '$questionAnswered',
 			entryChange: '$entryChange',
