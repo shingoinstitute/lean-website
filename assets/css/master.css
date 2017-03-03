@@ -53,6 +53,9 @@ body {
 	.login-form {
 		margin-bottom: 0;
 	}
+.text-align-right {
+  text-align: right;
+}
 .text-align-center {
   text-align: center;
 }
@@ -202,10 +205,11 @@ md-progress-circular.centered {
   margin: 0 auto;
 }
 .transform-none {
-  /*font-size: 14px;*/
   text-transform: none;
 }
-tr.no-border th {
+tr.no-border th,
+td.no-border,
+th.no-border {
   border: none;
 }
 tr.row-header:hover {
@@ -513,4 +517,19 @@ md-card-avatar>img {
 .md-cell-padding {
   padding: 6px 12px 6px 12px;
 }
-
+table.content tr {
+  border-bottom: 16px solid white;
+}
+table.content th {
+  /*padding-right: 0px;*/
+  white-space: nowrap;
+  vertical-align: top;
+}
+table.content,
+table.content * {
+  border: none;
+}
+table.content:hover, 
+table.content:hover * {
+  background: none;
+}
