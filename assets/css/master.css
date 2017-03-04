@@ -557,3 +557,8 @@ table.file-table td {
 p.table-file {
   margin: 0 auto; 
 }
+table.file-table td,
+table.file-table th {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
