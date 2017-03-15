@@ -30,19 +30,32 @@ module.exports = {
 
 	localAuth: function (req, res) {
 		passport.authenticate('local', function (err, user, info) {
-			if (info) {
-				sails.log.info('', info);
-			}
-
 			if (err) {
-				sails.log.error('/auth/local @callback: ' + err.name + ': ' + err.message);
-				return res.status(500).json(err);
+				err.info = info || 'an unknown error has occured.';
+				err.timestamp = new Date().toDateString() + ', ' + new Date().toLocaleDateString();
+				sails.log.error(JSON.stringify(err, null, 3));
+				return res.status(500).json({
+					error: err.info,
+					_error: err
+				});
 			}
 
 			if (!user) {
-				sails.log.warn('/auth/local @callback:  User is undefined!');
-				return res.status(404).json({error: info.error || 'Error: user not found.'});
+				var error = new Error('user is undefined');
+				var date = new Date();
+				sails.log.warn(JSON.stringify({
+					error: {
+						message: error.message,
+						fileName: "AuthController.js",
+						method: "localAuth",
+						info: info.error || info,
+						timestamp: date.toDateString() + ', ' + date.toLocaleTimeString()
+					}
+				}, null, 3));
+				return res.status(404).json({error: info.error});
 			}
+
+			if (req.user) user = req.user;
 
 			return res.json({
 				success: true,
@@ -59,7 +72,7 @@ module.exports = {
 	linkedInAuthCallback: function (req, res) {
 		passport.authenticate('linkedin', {
 			failureRedirect: '/login',
-			session: false
+			session: true
 		})(req, res, function (err) {
 			if (err) {
 				sails.log.error(err);

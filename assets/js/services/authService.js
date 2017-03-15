@@ -19,54 +19,39 @@
 				username: username,
 				password: password
 			})
-				.then(function (response) {
-					if (response.data && response.data.error) {
-						var error = response.data.error;
-						if (typeof error == 'Error') {
-							return next(error, false);
-						}
-						return next(new Error(error), false);
-					}
+			.then(function (response) {				
+				var err = response.data && response.data.error ? response.data.error : false;
+				if (err) { return err instanceof Error ? err : new Error(err); }
 
-					var user;
-					if (response.data) { user = response.data.user; }
+				var user = response.data && response.data.user ? response.data.user : null;
+				if (!user) { return next(new Error('Error: user not found.'), false); }
 
-					if (!user) {
-						return next(new Error('Error: user not found.'), false);
-					}
+				var token = response.data && response.data.token ? response.data.token : null;
+				if (!token) { return next(new Error('Error: JWT token not found.'), false); }
 
-					var token;
-					if (response.data && response.data.token) { token = response.data.token; }
+				$cookies.put(JWT_TOKEN, token);
 
-					if (!token) {
-						return next(new Error('Error: JWT token not found.'), false);
-					}
-
-					$cookies.put(JWT_TOKEN, token);
-					return next(null, user);
-				})
-				.catch(function (err) {
-					console.error('', err);
-					if (err.data && err.data.error) return next(err.data.error);
-					return next(err);
-				});
+				return next(null, user);
+			})
+			.catch(function (err) {
+				console.error(err);
+				return err.data && err.data.error ? next(err.data.error) : next(new Error(err));
+			});
 		}
 
 		/**
 		* @description :: Login using LinkedIn OAuth 2.0 authentication strategy
-		* @see {file} - {root}/config/passport.js
+		* @see {file} :: {appRoot}/config/passport.js
 		*/
 		service.authenticateLinkedin = function () { $window.location.href = "/auth/linkedin"; }
 
 		/**
 		 * @description {function} createAccount :: POSTs to server to create a new user who can be authenticated via a local strategy
 		 * @param {Object} user :: user object containing required parameters
+		 * @param {function} next :: node style callback `next(err, user)`
 		 */
-		// * @return {Promise} :: returns a bluebird promise
 		service.createAccount = function (user, next) {
-			// return new Promise(function (resolve, reject) {
 				if (!user.password || !user.firstname || !user.lastname || !user.email) {
-					// return reject(new Error('Error: Missing required fields.'))
 					return next(new Error('Error: Missing required fields.'), false);
 				}
 
@@ -77,37 +62,25 @@
 					password: user.password
 				})
 				.then(function (response) {
-					if (response.data && response.data.error)
-						return next(response.data.error, false);
-						// return reject(data.data.error)
 
-					var user;
-					if (response.data)
-						user = response.data.user;
+					var err = response.data && response.data.error ? response.data.error : null;
+					if (err) return next(err, false);
 
-					var token;
-					if (response.data)
-						token = response.data.token;
+					var user = response.data && response.data.user ? response.data.user : null;
+					if (!user) { return next(new Error('an unknown error occured'), false); }
 
-					if (!token)
-						return next(new Error('failed to generate JSON Web Token!'));
+					var token = response.data && response.data.token ? response.data.token : null;
+					if (!token) { return next(new Error('failed to generate JSON Web Token!')); }
+					
 					$cookies.put(JWT_TOKEN, token);
-
-					if (!user)
-						return next(new Error('an unknown error occured'), false);
-						// return reject(new Error('an unknown error occured'));
-
 						
-						// broadcasting to MainController will cause MainController to call its getUser() function
-						$rootScope.$broadcast('$MainControllerListener');
-						return next(null, user);
-					// return resolve(user);
+					// broadcasting to `MainController` will cause `MainController` to invoke its `getUser()` method
+					$rootScope.$broadcast('$MainControllerListener');
+					return next(null, user);
 				})
 				.catch(function (err) {
 					return next(err, false);
-					// return reject(err);
 				});
-			// });
 		}
 
 		/**
