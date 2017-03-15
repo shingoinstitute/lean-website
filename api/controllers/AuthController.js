@@ -14,14 +14,14 @@ module.exports = {
 		var uuid = req.param('id'); // user's uuid
 		var token = req.param('vt'); // verification token
 
-		User.findOne({uuid: uuid}).exec(function(err, user) {
+		User.findOne({ uuid: uuid }).exec(function (err, user) {
 			if (err) return res.negotiate(err);
 			if (!user) return res.status(404).json('E_USER_NOT_FOUND');
 
 			if (!bcrypt.compareSync(token, user.emailVerificationToken)) return res.status(403).json('E_NOT_AUTHORIZED');
 			user.verifiedEmail = user.email;
 			user.emailVerificationToken = null;
-			user.save(function(err) {
+			user.save(function (err) {
 				if (err) return res.negotiate(err);
 				return res.redirect('/dashboard');
 			});
@@ -30,24 +30,38 @@ module.exports = {
 
 	localAuth: function (req, res) {
 		passport.authenticate('local', function (err, user, info) {
-			if (info) {
-				sails.log.info('', info);
-			}
-
 			if (err) {
-				sails.log.error('/auth/local @callback: ' + err.name + ': ' + err.message);
-				return res.status(500).json(err);
+				err.info = info || 'an unknown error has occured.';
+				err.timestamp = new Date().toDateString() + ', ' + new Date().toLocaleDateString();
+				sails.log.error(JSON.stringify(err, null, 3));
+				return res.status(500).json({
+					error: err.info,
+					_error: err
+				});
 			}
 
 			if (!user) {
-				sails.log.warn('/auth/local @callback:  User is undefined!');
-				return res.status(404).json({error: info.error || 'Error: user not found.'});
+				var error = new Error('user is undefined');
+				var date = new Date();
+				sails.log.warn(JSON.stringify({
+					error: {
+						message: error.message,
+						fileName: "AuthController.js",
+						method: "localAuth",
+						info: info.error || info,
+						timestamp: date.toDateString() + ', ' + date.toLocaleTimeString()
+					}
+				}, null, 3));
+				return res.status(404).json({ error: info.error });
 			}
 
-			return res.json({
-				success: true,
-				user: user.toJSON(),
-				token: AuthService.createToken(user)
+			req.logIn(user, function (err) {
+				if (err) return res.negotiate(err);
+				return res.json({
+					success: true,
+					user: user.toJSON(),
+					token: AuthService.createToken(user)
+				});
 			});
 		})(req, res);
 	},
@@ -59,7 +73,7 @@ module.exports = {
 	linkedInAuthCallback: function (req, res) {
 		passport.authenticate('linkedin', {
 			failureRedirect: '/login',
-			session: false
+			session: process.env.NODE_ENV === 'production'
 		})(req, res, function (err) {
 			if (err) {
 				sails.log.error(err);

@@ -70,7 +70,7 @@ module.exports.session = {
   ***************************************************************************/
 
   host: 'localhost',
-  // port: 6379,
+  port: 6379,
   // ttl: 60*60,
   // resave: true,
   // saveUninitialized: true,
