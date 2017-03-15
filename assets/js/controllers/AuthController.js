@@ -32,10 +32,9 @@
 		 */
 		vm.authenticateLocal = function (username, password) {
 			vm.progressCircleEnabled = true;
-
 			_authService.authenticateLocal(username, password, function (err, user) {
 				vm.progressCircleEnabled = false;
-				if (err) { vm.loginError = err.message || err; }
+				if (err) { vm.loginError = err.message || err.error || err; }
 				if (user) { $location.path('/dashboard'); }
 			});
 		}
