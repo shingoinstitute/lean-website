@@ -39,7 +39,7 @@ module.exports = {
 		return transporter.sendMailAsync({
 			from: 'shingo.it@usu.edu',
 			to: user.email,
-			subject: 'TeachingLEAN.net - email verification',
+			subject: 'teachinglean.org - email verification link',
 			html: 'Thank you for signing up with TeachingLean.org, we&#39;re excited to see you join the community!' + +
 			'<p>Click <a href="' + redirectUrl + '">here</a> to verify your email address for <a href="https://teachinglean.org">teachinglean.org</a>.</p>' +
 			'<p>For HTML safe browsers, copy and paste this link into your web browser:</p>' + 
@@ -72,7 +72,7 @@ module.exports = {
 					transporter.sendMailAsync({
 						from: 'shingo.it@usu.edu',
 						to: user.email,
-						subject: 'TeachingLean.org - password reset',
+						subject: 'teachinglean.org - password reset',
 						html: '<style>p {text-align: center;}</style>' +
 								'<p>Click <a href="' + redirectUrl + '">here</a> to reset your password.</p>' +
 								'<p>Or</p>' +
@@ -81,7 +81,7 @@ module.exports = {
 								'<p>' + redirectUrl + '</p>' +
 								'<br><br>' +
 								'<p>This link will expire in 12 hours.</p>' +
-								'<p>If you didn&#39;t request this, you&#39;re probably getting hacked.</p>'
+								'<p>If you did not request this password reset, please contact our support team at <a href="mailto:shingo.it@usu.edu">shingo.it@usu.edu</a></p>'
 					});
 
 					return resolve();
