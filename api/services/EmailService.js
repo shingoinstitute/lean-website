@@ -39,11 +39,11 @@ module.exports = {
 		return transporter.sendMailAsync({
 			from: 'shingo.it@usu.edu',
 			to: user.email,
-			subject: 'TeachingLEAN.net - email verification',
-			html: "Thank you for signing up with TeachingLean.org, we're excited to see you join the community." +
-			'<p>Click <a href="' + redirectUrl + '">here</a> to verify your email address for TeachingLEAN.net.</p>' +
-			"<p>For HTML safe browsers, copy and paste this link into your web browser:</p>" + 
-			"<p>" + redirectUrl + "</p>"
+			subject: 'teachinglean.org - email verification link',
+			html: 'Thank you for signing up with TeachingLean.org, we&#39;re excited to see you join the community!' + +
+			'<p>Click <a href="' + redirectUrl + '">here</a> to verify your email address for <a href="https://teachinglean.org">teachinglean.org</a>.</p>' +
+			'<p>For HTML safe browsers, copy and paste this link into your web browser:</p>' + 
+			'<p>' + redirectUrl + '</p>'
 		});
 	},
 
@@ -57,7 +57,7 @@ module.exports = {
 				if (err) return reject(err);
 				if (!user) return reject(new Error('user not found'));
 
-				// generate new token
+				// generate a new token
 				AuthService.generateBase64Token(user, function(err, token) {
 					if (err) return reject(err);
 
@@ -68,11 +68,11 @@ module.exports = {
 					});
 
 					var redirectUrl = sails.config.email.passwordResetURL + "/" + user.uuid + "?" + sails.config.email.resetPasswordTokenParamName + "=" + token;
-					// passwordResetURL: process.env.NODE_ENV == 'production' ? 'https://teachinglean.org/reset' : 'http://localhost:1337/reset',
+
 					transporter.sendMailAsync({
 						from: 'shingo.it@usu.edu',
 						to: user.email,
-						subject: 'TeachingLean.org - password reset',
+						subject: 'teachinglean.org - password reset',
 						html: '<style>p {text-align: center;}</style>' +
 								'<p>Click <a href="' + redirectUrl + '">here</a> to reset your password.</p>' +
 								'<p>Or</p>' +
@@ -81,7 +81,7 @@ module.exports = {
 								'<p>' + redirectUrl + '</p>' +
 								'<br><br>' +
 								'<p>This link will expire in 12 hours.</p>' +
-								'<p>If you didn\'t request this, you\'re probably getting hacked.</p>'
+								'<p>If you did not request this password reset, please contact our support team at <a href="mailto:shingo.it@usu.edu">shingo.it@usu.edu</a></p>'
 					});
 
 					return resolve();
