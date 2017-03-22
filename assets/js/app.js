@@ -51,14 +51,15 @@
 
 			$locationProvider.html5Mode(true);
 
+			$mdThemingProvider.alwaysWatchTheme(true);
+
+			$mdThemingProvider.theme('altTheme')
+				.primaryPalette('orange')
+				.accentPalette('blue').dark();
+
 			$mdThemingProvider.theme('default')
 				.primaryPalette('blue-grey')
 				.accentPalette('orange');
-
-			$mdThemingProvider.theme('darkTheme')
-				.primaryPalette('orange')
-				.accentPalette('blue')
-				.dark();
 		})
 		.constant('BROADCAST', {
 			loggingLevel: 'PRODUCTION', // 'DEBUG' or 'PRODUCTION'

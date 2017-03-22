@@ -4,9 +4,9 @@
 	angular.module('leansite')
 		.controller('MainController', MainController);
 
-	MainController.$inject = ['$scope', '$rootScope', '$http', '$cookies', '$location', '$mdMedia', '_userService', 'BROADCAST', 'JWT_TOKEN'];
+	MainController.$inject = ['$scope', '$rootScope', '$http', '$cookies', '$location', '$mdMedia', '$mdTheming', '_userService', 'BROADCAST', 'JWT_TOKEN'];
 
-	function MainController($scope, $rootScope, $http, $cookies, $location, $mdMedia, _userService, BROADCAST, JWT_TOKEN) {
+	function MainController($scope, $rootScope, $http, $cookies, $location, $mdMedia, $mdTheming, _userService, BROADCAST, JWT_TOKEN) {
 		var vm = this;
 
 		/**
