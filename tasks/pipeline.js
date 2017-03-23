@@ -18,6 +18,7 @@ var cssFilesToInject = [
    'bower_components/bootstrap/dist/css/*.css',
    'bower_components/angular-material/angular-material.css',
    'bower_components/summernote/dist/summernote.css',
+   'css/materialize/css/materialize.css',
    'css/*.css'
 ];
 
@@ -29,6 +30,7 @@ var jsFilesToInject = [
    'bower_components/jquery/dist/jquery.js',
 
    'bower_components/bootstrap/dist/js/bootstrap.js',
+   'css/materialize/js/materialize.min.js',
    'bower_components/lodash/lodash.js',
    'bower_components/summernote/dist/summernote.js',
    'bower_components/clipboard/dist/clipboard.min.js',

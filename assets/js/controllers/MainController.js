@@ -17,6 +17,9 @@
 				.then(function (response) {
 					vm.user = response.data;
 					$rootScope.userId = response.data.uuid;
+				})
+				.catch(function(response) {
+					if ($rootScope.userId) console.error(response.data);
 				});
 		};
 
