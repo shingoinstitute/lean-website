@@ -40,21 +40,57 @@
 
 </head>
 
-<body id="main" layout ng-controller="MainController as mc" ng-cloak>
-  <side-nav layout="column"></side-nav>
-  <div layout="column" flex>
-    <tool-bar></tool-bar>
-    <message-container layout="row" layout-align="center center" ng-if="mc.error || mc.message">
-      <div layout="column">
-        <div layout-padding ng-if="mc.error">
-          <p>Error: <span class="red-text text-darken-1" ng-bind="mc.error"></span></p>
-        </div>
-        <div layout-padding ng-if="mc.message">
-          <pre class="text-info md-padding" ng-bind="mc.message"></pre>
-        </div>
+<body id="main" ng-controller="MainController as mc" ng-cloak layout="column">
+  <tool-bar></tool-bar>
+  <message-container layout="row" layout-align="center center" ng-if="mc.error || mc.message">
+    <div layout="column">
+      <div layout-padding ng-if="mc.error">
+        <p>Error: <span class="red-text text-darken-1" ng-bind="mc.error"></span></p>
       </div>
-      <md-button class="md-fab md-mini md-primary" md-no-ink ng-click="mc.error = false; mc.message = false">&times;</md-button>
-    </message-container>
+      <div layout-padding ng-if="mc.message">
+        <pre class="text-info md-padding" ng-bind="mc.message"></pre>
+      </div>
+    </div>
+    <md-button class="md-fab md-mini md-primary" md-no-ink ng-click="mc.error = false; mc.message = false">&times;</md-button>
+  </message-container>
+  <div layout>
+    <!--<side-nav layout="column"></side-nav>-->
+    <style>
+      .sidenav-logo-img {
+        width: 100%;
+        margin-top: 24px;
+        margin-bottom: 24px;
+        padding: 0 12px 0 12px;
+      }
+      .sidenav.divider {
+        margin-left: 8px;
+        margin-right: 8px;
+      }
+    </style>
+
+    <div layout="column">
+      <md-sidenav class="md-sidenav-left" md-component-id="sidenav" md-is-locked-open="mc.sideNavLocked" layout-fill>
+        
+          <a ng-href="/"><img class="sidenav-logo-img" ng-src="/images/logos/LEAN-logo-md.png" alt="Teaching LEAN" /></a>
+        <md-divider class="sidenav divider"></md-divider>
+        <!--<a ng-href="/" name="home">
+          <p class="flow-text">Home</p>
+        </a>-->
+        <md-button class="transform-none sidenav flow-text" ng-href="/" name="home" ng-click="mc.toggleSidenav()">Home</md-button>
+        <md-button class="transform-none sidenav" ng-href="/entries" name="entries" ng-click="mc.toggleSidenav()">Q&amp;A Forum</md-button>
+        <!--<md-button class="transform-none sidenav" ng-href="/education" ng-click="mc.toggleSidenav()">LEAN Education</md-button>-->
+        <md-button class="transform-none sidenav" ng-href="/teachingCurriculum" ng-click="mc.toggleSidenav()">Teaching And Curriculum</md-button>
+        <md-button class="transform-none sidenav" ng-href="/about" name="about" ng-click="mc.toggleSidenav()">About Us</md-button>
+        <md-button class="transform-none sidenav" ng-href="/dashboard" ng-click="mc.toggleSidenav()" ng-hide="!mc.user">
+          <div layout>
+            <md-icon class="sidenav" md-svg-icon="/images/icons/view-dashboard.svg"></md-icon>
+            <span>Dashboard</span>
+          </div>
+        </md-button>
+      </md-sidenav>
+    </div>
+
+
     <div class="md-padding" ng-view flex><!-- ng-view container --></div>
   </div>
 

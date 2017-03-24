@@ -4,29 +4,24 @@
 			<md-button class="md-icon" aria-label="linkedin signup" ng-click="vm.authenticateLinkedIn()">
 				<img ng-src="/images/logos/lkin-login-form-btn.png" class="md-card-image">
 			</md-button>
-			<h3 class="md-headline text-center">Sign Into Your Account</h3>
+			<h5 class="text-center">Sign Into Your Account</h5>
 			<span class="md-subhead text-warn">{{vm.loginError}}</span>
 			<div layout="row" layout-sm="column" layout-align="space-around" ng-if="vm.progressCircleEnabled">
 				<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 			</div>
-			<md-input-container class="login-form">
+			<md-input-container>
 				<label>Email</label>
 				<input required ng-model="username" type="email">
 			</md-input-container>
-			<md-input-container class="login-form">
+			<md-input-container>
 				<label>Password</label>
 				<input required ng-model="password" type="password">
 			</md-input-container>
-			<div layout>
-				<md-button class="md-raised md-primary" ng-click="vm.authenticateLocal(username, password)">Login</md-button>
-				<md-button class="md-primary" ng-href="/createAccount">Sign Up</md-button>
-			</div>
-			<div class="md-margin">
-				<a href="/reset" style="text-align: center;">forgot password?</a>
-			</div>
-			<div class="md-margin">
-				Contact us at <a href="mailto:shingo.it@usu.edu?Subject=Login%20Issues%20teachinglean.org" target="_top">shingo.it@usu.edu</a> for technical support.
-			</div>
+			<div><md-button class="md-raised md-primary" ng-click="vm.authenticateLocal(username, password)">Login</md-button></div>
+			<p><a href="/reset" style="text-align: center;">forgot password?</a></p>
+			<md-divider style="height:16px;"></md-divider>
+			<p class="flow-text">Don't have an account? <a ng-href="/createaccount"><b>Sign Up</b></a></p>
+			<!--<p>Contact us at <a href="mailto:shingo.it@usu.edu?Subject=Login%20Issues%20teachinglean.org" target="_top">shingo.it@usu.edu</a> for technical support.</p>-->
 		</div>
 	</md-whiteframe>
 </div>
