@@ -23,19 +23,13 @@
 				});
 		};
 
-		vm.toggleSidenav = function () {
-			if (!vm.sideNavLocked) {
-				$rootScope.$broadcast('toggle-sidenav');
-			}
-		}
-
 		/**
 		 * @desc {function} $watch :: Watches for changes in screen size to determine wether to hide/show the side nav
 		 */
 		$scope.$watch(function () {
 			return $mdMedia('gt-sm');
-		}, function (isBigEnough) {
-			vm.sideNavLocked = isBigEnough;
+		}, function (shouldLockSidenav) {
+			vm.sideNavLocked = shouldLockSidenav;
 		});
 
 		/**

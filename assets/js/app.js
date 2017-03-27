@@ -5,7 +5,7 @@
 (function () {
 	'use strict';
 
-	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngMessages', 'ngSanitize', 'angularMoment', 'summernote', 'ngclipboard'])
+	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngMessages', 'ngSanitize', 'angularMoment', 'summernote'])
 		.config(function($locationProvider, $routeProvider, $mdThemingProvider, $mdIconProvider, $httpProvider) {
 
 			$routeProvider

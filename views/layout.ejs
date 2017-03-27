@@ -20,7 +20,6 @@
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
   <link rel="stylesheet" href="/bower_components/summernote/dist/summernote.css">
-  <link rel="stylesheet" href="/css/materialize/css/materialize.css">
   <link rel="stylesheet" href="/css/master.css">
   <!--STYLES END-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -40,8 +39,8 @@
 
 </head>
 
-<body id="main" ng-controller="MainController as mc" ng-cloak layout="column">
-  <tool-bar></tool-bar>
+<body id="main" ng-controller="MainController as mc" ng-cloak layout="column" layout-gt-sm="row" layout-wrap>
+  <tool-bar flex="100"></tool-bar>
   <message-container layout="row" layout-align="center center" ng-if="mc.error || mc.message">
     <div layout="column">
       <div layout-padding ng-if="mc.error">
@@ -53,55 +52,15 @@
     </div>
     <md-button class="md-fab md-mini md-primary" md-no-ink ng-click="mc.error = false; mc.message = false">&times;</md-button>
   </message-container>
-  <div layout>
-    <!--<side-nav layout="column"></side-nav>-->
-    <style>
-      .sidenav-logo-img {
-        width: 100%;
-        margin-top: 24px;
-        margin-bottom: 24px;
-        padding: 0 12px 0 12px;
-      }
-      .sidenav.divider {
-        margin-left: 8px;
-        margin-right: 8px;
-      }
-    </style>
-
-    <div layout="column">
-      <md-sidenav class="md-sidenav-left" md-component-id="sidenav" md-is-locked-open="mc.sideNavLocked" layout-fill>
-        
-          <a ng-href="/"><img class="sidenav-logo-img" ng-src="/images/logos/LEAN-logo-md.png" alt="Teaching LEAN" /></a>
-        <md-divider class="sidenav divider"></md-divider>
-        <!--<a ng-href="/" name="home">
-          <p class="flow-text">Home</p>
-        </a>-->
-        <md-button class="transform-none sidenav flow-text" ng-href="/" name="home" ng-click="mc.toggleSidenav()">Home</md-button>
-        <md-button class="transform-none sidenav" ng-href="/entries" name="entries" ng-click="mc.toggleSidenav()">Q&amp;A Forum</md-button>
-        <!--<md-button class="transform-none sidenav" ng-href="/education" ng-click="mc.toggleSidenav()">LEAN Education</md-button>-->
-        <md-button class="transform-none sidenav" ng-href="/teachingCurriculum" ng-click="mc.toggleSidenav()">Teaching And Curriculum</md-button>
-        <md-button class="transform-none sidenav" ng-href="/about" name="about" ng-click="mc.toggleSidenav()">About Us</md-button>
-        <md-button class="transform-none sidenav" ng-href="/dashboard" ng-click="mc.toggleSidenav()" ng-hide="!mc.user">
-          <div layout>
-            <md-icon class="sidenav" md-svg-icon="/images/icons/view-dashboard.svg"></md-icon>
-            <span>Dashboard</span>
-          </div>
-        </md-button>
-      </md-sidenav>
-    </div>
-
-
-    <div ng-view flex><!-- ng-view container --></div>
-  </div>
+  <side-nav layout="column"></side-nav>
+  <div ng-view flex><!-- ng-view container --></div>
 
   <!--SCRIPTS-->
   <script src="/js/dependencies/sails.io.js"></script>
   <script src="/bower_components/jquery/dist/jquery.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
-  <script src="/css/materialize/js/materialize.min.js"></script>
   <script src="/bower_components/lodash/lodash.js"></script>
   <script src="/bower_components/summernote/dist/summernote.js"></script>
-  <script src="/bower_components/clipboard/dist/clipboard.min.js"></script>
   <script src="/bower_components/angular/angular.js"></script>
   <script src="/bower_components/angular-route/angular-route.js"></script>
   <script src="/bower_components/angular-aria/angular-aria.js"></script>
@@ -115,7 +74,6 @@
   <script src="/bower_components/moment/moment.js"></script>
   <script src="/bower_components/angular-moment/angular-moment.js"></script>
   <script src="/bower_components/angular-summernote/dist/angular-summernote.js"></script>
-  <script src="/bower_components/ngclipboard/dist/ngclipboard.min.js"></script>
   <script src="/js/app.js"></script>
   <script src="/js/controllers/AddCommentController.js"></script>
   <script src="/js/controllers/AddEntryController.js"></script>
