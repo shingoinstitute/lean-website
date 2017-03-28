@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
   <link rel="stylesheet" href="/bower_components/summernote/dist/summernote.css">
   <link rel="stylesheet" href="/css/master.css">
+  <link rel="stylesheet" href="/css/materialize.css">
   <!--STYLES END-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <base href="/">
@@ -54,6 +55,13 @@
   </message-container>
   <side-nav layout="column"></side-nav>
   <div ng-view flex><!-- ng-view container --></div>
+  <footer flex="100" layout-padding class="blue-grey darken-2">
+    <ul class="container">
+      <li><a ng-href="/about" class="white-text">About</a></li>
+      <li><a ng-href="/contact" class="white-text">Contact Us</a></li>
+      <li><a ng-href="/feedback" class="white-text">Send us your feedback</a></li>
+    </ul>
+  </footer>
 
   <!--SCRIPTS-->
   <script src="/js/dependencies/sails.io.js"></script>

@@ -53,13 +53,14 @@
 
 			$mdThemingProvider.alwaysWatchTheme(true);
 
-			$mdThemingProvider.theme('altTheme')
-				.primaryPalette('orange')
-				.accentPalette('blue').dark();
-
 			$mdThemingProvider.theme('default')
 				.primaryPalette('blue-grey')
 				.accentPalette('orange');
+
+			$mdThemingProvider.theme('darkTheme')
+				.primaryPalette('blue-grey')
+				.accentPalette('orange')
+				.dark();
 		})
 		.constant('BROADCAST', {
 			loggingLevel: 'PRODUCTION', // 'DEBUG' or 'PRODUCTION'

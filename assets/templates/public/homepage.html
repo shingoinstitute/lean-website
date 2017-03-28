@@ -2,7 +2,7 @@
 	<div>
 		<md-content layout="column" layout-gt-sm="row" layout-padding layout-margin md-theme="">
 			<div flex layout="column">
-				<h3 class="md-display-1" style="margin-top: 0;">The Lean Educators Academic Network</h3>
+				<h3 style="margin-top: 0;">The Lean Educators Academic Network</h3>
 				<p class="flow-text">
 					Maximize customer value and minimize waste through Lean education. This website was created by the <a href="https://www.lean.org/Lean_Education_Academic_Network.pdf">Lean Educators Academic Network</a>					to point professors to teaching materials, broaden Lean distribution, and provide a place to discuss, collaborate, and
 					educate.
@@ -11,36 +11,50 @@
 					<md-button class="md-raised md-accent" ng-href="/createAccount">create a free account</md-button>
 				</div>
 			</div>
-			<span flex></span>
+			<div flex layout="column">
+				<md-card md-theme="darkTheme" class="md-padding blue-grey darken-1">
+					<h4>Community Forum</h4>
+					<p class="flow-text">Ask questions and recieve feedback from experts in our<a ng-href="/entries" class="orange-text"> Q&amp;A Forum</a>.</p>
+				</md-card>
+				<md-card md-theme="darkTheme" class="md-padding blue-grey darken-1">
+					<h4>Are you an educator?</h2>
+					<p class="flow-text">Use our free online <a href="/teachingCurriculum" class="orange-text">teaching resources</a> to put together a presentation using current,
+						up-to-date resources.</p>
+				</md-card>
+			</div>
 		</md-content>
 
-		<div role="spacing" style="height: 100px;"></div>
-
-		<div layout="column" layout-gt-sm="row" layout-padding layout-margin>
-			<md-card flex md-theme="altTheme" class="md-padding">
-				<h3 class="md-display-1">Our next meeting</h3>
-				<p class="flow-text">A spirited group of researchers, teachers, and practitioners are getting together on Thursday, 4May17, 1-7:30pm in Seattle
-					to start-up the “College of Operational Excellence (COE)” as a sub-group of the Production and Operations Management
-					Society (POMS). This meeting will also serve as a restart for Lean Education Academic Network (L.E.A.N.) as we envision
-					the way forward for teaching and research in higher education. Get in on the ground floor by joining us at this Mini-Conference
-					and Reception that serves as a prelude to the annual POMS Conference 5-8May17. Register at https://pomsmeetings.org/conf-2017/
+		<div>
+			<md-card flex md-theme="" class="md-padding md-margin">
+				<h4>Our Next Meeting</h4>
+				<p>May 4th, 2017 from 1:00 - 7:30 pm</p>
+				<p class="flow-text">A spirited group of researchers, teachers, and practitioners are getting together on 
+					to start up the <b>College of Operational Excellence (COE)</b> as a sub-group of the <em>Production and Operations Management
+					Society (POMS)</em>. This meeting will also serve as a restart for <b>Lean Education Academic Network (L.E.A.N.)</b> as we envision
+					the way forward for teaching and research in higher education.
+				</p>
+				<h4>The Annual POMS 2017 Conference</h4>
+				<p class="flow-text">
+					Get in on the ground floor by joining us at this Mini-Conference and Reception that serves as a prelude to the <a href="https://pomsmeetings.org/conf-2017/">annual POMS Conference</a>, <b>May 5th - 8th, 2017</b>.
+				</p>
+				<div>
+					<md-button class="md-raised md-accent" href="https://pomsmeetings.org/conf-2017/">Register for 2017 poms conference</md-button>
+				</div>
+				<p class="flow-text">
 					The primary objective of the COE is to build a community focused on operational excellence to 1) foster creation and
-					dissemination of scholarly knowledge; 2) share teaching and pedagogical material; 3) exchange information about undergraduate,
-					graduate and other specialized educational programs; 4) interact with leading practitioners to enrich research and
-					teaching. If you are interested in getting in on the ground floor and providing input and direction, we would like
-					to see you there. Just register at the POMS website. If you have questions contact Eric Olsen, eolsen@calpoly.edu ,Rachna
-					Shah, shahx024@umn.edu , or Peter Ward, ward.1@osu.edu .</p>
-				<md-button class="md-accent md-raised">Test button</md-button>
+				dissemination of scholarly knowledge; 2) share teaching and pedagogical material; 3) exchange information about undergraduate,
+				graduate and other specialized educational programs; 4) interact with leading practitioners to enrich research and
+				teaching. If you are interested in getting in on the ground floor and providing input and direction, we would like
+				to see you there. Just register at the POMS website. 
+				</p>
+				<p class="flow-text">
+					If you have questions contact Eric Olsen, eolsen@calpoly.edu ,Rachna
+					Shah, shahx024@umn.edu , or Peter Ward, ward.1@osu.edu.
+				</p>
 			</md-card>
-			<md-content flex md-theme="altTheme" class="md-padding">
-				<h3 class="md-headline">Ask questions and recieve feedback from experts in our<a ng-href="/entries"> Q&amp;A Forum</a>.</h3>
-
-			</md-content>
-			<md-content flex md-theme="altTheme" class="md-padding">
-				<h3 class="md-headline">Are you an educator?</h3>
-				<h3 class="md-headline">Use our free online <a href="/teachingCurriculum">teaching resources</a> to put together a presentation using current,
-					up-to-date resources.</h3>
-			</md-content>
+			
+			</div>
+			
 		</div>
 	</div>
 </md-content>
