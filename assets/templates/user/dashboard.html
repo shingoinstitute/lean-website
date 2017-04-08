@@ -7,11 +7,11 @@
       </div>
     </md-whiteframe>
   </div>
-  <md-tabs md-dynamic-height md-stretch-tabs ng-show="mc.user" layout-fill class="content top-level-tabs" md-selected="1">
+  <md-tabs md-dynamic-height md-stretch-tabs ng-show="mc.user" layout-fill class="content top-level-tabs" md-selected="vm.selectedTab">
     <md-tab label="Dashboard">
       <div layout-gt-sm="row" ng-controller="DashboardController as vm" layout="column" layout-fill class="content">
         <md-tabs md-dynamic-height md-stretch-tabs md-border-bottom md-autoselect flex="70">
-          <md-tab label="My Recent Activity" ng-init="vm.getRecent()">
+          <md-tab label="My Recent Activity" ng-init="vm.getRecent()" md-active="vm.selectedTab == 0" md-on-select="vm.selectedTab=0">
             <div layout-padding>
               <md-list>
                 <md-list-item ng-repeat="entry in vm.recent">
@@ -51,10 +51,10 @@
         <profile user="mc.user"></profile>
       </div>
     </md-tab>
-    <md-tab ng-if="mc.user.isAdmin === true" label="Admin">
+    <md-tab ng-if="mc.user.isAdmin === true" label="Admin" md-active="vm.selectedTab == 1" md-on-select="vm.selectedTab=1">
       <admin ctrl="vm"></admin>
     </md-tab>
-    <md-tab ng-if="mc.user.isAdmin == true || mc.user.isModerator == true" label="Moderator">
+    <md-tab ng-if="mc.user.isAdmin == true || mc.user.isModerator == true" label="Moderator" md-active="vm.selectedTab == 2" md-on-select="vm.selectedTab=2">
       <moderator users="vm.users"></moderator>
     </md-tab>
   </md-tabs>

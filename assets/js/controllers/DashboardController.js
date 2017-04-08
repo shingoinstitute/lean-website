@@ -12,7 +12,7 @@
     vm.questions = [];
     vm.answers = [];
     vm.comments = [];
-
+    vm.selectedTab = 0;
     vm.go = function (path) {
       $location.path(path);
     }
