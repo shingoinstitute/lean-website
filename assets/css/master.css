@@ -13,6 +13,24 @@ body {
   height: initial;
 }
 
+.md-fab-flat {
+  box-shadow: none !important;
+  background: none !important;
+}
+.md-fab-flat:hover {
+  background: #BEBEBE !important;
+}
+.md-input {
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+  background: inherit;
+  border: none;
+  border-bottom: 1px solid #A7A7A7;
+}
+.md-input:focus {
+  outline: none;
+}
 /*for larger screens*/
 	@media screen and (min-width: 1400px) {
 		.login-form-container {
@@ -35,7 +53,9 @@ body {
 	.login-form {
 		margin-bottom: 0;
 	}
-
+.text-align-center {
+  text-align: center;
+}
 .logo {
   text-align: center;
   text-decoration: none;
@@ -178,8 +198,8 @@ th, td {
 md-progress-circular.centered {
   margin: 0 auto;
 }
-.button-lower {
-  font-size: 12px;
+.no-transform {
+  /*font-size: 14px;*/
   text-transform: none;
 }
 tr.no-border th {
@@ -416,7 +436,26 @@ md-card-avatar>img {
 .animate-vertical.ng-leave.ng-leave-active {
   top:-100%;
 }
-
+.flex-align-start {
+  display: -webkit-flex;
+   display: flex;
+   -webkit-align-items: center;
+   align-items: center;
+   -webkit-justify-content: center;
+   justify-content: center;
+   /* You can set flex-wrap and flex-direction individually */
+   -webkit-flex-direction: row;
+   flex-direction: row;
+   -webkit-flex-wrap: wrap;
+   flex-wrap: wrap;
+   /* Or do it all in one line with flex flow */
+   -webkit-flex-flow: row wrap;
+   flex-flow: row wrap;
+   /* tweak the where items line up on the row */
+   /* valid values are: flex-start, flex-end, space-between, space-around, stretch */
+   -webkit-align-content: flex-end;
+   align-content: flex-end;
+}
 .flex-align-left {
   display: -webkit-flex;
   display: flex;
@@ -460,3 +499,4 @@ md-card-avatar>img {
 .md-cell-padding {
   padding: 6px 12px 6px 12px;
 }
+

@@ -15,7 +15,7 @@
 		$scope.userSearchQuery = '';
 
 		vm.findAll = function () {
-			_userService.findAll()
+			$http.get('/user?limit=20')
 			.then(function (response) {
 				if (response.data) vm.users = response.data;
 			})
@@ -25,8 +25,6 @@
 				}
 			});
 		}
-
-		vm.findAll();
 
 		vm.showDisableWarningDialog = function(user, _scope, $event) {
 			var template = '<md-dialog flex-gt-sm="25" layout="column" aria-label="warning dialog" layout-padding>' +
@@ -189,6 +187,25 @@
 				$scope.isSelected = false;
 			}
 			$scope.hasSelection = Object.keys($scope.selectedUsers).length > 0;
+		}
+
+		$scope.$watch('userQuery', function (newV, oldV) {
+			if (typeof newV == 'undefined' || newV == '') {
+				vm.findAll()
+			} else {
+				$scope.performUserQuery(newV);
+			}
+		}, true);
+
+		$scope.performUserQuery = function(query) {
+			var params = {or: [{firstname: {contains: query}},{lastname: {contains: query}}]}
+			$http.get('/user?where=' + JSON.stringify(params))
+			.then(function(response) {
+				vm.users = response.data;
+			})
+			.catch(function(err){
+				console.error('Error: ', err);
+			});
 		}
 
 	}
