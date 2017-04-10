@@ -5,7 +5,7 @@
 (function () {
 	'use strict';
 
-	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngMessages', 'ngSanitize', 'angularMoment', 'summernote', 'ngclipboard'])
+	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngMessages', 'ngSanitize', 'angularMoment', 'summernote'])
 		.config(function($locationProvider, $routeProvider, $mdThemingProvider, $mdIconProvider, $httpProvider) {
 
 			$routeProvider
@@ -51,13 +51,15 @@
 
 			$locationProvider.html5Mode(true);
 
+			$mdThemingProvider.alwaysWatchTheme(true);
+
 			$mdThemingProvider.theme('default')
 				.primaryPalette('blue-grey')
 				.accentPalette('orange');
 
 			$mdThemingProvider.theme('darkTheme')
-				.primaryPalette('orange')
-				.accentPalette('blue')
+				.primaryPalette('blue-grey')
+				.accentPalette('orange')
 				.dark();
 		})
 		.constant('BROADCAST', {
