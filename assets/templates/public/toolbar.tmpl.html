@@ -1,12 +1,13 @@
 <md-toolbar class="md-primary md-hue-2">
   <div class="md-toolbar-tools">
+    <span flex-gt-sm></span>
     <md-button class="md-accent" aria-label="Sign Up" ng-href="/createAccount" ng-hide="mc.user">
       Sign Up
     </md-button>
     <md-button class="md-raised" aria-label="Login" ng-href="/login" ng-hide="mc.user">
       Login
     </md-button>
-    <span flex></span>
+    <span flex-xs flex-sm></span>
     <md-menu md-offset="50" ng-show="mc.user">
       <md-button class="md-icon-button" aria-label="Profile" ng-click="$mdMenu.open($event)">
         <md-icon md-menu-align-target md-svg-icon="/images/icons/ic_account_circle_white_36px.svg"></md-icon>
