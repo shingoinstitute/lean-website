@@ -9,8 +9,8 @@
 		var vm = this;
 		var originatorEv;
 
-		$scope.toggleSidenav = () => {
-			$mdSidenav('sidenav').toggle();	
+		$scope.toggleSidenav = function() {
+			$mdSidenav('sidenav').toggle();
 		};
 
 		/**
