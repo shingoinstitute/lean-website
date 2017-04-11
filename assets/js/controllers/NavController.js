@@ -9,9 +9,9 @@
 		var vm = this;
 		var originatorEv;
 
-    $scope.$on('toggle-sidenav', function(ev) {
-      $mdSidenav('sidenav').toggle();
-    });
+		$scope.toggleSidenav = function() {
+			$mdSidenav('sidenav').toggle();
+		};
 
 		/**
 		 * @description {function} showDashboard :: sends broadcast message to MainController which then sends a broadcast message back to NavController via '$NavControllerListener'

@@ -4,9 +4,9 @@
 	angular.module('leansite')
 		.controller('MainController', MainController);
 
-	MainController.$inject = ['$scope', '$rootScope', '$http', '$cookies', '$location', '$mdMedia', '_userService', 'BROADCAST', 'JWT_TOKEN'];
+	MainController.$inject = ['$scope', '$rootScope', '$http', '$cookies', '$location', '$mdMedia', '$mdTheming', '_userService', 'BROADCAST', 'JWT_TOKEN'];
 
-	function MainController($scope, $rootScope, $http, $cookies, $location, $mdMedia, _userService, BROADCAST, JWT_TOKEN) {
+	function MainController($scope, $rootScope, $http, $cookies, $location, $mdMedia, $mdTheming, _userService, BROADCAST, JWT_TOKEN) {
 		var vm = this;
 
 		/**
@@ -17,22 +17,19 @@
 				.then(function (response) {
 					vm.user = response.data;
 					$rootScope.userId = response.data.uuid;
+				})
+				.catch(function(response) {
+					if ($rootScope.userId) console.error(response.data);
 				});
 		};
-
-		vm.toggleSidenav = function () {
-			if (!vm.sideNavLocked) {
-				$rootScope.$broadcast('toggle-sidenav');
-			}
-		}
 
 		/**
 		 * @desc {function} $watch :: Watches for changes in screen size to determine wether to hide/show the side nav
 		 */
 		$scope.$watch(function () {
 			return $mdMedia('gt-sm');
-		}, function (isBigEnough) {
-			vm.sideNavLocked = isBigEnough;
+		}, function (shouldLockSidenav) {
+			vm.sideNavLocked = shouldLockSidenav;
 		});
 
 		/**

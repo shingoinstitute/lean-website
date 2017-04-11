@@ -5,13 +5,14 @@
   <title>LEAN site</title>
   <!-- Viewport mobile tag for sensible mobile support -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
+
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
   <link rel="manifest" href="/manifest.json">
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#ffffff">
+
   <!--STYLES-->
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css">
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
@@ -19,10 +20,13 @@
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
   <link rel="stylesheet" href="/bower_components/summernote/dist/summernote.css">
+  <link rel="stylesheet" href="/css/materialize.css">
   <link rel="stylesheet" href="/css/master.css">
   <!--STYLES END-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <base href="/">
+
+
 
   <!--Google Analytics-->
   <script>
@@ -36,30 +40,34 @@
 
 </head>
 
-<body id="main" layout ng-controller="MainController as mc" ng-cloak>
-  <side-nav layout="column"></side-nav>
-  <div layout="column" flex>
-    <tool-bar></tool-bar>
-    <message-container layout="row" layout-align="center center" ng-if="mc.error || mc.message">
-      <div layout="column">
-        <div layout-padding ng-if="mc.error">
-          <p>Error: <span class="red-text text-darken-1" ng-bind="mc.error"></span></p>
-        </div>
-        <div layout-padding ng-if="mc.message">
-          <pre class="text-info md-padding" ng-bind="mc.message"></pre>
-        </div>
+<body id="main" ng-controller="MainController as mc" ng-cloak layout="column" layout-gt-sm="row" layout-wrap>
+  <tool-bar flex="100"></tool-bar>
+  <message-container layout="row" layout-align="center center" ng-if="mc.error || mc.message">
+    <div layout="column">
+      <div layout-padding ng-if="mc.error">
+        <p>Error: <span class="red-text text-darken-1" ng-bind="mc.error"></span></p>
       </div>
-      <md-button class="md-fab md-mini md-primary" md-no-ink ng-click="mc.error = false; mc.message = false">&times;</md-button>
-    </message-container>
-    <div class="md-padding" ng-view flex><!-- ng-view container --></div>
-  </div>
+      <div layout-padding ng-if="mc.message">
+        <pre class="text-info md-padding" ng-bind="mc.message"></pre>
+      </div>
+    </div>
+    <md-button class="md-fab md-mini md-primary" md-no-ink ng-click="mc.error = false; mc.message = false">&times;</md-button>
+  </message-container>
+  <side-nav layout="column"></side-nav>
+  <div ng-view flex><!-- ng-view container --></div>
+  <footer flex="100" layout-padding class="blue-grey darken-2">
+    <ul class="container">
+      <li><a ng-href="/about" class="white-text">About</a></li>
+      <li><a ng-href="/contact" class="white-text">Contact Us</a></li>
+      <li><a ng-href="/feedback" class="white-text">Send us your feedback</a></li>
+    </ul>
+  </footer>
+
   <!--SCRIPTS-->
-  <script src="/js/dependencies/sails.io.js"></script>
   <script src="/bower_components/jquery/dist/jquery.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <script src="/bower_components/lodash/lodash.js"></script>
   <script src="/bower_components/summernote/dist/summernote.js"></script>
-  <script src="/bower_components/clipboard/dist/clipboard.min.js"></script>
   <script src="/bower_components/angular/angular.js"></script>
   <script src="/bower_components/angular-route/angular-route.js"></script>
   <script src="/bower_components/angular-aria/angular-aria.js"></script>
@@ -73,7 +81,6 @@
   <script src="/bower_components/moment/moment.js"></script>
   <script src="/bower_components/angular-moment/angular-moment.js"></script>
   <script src="/bower_components/angular-summernote/dist/angular-summernote.js"></script>
-  <script src="/bower_components/ngclipboard/dist/ngclipboard.min.js"></script>
   <script src="/js/app.js"></script>
   <script src="/js/controllers/AddCommentController.js"></script>
   <script src="/js/controllers/AddEntryController.js"></script>
