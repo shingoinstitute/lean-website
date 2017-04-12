@@ -13,10 +13,6 @@ body {
   height: initial;
 }
 
-/*ul, li {*/
-  /*list-style: none;*/
-/*}*/
-
 .md-fab-flat {
   box-shadow: none !important;
   background: none !important;
@@ -35,28 +31,6 @@ body {
 .md-input:focus {
   outline: none;
 }
-/*for larger screens*/
-	@media screen and (min-width: 1400px) {
-		.login-form-container {
-      margin: 0 auto;
-			margin-left: 33%;
-		}
-	}
-
-	/*login form for mobile screens*/
-	@media screen and (max-width: 1399px) {
-		.login-form-container {
-			margin: 0 auto;
-		}
-	}
-
-	.login-form-container {
-		padding: 1%;
-	}
-
-	.login-form {
-		margin-bottom: 0;
-	}
 .text-align-right {
   text-align: right;
 }
@@ -71,15 +45,12 @@ body {
   text-decoration: none;
   color: #4a4a4a;
 }
-
 margin-top-none {
   margin-top: 0px;
 }
-
 .logo img {
   width: 90%;
 }
-
 a.logo,
 a.logo:visited {
   text-decoration: none;
@@ -567,7 +538,9 @@ table.file-table th {
   padding-top: 8px;
   padding-bottom: 8px;
 }
-
+md-divider.divider-16px {
+  height: 16px;
+}
 .sidenav-logo-img {
   width: 100%;
   margin-top: 24px;
@@ -578,14 +551,30 @@ table.file-table th {
   margin-left: 8px;
   margin-right: 8px;
 }
-.signup-form {
-  max-width: 420px;
-}
+
 .linkedin-button {
   display: block;
   margin: 0 auto;
 }
+@media screen and (min-width: 961px) {
+  .md-margin-gt-sm {
+    margin: 8px;
+  }
+  .signup-form {
+    margin-top: 40px;
+  }
+}
 
+@media screen and (max-width: 959px) {
+  .md-margin-gt-sm {
+    margin: 0 auto;
+  }
+  .signup-form {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+}
 .margin-top-none {
   margin-top: 0px;
 }
