@@ -22,42 +22,43 @@
 
 module.exports.routes = {
 
-	// +-------------+
-	// | auth routes |
-	// +-------------+
-   '/auth/linkedin': 'AuthController.linkedInAuth',
-   '/auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
-   '/auth/local': 'AuthController.localAuth',
-	'/auth/login': 'AuthController.login',
-	'PUT /auth/login': 'AuthController.login',
-	'/auth/logout': 'AuthController.logout',
-	'GET /verifyEmail/:id': 'AuthController.verifyEmail',
+  // +-------------+
+  // | auth routes |
+  // +-------------+
+  '/auth/linkedin': 'AuthController.linkedInAuth',
+  '/auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
+  '/auth/local': 'AuthController.localAuth',
+  '/auth/login': 'AuthController.login',
+  'PUT /auth/login': 'AuthController.login',
+  '/auth/logout': 'AuthController.logout',
+  'GET /verifyEmail/:id': 'AuthController.verifyEmail',
+  'GET /api/verifyEmail/:id': 'AuthController.apiVerifyEmail',
 
-	// +--------------+
-	// | entry routes |
-	// +--------------+
-	'PUT /entry/upvote/:id': 'EntryController.upvote',
-	'PUT /entry/downvote/:id': 'EntryController.downvote',
+  // +--------------+
+  // | entry routes |
+  // +--------------+
+  'PUT /entry/upvote/:id': 'EntryController.upvote',
+  'PUT /entry/downvote/:id': 'EntryController.downvote',
 
-	// +-------------+
-	// | user routes |
-	// +-------------+
-	'/me': 'UserController.me',
-	'POST /reset': 'UserController.sendPasswordResetEmail',
-	'GET /reset/:id': {
-		layout: 'layout',
-		controller: 'UserController',
-		action: 'reset'
-	},
-	'GET /reset': {
-		view: 'layout'
-	},
-	'PUT /reset/:id': 'UserController.updatePassword',
+  // +-------------+
+  // | user routes |
+  // +-------------+
+  '/me': 'UserController.me',
+  'POST /reset': 'UserController.sendPasswordResetEmail',
+  'GET /reset/:id': {
+    layout: 'layout',
+    controller: 'UserController',
+    action: 'reset'
+  },
+  'GET /reset': {
+    view: 'layout'
+  },
+  'PUT /reset/:id': 'UserController.updatePassword',
 
-	// +------------+
-	// | dev routes |
-	// +------------+
-	'DELETE /dev/delete': 'DevController.deleteAll',
-	'/dev/test': 'DevController.test'
+  // +------------+
+  // | dev routes |
+  // +------------+
+  'DELETE /dev/delete': 'DevController.deleteAll',
+  '/dev/test': 'DevController.test'
 
 };

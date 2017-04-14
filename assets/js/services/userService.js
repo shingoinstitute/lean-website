@@ -14,14 +14,14 @@
 		 */
 		service.getUser = function () {
 			return $http.get('/me');
-		}
+		};
 
 		/**
 		 * @description createUser :: Call to REST API to create new user
 		 */
 		service.createUser = function (user) {
 			return $http.post('/user', user);
-		}
+		};
 
 		/**
 		 * @description deleteUser :: deletes a user from the database
@@ -29,7 +29,7 @@
 		 */
 		service.deleteUser = function (user) {
 			return $http.delete('/user/' + user.uuid);
-		}
+		};
 
 		/**
 		 * @description Call to REST API to update user
@@ -37,11 +37,11 @@
 		 */
 		service.updateUser = function (user) {
 			return $http.put('/user/' + user.uuid, user);
-		}
+		};
 
 		service.findAll = function () {
 			return $http.get('/user');
-		}
+		};
 
 		/**
 		 * @description Call to REST API to send user an email with a password reset link
@@ -49,14 +49,14 @@
 		 */
 		service.requestPasswordResetEmail = function(email) {
 			return $http.post('/reset', {email: email});
-		}
+		};
 
 		service.requestPasswordUpdate = function(options) {
 			return $http.put('/reset/' + options.userId, {
 				password: options.password,
 				token: options.token
 			});
-		}
+		};
 
 		service.uploadPhoto = function(file){
 			return $http({
@@ -74,9 +74,9 @@
 					return formData;
 				}
 			});
-		}
+		};
 
 		return service;
-	};
+	}
 
 })();

@@ -25,7 +25,7 @@
 					templateUrl: 'templates/public/login.html',
 				})
 				.when('/auth/linkedin/callback*', {
-					template: "<p ng-init=\"linkedinCallback()\">redirecting...</p>",
+					template: '<p ng-init=\"linkedinCallback()\">redirecting...</p>',
 				})
 				.when('/createAccount', {
 					templateUrl: 'templates/user/createAccount.html'
@@ -45,8 +45,11 @@
 				.when('/reset/:id', {
 					templateUrl: 'templates/user/passwordResetForm.html'
 				})
+				.when('/verifyEmail/:id', {
+					templateUrl: 'templates/user/emailVerification.html'
+				})
 				.otherwise({
-					redirectTo: '/'
+					templateUrl: 'templates/public/404.html'
 				});
 
 			$locationProvider.html5Mode(true);

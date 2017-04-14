@@ -1,0 +1,19 @@
+<md-content layout-margin ng-controller="EmailController">
+  <span ng-init="verifyEmail()"></span>
+  <div layout="column" layout-align="center center" ng-show="progressBarEnabled">
+    <p class="flow-text">please wait</p>
+    <md-progress-circular></md-progress-circular>
+  </div>
+  <div ng-show="verifiedEmail">
+    <h3 class="blue-grey-text text-darken-3">Thank you!</h3>
+    <p class="flow-text">The email address <b>{{verifiedEmail}}</b> has been verified successfully.</p>
+    <md-button class="md-raised md-accent">Go To Dashboard</md-button>
+  </div>
+  <div ng-show="error">
+    <div class="beige md-padding">
+      <p class="flow-text"><span class="red-text text-bold">Error!</span> {{error}}</p>
+    </div>
+    <hr>
+    <p class="flow-text">Don't think you should be seeing this? Please contact our technical support at <a href="mailto:shingo.it@usu.edu">shingo.it@usu.edu</a>.</p>
+  </div>
+</md-content>
