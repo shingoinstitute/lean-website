@@ -35,11 +35,11 @@ module.exports.policies = {
         linkedInAuth: true,
         linkedInAuthCallback: true,
         localAuth: true,
-        verifyEmail: true
+        apiVerifyEmail: true
     },
 
     'DevController': {
-        '*': true,
+        '*': true
     },
 
     'CommentController': {
@@ -69,5 +69,5 @@ module.exports.policies = {
     'FlagController': {
         '*': ['sessionAuth', 'canFlag']
     }
-    
+
 };

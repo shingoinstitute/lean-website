@@ -55,7 +55,7 @@ module.exports = {
 
 		verifiedEmail: {
 			type: 'string',
-			defaultsTo: 'not verified!'
+			defaultsTo: ''
 		},
 
 		role: {
@@ -103,7 +103,7 @@ module.exports = {
 
 		// represents the number of milliseconds since 1/1/70
 		resetPasswordExpires: {
-			type: 'integer', 
+			type: 'integer',
 			size: 64
 		},
 
@@ -186,7 +186,7 @@ module.exports = {
 		} else {
 			delete values.password;
 		}
-		
+
 		return next();
 	},
 
@@ -199,7 +199,7 @@ module.exports = {
 
 	/**
 	 * @description We don't want to delete records completely so that comments, entries, etc. are always associated with a user. Just set user.accountIsActive to false.
-	 * 
+	 *
 	 * NOTE: If an account is disabled then re-enabled, they will need to create a new password.
 	 */
 	afterDestroy: function(records, next) {

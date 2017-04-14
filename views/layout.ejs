@@ -41,7 +41,7 @@
 </head>
 
 <body id="main" ng-controller="MainController as mc" ng-cloak layout="column" layout-gt-sm="row" layout-wrap>
-  <tool-bar flex="100"></tool-bar>
+  <tool-bar flex-gt-sm="100"></tool-bar>
 
   <message-container layout="row" layout-align="center center" ng-if="mc.error || mc.message">
     <div layout="column">
@@ -97,6 +97,7 @@
   <script src="/js/controllers/AuthController.js"></script>
   <script src="/js/controllers/CommentController.js"></script>
   <script src="/js/controllers/DashboardController.js"></script>
+  <script src="/js/controllers/EmailController.js"></script>
   <script src="/js/controllers/EntryDetailController.js"></script>
   <script src="/js/controllers/EntryHomeController.js"></script>
   <script src="/js/controllers/FlagContentController.js"></script>

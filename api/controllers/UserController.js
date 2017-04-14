@@ -31,13 +31,13 @@ module.exports = {
 
       var fdSplit = uploadedFiles[0].fd.split('/');
       var filename = fdSplit[fdSplit.length - 1];
-	  var pictureUrl = util.format('%s/images/profiles/%s/%s', sails.getBaseUrl(), req.user.uuid, filename);
-	  var tempUrl = util.format('%s/.tmp/public/images/profiles/%s/%s', process.cwd(), req.user.uuid, filename);
-	  fs.createReadStream(uploadedFiles[0].fd).pipe(fs.createWriteStream(tempUrl));
+      var pictureUrl = util.format('%s/images/profiles/%s/%s', sails.getBaseUrl(), req.user.uuid, filename);
+      var tempUrl = util.format('%s/.tmp/public/images/profiles/%s/%s', process.cwd(), req.user.uuid, filename);
+      fs.createReadStream(uploadedFiles[0].fd).pipe(fs.createWriteStream(tempUrl));
 
       User.update(req.user.uuid, {
-          pictureUrl: pictureUrl
-        })
+        pictureUrl: pictureUrl
+      })
         .then(function () {
           res.ok(pictureUrl);
         })
@@ -63,15 +63,13 @@ module.exports = {
 
       if (Array.isArray(user)) user = user.pop();
 
-      if (sails.config.environment === 'production') {
-        EmailService.sendVerificationEmail(user)
-          .then(function (info) {
-            sails.log.info('Email verification link sent to ' + user.email);
-          })
-          .catch(function (err) {
-            sails.log.error(err);
-          });
-      }
+      EmailService.sendVerificationEmail(user)
+        .then(function (info) {
+          sails.log.info('Email verification link sent to ' + user.email, info);
+        })
+        .catch(function (err) {
+          sails.log.error(err);
+        });
 
       return res.json({
         success: true,
@@ -111,13 +109,13 @@ module.exports = {
       if (err) return res.negotiate(err);
       if (!user) return res.status(404).json('user not found');
       EmailService.sendPasswordResetEmail(user.email)
-      .then(function (info) {
-        return res.json(info);
-      })
-      .catch(function (err) {
-        sails.log.error(err);
-        return res.negotiate(err);
-      });
+        .then(function (info) {
+          return res.json(info);
+        })
+        .catch(function (err) {
+          sails.log.error(err);
+          return res.negotiate(err);
+        });
     });
   },
 
@@ -154,4 +152,4 @@ module.exports = {
     });
   }
 
-}
+};

@@ -40,10 +40,10 @@ module.exports = {
 			from: 'shingo.it@usu.edu',
 			to: user.email,
 			subject: 'teachinglean.org - email verification link',
-			html: 'Thank you for signing up with TeachingLean.org, we&#39;re excited to see you join the community!' + +
-			'<p>Click <a href="' + redirectUrl + '">here</a> to verify your email address for <a href="https://teachinglean.org">teachinglean.org</a>.</p>' +
-			'<p>For HTML safe browsers, copy and paste this link into your web browser:</p>' + 
-			'<p>' + redirectUrl + '</p>'
+			html: '<img src="https://teachinglean.org/images/logos/LEAN-logo-md.png" alt="teachinglean.org" />' +
+					'<p>Thank you for signing up with teachinglean.org, we&#39;re excited to see you join the community.</p>' + '<br />' +
+					'<p>Please use the link below to verify your email address.</p>' + '<br />' +
+					'<p>' + redirectUrl + '</p>'
 		});
 	},
 
@@ -88,6 +88,6 @@ module.exports = {
 				});
 			});
 		})
-		
+
 	}
 }

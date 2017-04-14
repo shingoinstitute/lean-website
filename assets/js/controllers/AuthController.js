@@ -4,9 +4,9 @@
 	angular.module('leansite')
 		.controller('AuthController', AuthController);
 
-	AuthController.$inject = ['$scope', '$http', '$rootScope', '$location', '$mdDialog', '_authService', '_userService', 'BROADCAST'];
+	AuthController.$inject = ['$scope', '$http', '$rootScope', '$location', '$mdDialog', 'authService', 'userService', 'BROADCAST', '$routeParams'];
 
-	function AuthController($scope, $http, $rootScope, $location, $mdDialog, _authService, _userService, BROADCAST) {
+	function AuthController($scope, $http, $rootScope, $location, $mdDialog, authService, userService, BROADCAST, $routeParams) {
 		var vm = this;
 
 		vm.user = {};
@@ -18,12 +18,12 @@
 		$scope.password = '';
 
 		/**
-		 * @description {function} authenticateLinkedIn :: authenticates user via LinkedIn. 
+		 * @description {function} authenticateLinkedIn :: authenticates user via LinkedIn.
 		 * @see {file} authService.js
 		 */
 		vm.authenticateLinkedIn = function () {
-			_authService.authenticateLinkedin();
-		}
+      authService.authenticateLinkedin();
+		};
 
 		/**
 		 * @description: Authenticates user via local strategy. If user login is succesful, redirects user to /dashboard
@@ -32,34 +32,34 @@
 		 */
 		vm.authenticateLocal = function (username, password) {
 			vm.progressCircleEnabled = true;
-			_authService.authenticateLocal(username, password, function (err, user) {
+      authService.authenticateLocal(username, password, function (err, user) {
 				vm.progressCircleEnabled = false;
 				if (err) { vm.loginError = err.message || err.error || err; }
 				if (user) { $location.path('/dashboard'); }
 			});
-		}
+		};
 
 		/**
-		 * @description {function} logout :: logs user out using _authService
+		 * @description {function} logout :: logs user out using authService
 		 */
 		vm.logout = function() {
-			_authService.logout();
-		}
+      authService.logout();
+		};
 
 		vm.createAccount = function(user) {
 			delete user.confirmPassword;
-			_authService.createAccount(user, function(err, user) {
+      authService.createAccount(user, function(err, user) {
 				if (err) {
 					vm.error = err;
 					return;
 				}
-					
+
 				if (!user) {
 					vm.error = 'An unknown error occured, failed to create a new account.'
 					return;
 				}
 
-				_userService.getUser()
+				userService.getUser()
 					.then(function(response) {
 						if (response.data.error) return console.error('Error: ', err);
 						$location.path('/dashboard');
@@ -70,7 +70,7 @@
 						}
 					});
 			});
-		}
+		};
 
 		$scope.$watch(function() {
 			return typeof vm.user.firstname != 'undefined'
