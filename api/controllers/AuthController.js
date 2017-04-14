@@ -18,6 +18,8 @@ module.exports = {
 			if (err) return res.negotiate(err);
 			if (!user) return res.status(404).json('E_USER_NOT_FOUND');
 
+
+
 			if (!bcrypt.compareSync(token, user.emailVerificationToken)) return res.status(403).json('E_NOT_AUTHORIZED');
 			user.verifiedEmail = user.email;
 			user.emailVerificationToken = null;
@@ -72,12 +74,12 @@ module.exports = {
 
 	linkedInAuthCallback: function (req, res) {
 		passport.authenticate('linkedin', {
-			failureRedirect: '/login',
-			session: process.env.NODE_ENV === 'production'
+			failureRedirect: '/login'
 		})(req, res, function (err) {
+
 			if (err) {
 				sails.log.error(err);
-				return res.status(500).json(err);
+				return res.negotiate(err);
 			}
 
 			if (!req.user) {
@@ -100,5 +102,6 @@ module.exports = {
 	logout: function (req, res) {
 		req.logout();
 		return res.json('User successfully logged out.');
-	},
-}
+	}
+
+};

@@ -18,19 +18,19 @@ var jwtStrategyConfig = {
 	secretOrKey: JWT_SECRET,
 	audience: AUDIENCE,
 	jwtFromRequest: function cookieExtractor(req) {
-		return typeof req.cookies.JWT != 'undefined' ? req.cookies.JWT :
-			typeof req.headers.jwt != 'undefined' ? req.headers.jwt :
-				typeof req.param('JWT') != 'undefined' ? req.param('JWT') : null
-	},
+		return typeof req.cookies.JWT !== 'undefined' ? req.cookies.JWT :
+			typeof req.headers.jwt !== 'undefined' ? req.headers.jwt :
+				typeof req.param('JWT') !== 'undefined' ? req.param('JWT') : null
+	}
 };
 
 var linkedinStrategyConfig = {
 	clientID: process.env.LINKEDIN_CLIENT_ID,
 	clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-	callbackURL: process.env.NODE_ENV == 'production' ? 'https://teachinglean.org/auth/linkedin/callback' : 'http://localhost:1337/auth/linkedin/callback',
+	callbackURL: process.env.NODE_ENV === 'development' ? 'http://localhost:1337/auth/linkedin/callback' : 'https://teachinglean.org/auth/linkedin/callback',
 	scope: ['r_emailaddress', 'r_basicprofile'],
 	state: true
-}
+};
 
 /**
 *  @description :: Authentication handler for local strategy
@@ -81,8 +81,8 @@ function onLinkedinAuth(accessToken, refreshToken, profile, done) {
 	query.bio = json.summary;
 
 	User.findOne({ linkedinId: query.linkedinId }).exec(function (err, user) {
-		if (err) return done(err, false)
-			
+		if (err) return done(err, false);
+
 		if (!user) {
 			User.create(query).exec(function (err, user) {
 				if (err) return done(err, false);
