@@ -4,7 +4,7 @@
 	angular.module('leansite')
 		.controller('AuthController', AuthController);
 
-	AuthController.$inject = ['$scope', '$http', '$rootScope', '$location', '$mdDialog', 'authService', 'userService', 'BROADCAST', '$routeParams'];
+	AuthController.$inject = ['$scope', '$http', '$rootScope', '$location', '$mdDialog', '_authService', '_userService', 'BROADCAST', '$routeParams'];
 
 	function AuthController($scope, $http, $rootScope, $location, $mdDialog, authService, userService, BROADCAST, $routeParams) {
 		var vm = this;
