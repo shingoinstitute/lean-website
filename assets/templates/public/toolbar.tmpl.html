@@ -1,17 +1,79 @@
 <md-toolbar class="md-primary md-hue-2">
-  <div class="md-toolbar-tools">
+  <div class="md-toolbar-tools" layout>
+
+
+
+
     <span flex-gt-sm></span>
+
+    <style>
+      div.nav-container {
+        height: 100%;
+      }
+
+      ul.navigation {
+        height: 64px;
+        margin: 0;
+        padding: 0;
+      }
+
+      ul.navigation li {
+        display: table-cell;
+        vertical-align: middle;
+        height: 64px;
+      }
+
+      ul.navigation li img {
+        padding: 0;
+        margin: 0 16px 0 0;
+      }
+
+      ul.navigation li a {
+        padding-left: 16px;
+        padding-right: 16px;
+        font-weight: 500;
+        font-size: 10pt;
+      }
+
+      ul.navigation li.nav-item:hover {
+        background-color: #4C595F;
+      }
+    </style>
+
+    <div hide-sm hide-xs class="nav-container">
+      <ul class="navigation">
+        <li>
+          <a href="#"><img src="/images/logos/LEAN-logo-md.png" alt="teachinglean.org" /></a>
+        </li>
+        <li class="nav-item"><a class="orange-text text-lighten-1" href="#" ng-href="/" name="home">HOME</a></li>
+        <li class="nav-item"><a class="orange-text text-lighten-1" href="#" ng-href="/entries" name="entries">Q&amp;A FORUM</a></li>
+        <li class="nav-item"><a class="orange-text text-lighten-1" href="#" ng-href="/teachingCurriculum">TEACHING &amp; CURRICULUM</a></li>
+        <li class="nav-item"><a class="orange-text text-lighten-1" href="#" ng-href="/about" name="about">ABOUT US</a></li>
+      </ul>
+      <!--<md-button class="md-accent nav-item" ng-href="/" name="home">Home</md-button>-->
+      <!--<md-button class="md-accent nav-item" ng-href="/entries" name="entries">Q&amp;A Forum</md-button>-->
+      <!--<md-button class="md-accent nav-item" ng-href="/teachingCurriculum">Teaching And Curriculum</md-button>-->
+      <!--<md-button class="md-accent nav-item" ng-href="/about" name="about">About Us</md-button>-->
+    </div>
+
+    <span flex-gt-sm></span>
+
     <md-button class="md-accent" aria-label="Sign Up" ng-href="/createAccount" ng-hide="mc.user">
       Sign Up
     </md-button>
+
     <md-button class="md-raised" aria-label="Login" ng-href="/login" ng-hide="mc.user">
       Login
     </md-button>
-    <span flex-xs flex-sm></span>
+
+    <span flex></span>
+
     <md-menu md-offset="50" ng-show="mc.user">
+
       <md-button class="md-icon-button" aria-label="Profile" ng-click="$mdMenu.open($event)">
         <md-icon md-menu-align-target md-svg-icon="/images/icons/ic_account_circle_white_36px.svg"></md-icon>
       </md-button>
+
       <md-menu-content layout="column">
         <md-menu-item>
           <div>
@@ -19,16 +81,67 @@
             <md-button class="md-primary" ng-href="/dashboard">Dashboard</md-button>
           </div>
         </md-menu-item>
+
         <md-menu-item>
           <div>
             <md-icon md-menu-align-target md-svg-icon="/images/icons/logout.svg"></md-icon>
             <md-button ng-click="vm.logout()">Logout</md-button>
           </div>
         </md-menu-item>
+
       </md-menu-content>
     </md-menu>
+
     <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleSidenav()" hide-gt-sm>
       <md-icon md-menu-align-target md-svg-icon="/images/icons/menu.svg"></md-icon>
     </md-button>
+
+
+
   </div>
 </md-toolbar>
+
+
+<!--<md-toolbar class="md-primary md-hue-2">-->
+  <!--<div class="md-toolbar-tools">-->
+    <!--<span flex-gt-sm></span>-->
+
+    <!--<md-button class="md-accent" aria-label="Sign Up" ng-href="/createAccount" ng-hide="mc.user">-->
+      <!--Sign Up-->
+    <!--</md-button>-->
+
+    <!--<md-button class="md-raised" aria-label="Login" ng-href="/login" ng-hide="mc.user">-->
+      <!--Login-->
+    <!--</md-button>-->
+
+    <!--<span flex-xs flex-sm></span>-->
+
+    <!--<md-menu md-offset="50" ng-show="mc.user">-->
+      <!--<md-button class="md-icon-button" aria-label="Profile" ng-click="$mdMenu.open($event)">-->
+        <!--<md-icon md-menu-align-target md-svg-icon="/images/icons/ic_account_circle_white_36px.svg"></md-icon>-->
+      <!--</md-button>-->
+      <!--<md-menu-content layout="column">-->
+
+        <!--<md-menu-item>-->
+          <!--<div>-->
+            <!--<md-icon md-svg-icon="/images/icons/view-dashboard.svg"></md-icon>-->
+            <!--<md-button class="md-primary" ng-href="/dashboard">Dashboard</md-button>-->
+          <!--</div>-->
+        <!--</md-menu-item>-->
+
+        <!--<md-menu-item>-->
+          <!--<div>-->
+            <!--<md-icon md-menu-align-target md-svg-icon="/images/icons/logout.svg"></md-icon>-->
+            <!--<md-button ng-click="vm.logout()">Logout</md-button>-->
+          <!--</div>-->
+        <!--</md-menu-item>-->
+
+      <!--</md-menu-content>-->
+
+    <!--</md-menu>-->
+
+    <!--<md-button class="md-icon-button" aria-label="Menu" ng-click="toggleSidenav()" hide-gt-sm>-->
+      <!--<md-icon md-menu-align-target md-svg-icon="/images/icons/menu.svg"></md-icon>-->
+    <!--</md-button>-->
+  <!--</div>-->
+<!--</md-toolbar>-->
