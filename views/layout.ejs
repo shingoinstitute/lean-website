@@ -40,8 +40,8 @@
 
 </head>
 
-<body id="main" ng-controller="MainController as mc" ng-cloak layout="column" layout-gt-sm="row" layout-wrap>
-  <tool-bar flex-gt-sm="100"></tool-bar>
+<body id="main" ng-controller="MainController as mc" ng-cloak layout="column" layout-align="space-around stretch">
+  <tool-bar ></tool-bar>
 
   <message-container layout="row" layout-align="center center" ng-if="mc.error || mc.message">
     <div layout="column">
@@ -55,12 +55,12 @@
     <md-button class="md-fab md-mini md-primary" md-no-ink ng-click="mc.error = false; mc.message = false">&times;</md-button>
   </message-container>
 
-  <side-nav layout="column"></side-nav>
+  <side-nav layout="column" hide-gt-sm></side-nav>
 
-  <div ng-view flex-gt-sm><!-- ng-view container --></div>
+  <div ng-view flex class="content-wrapper"><!-- ng-view container --></div>
 
-  <footer flex-gt-sm="100" layout-padding class="blue-grey darken-2">
-    <ul flex-gt-sm class="container">
+  <footer layout-padding class="blue-grey darken-2">
+    <ul flex-gt-sm class="content-wrapper">
       <li><a ng-href="/about" class="white-text">About</a></li>
 
       <li><a ng-href="/contact" class="white-text">Contact Us</a></li>

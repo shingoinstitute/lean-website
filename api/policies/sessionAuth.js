@@ -16,7 +16,7 @@ module.exports = function(req, res, next) {
 			return res.status(500).json({ error: err, info: info, user: null });
 		}
 		if (!user) {
-			return res.status(403).json({ error: 'user not authorized', info: info });
+			return res.json({ user: {}, info: info });
 		}
 		req.user = user;
 
