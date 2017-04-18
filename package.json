@@ -5,6 +5,12 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "@angular/common": "^4.0.2",
+    "@angular/compiler": "^4.0.2",
+    "@angular/core": "^4.0.2",
+    "@angular/platform-browser": "^4.0.2",
+    "@angular/platform-browser-dynamic": "^4.0.2",
+    "@angular/upgrade": "^4.0.2",
     "bcrypt": "^0.8.7",
     "bluebird": "^3.4.7",
     "bower": "^1.8.0",
@@ -25,7 +31,6 @@
     "include-all": "^1.0.0",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.17.4",
-    "mocha": "^3.2.0",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.7.0",
     "nodemailer-smtp-transport": "^2.7.2",
@@ -35,10 +40,12 @@
     "passport-local": "^1.0.0",
     "rc": "1.0.1",
     "request": "^2.79.0",
+    "rxjs": "^5.3.0",
     "sails": "~0.12.6",
     "sails-disk": "~0.10.9",
     "sails-hook-email": "^0.12.1",
-    "sails-mysql": "^0.11.5"
+    "sails-mysql": "^0.11.5",
+    "zone.js": "^0.8.5"
   },
   "scripts": {
     "debug": "node debug app.js",
@@ -54,7 +61,6 @@
   "license": "",
   "devDependencies": {
     "assert": "^1.4.1",
-    "grunt": "^1.0.1",
     "grunt-contrib-jasmine": "^1.1.0",
     "grunt-hash": "^0.5.0",
     "grunt-template-jasmine-istanbul": "^0.5.0",

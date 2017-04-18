@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="leansite" ng-cloak>
+<html>
 
 <head>
   <title>LEAN site</title>
@@ -40,7 +40,7 @@
 
 </head>
 
-<body id="main" ng-controller="MainController as mc" ng-cloak layout="column" layout-gt-sm="row" layout-wrap>
+<body ng-controller="MainController as mc" ng-cloak layout="column" layout-gt-sm="row" layout-wrap>
   <tool-bar flex-gt-sm="100"></tool-bar>
 
   <message-container layout="row" layout-align="center center" ng-if="mc.error || mc.message">
@@ -71,6 +71,8 @@
     </ul>
   </footer>
 
+
+
   <!--SCRIPTS-->
   <script src="/bower_components/jquery/dist/jquery.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -89,42 +91,44 @@
   <script src="/bower_components/moment/moment.js"></script>
   <script src="/bower_components/angular-moment/angular-moment.js"></script>
   <script src="/bower_components/angular-summernote/dist/angular-summernote.js"></script>
-  <script src="/js/app.js"></script>
-  <script src="/js/controllers/AddCommentController.js"></script>
-  <script src="/js/controllers/AddEntryController.js"></script>
-  <script src="/js/controllers/AdminController.js"></script>
-  <script src="/js/controllers/AnswerController.js"></script>
-  <script src="/js/controllers/AuthController.js"></script>
-  <script src="/js/controllers/CommentController.js"></script>
-  <script src="/js/controllers/DashboardController.js"></script>
-  <script src="/js/controllers/EmailController.js"></script>
-  <script src="/js/controllers/EntryDetailController.js"></script>
-  <script src="/js/controllers/EntryHomeController.js"></script>
-  <script src="/js/controllers/FlagContentController.js"></script>
-  <script src="/js/controllers/MainController.js"></script>
-  <script src="/js/controllers/ModeratorController.js"></script>
-  <script src="/js/controllers/NavController.js"></script>
-  <script src="/js/controllers/ProfileController.js"></script>
-  <script src="/js/controllers/QuestionController.js"></script>
-  <script src="/js/controllers/ResetController.js"></script>
-  <script src="/js/controllers/SettingsController.js"></script>
-  <script src="/js/directives/AdminDirective.js"></script>
-  <script src="/js/directives/AnswerDirective.js"></script>
-  <script src="/js/directives/CommentDirective.js"></script>
-  <script src="/js/directives/EntryRecentDirective.js"></script>
-  <script src="/js/directives/EntrySummaryDirective.js"></script>
-  <script src="/js/directives/FlagDirective.js"></script>
-  <script src="/js/directives/IsSameDirective.js"></script>
-  <script src="/js/directives/ModeratorDirective.js"></script>
-  <script src="/js/directives/ProfileDirective.js"></script>
-  <script src="/js/directives/QuestionDirective.js"></script>
-  <script src="/js/directives/SidenavDirective.js"></script>
-  <script src="/js/directives/ToolbarDirective.js"></script>
-  <script src="/js/services/authService.js"></script>
-  <script src="/js/services/entryService.js"></script>
-  <script src="/js/services/flagService.js"></script>
-  <script src="/js/services/userService.js"></script>
+  <script src="/src/app.js"></script>
+  <script src="/src/controllers/AddCommentController.js"></script>
+  <script src="/src/controllers/AddEntryController.js"></script>
+  <script src="/src/controllers/AdminController.js"></script>
+  <script src="/src/controllers/AnswerController.js"></script>
+  <script src="/src/controllers/AuthController.js"></script>
+  <script src="/src/controllers/CommentController.js"></script>
+  <script src="/src/controllers/DashboardController.js"></script>
+  <script src="/src/controllers/EmailController.js"></script>
+  <script src="/src/controllers/EntryDetailController.js"></script>
+  <script src="/src/controllers/EntryHomeController.js"></script>
+  <script src="/src/controllers/FlagContentController.js"></script>
+  <script src="/src/controllers/MainController.js"></script>
+  <script src="/src/controllers/ModeratorController.js"></script>
+  <script src="/src/controllers/NavController.js"></script>
+  <script src="/src/controllers/ProfileController.js"></script>
+  <script src="/src/controllers/QuestionController.js"></script>
+  <script src="/src/controllers/ResetController.js"></script>
+  <script src="/src/controllers/SettingsController.js"></script>
+  <script src="/src/directives/AdminDirective.js"></script>
+  <script src="/src/directives/AnswerDirective.js"></script>
+  <script src="/src/directives/CommentDirective.js"></script>
+  <script src="/src/directives/EntryRecentDirective.js"></script>
+  <script src="/src/directives/EntrySummaryDirective.js"></script>
+  <script src="/src/directives/FlagDirective.js"></script>
+  <script src="/src/directives/IsSameDirective.js"></script>
+  <script src="/src/directives/ModeratorDirective.js"></script>
+  <script src="/src/directives/ProfileDirective.js"></script>
+  <script src="/src/directives/QuestionDirective.js"></script>
+  <script src="/src/directives/SidenavDirective.js"></script>
+  <script src="/src/directives/ToolbarDirective.js"></script>
+  <script src="/src/dist/bundle.js"></script>
+  <script src="/src/services/authService.js"></script>
+  <script src="/src/services/entryService.js"></script>
+  <script src="/src/services/flagService.js"></script>
+  <script src="/src/services/userService.js"></script>
   <!--SCRIPTS END-->
+
 </body>
 
 </html>
