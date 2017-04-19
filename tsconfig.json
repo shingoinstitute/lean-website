@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": true,
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "outDir": "assets/js/build",
+    "lib": [
+      "es5", "es6", "dom"
+    ],
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "node_module/@types"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "assets/bower_components",
+    "**/*-aot.ts"
+  ],
+  "include": [
+    "assets/src/**/*.ts",
+    "assets/src/**/*.js"
+  ]
+}

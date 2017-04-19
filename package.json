@@ -15,6 +15,7 @@
     "bluebird": "^3.4.7",
     "bower": "^1.8.0",
     "connect-redis": "^3.2.0",
+    "core-js": "^2.4.1",
     "ejs": "2.5.5",
     "grunt": "1.0.1",
     "grunt-contrib-clean": "1.0.0",
@@ -28,6 +29,7 @@
     "grunt-contrib-watch": "1.0.0",
     "grunt-sails-linker": "~0.10.1",
     "grunt-sync": "0.5.2",
+    "hammerjs": "^2.0.8",
     "include-all": "^1.0.0",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.17.4",
@@ -45,11 +47,12 @@
     "sails-disk": "~0.10.9",
     "sails-hook-email": "^0.12.1",
     "sails-mysql": "^0.11.5",
+    "systemjs": "^0.20.12",
     "zone.js": "^0.8.5"
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js",
+    "start": "webpack; node app.js",
     "test": "node ./node_modules/mocha/bin/mocha test/bootstrap.test.js test/integration/**/*.test.js"
   },
   "main": "app.js",
@@ -60,11 +63,12 @@
   "author": "craigblackburn",
   "license": "",
   "devDependencies": {
+    "@types/node": "^7.0.13",
     "assert": "^1.4.1",
-    "grunt-contrib-jasmine": "^1.1.0",
-    "grunt-hash": "^0.5.0",
-    "grunt-template-jasmine-istanbul": "^0.5.0",
     "jasmine": "^2.5.3",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "ts-loader": "^2.0.3",
+    "tslint": "^5.1.0",
+    "typescript": "^2.1.6"
   }
 }

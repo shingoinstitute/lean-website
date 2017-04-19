@@ -15,44 +15,39 @@
 // CSS files to inject in order
 
 var cssFilesToInject = [
-   'bower_components/bootstrap/dist/css/*.css',
-   'bower_components/angular-material/angular-material.css',
-   'bower_components/summernote/dist/summernote.css',
+   'node_modules/bootstrap/dist/css/*.css',
+   'node_modules/angular-material/angular-material.min.css',
+   'node_modules/summernote/dist/summernote.css',
    'css/materialize.css',
    'css/master.css'
 ];
 
 var jsFilesToInject = [
-   // Load sails.io before everything else
-   'js/dependencies/sails.io.js',
-
-   //jquery before bootstrap
-   'bower_components/jquery/dist/jquery.js',
-
-   'bower_components/bootstrap/dist/js/bootstrap.js',
+   // load dependencies
+   'node_modules/jquery/dist/jquery.min.js',
    'css/materialize/js/materialize.min.js',
-   'bower_components/lodash/lodash.js',
-   'bower_components/summernote/dist/summernote.js',
-   'bower_components/clipboard/dist/clipboard.min.js',
+   'node_modules/lodash/lodash.min.js',
+   'node_modules/summernote/dist/summernote.min.js',
+  //  'node_modules/core-js/client/shim.min.js',
+  //  'node_modules/zone.js/dist/zone.min.js',
+  //  'node_modules/reflect-metadata/Reflect.js',
+  //  'node_modules/systemjs/dist/system.src.js',
 
    // Load angular modules
-   'bower_components/angular/angular.js',
-   'bower_components/angular-route/angular-route.js',
-   'bower_components/angular-aria/angular-aria.js',
-   'bower_components/angular-animate/angular-animate.js',
-   'bower_components/angular-material/angular-material.js',
-   'bower_components/angular-messages/angular-messages.js',
-   'bower_components/underscore/underscore-min.js',
-   'bower_components/angular-underscore-module/angular-underscore-module.js',
-   'bower_components/angular-sanitize/angular-sanitize.js',
-	 'bower_components/angular-cookies/angular-cookies.min.js',
-   'bower_components/trix/dist/trix.js',
-   'bower_components/angular-trix/dist/angular-trix.js',
-   'bower_components/moment/moment.js',
-   'bower_components/angular-moment/angular-moment.js',
-   'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
-   'bower_components/angular-summernote/dist/angular-summernote.js',
-   'bower_components/ngclipboard/dist/ngclipboard.min.js',
+   'node_modules/angular/angular.min.js',
+   'node_modules/angular-route/angular-route.min.js',
+   'node_modules/angular-aria/angular-aria.min.js',
+   'node_modules/angular-animate/angular-animate.min.js',
+   'node_modules/angular-material/angular-material.min.js',
+   'node_modules/angular-messages/angular-messages.min.js',
+   'node_modules/angular-sanitize/angular-sanitize.min.js',
+	 'node_modules/angular-cookies/angular-cookies.min.js',
+   'node_modules/trix/dist/trix.js',
+   'node_modules/angular-trix/dist/angular-trix.min.js',
+   'node_modules/moment/min/moment.min.js',
+   'node_modules/angular-moment/angular-moment.min.js',
+   'node_modules/angular-bootstrap/ui-bootstrap.min.js',
+   'node_modules/angular-summernote/dist/angular-summernote.min.js',
 
 
    // Dependencies like jQuery, or Angular are brought in here
@@ -60,8 +55,9 @@ var jsFilesToInject = [
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
-  'src/**/*.js',
-  'src/dist/bundle.js'
+  'src/app/app.js',
+  'src/app/**/*.js',
+  // 'js/dist/bundle.js'
 ];
 
 var templateFilesToInject = [

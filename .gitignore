@@ -101,10 +101,8 @@ nbproject
 .idea
 .node_history
 .vscode
-typings
-tsconfig.json
-typings.d.ts
 .grunt
 sails_log.log
 .env
 .foreverignore
+.editorconfig
