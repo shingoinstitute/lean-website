@@ -4,7 +4,8 @@
     angular.module('leansite')
     .directive('toolBar', function(){
         return {
-            restrict: 'EA',
+            restrict: 'E',
+            transclude: true,
             templateUrl: 'templates/public/toolbar.tmpl.html',
             controller: 'NavController',
             controllerAs: 'vm'

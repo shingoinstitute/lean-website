@@ -4,11 +4,12 @@
     angular.module('leansite')
     .directive('comment', function(){
         return {
-            restrict: 'EA',
+            restrict: 'E',
             scope: {
                 comm: '=',
                 owner: '='
             },
+            transclude: true,
             templateUrl: 'templates/entries/comment.tmpl.html',
             controller: 'CommentController'
         }

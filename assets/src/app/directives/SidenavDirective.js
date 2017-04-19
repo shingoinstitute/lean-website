@@ -4,7 +4,8 @@
     angular.module('leansite')
     .directive('sideNav', function(){
         return {
-            restrict: 'EA',
+            restrict: 'E',
+            transclude: true,
             templateUrl: 'templates/public/sidenav.tmpl.html',
             controller: 'NavController'
         }

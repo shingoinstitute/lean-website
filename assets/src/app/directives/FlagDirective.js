@@ -4,7 +4,8 @@
   angular.module('leansite')
     .directive('flag', function () {
       return {
-        restrict: 'EA',
+        restrict: 'E',
+        transclude: true,
         scope: {
           content: '=',
           type: '='

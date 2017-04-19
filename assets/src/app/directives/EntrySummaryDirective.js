@@ -4,10 +4,11 @@
   angular.module('leansite')
     .directive('entrySummary', function () {
       return {
-        restrict: 'EA',
+        restrict: 'E',
         scope: {
           entry: '='
         },
+        transclude: true,
         templateUrl: 'templates/entries/summary.tmpl.html',
         controller: ['$scope', '$location', function ($scope, $location) {
           $scope.go = function () {
