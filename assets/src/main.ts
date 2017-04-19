@@ -4,5 +4,5 @@ import AppModule from './app/app.module';
 
 platformBrowserDynamic().bootstrapModule(AppModule).then(platformRef => {
   const upgrade = platformRef.injector.get(UpgradeModule) as UpgradeModule;
-  upgrade.bootstrap(document.body, ['leansite'], {strictDi: true});
+  upgrade.bootstrap(document.body, ['leansite'], {strictDi: false});
 });

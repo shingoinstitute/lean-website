@@ -52532,7 +52532,7 @@ var static_1 = __webpack_require__(7);
 var app_module_1 = __webpack_require__(19);
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.default).then(function (platformRef) {
     var upgrade = platformRef.injector.get(static_1.UpgradeModule);
-    upgrade.bootstrap(document.body, ['leansite'], { strictDi: true });
+    upgrade.bootstrap(document.body, ['leansite'], { strictDi: false });
 });
 
 

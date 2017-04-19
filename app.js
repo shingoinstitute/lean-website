@@ -24,6 +24,16 @@
 // > Note: This is not required in order to lift, but it is a convenient default.
 process.chdir(__dirname);
 
+// Compile *.ts files before lifting rest of application
+process.stdout.write("\nCompiling typescript files\n");
+const exec = require('child_process').execSync('webpack');
+if (exec.toString && exec.toString() !== "") { 
+  console.log(exec.toString()); 
+} else if (exec instanceof Error) {
+  console.error(exec);
+}
+
+
 // Attempt to import `sails`.
 var sails;
 try {
