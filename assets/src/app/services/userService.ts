@@ -7,7 +7,7 @@
 	_userService.$inject = ['$http', '$cookies', '$window', '$location', '$q', 'JWT_TOKEN']
 
 	function _userService($http, $cookies, $window, $location, $q, JWT_TOKEN) {
-		var service = {};
+		var service: any = {};
 
 		/**
 		 * @desc {function} getUser :: API call to find user, requires a JWT

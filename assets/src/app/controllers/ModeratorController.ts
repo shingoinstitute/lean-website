@@ -51,7 +51,7 @@
 				user.answers = response.data;
 			})
 			.catch(function(err) {
-				console.error(response);
+				console.error(err);
 			});
 		}
 
@@ -131,7 +131,7 @@
 			})
 			.catch(function(err) {
 				var toastErr = $mdToast.simple()
-					.textContent('Error: ' + response.data.details)
+					.textContent('Error: ' + err.data.details)
 					.hideDelay(false).action('Okay')
 					.position('top right')
 					.highlightAction(true);
@@ -148,7 +148,7 @@
 			})
 			.catch(function(err) {
 				var toastErr = $mdToast.simple()
-					.textContent('Error: ' + response.data.details)
+					.textContent('Error: ' + err.data.details)
 					.hideDelay(false).action('Okay')
 					.position('top right')
 					.highlightAction(true);

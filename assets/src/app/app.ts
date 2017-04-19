@@ -2,6 +2,15 @@
 * @description :: leansite app
 */
 
+import * as angular from 'angular';
+import 'angular-route';
+import 'angular-material';
+import 'angular-cookies';
+import 'angular-sanitize';
+import 'angular-moment';
+import 'angular-summernote';
+import * as _ from 'lodash';
+
 (function () {
 	'use strict';
 

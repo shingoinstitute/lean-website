@@ -2,9 +2,9 @@
   'use strict';
 
   angular.module('leansite')
-    .controller('EntryHomeController', ['$scope', '$mdDialog', '$location', '$anchorScroll', '$q', '_entryService', 'BROADCAST', EntryHomeController]);
+    .controller('EntryHomeController', ['$scope', '$rootScope', '$mdDialog', '$location', '$anchorScroll', '$q', '_entryService', 'BROADCAST', EntryHomeController]);
 
-  function EntryHomeController($scope, $mdDialog, $location, $anchorScroll, $q, _entryService, BROADCAST) {
+  function EntryHomeController($scope, $rootScope, $mdDialog, $location, $anchorScroll, $q, _entryService, BROADCAST) {
     $anchorScroll();  // Scroll to anchor if present
     var vm = this;
     vm.postQuestion = function (_owner) {

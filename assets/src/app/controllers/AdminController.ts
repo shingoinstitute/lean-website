@@ -1,5 +1,5 @@
-(function () {
 
+(function () {
 	angular.module('leansite')
 		.controller('AdminController', AdminController);
 
@@ -20,7 +20,7 @@
 			})
 			.catch(function(err) {
 				if (BROADCAST.loggingLevel === "DEBUG") {
-					console.error(e);
+					console.error(err);
 				}
 			});
 		}

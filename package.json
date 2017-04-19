@@ -33,6 +33,7 @@
     "include-all": "^1.0.0",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.7.0",
     "nodemailer-smtp-transport": "^2.7.2",

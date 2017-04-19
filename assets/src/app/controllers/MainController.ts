@@ -42,7 +42,7 @@
 				} else if (args.error) {
 					args = args.error;
 				}
-				if (typeof args == 'Error') {
+				if (args instanceof Error) {
 					vm.error = args.message;
 				} else if (typeof args == 'string') {
 					vm.error = args;

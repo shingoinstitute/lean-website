@@ -7,16 +7,8 @@
   _flagService.$inject = ['$http']
 
   function _flagService($http) {
-    var service = {};
-
-    /**
-     * Create a flag on some content
-     * 
-     * @param owner    :: the user's uuid
-     * @param contentId :: the flagged content's id
-     * @param options :: {reason: picklist, description: textfield, type: textfield}
-     */
-    service.flag = function(user, contentId, options){
+    return {
+      flag: (user, contentId, options) => {
         var f = {
             owner: user,
             content: contentId,
@@ -30,9 +22,17 @@
             url: '/flag',
             data: f
         });
-    }
+      }
+    };
 
-    return service;
+    /**
+     * Create a flag on some content
+     * 
+     * @param owner    :: the user's uuid
+     * @param contentId :: the flagged content's id
+     * @param options :: {reason: picklist, description: textfield, type: textfield}
+     */
+    
   };
 
 })();

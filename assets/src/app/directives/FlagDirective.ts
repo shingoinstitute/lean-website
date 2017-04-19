@@ -11,7 +11,7 @@
           type: '='
         },
         template: '<md-icon ng-click="flag()"><i class="material-icons">flag</i></md-icon>',
-        controller: ['$scope', '$mdDialog', function($scope, $mdDialog) {
+        controller: ['$scope', '$mdDialog', '$rootScope', 'BROADCAST', function($scope, $mdDialog, $rootScope, BROADCAST) {
           $scope.flag = function () {
             $mdDialog.show({
                 controller: 'FlagContentController',
