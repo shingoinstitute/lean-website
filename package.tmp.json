@@ -1,8 +1,8 @@
 {
-  "name": "leansite-assets",
+  "name": "lean-website",
   "private": true,
-  "version": "1.0.0",
-  "description": "packages needed to run angular app in browser",
+  "version": "0.0.0",
+  "description": "a Sails application",
   "keywords": [],
   "dependencies": {
     "@angular/common": "^4.0.2",
@@ -49,39 +49,20 @@
     "sails-hook-email": "^0.12.1",
     "sails-mysql": "^0.11.5",
     "systemjs": "^0.20.12",
-    "zone.js": "^0.8.5",
-    "angular": "^1.6.4",
-    "angular-animate": "^1.6.4",
-    "angular-aria": "^1.6.4",
-    "angular-bootstrap": "^0.12.2",
-    "angular-cookies": "^1.6.4",
-    "angular-material": "^1.1.3",
-    "angular-messages": "^1.6.4",
-    "angular-mocks": "^1.6.4",
-    "angular-moment": "^1.0.1",
-    "angular-route": "^1.6.4",
-    "angular-sanitize": "^1.6.4",
-    "angular-summernote": "^0.8.1",
-    "angular-trix": "^1.0.2",
-    "bootstrap": "^3.3.7",
-    "jquery": "^3.2.1",
-    "materialize-css": "^0.98.2",
-    "reflect-metadata": "^0.1.10",
-    "summernote": "^0.8.3",
-    "trix": "^0.10.1"
+    "zone.js": "^0.8.5"
   },
   "scripts": {
     "debug": "node debug app.js",
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./node_modules/mocha/bin/mocha test/bootstrap.test.js test/integration/**/*.test.js"
   },
-  "main": "index.js",
+  "main": "app.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/craigblackburn/lean-website.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "craigblackburn",
+  "license": "",
   "devDependencies": {
     "@types/angular": "^1.6.14",
     "@types/angular-animate": "^1.5.6",
@@ -98,8 +79,5 @@
     "ts-loader": "^2.0.3",
     "tslint": "^5.1.0",
     "typescript": "^2.1.6"
-  },
-  "directories": {
-    "test": "test"
   }
 }

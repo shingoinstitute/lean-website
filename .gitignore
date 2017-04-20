@@ -27,6 +27,9 @@ bin/
 
 config/local.js
 resources/
+assets/js/build
+assets/js/dist
+.node_modules
 
 
 ################################################
