@@ -2,16 +2,16 @@
 * @description :: leansite app
 */
 
-import * as angular from 'angular';
-import 'angular-route';
-import 'angular-material';
-import 'angular-cookies';
-import 'angular-sanitize';
-import 'angular-moment';
-import 'angular-summernote';
-import * as _ from 'lodash';
-import { Observable } from 'rxjs';
-import * as $ from 'jquery';
+// import * as angular from 'angular';
+// import 'angular-route';
+// import 'angular-material';
+// import 'angular-cookies';
+// import 'angular-sanitize';
+// import 'angular-moment';
+// import 'angular-summernote';
+// import * as _ from 'lodash';
+// import { Observable } from 'rxjs';
+// import * as $ from 'jquery';
 
 function app() {
 	angular.module('leansite', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngMessages', 'ngSanitize', 'angularMoment', 'summernote'])
@@ -19,22 +19,22 @@ function app() {
 		
 		$routeProvider
 		.when('/', {
-			templateUrl: 'templates/public/homepage.html',
+			templateUrl: 'templates/public/homepage.html'
 		})
 		.when('/dashboard', {
-			templateUrl: 'templates/user/dashboard.html',
+			templateUrl: 'templates/user/dashboard.html'
 		})
 		.when('/education', {
-			templateUrl: 'templates/public/education.html',
+			templateUrl: 'templates/public/education.html'
 		})
 		.when('/about', {
-			templateUrl: 'templates/public/about.html',
+			templateUrl: 'templates/public/about.html'
 		})
 		.when('/login', {
-			templateUrl: 'templates/public/login.html',
+			templateUrl: 'templates/public/login.html'
 		})
 		.when('/auth/linkedin/callback*', {
-			template: '<p ng-init=\"linkedinCallback()\">redirecting...</p>',
+			template: '<p ng-init=\"linkedinCallback()\">redirecting...</p>'
 		})
 		.when('/createAccount', {
 			templateUrl: 'templates/user/createAccount.html'
