@@ -22,9 +22,6 @@ module.exports = function(grunt) {
     'sails-linker:devTpl',
     'sails-linker:prodJsJade',
     'sails-linker:prodStylesJade',
-    'sails-linker:devTplJade',
-    // 'hash',
-    // 'clean:hash',
-    // 'sails-linker:prodJsHash'
+    'sails-linker:devTplJade'
   ]);
 };

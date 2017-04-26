@@ -24,39 +24,36 @@ var cssFilesToInject = [
 
 var jsFilesToInject = [
   // load dependencies
-  'node_modules/jquery/dist/jquery.min.js',
+  'bower_components/jquery/dist/jquery.min.js',
 
-  'css/materialize/js/materialize.min.js',
-  'node_modules/lodash/lodash.min.js',
-  'node_modules/summernote/dist/summernote.min.js',
+  'js/materialize/materialize.min.js',
+  // 'node_modules/lodash/lodash.min.js',
+  // 'node_modules/summernote/dist/summernote.min.js',
 
-  'node_modules/core-js/client/shim.min.js',
-  'node_modules/zone.js/dist/zone.min.js',
-  'node_modules/reflect-metadata/Reflect.js',
-  'node_modules/systemjs/dist/system.src.js',
+  'bower_components/es6-shim/es6-shimjs',
+  // 'bower_components/reflect-metadata/Reflect.js',
+  'bower_componenets/rxjs/index.js',
+  // 'node_modules/reflect-metadata/Reflect.js',
+  // 'node_modules/systemjs/dist/system.src.js',
 
-  'node_modules/trix/dist/trix.js',
-  'node_modules/moment/moment.js',
+  // 'node_modules/trix/dist/trix.js',
+  // 'node_modules/moment/moment.js',
 
   // Load angular modules
-  'node_modules/angular/angular.js',
-  'node_modules/angular-route/angular-route.js',
-  'node_modules/angular-aria/angular-aria.js',
-  'node_modules/angular-animate/angular-animate.js',
-  'js/angular-material.min.js',
-  'node_modules/angular-messages/angular-messages.js',
-  'node_modules/angular-sanitize/angular-sanitize.js',
-  'node_modules/angular-cookies/angular-cookies.js',
-  'node_modules/angular-moment/angular-moment.js',
-  'node_modules/angular-trix/dist/angular-trix.js',
-  'node_modules/angular-bootstrap/ui-bootstrap.js',
-  'node_modules/angular-summernote/dist/angular-summernote.js',
+  // 'node_modules/angular/angular.js',
+  // 'node_modules/angular-route/angular-route.js',
+  // 'node_modules/angular-aria/angular-aria.js',
+  // 'node_modules/angular-animate/angular-animate.js',
+  // 'js/dependencies/angular-material.min.js',
+  // 'node_modules/angular-messages/angular-messages.js',
+  // 'node_modules/angular-sanitize/angular-sanitize.js',
+  // 'node_modules/angular-cookies/angular-cookies.js',
+  // 'node_modules/angular-moment/angular-moment.js',
+  // 'node_modules/angular-trix/dist/angular-trix.js',
+  // 'node_modules/angular-bootstrap/ui-bootstrap.js',
+  // 'node_modules/angular-summernote/dist/angular-summernote.js',
 
-  // All of the rest of your client-side js files
-  // will be injected here in no particular order.
-  'src/app/app.js',
-  'src/app/**/*.js',
-  'js/dist/bundle.js'
+  'src/systemjs.config.server.js',
 ];
 
 var templateFilesToInject = [

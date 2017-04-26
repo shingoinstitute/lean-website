@@ -30,7 +30,7 @@ resources/
 assets/js/build
 assets/js/dist
 .node_modules
-
+bundle.js
 
 ################################################
 # Dependencies

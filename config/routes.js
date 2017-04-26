@@ -22,6 +22,10 @@
 
 module.exports.routes = {
 
+  '/': {
+    view: 'ok'
+  },
+
   // +-------------+
   // | auth routes |
   // +-------------+

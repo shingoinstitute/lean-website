@@ -1,32 +1,28 @@
 const webpack = require('webpack');
-const path = require('path');
+const { resolve }  = require('path');
 
 module.exports = {
     entry: "./assets/src/main.ts",
     output: {
-        path: path.resolve(__dirname, "assets/js/dist"),
+        path: resolve(__dirname, "assets/js/"),
         filename: "bundle.js"
     },
     resolve: {
-        // Add '.ts' and '.tsx' as a resolvable extension.
-        extensions: [".webpack.js", ".web.js", ".ts"],
+        extensions: [".webpack.js", ".web.js", ".ts", ".js"],
         alias: {
-            'rxjs': 'rxjs-es'
+            'rxjs': 'rxjs'
         }
     },
     module: {
-        loaders: [
-            // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
-            { 
-                test: /\.tsx?$/, 
-                loader: "ts-loader"
-            }
+        rules: [
+            { test: [/\.ts$/],  loader: 'ts-loader' }
         ]
     },
     plugins: [
         new webpack.ContextReplacementPlugin(
             /angular(\\|\/)core(\\|\/)@angular/,
-            path.resolve(__dirname, 'assets/src/')
+            resolve(__dirname, 'assets/src/')
         )
-    ]
-}
+    ],
+	// watch: process.env.NODE_ENV === 'development'
+};
