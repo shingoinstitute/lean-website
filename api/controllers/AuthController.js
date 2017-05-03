@@ -39,6 +39,11 @@ module.exports = {
 
 			req.logIn(user, function (err) {
 				if (err) return res.negotiate(err);
+
+				var token = AuthService.createToken(user)
+
+				res.cookie('XSRF-TOKEN', token);
+				res.setHeader('X-XSRF-TOKEN', token);
 				return res.json({
 					success: true,
 					user: user.toJSON(),

@@ -11,6 +11,13 @@
 var passport = require('passport');
 
 module.exports = function(req, res, next) {
+
+	var xsrfHeader = req.headers['X-XSRF-TOKEN'];
+	var xsrfCookie = req.cookies['XSRF-TOKEN'];
+
+	// console.log(xsrfHeader);
+	// console.log(xsrfCookie);
+
 	passport.authenticate('jwt', function(err, user, info) {
 		if (err) {
 			return res.status(500).json({ error: err, info: info, user: null });
