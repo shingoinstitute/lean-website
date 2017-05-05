@@ -1,3 +1,7 @@
+/**
+ * `passport.js`
+ */
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
@@ -20,8 +24,8 @@ var jwtStrategyConfig = {
 	jwtFromRequest: function cookieExtractor(req) {
 		return typeof req.cookies.JWT != 'undefined' ? req.cookies.JWT :
 			typeof req.headers.jwt != 'undefined' ? req.headers.jwt :
-				typeof req.param('JWT') != 'undefined' ? req.param('JWT') : null
-	},
+				typeof req.param('JWT') != 'undefined' ? req.param('JWT') : null;
+	}
 };
 
 var linkedinStrategyConfig = {
@@ -30,7 +34,7 @@ var linkedinStrategyConfig = {
 	callbackURL: process.env.NODE_ENV == 'production' ? 'https://teachinglean.org/auth/linkedin/callback' : 'http://localhost:1337/auth/linkedin/callback',
 	scope: ['r_emailaddress', 'r_basicprofile'],
 	state: true
-}
+};
 
 /**
 *  @description :: Authentication handler for local strategy
@@ -40,7 +44,7 @@ function onLocalAuth(username, password, next) {
 		if (err) { return next(err); }
 
 		if (!user) return next(null, false, {
-			error: 'An account with ' + username + ' does not exist.',
+			error: 'An account with ' + username + ' does not exist.'
 		});
 
 		if (!AuthService.comparePassword(password, user.password)) {
@@ -81,7 +85,7 @@ function onLinkedinAuth(accessToken, refreshToken, profile, done) {
 	query.bio = json.summary;
 
 	User.findOne({ linkedinId: query.linkedinId }).exec(function (err, user) {
-		if (err) return done(err, false)
+		if (err) return done(err, false);
 			
 		if (!user) {
 			User.create(query).exec(function (err, user) {
