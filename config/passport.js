@@ -17,10 +17,16 @@ var localStrategyConfig = {
 var jwtStrategyConfig = {
 	secretOrKey: JWT_SECRET,
 	audience: AUDIENCE,
-	jwtFromRequest: function cookieExtractor(req) {
-		var token = req.get('X-XSRF-TOKEN');
-		if (!token) token = req.cookies['XSRF-TOKEN'];
-		if (!token) token = req.param('XSRF-TOKEN');
+	jwtFromRequest: function(req) {
+		var token = null;
+		if (req && req.get) {
+			token = req.get('X-XSRF-TOKEN');
+		} else if (req && req.cookies) {
+			token = req.cookies['XSRF-TOKEN'];
+		} else {
+			token = req.param('XSRF-TOKEN');
+		}
+		
 		return token;
 	}
 };

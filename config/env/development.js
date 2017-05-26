@@ -17,9 +17,9 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  models: {
-    connection: 'mysql'
-  },
+  // models: {
+  //   connection: 'mysql'
+  // },
 
   cryptoJs: {
     secret: 'keyboardcats123'

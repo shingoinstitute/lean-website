@@ -145,7 +145,7 @@ module.exports = {
 			delete obj.emailVerificationToken;
 			obj.isAdmin = (obj.role == 'admin' || obj.role == 'systemAdmin');
 			obj.name = (obj.firstname && obj.lastname) ? obj.firstname + ' ' + obj.lastname : obj.lastname;
-			if (obj.username && obj.username.length === 0 || typeof obj.username === undefined) {
+			if (obj.username && obj.username.length === 0 || typeof obj.username === 'undefined') {
 				obj.username = obj.name;
 			}
 			return obj;

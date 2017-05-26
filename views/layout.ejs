@@ -2,83 +2,11 @@
 <html ng-app="leansite">
 
   <head>
-    <title>LEAN site</title>
-    <!-- Viewport mobile tag for sensible mobile support -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="theme-color" content="#ffffff">
-
-    <!--STYLES-->
-    <link rel="stylesheet" href="/css/materialize.css">
-    <link rel="stylesheet" href="/css/master.css">
-    <!--STYLES END-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <base href="/">
-
-    <!-- Polyfills -->
-    <script src="https://unpkg.com/core-js/client/shim.min.js"></script>
-
-    <!-- Update these package versions as needed -->
-    <script src="https://unpkg.com/zone.js@0.8.4?main=browser"></script>
-    <script src="https://unpkg.com/systemjs@0.19.39/dist/system.src.js"></script>
-    
 
   </head>
 
-  <body ng-controller="MainController as mc" ng-cloak layout="column" layout-gt-sm="row" layout-wrap>
-  <!--<body>-->
-    <my-app>loading...</my-app>
-
-    <!--<tool-bar flex-gt-sm="100"></tool-bar>-->
-
-    <!--<message-container layout="row" layout-align="center center" ng-if="mc.error || mc.message">
-      <div layout="column">
-        <div layout-padding ng-if="mc.error">
-          <p>Error: <span class="red-text text-darken-1" ng-bind="mc.error"></span></p>
-        </div>
-        <div layout-padding ng-if="mc.message">
-          <pre class="text-info md-padding" ng-bind="mc.message"></pre>
-        </div>
-      </div>
-      <md-button class="md-fab md-mini md-primary" md-no-ink ng-click="mc.error = false; mc.message = false">&times;</md-button>
-    </message-container>-->
-
-    <!--<side-nav layout="column"></side-nav>-->
-
-    <!--<div ng-view flex-gt-sm>-->
-      <!-- ng-view container -->
-    <!--</div>-->
-
-    <!--<footer flex-gt-sm="100" layout-padding class="blue-grey darken-2">
-      <ul flex-gt-sm class="container">
-        <li><a ng-href="/about" class="white-text">About</a></li>
-
-        <li><a ng-href="/contact" class="white-text">Contact Us</a></li>
-
-        <li><a class="white-text" href="mailto:shingo.it@usu.edu">Technical Support</a></li>
-
-        <li><a ng-href="/feedback" class="white-text">Send us your feedback</a></li>
-      </ul>
-    </footer>-->
-
-
-
-    <!--SCRIPTS-->
-    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/js/materialize/materialize.min.js"></script>
-    <script src="/src/systemjs.config.server.js"></script>
-    <!--SCRIPTS END-->
-
-    <script>
-      System.import('js/bundle.js')
-            .catch(function(err){ console.error(err); });
-    </script>
-
+  <body>
+    
   </body>
 
 </html>

@@ -45,15 +45,12 @@ module.exports = {
 	 * @param {Object} user - a user object obtained from Waterline
 	 */
 	createToken: function (user) {
-		try {
-			user = user.toJSON();
-		} finally {
-			return jwt.sign({ user: user }, options.secret, {
-				algorithm: options.algorithm,
-				expiresIn: options.maxAge,
-				audience: options.audience
-			});
-		}
+		if (user.toJSON) user = user.toJSON();
+		return jwt.sign({ user: user }, options.secret, {
+			algorithm: options.algorithm,
+			expiresIn: options.maxAge,
+			audience: options.audience
+		});
 	},
 
 	/**

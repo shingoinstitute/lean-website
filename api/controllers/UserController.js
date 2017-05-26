@@ -6,6 +6,7 @@ var _ = require('lodash');
 var util = require('util');
 var path = require('path');
 var fs = require('fs');
+var jwt = require('jsonwebtoken');
 
 module.exports = {
   
@@ -22,21 +23,16 @@ module.exports = {
       return res.status(403).json({ error: 'token required' });
     }
     
-    var passport = require('passport');
+    const secret = sails.config.passport.jwt.secret;
 
-    passport.authenticate('jwt', function(err, user, info) {
-      if (err) {
-        return res.status(500).json({ error: err, info: info, user: null });
-      }
-      
-      if (!user) {
-        return res.status(403).json({ error: 'user not authorized', info: info });
-      }
-      
-      req.user = user;
-      
-      return res.json(req.user.toJSON());
-    })(req, res);
+    const options = {
+      audience: sails.config.passport.jwt.audience,
+      algorithm: sails.config.passport.jwt.algorithm
+    }
+    
+    var payload = jwt.verify(xsrf_cookie, secret, options);
+
+    return res.json(payload.user);
     
   },
   
