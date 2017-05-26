@@ -36,13 +36,15 @@ module.exports = {
 				}, null, 3));
 				return res.status(404).json({ error: info.error });
 			}
-
+			
 			req.logIn(user, function (err) {
 				if (err) return res.negotiate(err);
+
+				res.cookie('XSRF-TOKEN', AuthService.createToken(user));
+
 				return res.json({
 					success: true,
-					user: user.toJSON(),
-					token: AuthService.createToken(user)
+					user: user.toJSON()
 				});
 			});
 		})(req, res);
@@ -81,7 +83,8 @@ module.exports = {
 
 	logout: function (req, res) {
 		req.logout();
-		return res.json('User successfully logged out.');
+		delete res.cookie['XSRF-TOKEN'];
+		return res.json('loggout successful');
 	},
 
 

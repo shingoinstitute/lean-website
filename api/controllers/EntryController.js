@@ -40,6 +40,27 @@ module.exports = {
 				return res.json(entry.toJSON());
 			});
 		});
+	},
+
+	topResults: function(req, res) {
+		Entry.find({
+			where: {
+				parent: null
+			}
+		})
+		.populate('users_did_upvote')
+		.populate('users_did_downvote')
+		.exec(function(err, entries) {
+			entries.sort(function(a, b) {
+				// Simple calculation to determine entry "popularity"
+				// Get difference between number of upvotes to number of downvotes and compare between the two entries.
+				var aPop = a.users_did_downvote.length + a.users_did_upvote.length;
+				var bPop = b.users_did_downvote.length + b.users_did_upvote.length;
+				return aPop - bPop;
+			});
+			if (entries.length > 10) entries = entries.slice(0, 10);
+			return res.json(entries);
+		});
 	}
 
 };

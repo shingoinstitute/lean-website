@@ -18,9 +18,10 @@ var jwtStrategyConfig = {
 	secretOrKey: JWT_SECRET,
 	audience: AUDIENCE,
 	jwtFromRequest: function cookieExtractor(req) {
-		return typeof req.cookies.JWT !== 'undefined' ? req.cookies.JWT :
-			typeof req.headers.jwt !== 'undefined' ? req.headers.jwt :
-				typeof req.param('JWT') !== 'undefined' ? req.param('JWT') : null
+		var token = req.get('X-XSRF-TOKEN');
+		if (!token) token = req.cookies['XSRF-TOKEN'];
+		if (!token) token = req.param('XSRF-TOKEN');
+		return token;
 	}
 };
 

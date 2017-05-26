@@ -31,7 +31,7 @@ module.exports.policies = {
     'AuthController': {
         '*': false,
         login: true,
-        logout: ['sessionAuth'],
+        logout: true,
         linkedInAuth: true,
         linkedInAuthCallback: true,
         localAuth: true,
@@ -53,6 +53,7 @@ module.exports.policies = {
         '*': ['sessionAuth'],
         find: true,
         findOne: true,
+        topResults: true,
         update: ['sessionAuth', 'isEntryOwner']
     },
 
@@ -63,7 +64,8 @@ module.exports.policies = {
         create: true,
         sendPasswordResetEmail: true,
         reset: true,
-        updatePassword: true
+        updatePassword: true,
+        me: true
     },
 
     'FlagController': {
