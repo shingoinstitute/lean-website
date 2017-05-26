@@ -27,17 +27,6 @@ module.exports = function(req, res, next) {
 	// 	return res.status(403).json({ error: 'user not authorized' });
 	// }
 
-	
-
-	var token = req.get('X-XSRF-TOKEN');
-	if (!token) {
-		token = req.cookies['XSRF-TOKEN'];
-	}
-	if (token) {
-		var verified = jwt.verify(token, jwtSecret, options);
-		console.log(verified);
-	}
-
 	passport.authenticate('jwt', function(err, user, info) {
 		if (err) {
 			var errMsg = err.message ? err.message : err;
