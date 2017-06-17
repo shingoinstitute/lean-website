@@ -22,16 +22,6 @@
 
 module.exports.routes = {
 	
-	// '/*': {
-	// 	fn: function(req, res, next) {
-	// 		var originalUrl = req.originalUrl;
-	// 		if (originalUrl !== '/me') {
-	// 			console.log(originalUrl);
-	// 		}
-	// 		return next();
-	// 	}
-	// },
-	
 	// +-------------+
 	// | auth routes |
 	// +-------------+

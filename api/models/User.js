@@ -34,13 +34,14 @@ module.exports = {
 
 		username: 'string',
 
+		organization: 'string',
+
 		bio: 'text',
 
 		linkedinId: 'string',
 
 		pictureUrl: {
 			type: 'string',
-			url: true,
 			defaultsTo: 'http://res.cloudinary.com/shingo/image/upload/v1414874243/silhouette_vzugec.png'
 		},
 
@@ -145,9 +146,6 @@ module.exports = {
 			delete obj.emailVerificationToken;
 			obj.isAdmin = (obj.role == 'admin' || obj.role == 'systemAdmin');
 			obj.name = (obj.firstname && obj.lastname) ? obj.firstname + ' ' + obj.lastname : obj.lastname;
-			if (obj.username && obj.username.length === 0 || typeof obj.username === 'undefined') {
-				obj.username = obj.name;
-			}
 			return obj;
 		},
 

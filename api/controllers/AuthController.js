@@ -64,14 +64,8 @@ module.exports = {
 				return res.negotiate(err);
 			}
 
-			if (!req.user) {
-				sails.log.error(new Error('LinkedInAuthCallback missing user object in request...'));
-			} else {
-				var token = AuthService.createToken(req.user);
-				res.cookie('JWT', token);
-				res.set('Authorization', 'JWT ' + token);
-			}
-
+			res.cookie('XSRF-TOKEN', AuthService.createToken(req.user));
+			
 			return res.redirect('/dashboard');
 		});
 	},

@@ -42,7 +42,7 @@ module.exports = {
 
 	/**
 	 * @description createToken :: creates a JSON web token for a user
-	 * @param {Object} user - a user object obtained from Waterline
+	 * @param {Object} user - the user object
 	 */
 	createToken: function (user) {
 		if (user.toJSON) user = user.toJSON();
@@ -51,6 +51,17 @@ module.exports = {
 			expiresIn: options.maxAge,
 			audience: options.audience
 		});
+	},
+
+	/**
+	 * @description createAndSetToken :: creates a JSON web token and assigns token to a cookie named 'XSRF-TOKEN'
+	 * @param {Object} user - the user object
+	 * @param {Object} res - a node response object
+	 */
+	createAndSetToken: (res, user) => {
+		var token = AuthService.createToken(user);
+		if (res && res.cookie) { res.cookie['XSRF-TOKEN', token]; }
+		return token;
 	},
 
 	/**

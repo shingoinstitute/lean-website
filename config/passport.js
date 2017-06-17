@@ -18,13 +18,20 @@ var jwtStrategyConfig = {
 	secretOrKey: JWT_SECRET,
 	audience: AUDIENCE,
 	jwtFromRequest: function(req) {
+		if (!req) return null;
+
 		var token = null;
-		if (req && req.get) {
-			token = req.get('X-XSRF-TOKEN');
-		} else if (req && req.cookies) {
+
+		if (req.cookies) {
 			token = req.cookies['XSRF-TOKEN'];
-		} else {
+		}
+		
+		if (!token && req.param) {
 			token = req.param('XSRF-TOKEN');
+		}
+		
+		if(!token) {
+			token = req.get('X-XSRF-TOKEN');
 		}
 		
 		return token;

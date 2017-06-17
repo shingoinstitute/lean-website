@@ -32,7 +32,22 @@ module.exports = {
     
     var payload = jwt.verify(xsrf_cookie, secret, options);
 
-    return res.json(payload.user);
+    User.findOne({uuid: payload.user.uuid}).exec((err, user) => {
+      if (err) {
+        delete res.cookies['XSRF-TOKEN'];
+        sails.log.error(err);
+        return res.status(500).json(err.toJSON());
+      }
+
+      if (!user) {
+        delete res.cookies['XSRF-TOKEN'];
+        return res.status(404).json({error: `user not found with id ${payload.user.uuid}`});
+      }
+
+      res.cookie('XSRF-TOKEN', AuthService.createToken(user));
+
+      return res.json(user.toJSON());
+    });
     
   },
   
@@ -43,9 +58,9 @@ module.exports = {
       maxBytes: 10000000
     }, function (err, uploadedFiles) {
       if (err)
-      return res.negotiate(err);
+        return res.negotiate(err);
       if (uploadedFiles.length == 0)
-      return res.badRequest('No file was uploaded');
+        return res.badRequest('No file was uploaded');
       
       var fdSplit = uploadedFiles[0].fd.split('/');
       var filename = fdSplit[fdSplit.length - 1];
@@ -66,6 +81,23 @@ module.exports = {
     });
   },
   
+  // update: function(req, res) {
+  //   User.update({uuid: req.params.id}, req.body).exec(function(err, users) {
+  //     if (err) {
+  //       sails.log.error(err);
+  //       return res.status(500).json({error: err});
+  //     }
+
+  //     var user = users.pop();
+
+  //     if (!user) {
+  //       return res.status(404).json({error: `user not found with id ${req.params.id}`});
+  //     }
+      
+  //     return res.json(user.toJSON());
+  //   });
+  // },
+
   create: function (req, res) {
     var newUser = {};
     newUser.email = req.param('email');
@@ -92,10 +124,13 @@ module.exports = {
         });
 
       }
+
+      // Create JWT token and add to cookies
+      AuthService.createAndSetToken(res, user);
+      
       return res.json({
         success: true,
         user: user.toJSON(),
-        token: AuthService.createToken(user),
         info: typeof info != 'undefined' ? info.response : ''
       });
     });
