@@ -122,8 +122,8 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(uuid, done) {
 	User.findOne({uuid: uuid}).exec(function(err, user) {
-		if (err) return done(err);
-		if (!user) return done(new Error('user is undefined'));
+		if (err) { return done(err); }
+		if (!user) { return done('user is undefined\n\tconfig/passport.js'); }
 		return done(null, user);
 	});
 });

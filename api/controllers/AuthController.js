@@ -40,12 +40,14 @@ module.exports = {
 				if (err) return res.negotiate(err);
 
 				var token = AuthService.createToken(user);
-				res.cookie('XSRF-TOKEN', token);
+				res.cookie('XSRF-TOKEN', token, {
+					secure: process.env.NODE_ENV === 'production',
+					domain: '.teachinglean.org'
+				});
 
 				return res.json({
 					success: true,
-					user: user.toJSON(),
-					'xsrf-token': token
+					user: user.toJSON()
 				});
 			});
 		})(req, res);
