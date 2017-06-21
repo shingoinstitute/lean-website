@@ -40,6 +40,7 @@ module.exports = {
 				if (err) return res.negotiate(err);
 
 				var token = AuthService.createToken(user);
+				res.cookie('XSRF-TOKEN', token);
 
 				return res.json({
 					success: true,

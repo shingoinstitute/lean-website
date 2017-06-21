@@ -48,8 +48,6 @@ module.exports = {
         return res.status(404).json({error: `user not found with id ${payload.user.uuid}`});
       }
 
-      res.cookie('XSRF-TOKEN', AuthService.createToken(user));
-
       return res.json(user.toJSON());
     });
     
