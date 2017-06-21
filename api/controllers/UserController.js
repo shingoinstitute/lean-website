@@ -23,6 +23,13 @@ module.exports = {
       return res.status(403).json({ error: "Missing 'X-XSRF-TOKEN' header or 'XSRF-TOKEN' is not set in cookies" });
     }
 
+    const secret = sails.config.passport.jwt.secret;
+
+    const options = {
+      audience: sails.config.passport.jwt.audience,
+      algorithm: sails.config.passport.jwt.algorithm
+    }
+
     var csrfHeaderPayload = jwt.verify(xsrf_header, secret, options);
     var csrfCookiePayload = jwt.verify(xsrf_cookie, secret, options);
 
@@ -33,13 +40,6 @@ module.exports = {
       return res.status(403).json({ error: "'X-XSRF-TOKEN' and 'XSRF-TOKEN' tokens present in header and cookies do not match." });
     }
     
-    const secret = sails.config.passport.jwt.secret;
-
-    const options = {
-      audience: sails.config.passport.jwt.audience,
-      algorithm: sails.config.passport.jwt.algorithm
-    }
-
     User.findOne({uuid: csrfCookiePayload.user.uuid}).exec((err, user) => {
       if (err) {
         delete res.cookies['XSRF-TOKEN'];
