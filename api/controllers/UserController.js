@@ -33,10 +33,7 @@ module.exports = {
     var csrfHeaderPayload = jwt.verify(xsrf_header, secret, options);
     var csrfCookiePayload = jwt.verify(xsrf_cookie, secret, options);
 
-    console.log('header payload', csrfHeaderPayload);
-    console.log('cookie payload', csrfCookiePayload);
-
-    if (csrfHeaderPayload !== csrfCookiePayload) {
+    if (csrfHeaderPayload.user.uuid !== csrfCookiePayload.user.uuid) {
       return res.status(403).json({ error: "'X-XSRF-TOKEN' and 'XSRF-TOKEN' tokens present in header and cookies do not match." });
     }
     
