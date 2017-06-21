@@ -22,6 +22,13 @@
 
 module.exports.routes = {
 	
+	// enable all "cors". CSRF protection is taken care of by the NGINX config on the production server.
+	// Allowing CORS on all routes removes unnecessary headaches while proxying requests
+	// on the production server.
+	'/*': {
+		cors: true
+	},
+
 	// +-------------+
 	// | auth routes |
 	// +-------------+

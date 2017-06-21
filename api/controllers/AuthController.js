@@ -47,7 +47,8 @@ module.exports = {
 
 				return res.json({
 					success: true,
-					user: user.toJSON()
+					user: user.toJSON(),
+					'xsrf-token': token
 				});
 			});
 		})(req, res);
