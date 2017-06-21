@@ -14,13 +14,17 @@ module.exports = {
     
     var xsrf_header = req.get('X-XSRF-TOKEN');
     var xsrf_cookie = req.cookies['XSRF-TOKEN'];
-    
+
+    if (!xsrf_cookie) {
+      xsrf_cookie = req.param('xsrf-token');
+    }
+
     if (typeof xsrf_cookie === 'undefined' || typeof xsrf_header === 'undefined') {
-      return res.status(403).json({});
+      return res.status(403).json({ error: "Missing 'X-XSRF-TOKEN' header or 'XSRF-TOKEN' is not set in cookies" });
     }
 
     if (xsrf_header !== xsrf_cookie) {
-      return res.status(403).json({ error: 'token required' });
+      return res.status(403).json({ error: "'X-XSRF-TOKEN' and 'XSRF-TOKEN' tokens present in header and cookies do not match." });
     }
     
     const secret = sails.config.passport.jwt.secret;

@@ -23,11 +23,10 @@ module.exports = {
 			}
 
 			if (!user) {
-				var error = new Error('user is undefined');
 				var date = new Date();
 				sails.log.warn(JSON.stringify({
 					error: {
-						message: error.message,
+						message: 'user is undefined',
 						fileName: "AuthController.js",
 						method: "localAuth",
 						info: info.error || info,
@@ -41,7 +40,6 @@ module.exports = {
 				if (err) return res.negotiate(err);
 
 				var token = AuthService.createToken(user);
-				res.cookie('XSRF-TOKEN', token);
 
 				return res.json({
 					success: true,
@@ -66,7 +64,8 @@ module.exports = {
 				return res.negotiate(err);
 			}
 
-			res.cookie('XSRF-TOKEN', AuthService.createToken(req.user));
+			var token = AuthService.createToken(user);
+			res.cookie('XSRF-TOKEN', token);
 			
 			return res.redirect('/dashboard');
 		});
