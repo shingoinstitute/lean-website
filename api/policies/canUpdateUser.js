@@ -16,7 +16,7 @@ module.exports = function (req, res, next) {
 	}
 	
 	// If the client is the user and they aren't updating their own role, continue - otherwise check that they are an admin
-	if (user.uuid == req.param('id') && user.role == req.param('role')) {
+	if (user.uuid == req.param('id') && (user.role == req.param('role') || !req.param('role'))) {
 		return next();
 	}
 
