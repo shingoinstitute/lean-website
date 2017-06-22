@@ -84,6 +84,24 @@ module.exports = {
     });
   },
   
+  find: function(req, res) {
+    User.find().exec(function(err, users) {
+      if (err) { return res.negotiate(err); }
+
+      if (req.user && req.user.role === 'admin' || req.user.role === 'systemAdmin' || req.user.role === 'moderator') {
+        return res.json(users.map(user => {
+          return user.toJSON();
+        }));
+      }
+
+      return res.json(users.map(user => {
+        user = user.toJSON();
+        delete user.email;
+        return user;
+      }));
+    });
+  },
+
   // update: function(req, res) {
   //   User.update({uuid: req.params.id}, req.body).exec(function(err, users) {
   //     if (err) {

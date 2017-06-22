@@ -51,6 +51,7 @@ module.exports.routes = {
 	// | user routes |
 	// +-------------+
 	'/me': 'UserController.me',
+	'get /users': 'UserController.find',
 	'POST /reset': 'UserController.sendPasswordResetEmail',
 	'GET /reset/:id': {
 		layout: 'layout',
