@@ -68,10 +68,9 @@ module.exports = {
 				return res.negotiate(err);
 			}
 
-			var token = AuthService.createToken(user);
-			res.cookie('XSRF-TOKEN', token);
-			
-			return res.redirect('/dashboard');
+			var token = AuthService.createToken(req.user);
+			var url = process.env.NODE_ENV === 'development' ? 'https://dev.teachinglean.org' : 'https://teachinglean.org';
+			return res.redirect(`${url}/auth/linkedin/callback?xsrf-token=${token}`);
 		});
 	},
 
