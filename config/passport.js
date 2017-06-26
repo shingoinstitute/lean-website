@@ -38,18 +38,13 @@ var jwtStrategyConfig = {
 	}
 };
 
+
+
 var linkedinStrategyConfig = {
 	clientID: process.env.LINKEDIN_CLIENT_ID,
 	clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-	callbackURL: function() {
-		var callbackUrl;
-		if (process.env.LINKEDIN_CALLBACK_URI && 
-		(process.env.LINKEDIN_CALLBACK_URI.includes('teachinglean') || 
-		process.env.LINKEDIN_CALLBACK_URI.includes('localhost'))) {
-			return process.env.LINKEDIN_CALLBACK_URI;
-		}
-		return process.env.NODE_ENV === 'development' ? 'http://localhost:3000/auth/linkedin/callback' : 'https://teachinglean.org/auth/linkedin/callback'
-	},
+	callbackURL: process.env.LINKEDIN_CALLBACK_URI ? process.env.LINKEDIN_CALLBACK_URI : 
+	process.env.NODE_ENV === 'development' ? 'http://localhost:3000/auth/linkedin/callback' : 'https://teachinglean.org/auth/linkedin/callback';,
 	scope: ['r_emailaddress', 'r_basicprofile'],
 	state: true
 };
