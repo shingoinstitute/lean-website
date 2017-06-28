@@ -64,7 +64,9 @@ module.exports.policies = {
         create: true,
         sendPasswordResetEmail: true,
         reset: true,
-        updatePassword: true
+        updatePassword: true,
+        emailDoesExist: true,
+        usernameDoesExist: true
     },
 
     'FlagController': {

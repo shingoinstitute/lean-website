@@ -181,42 +181,43 @@ module.exports = {
   */
   sendPasswordResetEmail: function (req, res) {
     var email = req.param('email');
+    console.log(`Password reset link requested for ${email} at ${new Date().toLocaleString()}`);
     if (!email) { return res.status(400).json("missing email param"); }
     User.findOne({email: email}).exec(function(err, user) {
       if (err) return res.negotiate(err);
       if (!user) return res.status(404).json('user not found');
       EmailService.sendPasswordResetEmail(user.email)
-        .then(function (info) {
-          return res.json(info);
-        })
-        .catch(function (err) {
-          sails.log.error(err);
-          return res.negotiate(err);
+      .then(function (info) {
+        return res.json({
+          success: true,
+          info: `Password reset link succesfully sent to ${user.email}`
         });
+      })
+      .catch(function (err) {
+        sails.log.error(err);
+        return res.negotiate(err);
+      });
     });
   },
   
   /**
-  * Handler for PUT "/reset/:id", expects a token parameter to identify the user
+  * Handler for PUT "/reset/:id", expects a token parameter to 
+  * identify the user, and a password parameter as the new password
   */
   updatePassword: function (req, res) {
     var uuid = req.param('id');
     var token = req.param('token');
     var password = req.param('password');
     
-    if (!token) {
-      return res.json('user not authorized!');
-    }
+    if (!token) return res.status(400).json({error: 'missing token'});
     
-    if (!password) return res.json('missing password parameter');
+    if (!password) return res.status(400).json({error: 'missing password'});
     
-    User.findOne({
-      uuid: uuid
-    }).exec(function (err, user) {
+    User.findOne({ uuid: uuid }).exec(function (err, user) {
       if (err) return res.negotiate(err);
-      if (!user) return res.negotiate('user not found');
+      if (!user) return res.status(404).json({error: 'user not found'});
       if (!AuthService.compareResetToken(token, user)) {
-        return res.negotiate('mismatched tokens');
+        return res.negotiate({error: 'mismatched tokens'});
       }
       user.password = password;
       user.save(function (err) {
@@ -224,8 +225,33 @@ module.exports = {
           sails.log.error(err);
           return res.negotiate(err);
         }
-        return res.json(user.toJSON());
+        return res.json({
+          success: true,
+          info: `Password reset succesful for ${user.email}.`
+        });
       });
+    });
+  },
+
+  emailDoesExist: (req, res) => {
+    var email = req.param('email') || "";
+    User.findOne({email: email}).exec((err, user) => {
+      if (err) return res.negotiate(err);
+      if (user) {
+        return res.json({doesExist: true});
+      }
+      return res.json({doesExist: false});
+    });
+  },
+
+  usernameDoesExist: (req, res) => {
+    var username = req.param('username') || "";
+    User.findOne({username: username}).exec((err, user) => {
+      if (err) return res.negotiate(err);
+      if (user) {
+        return res.json({doesExist: true});
+      }
+      return res.json({doesExist: false});
     });
   }
 

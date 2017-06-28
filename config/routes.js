@@ -62,6 +62,8 @@ module.exports.routes = {
 		view: 'layout'
 	},
 	'PUT /reset/:id': 'UserController.updatePassword',
+	'get /emailDoesExist': 'UserController.emailDoesExist',
+	'get /usernameDoesExist': 'UserController.usernameDoesExist',
 	
 	// +------------+
 	// | dev routes |
