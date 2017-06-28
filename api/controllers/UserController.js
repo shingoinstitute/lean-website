@@ -162,7 +162,7 @@ module.exports = {
   */
   reset: function (req, res) {
     var uuid = req.param('id');
-    var token = req.param(sails.config.email.resetPasswordTokenParamName);
+    var token = req.param('token');
     
     User.findOne({
       uuid: uuid

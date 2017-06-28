@@ -18,8 +18,7 @@ const options = {
 module.exports = {
 
 	/**
-	 * Hashes users password to store securely in the DB using bycrypt
-	 * 
+	 * @desc hashPassword :: Hashes users password to store securely in the DB using bycrypt
 	 * @param {Object} values - an object containing a password. The plain text password is replaced by the hashed password.
 	 */
 	hashPassword: function (values) {

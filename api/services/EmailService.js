@@ -67,21 +67,24 @@ module.exports = {
 						if (err) sails.log.error(err);
 					});
 
-					var redirectUrl = sails.config.email.passwordResetURL + "/" + user.uuid + "?" + sails.config.email.resetPasswordTokenParamName + "=" + token;
+					var redirectDomain = process.env.HOST_SERVER || `http://localhost:${process.env.PORT}`;
+					var redirectUrl = `${redirectDomain}/${user.uuid}?token=${token}`;
 
 					transporter.sendMailAsync({
 						from: 'shingo.it@usu.edu',
 						to: user.email,
 						subject: 'teachinglean.org - password reset',
-						html: '<style>p {text-align: center;}</style>' +
-								'<p>Click <a href="' + redirectUrl + '">here</a> to reset your password.</p>' +
-								'<p>Or</p>' +
-								'<p>Copy and paste the following link into your browsers url bar.</p>' +
-								'<br><br>' +
-								'<p>' + redirectUrl + '</p>' +
-								'<br><br>' +
-								'<p>This link will expire in 12 hours.</p>' +
-								'<p>If you did not request this password reset, please contact our support team at <a href="mailto:shingo.it@usu.edu">shingo.it@usu.edu</a></p>'
+						html: `
+						<style>.center {text-align: center;}</style>
+						p>Click <a href="${redirectUrl}">here</a> to reset your password.</p>
+						<p class="center">Or</p>
+						<p>Copy and paste the following link into your browsers url bar.</p>
+						<br><br>
+						<p>${redirectUrl}</p>
+						<br><br>
+						<p>This link will expire in 12 hours.</p>
+						<p>If you did not request this password reset, please contact our support team at <a href="mailto:shingo.it@usu.edu">shingo.it@usu.edu</a></p>
+						`
 					});
 
 					return resolve();
