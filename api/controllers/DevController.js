@@ -8,34 +8,15 @@
 var _ = require('lodash');
 
 module.exports = {
-	deleteAll: function (req, res) {
-
-		if (sails.config.environment != 'development') return res.forbidden('This action is only available in a development environment');
-		
-		User.destroy({}).exec(function(err) {
-			if (err) return res.negotiate(err);
-			UserPermissions.destroy({}).exec(function(err) {
-				if (err) return res.negotiate(err);
-				return res.json({
-					success: true
-				});
-			});
-		});
-	},
-
 	test: function(req, res) {
-		if (sails.config.environment != 'development') return res.forbidden('This action is only available in a development environment');
-
-		var id = req.param('id');
-		User.findOne({uuid: id}).exec(function(err, user) {
-			if (err) return res.json(err);
-			if (!user) return res.json('user not found');
-			delete user.emailVerificationToken;
-			user.save(function(err) {
-				if (err) return res.json(err);
-				return res.json('SUCCESS');
-			});
+		if (sails.config.environment != 'development') {
+			var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+			sails.log.warn(`DevController route access attempted outside of development environment.\n\tfrom ${ip}\n\t${AppService.getTimestamp()}`)
+			return res.status(403).json({data: `This action is only available in a development environment.`});
+		}
+		
+		return res.json({
+			data: 'testing dev environment'
 		});
 	}
-
 };

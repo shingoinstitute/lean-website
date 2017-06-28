@@ -35,6 +35,16 @@ module.exports = {
 				return AppService.checkForUuidCollisions(values);
 			});
 		});
+	},
+
+	getTimestamp() {
+		const msecPerHour = 1000 * 60 * 60;
+		const tzOffset = new Date().getTimezoneOffset();
+		const MST2UTCTzOffsetInHours = 6;
+		if (tzOffset === 0) {
+			return `${new Date(Date.now() - (msecPerHour*MST2UTCTzOffsetInHours)).toLocaleString()} MST`;
+		}
+		return new Date(Date.now() - (msecPerHour*(tzOffset/60))).toLocaleString();
 	}
 
 }

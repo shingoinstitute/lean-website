@@ -30,7 +30,6 @@ module.exports.policies = {
 
     'AuthController': {
         '*': false,
-        login: true,
         logout: true,
         linkedInAuth: true,
         linkedInAuthCallback: true,
@@ -39,7 +38,7 @@ module.exports.policies = {
     },
 
     'DevController': {
-        '*': true
+        '*': ['sessionAuth']
     },
 
     'CommentController': {

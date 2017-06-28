@@ -35,40 +35,32 @@ module.exports.routes = {
 	'/auth/linkedin': 'AuthController.linkedInAuth',
 	'/auth/linkedin/callback': 'AuthController.linkedInAuthCallback',
 	'/auth/local': 'AuthController.localAuth',
-	'/auth/login': 'AuthController.login',
-	'PUT /auth/login': 'AuthController.login',
 	'/auth/logout': 'AuthController.logout',
-	'GET /verifyEmail/:id': 'AuthController.verifyEmail',
+	'/verifyEmail/:id': 'AuthController.verifyEmail',
 	
 	// +--------------+
 	// | entry routes |
 	// +--------------+
-	'PUT /entry/upvote/:id': 'EntryController.upvote',
-	'PUT /entry/downvote/:id': 'EntryController.downvote',
-	'GET /entry/topResults': 'EntryController.topResults',
+	'put /entry/upvote/:id': 'EntryController.upvote',
+	'put /entry/downvote/:id': 'EntryController.downvote',
+	'get /entry/topResults': 'EntryController.topResults',
 	
 	// +-------------+
 	// | user routes |
 	// +-------------+
 	'/me': 'UserController.me',
 	'get /users': 'UserController.find',
-	'POST /reset': 'UserController.sendPasswordResetEmail',
-	'GET /reset/:id': {
+	'post /reset': 'UserController.sendPasswordResetEmail',
+	'get /reset/:id': {
 		layout: 'layout',
 		controller: 'UserController',
 		action: 'reset'
 	},
-	'GET /reset': {
+	'get /reset': {
 		view: 'layout'
 	},
-	'PUT /reset/:id': 'UserController.updatePassword',
+	'put /reset/:id': 'UserController.updatePassword',
 	'get /emailDoesExist': 'UserController.emailDoesExist',
 	'get /usernameDoesExist': 'UserController.usernameDoesExist',
-	
-	// +------------+
-	// | dev routes |
-	// +------------+
-	'DELETE /dev/delete': 'DevController.deleteAll',
-	'/dev/test': 'DevController.test'
 	
 };

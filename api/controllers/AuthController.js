@@ -12,28 +12,22 @@ module.exports = {
 
 	localAuth: function (req, res) {
 		passport.authenticate('local', function (err, user, info) {
+			var timestamp = AppService.getTimestamp();
 			if (err) {
-				err.info = info || 'an unknown error has occured.';
-				err.timestamp = new Date().toDateString() + ', ' + new Date().toLocaleDateString();
-				sails.log.error(JSON.stringify(err, null, 3));
-				return res.status(500).json({
-					error: err.info,
-					_error: err
+				sails.log.error(`${err.message}\n\tAuthController.js::localAuth.\n\ttimeStamp: ${timestamp}`);
+				return res.status(500).json({ 
+					error: err,
+					timestamp: timestamp,
+					info: info || 'login error using local auth strategy.'
 				});
 			}
 
 			if (!user) {
-				var date = new Date();
-				sails.log.warn(JSON.stringify({
-					error: {
-						message: 'user is undefined',
-						fileName: "AuthController.js",
-						method: "localAuth",
-						info: info.error || info,
-						timestamp: date.toDateString() + ', ' + date.toLocaleTimeString()
-					}
-				}, null, 3));
-				return res.status(404).json({ error: info.error });
+				sails.log.warn(`Undefined user on login with local auth strategy.\n\tAuthController.js::localAuth.\n\t${timestamp}.`);
+				return res.status(404).json({ 
+					error: `Account using ${req.param('username')} was not found.`, 
+					info: info
+				});
 			}
 			
 			req.logIn(user, function (err) {
@@ -69,14 +63,19 @@ module.exports = {
 			}
 
 			var token = AuthService.createToken(req.user);
-			var url = process.env.NODE_ENV === 'development' ? 'https://dev.teachinglean.org' : 'https://teachinglean.org';
+			res.cookie('XSRF-TOKEN', token, {
+				secure: process.env.NODE_ENV === 'production',
+				domain: '.teachinglean.org'
+			});
+
+			var url = `${process.env.HOST_SERVER}`;
+			if (!url && process.env.NODE_ENV === 'development') {
+				url = `http://localhost:${process.env.PORT || 3000}`;
+			} else {
+				url = `https://teachinglean.org`;
+			}
 			return res.redirect(`${url}/auth/linkedin/callback?xsrf-token=${token}`);
 		});
-	},
-
-	login: function (req, res) {
-		if (req.user) return res.redirect('/dashboard');
-		return res.json('user not logged in.');
 	},
 
 	logout: function (req, res) {
@@ -84,8 +83,6 @@ module.exports = {
 		delete res.cookie['XSRF-TOKEN'];
 		return res.json('loggout successful');
 	},
-
-
 
   verifyEmail: function (req, res) {
     var uuid = req.param('id'); // user's uuid
@@ -156,9 +153,7 @@ module.exports = {
         success: true,
         email: user.email
       });
-
     });
-
   }
 
 };
