@@ -49,6 +49,7 @@ module.exports.routes = {
 	// | user routes |
 	// +-------------+
 	'get /me': 'UserController.me',
+	'get /stats': 'UserController.stats',
 	'get /user/portrait': 'UserController.getPortrait',
 	'post /user/photoUpload': 'UserController.photoUpload',
 	'get /users': 'UserController.find',
@@ -63,6 +64,11 @@ module.exports.routes = {
 	},
 	'get /reset': {
 		view: 'layout'
-	}
+	},
+
+	// +-------------+
+	// | dev routes |
+	// +-------------+
+	'get /user/randUsers': 'DevController.randomUsers'
 	
 };

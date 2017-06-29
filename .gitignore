@@ -29,6 +29,7 @@ config/local.js
 resources/
 assets/js/build
 assets/js/dist
+assets/images/profiles/
 .node_modules
 bundle.js
 

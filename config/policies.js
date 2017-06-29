@@ -60,6 +60,7 @@ module.exports.policies = {
         '*': ['sessionAuth'],
         update: ['sessionAuth', 'canUpdateUser'],
         destroy: ['sessionAuth', 'isAdmin'],
+        stats: ['sessionAuth', 'isAdmin'],
         create: true,
         sendPasswordResetEmail: true,
         reset: true,
