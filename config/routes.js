@@ -48,9 +48,14 @@ module.exports.routes = {
 	// +-------------+
 	// | user routes |
 	// +-------------+
-	'/me': 'UserController.me',
+	'get /me': 'UserController.me',
+	'get /user/portrait': 'UserController.getPortrait',
+	'post /user/photoUpload': 'UserController.photoUpload',
 	'get /users': 'UserController.find',
 	'post /reset': 'UserController.sendPasswordResetEmail',
+	'get /emailDoesExist': 'UserController.emailDoesExist',
+	'get /usernameDoesExist': 'UserController.usernameDoesExist',
+	'put /reset/:id': 'UserController.updatePassword',
 	'get /reset/:id': {
 		layout: 'layout',
 		controller: 'UserController',
@@ -58,9 +63,6 @@ module.exports.routes = {
 	},
 	'get /reset': {
 		view: 'layout'
-	},
-	'put /reset/:id': 'UserController.updatePassword',
-	'get /emailDoesExist': 'UserController.emailDoesExist',
-	'get /usernameDoesExist': 'UserController.usernameDoesExist',
+	}
 	
 };

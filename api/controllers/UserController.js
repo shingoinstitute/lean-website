@@ -2,11 +2,23 @@
 * @description :: UserController.js
 */
 
-var _ = require('lodash');
-var util = require('util');
-var path = require('path');
-var fs = require('fs');
-var jwt = require('jsonwebtoken');
+const _ = require('lodash');
+const path = require('path');
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const readChunk = require('read-chunk');
+const fileType = require('file-type');
+
+/**
+ * @description :: Gets the file type
+ * @param {string} path :: directory path to the file
+ * @return {object} => {ext: 'png', mime: 'image/png'}
+ */
+function getFileType(path) {
+  const stats = fs.statSync(path);
+  const buffer = readChunk.sync(path, 0, stats.size);
+  return fileType(buffer);
+}
 
 module.exports = {
   
@@ -54,33 +66,93 @@ module.exports = {
     
   },
   
-  photoUpload: function (req, res, next) {
-    req.file('profile').upload({
-      // fileSize <~ 10MB
-      dirname: path.resolve(sails.config.appPath, 'assets/images/profiles/' + req.user.uuid),
-      maxBytes: 10000000
-    }, function (err, uploadedFiles) {
-      if (err)
-        return res.negotiate(err);
-      if (uploadedFiles.length == 0)
-        return res.badRequest('No file was uploaded');
-      
-      var fdSplit = uploadedFiles[0].fd.split('/');
-      var filename = fdSplit[fdSplit.length - 1];
-      var pictureUrl = util.format('%s/images/profiles/%s/%s', sails.getBaseUrl(), req.user.uuid, filename);
-      var tempUrl = util.format('%s/.tmp/public/images/profiles/%s/%s', process.cwd(), req.user.uuid, filename);
-      fs.createReadStream(uploadedFiles[0].fd).pipe(fs.createWriteStream(tempUrl));
-      
-      User.update(req.user.uuid, {
-        pictureUrl: pictureUrl
-      })
-      .then(function () {
-        res.ok(pictureUrl);
-      })
-      .catch(function (err) {
-        return res.negotiate(err);
-      });
+  /**
+   * @desc getPortrait :: returns the user's portrait from `/user/portrait`
+   * @var id => User's uuid
+   * @var fp => File path of the users profile picture
+   */
+  getPortrait: function(req, res) {
+    var id = req.user.uuid;
+    var fp;
 
+    if (process.env.NODE_ENV === 'development') {
+      fp = path.resolve(sails.config.appPath, 'assets/images/profiles/');
+    } else {
+      fp = '/var/www/data/teachinglean/profilePictures';
+    }
+    fp += `/${id}`;
+
+    if (!fs.existsSync(fp)) {
+      return res.status(404).json({ error: 'file not found.' });
+    }
+
+    fs.readFile(fp, function(err, data) {
+      if (err) {
+        return res.status(404).json({ error: err });
+      }
+      const type = getFileType(fp);
+      res.writeHead(200, {'Content-Type': type.mime});
+      res.end(data, 'binary');
+    });
+  },
+
+  photoUpload: function (req, res) {
+    var profileDir;
+    if (process.env.NODE_ENV === 'development') {
+      profileDir = path.resolve(sails.config.appPath, 'assets/images/profiles/');
+    } else {
+      profileDir = '/var/www/data/teachinglean/profilePictures/';
+    }
+
+    if (!fs.existsSync(profileDir)) {
+      fs.mkdirSync(profileDir);
+    }
+    
+    req.file('profile').upload({
+      // fileSize <~ 5MB
+      dirname: profileDir,
+      saveAs: `${req.user.uuid}`,
+      maxBytes: 5000000
+    }, function (err, uploadedFiles) {
+      if (err) {
+        return res.negotiate(err);
+      }
+      if (uploadedFiles.length == 0) {
+        return res.badRequest('No file was uploaded');
+      }
+      
+      var pictureDir = `${profileDir}/${req.user.uuid}`;
+      /**
+       * Check that file type is an image
+       */
+      const type = getFileType(pictureDir);
+      if (type.ext === 'png' || type.ext === 'jpg' || type.ext === 'jpeg' || type.ext === 'tiff') {
+        var pictureUrl;
+        if (process.env.HOST_SERVER) {
+          pictureUrl = `${process.env.HOST_SERVER}/user/portrait`;
+        } else if (process.env.NODE_ENV === 'development'){
+          pictureUrl = `http://localhost:${process.env.PORT}/user/portrait`;
+        } else {
+          pictureUrl = `https://teachinglean.org/user/portrait`;
+        }
+
+        User.update(req.user.uuid, {
+          pictureUrl: pictureUrl
+        })
+        .then(function () {
+          res.ok(pictureUrl);
+        })
+        .catch(function (err) {
+          return res.negotiate(err);
+        });
+      } else {
+        fs.unlink(pictureDir, function(err) {
+          sails.log.error(err.message);
+        });
+        return res.status(400).json({
+          error: 'unsupported file type'
+        });
+      }
     });
   },
   
@@ -101,23 +173,6 @@ module.exports = {
       }));
     });
   },
-
-  // update: function(req, res) {
-  //   User.update({uuid: req.params.id}, req.body).exec(function(err, users) {
-  //     if (err) {
-  //       sails.log.error(err);
-  //       return res.status(500).json({error: err});
-  //     }
-
-  //     var user = users.pop();
-
-  //     if (!user) {
-  //       return res.status(404).json({error: `user not found with id ${req.params.id}`});
-  //     }
-      
-  //     return res.json(user.toJSON());
-  //   });
-  // },
 
   create: function (req, res) {
     var newUser = {};
