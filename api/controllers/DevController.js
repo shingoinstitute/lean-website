@@ -53,7 +53,7 @@ module.exports = {
 				"lastname": randNames[i].lastname,
 				"firstname": randNames[i].firstname,
 				"password": "$2a$10$Qam10gzSoP9kEKRSW6oqOef1fR3rw/KvL6s.kWwCMDmgavLX.0y4i", // password is 'password'
-				"email": `${randNames[i].firstname}.${randNames[i].lastname}@superfakemail.com`,
+				"email": `${randNames[i].firstname}.${randNames[i].lastname}@superfakemail.com`.toLowerCase(),
 				"pictureUrl": "/assets/images/silhouette_vzugec.png",
 				"role": "member",
 				"accountIsActive": true,
