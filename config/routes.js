@@ -69,6 +69,7 @@ module.exports.routes = {
 	// +-------------+
 	// | dev routes |
 	// +-------------+
-	'get /user/randUsers': 'DevController.randomUsers'
+	'get /user/randUsers': 'DevController.randomUsers',
+	'get /dev/user/stats': 'DevController.stats'
 	
 };

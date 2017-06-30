@@ -28,18 +28,13 @@ module.exports = {
 	 * @var {number} req.param('size') :: number of randomly generated users up to a maximum of 301. Defaults to 50 if value not provided. 
 	 */
 	randomUsers: (req, res) => {
-		var limit = req.param('limit') || 300;
+		var limit = +req.param('limit') || 300;
 		if (limit > 300) { limit = 300 };
 
-		var skip = req.param('skip') || 0;
+		var skip = +req.param('skip') || 0;
 		if (skip > 299) { skip = 300 - limit; }
-
-		var size;
-		if (req.param('limit') || req.param('skip')) {
-			size = 300;
-		} else {
-			size = req.param('size') || 50;
-		}
+	
+		size = +req.param('size') || 50;
 		if (size > 299) { size = 300; }
 		
 
@@ -66,6 +61,12 @@ module.exports = {
 			size: users.length,
 			authUser: req.user.toJSON(),
 			users: users
+		});
+	},
+
+	stats: (req, res) => {
+		return res.json({
+			size: 300
 		});
 	}
 
