@@ -139,11 +139,11 @@ module.exports = {
 			delete obj.password;
 			delete obj.notificationPreferences;
 			delete obj.linkedinId;
-			delete obj.verifiedEmail;
 			delete obj.resetPasswordToken;
 			delete obj.resetPasswordExpires;
 			delete obj.permissions;
 			delete obj.emailVerificationToken;
+			obj.verifiedEmail = !!obj.verifiedEmail;
 			obj.isAdmin = (obj.role == 'admin' || obj.role == 'systemAdmin');
 			obj.name = (obj.firstname && obj.lastname) ? obj.firstname + ' ' + obj.lastname : obj.lastname;
 			return obj;

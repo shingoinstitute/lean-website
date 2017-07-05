@@ -27,7 +27,7 @@ module.exports = {
 	 * @var {number} req.param('skip') :: number of users to skip over; the 'starting' index.
 	 * @var {number} req.param('size') :: number of randomly generated users up to a maximum of 301. Defaults to 50 if value not provided. 
 	 */
-	randomUsers: (req, res) => {
+	randomUsers: function(req, res) {
 		var limit = +req.param('limit') || 300;
 		if (limit > 300) { limit = 300 };
 
@@ -64,7 +64,7 @@ module.exports = {
 		});
 	},
 
-	stats: (req, res) => {
+	stats: function(req, res) {
 		return res.json({
 			size: 300
 		});

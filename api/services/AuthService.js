@@ -57,7 +57,7 @@ module.exports = {
 	 * @param {Object} user - the user object
 	 * @param {Object} res - a node response object
 	 */
-	createAndSetToken: (res, user) => {
+	createAndSetToken: function(res, user) {
 		var token = AuthService.createToken(user);
 		if (res && res.cookie) { res.cookie['XSRF-TOKEN', token]; }
 		return token;
