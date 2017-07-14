@@ -11,8 +11,5 @@
     "typeRoots": [
       "node_module/@types"
     ]
-  },
-  "include": [
-    "assets/src/**/*.ts"
-  ]
+  }
 }
